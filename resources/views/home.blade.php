@@ -3,7 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WIStore - La plataforma de catálogos digitales para WhatsApp</title>
+    <title>WIStore - La plataforma de catálogos digitales para WhatsApp y Telegram</title>
+    
+    <!-- Marquee Animation Styles -->
+    <style>
+        @keyframes marquee-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-right {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+        .animate-marquee-left {
+            display: flex;
+            width: max-content;
+            animation: marquee-left 45s linear infinite;
+        }
+        .animate-marquee-right {
+            display: flex;
+            width: max-content;
+            animation: marquee-right 45s linear infinite;
+        }
+    </style>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,9 +57,17 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #a855f7 #070913;
+        }
         body {
             font-family: 'Outfit', sans-serif;
             -webkit-tap-highlight-color: transparent;
@@ -48,15 +78,78 @@
         }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070913;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #a855f7 0%, #22d3ee 100%);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #c084fc 0%, #67e8f9 100%);
+        }
+
+        /* GPU hardware acceleration for ultra smooth scrolling on heavy blurs */
+        .gpu-accelerated {
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            will-change: transform;
+        }
+        .blur-accelerated {
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            will-change: filter;
+        }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
 <body class="bg-[#070913] text-gray-100 min-h-screen selection:bg-brand-500 selection:text-white relative" x-data="{ isMobileMenuOpen: false }">
 
-    <!-- Fondo Global Neon con Líneas Fluidas -->
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#a855f7]/20 via-transparent to-transparent blur-[120px]"></div>
-        <div class="absolute -bottom-[20%] -right-[10%] w-[70vw] h-[70vw] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#22d3ee]/20 via-transparent to-transparent blur-[120px]"></div>
-        <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 60px, rgba(168,85,247,0.15) 60px, rgba(168,85,247,0.15) 61px, transparent 61px, transparent 120px, rgba(34,211,238,0.15) 120px, rgba(34,211,238,0.15) 121px);"></div>
+    <!-- ============================================== -->
+    <!-- CAPA DE FONDO GLOBAL (Base Canvas & Neón)      -->
+    <!-- ============================================== -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#070913] gpu-accelerated">
+        
+        <!-- 1. Destellos de Luz (Auras/Glows) -->
+        <!-- Glow Top Right (Hero Area) -->
+        <div class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-600/20 to-indigo-600/20 blur-[120px] blur-accelerated"></div>
+        
+        <!-- Glow Middle Left (Tiendas Area) -->
+        <div class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-600/10 blur-[160px] blur-accelerated"></div>
+
+        <!-- Glow Bottom Center (Precios Area) -->
+        <div class="absolute -bottom-[10%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-pink-600/10 via-purple-600/10 to-transparent blur-[160px] blur-accelerated"></div>
+
+        <!-- 2. Ondas Fluidas de Neón (SVG Abstract Mesh) -->
+        <svg class="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none" viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Gradiente Cian a Morado -->
+                <linearGradient id="neonGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.8" />
+                    <stop offset="50%" stop-color="#a855f7" stop-opacity="0.4" />
+                    <stop offset="100%" stop-color="#a855f7" stop-opacity="0" />
+                </linearGradient>
+                <!-- Gradiente Morado a Rosa -->
+                <linearGradient id="neonGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#a855f7" stop-opacity="0.6" />
+                    <stop offset="50%" stop-color="#ec4899" stop-opacity="0.3" />
+                    <stop offset="100%" stop-color="#ec4899" stop-opacity="0" />
+                </linearGradient>
+            </defs>
+
+            <!-- Curvas Bezier Entrelazadas imitando estelas de luz -->
+            <path d="M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800" stroke="url(#neonGradient1)" stroke-width="1.5" stroke-linecap="round" fill="none" />
+            <path d="M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+            <path d="M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000" stroke="url(#neonGradient2)" stroke-width="1.5" stroke-linecap="round" fill="none" />
+            <path d="M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100" stroke="url(#neonGradient2)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+            <path d="M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.4" />
+        </svg>
     </div>
 
     <!-- Header / Navbar (Híbrido Inteligente) -->
@@ -64,11 +157,8 @@
         <!-- El contenedor se ensancha en escritorio y se achica en móvil -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <a href="/" class="flex items-center gap-2">
-                <span class="text-xl md:text-2xl font-black tracking-tight text-white">
-                    WI<span class="text-brand-500">Store</span>
-                </span>
-                <span class="bg-brand-500/10 text-brand-400 text-[9px] uppercase font-bold px-2.5 py-0.5 rounded-full border border-brand-500/20">
-                    SaaS Multi-tenant
+                <span class="text-xl md:text-2xl font-black tracking-tight text-white uppercase">
+                    WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span>
                 </span>
             </a>
             
@@ -78,7 +168,7 @@
                 <a href="#como-funciona" class="text-sm font-semibold text-gray-300 hover:text-white transition">¿Cómo funciona?</a>
                 <a href="#precios" class="text-sm font-semibold text-gray-300 hover:text-white transition">Precios</a>
                 <a href="/login" class="text-sm font-semibold text-gray-300 hover:text-white transition">Iniciar Sesión</a>
-                <a href="/register" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-black px-4 py-2.5 rounded-xl shadow-md shadow-brand-600/20 transition">
+                <a href="#precios" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-black px-4 py-2.5 rounded-xl shadow-md shadow-brand-600/20 transition">
                     Crear mi Menú
                 </a>
             </nav>
@@ -86,7 +176,7 @@
             <!-- EN MÓVIL: Botones Rápidos iOS-style -->
             <div class="flex items-center gap-2 md:hidden">
                 <a href="/login" class="text-xs font-bold text-gray-300 hover:text-white px-2.5 py-1.5 rounded-lg">Log In</a>
-                <a href="/register" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-black px-3.5 py-2 rounded-xl shadow-md transition">
+                <a href="#precios" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-black px-3.5 py-2 rounded-xl shadow-md transition">
                     Crear Tienda
                 </a>
             </div>
@@ -114,12 +204,12 @@
                 
                 <!-- Descripción -->
                 <p class="text-base md:text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-                    Personaliza tu logotipo, edita los 3 colores principales de tu identidad en tiempo real y recibe todos tus pedidos de forma estructurada directamente a tu WhatsApp. ¡Todo listo en menos de 3 minutos!
+                    Personaliza tu logotipo, edita los 3 colores principales de tu identidad en tiempo real y recibe todos tus pedidos de forma estructurada directamente a tu WhatsApp o Telegram. ¡Todo listo en menos de 3 minutos!
                 </p>
                 
                 <!-- Botones Principales -->
                 <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-4">
-                    <a href="/register" class="w-full sm:w-auto text-center bg-purple-600 hover:bg-purple-500 text-white font-bold px-8 py-4 rounded-2xl shadow-[0_0_20px_rgba(147,51,234,0.4)] transition-all duration-300 hover:-translate-y-1 text-sm md:text-base">
+                    <a href="#precios" class="w-full sm:w-auto text-center bg-purple-600 hover:bg-purple-500 text-white font-bold px-8 py-4 rounded-2xl shadow-[0_0_20px_rgba(147,51,234,0.4)] transition-all duration-300 hover:-translate-y-1 text-sm md:text-base">
                         Empezar Catálogo Gratis
                     </a>
                     <a href="#explorar" class="w-full sm:w-auto text-center border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1 text-sm md:text-base">
@@ -226,137 +316,343 @@
     </section>
 
     <!-- SECCIÓN EXPLORADOR DE TIENDAS (Premium Grid/Carrusel) -->
-    <section id="explorar" class="py-16 md:py-24 bg-[#070913] relative overflow-hidden z-10">
+    @php
+        $shopsWithCategories = $shops->map(function($shop) {
+            $desc = strtolower($shop->name . ' ' . $shop->description);
+            $category = 'Gastronomía'; // default
+            if (str_contains($desc, 'detallito') || str_contains($desc, 'regalo') || str_contains($desc, 'detalle') || str_contains($desc, 'sorpresa') || str_contains($desc, 'taza') || str_contains($desc, 'globo') || str_contains($desc, 'flores')) {
+                $category = 'Detalles y Regalos';
+            } elseif (str_contains($desc, 'moda') || str_contains($desc, 'ropa') || str_contains($desc, 'estilo') || str_contains($desc, 'calzado') || str_contains($desc, 'boutique') || str_contains($desc, 'wear') || str_contains($desc, 'shoes')) {
+                $category = 'Moda y Estilo';
+            } elseif (str_contains($desc, 'comida') || str_contains($desc, 'restaurante') || str_contains($desc, 'gastronomia') || str_contains($desc, 'burger') || str_contains($desc, 'dulce') || str_contains($desc, 'bocado') || str_contains($desc, 'pizza') || str_contains($desc, 'cafe') || str_contains($desc, 'sushi')) {
+                $category = 'Gastronomía';
+            }
+            $shop->category = $category;
+            return $shop;
+        });
+
+        $shopsCount = count($shopsWithCategories);
+        if ($shopsCount > 0) {
+            $allShops = $shopsWithCategories;
+            while (count($allShops) < 16) {
+                $allShops = $allShops->concat($shopsWithCategories);
+            }
+            $half = ceil(count($allShops) / 2);
+            $row1 = $allShops->slice(0, $half);
+            $row2 = $allShops->slice($half);
+        } else {
+            $row1 = collect();
+            $row2 = collect();
+        }
+    @endphp
+
+    <section id="explorar" class="py-16 md:py-24 relative overflow-hidden z-10"
+             x-data="{
+                 searchQuery: '{{ request('search', '') }}',
+                 activeCategory: 'Todos',
+                 allShops: {{ json_encode($shopsWithCategories) }},
+                 matchesFilter(name, description, category) {
+                     const q = this.searchQuery.toLowerCase();
+                     const matchesSearch = q === '' || 
+                         name.toLowerCase().includes(q) || 
+                         (description && description.toLowerCase().includes(q));
+                     const matchesCategory = this.activeCategory === 'Todos' || category === this.activeCategory;
+                     return matchesSearch && matchesCategory;
+                 },
+                 get hasResults() {
+                     return this.allShops.some(shop => this.matchesFilter(shop.name, shop.description, shop.category));
+                 },
+                 get isFiltering() {
+                     return this.searchQuery !== '' || this.activeCategory !== 'Todos';
+                 }
+             }">
         <!-- Luces de fondo opcionales para continuidad -->
         <div class="absolute top-0 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
             <!-- Cabecera de la Sección con Buscador y Filtros -->
-            <div class="flex flex-col lg:flex-row gap-6 items-center justify-between mb-12">
-                <!-- Título Izquierda -->
-                <div class="text-center lg:text-left w-full lg:w-auto">
+            <div class="flex flex-col items-center justify-center mb-12 space-y-6">
+                <!-- Título -->
+                <div class="text-center w-full">
                     <h2 class="text-3xl md:text-4xl font-black text-white tracking-tight">Explora Tiendas Afiliadas</h2>
                     <p class="text-sm text-slate-400 mt-1.5">Compra de forma directa en los mejores catálogos de WIStore.</p>
                 </div>
 
-                <!-- Buscador y Filtros Derecha -->
-                <div class="w-full lg:w-auto flex flex-col md:flex-row gap-4 items-center">
+                <!-- Buscador y Filtros -->
+                <div class="w-full max-w-4xl flex flex-col md:flex-row gap-4 items-center justify-center">
                     <!-- Formulario Buscador Compacto -->
-                    <form action="{{ route('home') }}#explorar" method="GET" class="w-full md:w-64 lg:w-72 flex gap-2 shrink-0">
+                    <form @submit.prevent="" class="w-full md:w-72 flex gap-2 shrink-0">
                         <div class="relative flex-grow">
-                            <input type="text" name="search" placeholder="Buscar tienda..." 
-                                   value="{{ request('search') }}"
+                            <input type="text" x-model="searchQuery" placeholder="Buscar tienda..." 
                                    class="w-full bg-slate-900/80 border border-slate-800 rounded-2xl px-4 py-3 pl-10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner">
                             <svg class="absolute left-3 top-3.5 text-slate-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         </div>
-                        <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-black px-4 rounded-2xl transition active:scale-95 shrink-0 shadow-[0_0_10px_rgba(147,51,234,0.3)]">
-                            Buscar
-                        </button>
                     </form>
 
                     <!-- Filtros Píldoras Táctiles -->
-                    <div class="w-full md:w-auto flex gap-2 overflow-x-auto flex-nowrap whitespace-nowrap scrollbar-none py-1">
-                        <button class="bg-purple-600/20 text-purple-400 text-[11px] font-black px-4 py-2.5 rounded-full border border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]">Todos</button>
-                        <button class="bg-slate-900 text-slate-400 text-[11px] font-bold px-4 py-2.5 rounded-full border border-slate-800 hover:border-slate-700 hover:text-white transition">Gastronomía</button>
-                        <button class="bg-slate-900 text-slate-400 text-[11px] font-bold px-4 py-2.5 rounded-full border border-slate-800 hover:border-slate-700 hover:text-white transition">Moda y Estilo</button>
-                        <button class="bg-slate-900 text-slate-400 text-[11px] font-bold px-4 py-2.5 rounded-full border border-slate-800 hover:border-slate-700 hover:text-white transition">Detalles y Regalos</button>
+                    <div class="w-full md:w-auto flex gap-2 overflow-x-auto flex-nowrap whitespace-nowrap scrollbar-none py-1 justify-center md:justify-start">
+                        <button type="button" @click="activeCategory = 'Todos'" :class="activeCategory === 'Todos' ? 'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'" class="text-[11px] font-black px-4 py-2.5 rounded-full border transition-all duration-300">Todos</button>
+                        <button type="button" @click="activeCategory = 'Gastronomía'" :class="activeCategory === 'Gastronomía' ? 'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'" class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Gastronomía</button>
+                        <button type="button" @click="activeCategory = 'Moda y Estilo'" :class="activeCategory === 'Moda y Estilo' ? 'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'" class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Moda y Estilo</button>
+                        <button type="button" @click="activeCategory = 'Detalles y Regalos'" :class="activeCategory === 'Detalles y Regalos' ? 'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'" class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Detalles y Regalos</button>
                     </div>
                 </div>
             </div>
 
-            <!-- CARRUSEL DE TARJETAS (Grid 3 Columnas en PC) -->
-            <div x-data="{ 
-                scrollLeft() {
-                    this.$refs.carousel.scrollBy({ left: -340, behavior: 'smooth' });
-                },
-                scrollRight() {
-                    this.$refs.carousel.scrollBy({ left: 340, behavior: 'smooth' });
-                }
-            }" class="relative group">
+            <!-- MODO ANIMADO (MARQUEE 2 FILAS) -->
+            <div x-show="!isFiltering" class="space-y-6" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100">
+                <!-- Fila 1: Izquierda -->
+                <div class="overflow-hidden w-full relative py-2">
+                    <div class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#070913] to-transparent z-10 pointer-events-none"></div>
+                    <div class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#070913] to-transparent z-10 pointer-events-none"></div>
+                    
+                    <div class="animate-marquee-left flex gap-6 hover:[animation-play-state:paused]">
+                        <div class="flex gap-6">
+                            @foreach($row1 as $shop)
+                                <div class="w-[260px] lg:w-[280px] shrink-0 bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
+                                    <div class="p-1.5 pb-0">
+                                        <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
+                                            @if($shop->cover_path)
+                                                <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
+                                            @else
+                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                            @endif
+                                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
+
+                                            <div class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
+                                                <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/'.$shop->logo_path) : 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=a855f7&color=fff') }}" alt="Logo" class="w-full h-full object-cover">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-start justify-between gap-2">
+                                                <h3 class="text-base font-black text-white leading-tight line-clamp-1">{{ $shop->name }}</h3>
+                                                <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
+                                                    @for($star = 1; $star <= 5; $star++)
+                                                        <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <a href="/{{ $shop->slug }}" class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
+                                                Entrar a la Tienda
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="flex gap-6" aria-hidden="true">
+                            @foreach($row1 as $shop)
+                                <div class="w-[260px] lg:w-[280px] shrink-0 bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
+                                    <div class="p-1.5 pb-0">
+                                        <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
+                                            @if($shop->cover_path)
+                                                <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
+                                            @else
+                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                            @endif
+                                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
+
+                                            <div class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
+                                                <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/'.$shop->logo_path) : 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=a855f7&color=fff') }}" alt="Logo" class="w-full h-full object-cover">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-start justify-between gap-2">
+                                                <h3 class="text-base font-black text-white leading-tight line-clamp-1">{{ $shop->name }}</h3>
+                                                <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
+                                                    @for($star = 1; $star <= 5; $star++)
+                                                        <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <a href="/{{ $shop->slug }}" class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
+                                                Entrar a la Tienda
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fila 2: Derecha -->
+                <div class="overflow-hidden w-full relative py-2">
+                    <div class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#070913] to-transparent z-10 pointer-events-none"></div>
+                    <div class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#070913] to-transparent z-10 pointer-events-none"></div>
+
+                    <div class="animate-marquee-right flex gap-6 hover:[animation-play-state:paused]">
+                        <div class="flex gap-6">
+                            @foreach($row2 as $shop)
+                                <div class="w-[260px] lg:w-[280px] shrink-0 bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
+                                    <div class="p-1.5 pb-0">
+                                        <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
+                                            @if($shop->cover_path)
+                                                <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
+                                            @else
+                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                            @endif
+                                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
+
+                                            <div class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
+                                                <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/'.$shop->logo_path) : 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=a855f7&color=fff') }}" alt="Logo" class="w-full h-full object-cover">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-start justify-between gap-2">
+                                                <h3 class="text-base font-black text-white leading-tight line-clamp-1">{{ $shop->name }}</h3>
+                                                <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
+                                                    @for($star = 1; $star <= 5; $star++)
+                                                        <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <a href="/{{ $shop->slug }}" class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
+                                                Entrar a la Tienda
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="flex gap-6" aria-hidden="true">
+                            @foreach($row2 as $shop)
+                                <div class="w-[260px] lg:w-[280px] shrink-0 bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
+                                    <div class="p-1.5 pb-0">
+                                        <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
+                                            @if($shop->cover_path)
+                                                <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
+                                            @else
+                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                            @endif
+                                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
+
+                                            <div class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
+                                                <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/'.$shop->logo_path) : 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=a855f7&color=fff') }}" alt="Logo" class="w-full h-full object-cover">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-start justify-between gap-2">
+                                                <h3 class="text-base font-black text-white leading-tight line-clamp-1">{{ $shop->name }}</h3>
+                                                <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
+                                                    @for($star = 1; $star <= 5; $star++)
+                                                        <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <a href="/{{ $shop->slug }}" class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
+                                                Entrar a la Tienda
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODO FILTRADO (ESTÁTICO EN RECIPIENTE GRID) -->
+            <div x-show="isFiltering" class="py-6" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" style="display: none;">
                 
-                <!-- Flechas de Navegación -->
-                <button @click="scrollLeft()" class="absolute -left-5 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-slate-900/90 backdrop-blur-md text-white border border-slate-800 rounded-full hidden lg:flex items-center justify-center shadow-xl hover:bg-purple-600 hover:border-purple-500 transition-all active:scale-95 opacity-0 group-hover:opacity-100 duration-300">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                </button>
+                <!-- Mensaje de No Resultados -->
+                <div x-show="!hasResults" class="w-full text-center py-20 bg-slate-900/30 border border-slate-800/50 rounded-[2rem] backdrop-blur-sm px-6 max-w-lg mx-auto" x-transition>
+                    <div class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </div>
+                    <h3 class="text-white font-extrabold text-lg">No se encontraron tiendas</h3>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">No encontramos catálogos oficiales que coincidan con "<span class="text-purple-400 font-bold" x-text="searchQuery"></span>" o con la categoría seleccionada.</p>
+                    <button type="button" @click="searchQuery = ''; activeCategory = 'Todos'" class="mt-6 bg-purple-600 hover:bg-purple-500 text-white font-extrabold px-6 py-2.5 rounded-full text-xs transition active:scale-95 shadow-[0_0_15px_rgba(147,51,234,0.3)]">
+                        Restablecer filtros
+                    </button>
+                </div>
 
-                <button @click="scrollRight()" class="absolute -right-5 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-slate-900/90 backdrop-blur-md text-white border border-slate-800 rounded-full hidden lg:flex items-center justify-center shadow-xl hover:bg-purple-600 hover:border-purple-500 transition-all active:scale-95 opacity-0 group-hover:opacity-100 duration-300">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </button>
-
-                <!-- Contenedor Horizontal Carrusel / Grid -->
-                <div x-ref="carousel" class="flex lg:grid lg:grid-cols-3 overflow-x-auto lg:overflow-visible gap-6 scroll-smooth snap-x snap-mandatory scrollbar-none pb-6">
-                    @forelse($shops as $shop)
-                        <!-- Tarjeta de Tienda -->
-                        <div class="w-[300px] lg:w-auto shrink-0 snap-start bg-slate-900/50 border border-slate-800/80 rounded-[2rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
-                            
-                            <!-- Foto de Portada con Esquinas Redondeadas Internas -->
-                            <div class="p-2 pb-0">
-                                <div class="h-40 w-full overflow-hidden relative rounded-[1.5rem] bg-slate-800">
+                <div x-show="hasResults" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    @forelse($shopsWithCategories as $shop)
+                        <div x-show="matchesFilter('{{ addslashes($shop->name) }}', '{{ addslashes($shop->description) }}', '{{ addslashes($shop->category) }}')" 
+                             class="w-full bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
+                            <div class="p-1.5 pb-0">
+                                <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
                                     @if($shop->cover_path)
                                         <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
                                     @else
-                                        <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-lg font-black tracking-widest select-none">WISTORE</div>
+                                        <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
                                     @endif
                                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
 
-                                    <!-- Logo Circular Flotante a la Izquierda -->
-                                    <div class="absolute bottom-3 left-4 w-14 h-14 rounded-full border-4 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
+                                    <div class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
                                         <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/'.$shop->logo_path) : 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=a855f7&color=fff') }}" alt="Logo" class="w-full h-full object-cover">
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Contenido de la Tarjeta -->
-                            <div class="pt-4 px-5 pb-5 flex-grow flex flex-col justify-between">
+                            <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
                                 <div>
                                     <div class="flex items-start justify-between gap-2">
-                                        <h3 class="text-lg font-black text-white leading-tight line-clamp-1">{{ $shop->name }}</h3>
-                                        <!-- Estrellas -->
+                                        <h3 class="text-base font-black text-white leading-tight line-clamp-1">{{ $shop->name }}</h3>
                                         <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
-                                            <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                            <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                            <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                            <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                            <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                            @for($star = 1; $star <= 5; $star++)
+                                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                            @endfor
                                         </div>
                                     </div>
-                                    <p class="text-[11px] text-slate-400 mt-1 line-clamp-2">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                    <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
                                 </div>
 
-                                <div class="space-y-4 mt-4">
-                                    <!-- Badges grises -->
-                                    <div class="flex flex-wrap gap-1.5">
-                                        @foreach(explode(',', $shop->payment_methods ?: 'Pago Móvil,Zelle') as $method)
-                                            <span class="bg-slate-800 text-slate-300 text-[9px] font-bold px-2 py-1 rounded-md">{{ trim($method) }}</span>
-                                        @endforeach
-                                    </div>
-
-                                    <!-- Botón Entrar -->
-                                    <a href="/{{ $shop->slug }}" class="block w-full text-center bg-slate-800/50 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-sm">
+                                <div class="mt-4">
+                                    <a href="/{{ $shop->slug }}" class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
                                         Entrar a la Tienda
                                     </a>
                                 </div>
                             </div>
                         </div>
                     @empty
-                        <div class="w-full lg:col-span-3 text-center py-16">
+                        <div class="w-full lg:col-span-4 text-center py-16">
                             <p class="text-slate-500 text-sm">No se encontraron tiendas registradas de momento.</p>
                         </div>
                     @endforelse
                 </div>
-
             </div>
+
         </div>
     </section>
 
     <!-- SECCIÓN CÓMO FUNCIONA (Estilo Bloques Neón) -->
-    <section id="como-funciona" class="py-20 md:py-28 bg-[#070913] relative overflow-hidden z-10 border-t border-white/5">
+    <section id="como-funciona" class="py-20 md:py-28 relative overflow-hidden z-10 border-t border-white/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <!-- Cabecera Centrada -->
             <div class="mb-16 md:mb-20 text-center">
                 <h2 class="text-3xl md:text-5xl font-black text-white tracking-tight">¿Cómo funciona WIStore?</h2>
-                <p class="text-sm md:text-base text-slate-400 mt-3 max-w-xl mx-auto">Crea tu menú interactivo de marca blanca y recibe pedidos en WhatsApp en 3 pasos sencillos.</p>
+                <p class="text-sm md:text-base text-slate-400 mt-3 max-w-xl mx-auto">Crea tu menú interactivo de marca blanca y recibe pedidos en WhatsApp o Telegram en 3 pasos sencillos.</p>
             </div>
 
             <!-- 3 Bloques Numéricos (Horizontal en PC) -->
@@ -407,43 +703,53 @@
                     </div>
                     
                     <h4 class="text-lg font-black text-white mb-3">Recibe Pedidos Directos</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed">Comparte tu enlace y tus clientes podrán enviarte pedidos estructurados directamente a tu WhatsApp, sin comisiones.</p>
+                    <p class="text-sm text-slate-400 leading-relaxed">Comparte tu enlace y tus clientes podrán enviarte pedidos estructurados directamente a tu WhatsApp o Telegram, sin comisiones.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- PRECIOS (Glassmorphic Dark Premium) -->
-    <section id="precios" class="py-20 md:py-28 border-t border-white/5 bg-[#070913] relative overflow-hidden z-10">
+    <section id="precios" class="py-20 md:py-28 border-t border-white/5 relative overflow-hidden z-10" x-data="{ openModal: false, selectedPlan: null }">
         
         <!-- Orbes de luz de fondo para el fondo oscuro -->
-        <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none blur-accelerated"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none blur-accelerated"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
             <!-- Cabecera de Precios -->
-            <div class="text-center mb-16 md:mb-20">
+            <div class="text-center mb-12 md:mb-16">
                 <span class="bg-purple-600/20 text-purple-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                     Planes Flexibles
                 </span>
+                <span class="inline-flex items-center gap-1 bg-emerald-600/20 text-emerald-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)] mt-2 sm:mt-0 sm:ml-2">
+                    Tasa Oficial BCV 🇻🇪
+                </span>
                 <h2 class="text-3xl md:text-5xl font-black text-white mt-5 tracking-tight">Precios que impulsan tu negocio</h2>
                 <p class="text-sm md:text-base text-slate-400 mt-3 max-w-xl mx-auto leading-relaxed">Selecciona la solución ideal para digitalizar tu marca, aumentar tus ventas y conectar de forma directa con tus clientes.</p>
+                
+                <!-- Botón Único de Comparativa Técnica -->
+                <div class="mt-8 relative z-10">
+                    <a href="{{ route('planes.comparativa') }}" class="inline-flex items-center gap-2 bg-[#0d1127]/60 hover:bg-slate-800/80 text-cyan-400 hover:text-cyan-300 font-extrabold px-8 py-4 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 text-xs md:text-sm shadow-xl group">
+                        <span>Ver Tabla Comparativa Técnica Completa</span>
+                        <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
             </div>
             
-            <!-- Grid de 4 Columnas -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch justify-center">
+            <!-- Grid de 3 Columnas -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch justify-center">
 
                 <!-- PLAN 1: WILink Pro -->
                 <div class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
                     <div>
-                        <h3 class="text-xl font-black text-white">WILink Pro</h3>
+                        <h3 class="text-xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Link</span></h3>
                         <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Tu árbol de enlaces biográficos personalizado.</p>
                         
                         <!-- Precio -->
                         <div class="my-6">
-                            <div class="text-4xl font-black text-white flex items-baseline gap-1">10$ <span class="text-sm font-medium text-slate-500">/ mes</span></div>
-                            <span class="text-[10px] text-slate-400 block mt-1 font-semibold">Pagadero en Bs. a tasa oficial</span>
+                            <div class="text-4xl font-black text-white flex items-baseline gap-1">8.99$ <span class="text-sm font-medium text-slate-500">/ mes</span></div>
                         </div>
 
                         <!-- Beneficios -->
@@ -458,7 +764,7 @@
                             </li>
                             <li class="flex items-start gap-3">
                                 <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Botón directo a WhatsApp y Google Maps.</span>
+                                <span>Botón directo a WhatsApp/Telegram y Google Maps.</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
@@ -470,11 +776,14 @@
                     <!-- CTA -->
                     <div class="mt-8 flex flex-col gap-3">
                         <a href="/register" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-sm">
-                            Adquirir WILink
+                            Adquirir WI-Link
                         </a>
                         <a href="/demo-wilink" class="block w-full text-center border-b border-white/10 hover:border-white/30 text-slate-400 hover:text-white font-bold py-2 transition-all duration-300 text-xs">
                             Ver DEMO
                         </a>
+                        <button @click="selectedPlan = 'wilink'; openModal = true" class="mt-2 text-center text-cyan-400 hover:text-cyan-300 font-bold text-[10px] uppercase tracking-wide flex items-center justify-center gap-1.5 transition-colors focus:outline-none">
+                            Ver más información <i class="fas fa-info-circle"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -490,13 +799,12 @@
                         <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl"></div>
 
                         <div class="relative z-10">
-                            <h3 class="text-xl font-black text-white">WIMenu Premium</h3>
-                            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Menú digital interactivo con pedidos directos a WhatsApp + WILink incluido.</p>
+                            <h3 class="text-xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Menu</span></h3>
+                            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Menú digital interactivo con pedidos directos a WhatsApp o Telegram + WI-Link incluido.</p>
                             
                             <!-- Precio -->
                             <div class="my-6">
-                                <div class="text-4xl font-black text-white flex items-baseline gap-1">25$ <span class="text-sm font-medium text-purple-300">/ mes</span></div>
-                                <span class="text-[10px] text-slate-400 block mt-1 font-semibold">Pagadero en Bs. a tasa oficial</span>
+                                <div class="text-4xl font-black text-white flex items-baseline gap-1">24.99$ <span class="text-sm font-medium text-purple-300">/ mes</span></div>
                             </div>
 
                             <!-- Beneficios -->
@@ -515,11 +823,11 @@
                                 </li>
                                 <li class="flex items-start gap-3">
                                     <svg class="text-purple-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                    <span><strong>Pedidos directo a tu WhatsApp</strong> (0% comisiones).</span>
+                                    <span><strong>Pedidos directo a tu WhatsApp o Telegram</strong> (0% comisiones).</span>
                                 </li>
                                 <li class="flex items-start gap-3">
                                     <svg class="text-purple-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                    <span><span class="text-cyan-400 font-bold">INCLUYE WILink Pro</span> (Ahorras 5$).</span>
+                                    <span><span class="text-cyan-400 font-bold">INCLUYE WI-Link</span> (Ahorras 8.99$).</span>
                                 </li>
                             </ul>
                         </div>
@@ -527,64 +835,23 @@
                         <!-- CTA -->
                         <div class="mt-8 flex flex-col gap-3 relative z-10">
                             <a href="/register" class="block w-full text-center bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-                                Comenzar WIMenu
+                                Comenzar WI-Menu
                             </a>
                             <a href="/ys-detallitos" class="block w-full text-center border-b border-white/10 hover:border-white/30 text-slate-300 hover:text-white font-bold py-2 transition-all duration-300 text-xs">
                                 Ver DEMO
                             </a>
+                            <button @click="selectedPlan = 'wimenu'; openModal = true" class="mt-2 text-center text-cyan-400 hover:text-cyan-300 font-bold text-[10px] uppercase tracking-wide flex items-center justify-center gap-1.5 transition-colors focus:outline-none">
+                                Ver más información <i class="fas fa-info-circle"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- PLAN 3: WIAdmin Enterprise -->
+                <!-- PLAN 3: WIAdmin / Custom -->
                 <div class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
                     <div>
-                        <h3 class="text-xl font-black text-white">WIAdmin Enterprise</h3>
-                        <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">El sistema definitivo para el control total.</p>
-                        
-                        <!-- Precio -->
-                        <div class="my-6">
-                            <div class="text-4xl font-black text-white flex items-baseline gap-1">45$ <span class="text-sm font-medium text-slate-500">/ mes</span></div>
-                            <span class="text-[10px] text-slate-400 block mt-1 font-semibold">Pagadero en Bs. a tasa oficial</span>
-                        </div>
-
-                        <!-- Beneficios -->
-                        <ul class="space-y-4 text-xs text-slate-300 border-t border-white/10 pt-6">
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span><strong>Todo lo incluido en WIMenu.</strong></span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span><strong>Módulo de Clientes:</strong> Base de datos y fidelización.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span><strong>Módulo de Empleados:</strong> Roles y permisos.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Panel Avanzado de Órdenes y Estadísticas.</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- CTA -->
-                    <div class="mt-8 flex flex-col gap-3">
-                        <a href="/register" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-sm">
-                            Contactar WIAdmin
-                        </a>
-                        <a href="/ys-detallitos/admin/dashboard" class="block w-full text-center border-b border-white/10 hover:border-white/30 text-slate-400 hover:text-white font-bold py-2 transition-all duration-300 text-xs">
-                            Ver DEMO
-                        </a>
-                    </div>
-                </div>
-
-                <!-- PLAN 4: WICustom -->
-                <div class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
-                    <div>
-                        <h3 class="text-xl font-black text-white">WICustom</h3>
-                        <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Tu ecosistema de software a medida.</p>
+                        <h3 class="text-xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Admin/Custom</span></h3>
+                        <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Gestión integral corporativa o software independiente a medida.</p>
                         
                         <!-- Precio -->
                         <div class="my-6">
@@ -596,15 +863,15 @@
                         <ul class="space-y-4 text-xs text-slate-300 border-t border-white/10 pt-6">
                             <li class="flex items-start gap-3">
                                 <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Código independiente exclusivo.</span>
+                                <span><strong>Módulos de Clientes y Empleados</strong> (Roles, Permisos y Fidelización).</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Base de datos MySQL dedicada.</span>
+                                <span>Panel Avanzado de Órdenes y Estadísticas en tiempo real.</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Desarrollo de módulos desde cero.</span>
+                                <span>Posibilidad de <strong>Código independiente exclusivo</strong> y BD dedicada MySQL.</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
@@ -615,21 +882,26 @@
 
                     <!-- CTA -->
                     <div class="mt-8 flex flex-col gap-3">
-                        <a href="https://wa.me/584120000000?text=Hola..." target="_blank" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-sm">
+                        <a href="https://wa.me/584121305420?text=Hola,%20deseo%20una%20asesoría%20sobre%20los%20planes%20de%20WIStore" target="_blank" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-sm">
                             Cotizar Proyecto
                         </a>
                         <a href="/demo-custom" class="block w-full text-center border-b border-white/10 hover:border-white/30 text-slate-400 hover:text-white font-bold py-2 transition-all duration-300 text-xs">
                             Ver DEMO
                         </a>
+                        <button @click="selectedPlan = 'wiadmin'; openModal = true" class="mt-2 text-center text-cyan-400 hover:text-cyan-300 font-bold text-[10px] uppercase tracking-wide flex items-center justify-center gap-1.5 transition-colors focus:outline-none">
+                            Ver más información <i class="fas fa-info-circle"></i>
+                        </button>
                     </div>
                 </div>
 
             </div>
 
+
+
             <!-- Cláusula de Limitación y Cintillo Informativo -->
             <div class="mt-16 text-center max-w-4xl mx-auto space-y-6">
                 <p class="text-[10px] md:text-xs text-slate-500 leading-relaxed font-semibold px-4">
-                    ⚠️ Los planes WILink, WIMenu y WIAdmin cubren soporte operativo del sistema base y no incluyen funciones personalizadas. El desarrollo a medida se gestiona exclusivamente bajo el plan WICustom previo acuerdo comercial.
+                    ⚠️ Los planes WI-Link, WI-Menu y WI-Admin cubren soporte operativo del sistema base y no incluyen funciones personalizadas. El desarrollo a medida se gestiona exclusivamente bajo el plan WI-Custom previo acuerdo comercial.
                 </p>
                 <!-- Cintillo Informativo de Restauración de Demos -->
                 <div class="inline-flex justify-center bg-[#1e1136]/80 backdrop-blur-md border border-purple-500/30 px-6 py-4 rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.15)] mx-auto">
@@ -638,13 +910,434 @@
                     </p>
                 </div>
             </div>
+
+            <!-- MODAL DETALLES DEL PLAN (Alpine.js) -->
+            <div x-show="openModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6" x-cloak>
+                <!-- Backdrop con Blur -->
+                <div x-show="openModal" 
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     @click="openModal = false" 
+                     class="fixed inset-0 bg-[#070913]/90 backdrop-blur-md"></div>
+
+                <!-- Contenedor del Modal -->
+                <div x-show="openModal"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+                     x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave-end="opacity-0 translate-y-4 scale-95"
+                     class="bg-[#0d1127] border border-white/10 rounded-[2rem] w-full max-w-2xl max-h-[85vh] overflow-y-auto relative z-10 shadow-[0_0_50px_rgba(168,85,247,0.15)] scrollbar-thin">
+                    
+                    <!-- Botón de Cerrar -->
+                    <button @click="openModal = false" class="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-rose-500/50 hover:bg-rose-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors focus:outline-none z-20">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+
+                    <!-- CONTENIDO WILINK PRO -->
+                    <div x-show="selectedPlan === 'wilink'" class="p-6 md:p-10 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-link text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Link</span></h3>
+                                <p class="text-xs text-cyan-400 font-bold uppercase tracking-wider">Plan Biografía e Identidad • 8.99$ / mes</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            Diseñado especialmente para emprendedores, creadores y profesionales independientes que necesitan centralizar su ecosistema digital en un solo enlace estético y cargado en tiempo récord. Ideal para usar en biografías de Instagram, TikTok o perfiles de WhatsApp.
+                        </p>
+
+                        <div class="border-t border-white/5 pt-6 space-y-4">
+                            <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">¿Qué incluye este plan?</h4>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
+                                    <span>Enlace único ultracorto (ej: <strong class="text-white">wistore.com/l/tu-marca</strong>)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
+                                    <span>Botones ilimitados con redirección inteligente</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
+                                    <span>Botón flotante directo a tu WhatsApp o Telegram</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
+                                    <span>Personalización de colores e íconos de redes sociales</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
+                                    <span>Estadísticas en tiempo real de visitas y clicks</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
+                                    <span>Velocidad de carga instantánea de nivel mundial</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white/[0.02] border border-white/5 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold">Precio mensual a tasa BCV</p>
+                                <p class="text-lg font-black text-white">8.99$ USD / mes</p>
+                            </div>
+                            <a href="/register" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                Adquirir Ahora
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CONTENIDO WIMENU PREMIUM -->
+                    <div x-show="selectedPlan === 'wimenu'" class="p-6 md:p-10 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                                <i class="fas fa-store text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Menu</span></h3>
+                                <p class="text-xs text-purple-400 font-bold uppercase tracking-wider">Plan Tienda e interactivo • 24.99$ / mes</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            Nuestra solución estrella. Habilita una experiencia de compra interactiva impecable tipo Web-App donde tus clientes exploran tus productos en alta definición, arman su carrito de compras y generan una orden perfectamente estructurada enviada directo a tu WhatsApp o Telegram, sin intermediarios ni comisiones.
+                        </p>
+
+                        <div class="border-t border-white/5 pt-6 space-y-4">
+                            <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">¿Qué incluye este plan?</h4>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
+                                    <span><strong class="text-white">Catálogo interactivo</strong> con productos ilimitados</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
+                                    <span>Carrito de compras con cálculo automático</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
+                                    <span>Envío de pedido estructurado a tu WhatsApp o Telegram</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
+                                    <span><span class="text-cyan-400 font-bold">INCLUYE WI-Link</span> totalmente gratis</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
+                                    <span>Personalización total de tu marca (colores y logo)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
+                                    <span>Código QR dinámico autogenerado para tu local</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
+                                    <span>Habilitación de métodos de pago venezolanos (Pago Móvil, Zelle)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
+                                    <span>Gestión ágil de stock e inventario en tiempo real</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-900/10 border border-purple-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            <div>
+                                <p class="text-xs text-purple-300 font-semibold">Precio mensual a tasa BCV</p>
+                                <p class="text-lg font-black text-white">24.99$ USD / mes</p>
+                            </div>
+                            <a href="/register" class="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                Comenzar Ahora
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CONTENIDO WIADMIN CUSTOM -->
+                    <div x-show="selectedPlan === 'wiadmin'" class="p-6 md:p-10 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400">
+                                <i class="fas fa-cogs text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Admin/Custom</span></h3>
+                                <p class="text-xs text-pink-400 font-bold uppercase tracking-wider">Plan Corporativo y a Medida</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            Pensado para franquicias, locales gastronómicos consolidados o marcas que necesitan un desarrollo tecnológico robusto y un ecosistema completamente dedicado. Integramos herramientas avanzadas para la gestión diaria de órdenes, empleados, analíticas avanzadas y bases de datos exclusivas.
+                        </p>
+
+                        <div class="border-t border-white/5 pt-6 space-y-4">
+                            <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">¿Qué incluye este plan?</h4>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span><strong class="text-white">Módulo de Empleados</strong> con control de accesos y roles</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span>Módulo de fidelización de clientes (Historial y CRM)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span>Panel administrativo avanzado para monitorear órdenes en local</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span>Migración a servidor con <strong class="text-white">código y base de datos dedicados</strong></span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span>Integración de tu dominio web propio (`tu-marca.com`)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span>Pasarelas de pagos online automatizadas</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span>Reportes avanzados de ventas y productos</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span>Soporte VIP corporativo asignado 24/7</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white/[0.02] border border-white/5 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold">Presupuesto adaptado a requerimientos</p>
+                                <p class="text-lg font-black text-white">Precio a convenir</p>
+                            </div>
+                            <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20cotizar%20el%20plan%20WI-Admin/Custom%20para%20mi%20negocio" target="_blank" class="bg-pink-600 hover:bg-pink-500 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                Cotizar en WhatsApp
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VS COMPETENCIA (WIStore vs El Resto) -->
+    <section id="vs-competencia" class="py-20 md:py-28 border-t border-white/5 relative overflow-hidden z-10">
+        
+        <!-- Orbe de luz de fondo -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[150px] pointer-events-none blur-accelerated"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Cabecera de Competencia -->
+            <div class="text-center mb-16 md:mb-20">
+                <span class="bg-rose-600/20 text-rose-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-rose-500/30 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
+                    La Diferencia WIStore
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black text-white mt-5 tracking-tight">WIStore vs La Competencia</h2>
+                <p class="text-sm md:text-base text-slate-400 mt-3 max-w-2xl mx-auto leading-relaxed">No pagues por funciones limitadas en plataformas extranjeras. Descubre por qué somos la opción más inteligente y rentable para tu negocio en Venezuela.</p>
+            </div>
+
+            <!-- Grid de Comparativas -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-stretch justify-center">
+
+                <!-- COMPARATIVA 1: WILink Pro vs Linktree -->
+                <div class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl relative transition duration-300 hover:border-white/20">
+                    <div class="p-6 md:p-8 bg-gradient-to-b from-cyan-900/20 to-transparent border-b border-white/5">
+                        <h3 class="text-xl font-black text-white text-center flex items-center justify-center gap-3">
+                            <span class="uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Link</span></span> 
+                            <span class="text-slate-500 text-sm">vs</span> 
+                            <span class="text-slate-300">Linktree</span>
+                        </h3>
+                    </div>
+                    
+                    <div class="p-0">
+                        <table class="w-full text-left border-collapse text-xs md:text-sm">
+                            <thead>
+                                <tr>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-slate-400 font-semibold bg-white/[0.02]">Característica</th>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center font-black text-cyan-400 bg-cyan-900/10">WI-Link</th>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center text-slate-400 font-semibold bg-white/[0.02]">Linktree (Pro)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5 text-slate-300">
+                                <tr>
+                                    <td class="p-4 font-medium">Precio Mensual</td>
+                                    <td class="p-4 text-center text-white font-bold bg-cyan-900/10">$8.99 / mes <span class="block text-[9px] font-normal text-cyan-400/80">(Tasa BCV)</span></td>
+                                    <td class="p-4 text-center text-slate-400">$24 / mes</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Personalización Visual</td>
+                                    <td class="p-4 text-center font-bold text-emerald-400 bg-cyan-900/10">Total (Tu Marca)</td>
+                                    <td class="p-4 text-center text-rose-400">Limitada a plantillas</td>
+                                </tr>
+                                <tr>
+                                     <td class="p-4 font-medium">Integración WhatsApp / Telegram</td>
+                                    <td class="p-4 text-center font-bold text-emerald-400 bg-cyan-900/10">Nativo + Flotante</td>
+                                    <td class="p-4 text-center text-rose-400">Solo enlace básico</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Atención y Soporte</td>
+                                    <td class="p-4 text-center font-bold text-emerald-400 bg-cyan-900/10">Local Prioritario (VE)</td>
+                                    <td class="p-4 text-center text-rose-400">Lento / Solo Inglés</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Velocidad de Carga</td>
+                                    <td class="p-4 text-center font-bold text-emerald-400 bg-cyan-900/10">Ultra Rápida (&lt;0.2s)</td>
+                                    <td class="p-4 text-center text-slate-400">Promedio</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- COMPARATIVA 2: WIMenu Premium vs PideFacil -->
+                <div class="bg-[#0d1127]/60 backdrop-blur-md border border-purple-500/20 rounded-[2rem] overflow-hidden shadow-[0_0_30px_rgba(168,85,247,0.15)] relative transition duration-300 hover:border-purple-500/40">
+                    <!-- Destello -->
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+                    <div class="p-6 md:p-8 bg-gradient-to-b from-purple-900/20 to-transparent border-b border-white/5 relative z-10">
+                        <h3 class="text-xl font-black text-white text-center flex items-center justify-center gap-3">
+                            <span class="uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Menu</span></span> 
+                            <span class="text-slate-500 text-sm">vs</span> 
+                            <span class="text-slate-300">PideFacil</span>
+                        </h3>
+                    </div>
+                    
+                    <div class="p-0 relative z-10">
+                        <table class="w-full text-left border-collapse text-xs md:text-sm">
+                            <thead>
+                                <tr>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-slate-400 font-semibold bg-white/[0.02]">Característica</th>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center font-black text-purple-400 bg-purple-900/10">WI-Menu</th>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center text-slate-400 font-semibold bg-white/[0.02]">PideFacil</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5 text-slate-300">
+                                <tr>
+                                    <td class="p-4 font-medium">Comisiones por Venta</td>
+                                    <td class="p-4 text-center text-emerald-400 font-black bg-purple-900/10">0% <span class="block text-[9px] font-normal text-purple-300">(Ganas el 100%)</span></td>
+                                    <td class="p-4 text-center text-rose-400 font-bold">2% - 5% <span class="block text-[9px] font-normal text-slate-500">(Por transacción)</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Precio Mensual</td>
+                                    <td class="p-4 text-center text-white font-bold bg-purple-900/10">$24.99 / mes <span class="block text-[9px] font-normal text-purple-300">(Tasa BCV)</span></td>
+                                    <td class="p-4 text-center text-slate-400">Desde $35 / mes</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Límite de Productos</td>
+                                    <td class="p-4 text-center font-bold text-emerald-400 bg-purple-900/10">Ilimitado</td>
+                                    <td class="p-4 text-center text-rose-400">Limitado por Plan</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Enlace Biográfico (Link in Bio)</td>
+                                    <td class="p-4 text-center font-bold text-emerald-400 bg-purple-900/10">Incluye WI-Link gratis</td>
+                                    <td class="p-4 text-center text-rose-400">No incluye</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Experiencia / Interfaz</td>
+                                    <td class="p-4 text-center font-bold text-emerald-400 bg-purple-900/10">Híbrida, Premium y Rápida</td>
+                                    <td class="p-4 text-center text-slate-400">Plantillas genéricas</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="border-t border-gray-800/80 bg-[#070a12] py-8 text-center text-xs text-gray-500">
-        <p class="font-extrabold text-white text-sm">WIStore</p>
-        <p class="mt-1">© 2026 Todos los derechos reservados. Diseñado por Wydex.</p>
+    <footer class="border-t border-white/5 bg-transparent relative z-10 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
+                <!-- Columna 1: Brand & Bio -->
+                <div class="col-span-1 md:col-span-1 space-y-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl font-black text-white tracking-wider uppercase">WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span></span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
+                        La plataforma B2B premium líder en digitalización de comercios en Venezuela. Crea tu catálogo inteligente interactivo con pedidos directos a WhatsApp o Telegram, libre de comisiones por venta.
+                    </p>
+                    <div class="flex items-center gap-4 pt-2">
+                        <a href="javascript:void(0)" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300">
+                            <i class="fab fa-facebook-f text-sm"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300">
+                            <i class="fab fa-instagram text-sm"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300">
+                            <i class="fab fa-tiktok text-sm"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300">
+                            <i class="fab fa-youtube text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna 2: Ecosistema -->
+                <div class="space-y-4">
+                    <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Ecosistema</h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li><a href="#explorar" class="text-slate-400 hover:text-cyan-400 transition-colors">Explora Tiendas</a></li>
+                        <li><a href="#como-funciona" class="text-slate-400 hover:text-cyan-400 transition-colors">¿Cómo funciona?</a></li>
+                        <li><a href="#precios" class="text-slate-400 hover:text-cyan-400 transition-colors">Planes de Precios</a></li>
+                        <li><a href="{{ route('planes.comparativa') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Comparativa de Planes</a></li>
+                        <li><a href="#vs-competencia" class="text-slate-400 hover:text-cyan-400 transition-colors font-semibold">Comparativa con la Competencia</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 3: Administración -->
+                <div class="space-y-4">
+                    <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Administración</h4>
+                    <div class="pt-1">
+                        <a href="/login" class="inline-flex items-center gap-1.5 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-extrabold px-3.5 py-2 rounded-xl border border-purple-500/30 hover:border-purple-500/50 hover:text-white transition-all duration-300 text-[10px] uppercase tracking-wider shadow-lg shadow-purple-500/5">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna 4: Contacto directo -->
+                <div class="space-y-4">
+                    <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Contacto Directo</h4>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li class="flex items-center gap-2.5">
+                            <i class="fas fa-envelope text-cyan-400 w-4"></i>
+                            <span>(Próximamente)</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fas fa-phone-alt text-purple-400 w-4"></i>
+                            <span>+58 (412) 130-5420</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fas fa-map-marker-alt text-pink-400 w-4"></i>
+                            <span>Aragua, Venezuela</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Area -->
+            <div class="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>© 2026 WIStore. Todos los derechos reservados.</p>
+                <div class="flex items-center gap-6">
+                    <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
+                    <span>•</span>
+                    <a href="{{ route('contacto') }}" class="hover:text-white transition-colors">Contacto</a>
+                </div>
+            </div>
+        </div>
     </footer>
 
 </body>

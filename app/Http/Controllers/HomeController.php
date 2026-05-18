@@ -9,16 +9,8 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Shop::query();
-
-        // Si hay una búsqueda de tienda
-        if ($request->has('search') && $request->search != '') {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
-        }
-
-        // Obtener las tiendas activas paginadas o limitadas a 8
-        $shops = $query->latest()->paginate(8);
+        // Obtener todas las tiendas activas para el filtrado en tiempo real
+        $shops = Shop::latest()->get();
 
         return view('home', compact('shops'));
     }

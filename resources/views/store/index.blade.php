@@ -43,17 +43,33 @@
         }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Custom Scrollbar with Store Colors */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-secondary);
+        }
+        
+        /* Firefox support */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-primary) rgba(0, 0, 0, 0.02);
+        }
     </style>
 </head>
 <body class="min-h-screen text-slate-800 pb-16 md:pb-6 select-none" x-data="storeApp()">
 
-    <!-- Barra Flotante de Retorno a WIStore (Solo Desktop) -->
-    <div class="hidden md:block fixed top-4 left-4 z-[9999]">
-        <a href="/" class="flex items-center gap-2 bg-slate-900/95 backdrop-blur-md text-white text-xs font-bold px-4 py-2.5 rounded-full border border-slate-800/80 shadow-2xl hover:bg-slate-800 transition active:scale-95">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            <span>Volver a WIStore</span>
-        </a>
-    </div>
+
 
     <!-- LOADER ESTÉTICO DE 3 SEGUNDOS -->
     <div id="app-loader" class="fixed inset-0 bg-white flex flex-col justify-center items-center z-[9999] transition-opacity duration-500">
@@ -64,10 +80,7 @@
     <!-- 1. MÓVIL: PORTADA DE TIENDA -->
     <div class="md:hidden relative h-48 w-full bg-slate-900 overflow-hidden shadow-inner">
         <img src="{{ $company['cover'] }}" alt="Portada" class="w-full h-full object-cover opacity-80">
-        <div class="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
-            <a href="/" class="w-10 h-10 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-md active:scale-95 transition">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-800"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </a>
+        <div class="absolute top-4 right-4 z-10">
             <button @click="scrollToReviews()" class="w-10 h-10 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-md active:scale-95 transition">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-yellow-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
             </button>
@@ -321,6 +334,19 @@
 
         </div>
     </div>
+
+    <!-- FOOTER MARCA BLANCA / WI-STORE -->
+    <footer class="mt-16 border-t border-slate-100/80 py-8 text-center text-slate-400 relative z-10 bg-white/30 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold">
+            <p>© 2026 {{ $company['name'] }}. Todos los derechos reservados.</p>
+            <p class="flex items-center gap-1.5">
+                <span>Potenciado por</span>
+                <a href="/" class="font-extrabold text-slate-600 hover:text-[var(--color-primary)] transition-colors uppercase tracking-wider text-[10px]">
+                    WI<span class="text-[var(--color-primary)]">Store</span>
+                </a>
+            </p>
+        </div>
+    </footer>
 
     <!-- MÓVIL: STICKY FLOATING CART BAR (md:hidden) -->
     <div class="md:hidden fixed bottom-4 left-4 right-4 z-50" x-show="totalItems > 0" x-transition style="display: none;">

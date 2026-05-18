@@ -11,8 +11,41 @@ use App\Http\Controllers\ShortLinkController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', function () {
-    return '<div style="font-family:sans-serif; text-align:center; padding: 4rem;"><h2>Módulo de Login del SaaS en desarrollo</h2><p>Inyecta tu sistema de auth como Laravel Breeze aquí.</p><a href="/">Volver al Inicio</a></div>';
+    return view('auth.login');
 })->name('login');
+
+Route::post('/login', function (Illuminate\Http\Request $request) {
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if (Illuminate\Support\Facades\Auth::attempt($credentials, $request->has('remember'))) {
+        $request->session()->regenerate();
+
+        $user = Illuminate\Support\Facades\Auth::user();
+        $shop = \App\Models\Shop::find($user->shop_id);
+        if ($shop) {
+            return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug]);
+        }
+        
+        Illuminate\Support\Facades\Auth::logout();
+        return back()->withErrors([
+            'email' => 'El usuario no está asociado a ninguna tienda activa.',
+        ])->onlyInput('email');
+    }
+
+    return back()->withErrors([
+        'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
+    ])->onlyInput('email');
+});
+
+Route::any('/logout', function (Illuminate\Http\Request $request) {
+    Illuminate\Support\Facades\Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/');
+})->name('logout');
 
 Route::get('/register', function () {
     return '<div style="font-family:sans-serif; text-align:center; padding: 4rem;"><h2>Módulo de Registro de Tiendas</h2><p>El portal donde los emprendedores se registran y crean su tienda en segundos.</p><a href="/">Volver al Inicio</a></div>';
@@ -25,6 +58,21 @@ Route::get('/demo-custom', function () {
 Route::get('/demo-wilink', function () {
     return view('demo.wilink');
 })->name('demo.wilink');
+
+// Ruta de Comparativa Técnica de Planes
+Route::get('/comparativa', function () {
+    return view('planes.comparativa');
+})->name('planes.comparativa');
+
+// Ruta de Políticas y Privacidad
+Route::get('/privacidad', function () {
+    return view('legal.privacidad');
+})->name('legal.privacidad');
+
+// Ruta de Contacto y Soporte
+Route::get('/contacto', function () {
+    return view('contacto');
+})->name('contacto');
 
 
 

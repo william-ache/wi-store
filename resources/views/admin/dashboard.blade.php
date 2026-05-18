@@ -99,9 +99,8 @@
                         </h1>
                     </div>
                     
-                    <!-- Botón Ir a la Tienda (Móvil e indirecto) + Volver al SaaS -->
                     <div class="flex items-center gap-2">
-                        <a href="/" class="px-3 py-2 bg-rose-50 border border-rose-100 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition text-xs font-black text-rose-600">
+                        <a href="{{ route('logout') }}" class="px-3 py-2 bg-rose-50 border border-rose-100 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition text-xs font-black text-rose-600">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                             <span>Salir</span>
                         </a>
