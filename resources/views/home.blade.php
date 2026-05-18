@@ -107,6 +107,79 @@
             will-change: filter;
         }
         [x-cloak] { display: none !important; }
+
+        /* Animaciones fluidas de ondas/olas (morphing) para las curvas SVG del fondo */
+        @keyframes wave-1 {
+            0%, 100% {
+                d: path("M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800");
+            }
+            33% {
+                d: path("M-100,130 C170,260 430,-60 820,170 C1180,530 1330,860 1500,830");
+            }
+            66% {
+                d: path("M-100,70 C230,340 370,-140 780,230 C1220,470 1270,940 1500,770");
+            }
+        }
+        @keyframes wave-2 {
+            0%, 100% {
+                d: path("M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950");
+            }
+            33% {
+                d: path("M-50,170 C280,360 470,90 920,360 C1270,780 1230,1010 1600,920");
+            }
+            66% {
+                d: path("M-50,230 C220,440 530,10 880,440 C1330,720 1170,1090 1600,980");
+            }
+        }
+        @keyframes wave-3 {
+            0%, 100% {
+                d: path("M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000");
+            }
+            50% {
+                d: path("M1500,-20 C1070,180 970,470 630,570 C170,730 30,1070 -200,1030");
+            }
+        }
+        @keyframes wave-4 {
+            0%, 100% {
+                d: path("M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100");
+            }
+            33% {
+                d: path("M1550,80 C1120,280 870,370 530,670 C70,1030 -70,870 -250,1130");
+            }
+            66% {
+                d: path("M1550,20 C1180,220 930,430 470,730 C130,970 -130,930 -250,1070");
+            }
+        }
+        @keyframes wave-5 {
+            0%, 100% {
+                d: path("M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300");
+            }
+            50% {
+                d: path("M-100,770 C330,570 470,930 870,830 C1330,670 1370,230 1600,270");
+            }
+        }
+
+        .animate-wave-1 {
+            animation: wave-1 8s ease-in-out infinite;
+        }
+        .animate-wave-2 {
+            animation: wave-2 10s ease-in-out infinite;
+        }
+        .animate-wave-3 {
+            animation: wave-3 12s ease-in-out infinite;
+        }
+        .animate-wave-4 {
+            animation: wave-4 14s ease-in-out infinite;
+        }
+        .animate-wave-5 {
+            animation: wave-5 16s ease-in-out infinite;
+        }
+
+        /* Máscara de transparencia gradual para los extremos del carrusel de tiendas */
+        .mask-marquee {
+            mask-image: linear-gradient(to right, transparent, white 15%, white 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, white 15%, white 85%, transparent);
+        }
     </style>
 </head>
 <body class="bg-[#070913] text-gray-100 min-h-screen selection:bg-brand-500 selection:text-white relative" x-data="{ isMobileMenuOpen: false }">
@@ -143,12 +216,12 @@
                 </linearGradient>
             </defs>
 
-            <!-- Curvas Bezier Entrelazadas imitando estelas de luz -->
-            <path d="M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800" stroke="url(#neonGradient1)" stroke-width="1.5" stroke-linecap="round" fill="none" />
-            <path d="M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
-            <path d="M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000" stroke="url(#neonGradient2)" stroke-width="1.5" stroke-linecap="round" fill="none" />
-            <path d="M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100" stroke="url(#neonGradient2)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
-            <path d="M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.4" />
+            <!-- Curvas Bezier Entrelazadas imitando estelas de luz animadas como olas/ondas -->
+            <path class="animate-wave-1" d="M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800" stroke="url(#neonGradient1)" stroke-width="1.5" stroke-linecap="round" fill="none" />
+            <path class="animate-wave-2" d="M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+            <path class="animate-wave-3" d="M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000" stroke="url(#neonGradient2)" stroke-width="1.5" stroke-linecap="round" fill="none" />
+            <path class="animate-wave-4" d="M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100" stroke="url(#neonGradient2)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+            <path class="animate-wave-5" d="M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.4" />
         </svg>
     </div>
 
@@ -380,9 +453,9 @@
                 </div>
 
                 <!-- Buscador y Filtros -->
-                <div class="w-full max-w-4xl flex flex-col md:flex-row gap-4 items-center justify-center">
+                <div class="w-full max-w-4xl flex flex-col gap-5 items-center justify-center">
                     <!-- Formulario Buscador Compacto -->
-                    <form @submit.prevent="" class="w-full md:w-72 flex gap-2 shrink-0">
+                    <form @submit.prevent="" class="w-full max-w-md flex gap-2 shrink-0 justify-center">
                         <div class="relative flex-grow">
                             <input type="text" x-model="searchQuery" placeholder="Buscar tienda..." 
                                    class="w-full bg-slate-900/80 border border-slate-800 rounded-2xl px-4 py-3 pl-10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner">
@@ -391,7 +464,7 @@
                     </form>
 
                     <!-- Filtros Píldoras Táctiles -->
-                    <div class="w-full md:w-auto flex gap-2 overflow-x-auto flex-nowrap whitespace-nowrap scrollbar-none py-1 justify-center md:justify-start">
+                    <div class="w-full flex gap-2 overflow-x-auto flex-nowrap whitespace-nowrap scrollbar-none py-1 justify-center">
                         <button type="button" @click="activeCategory = 'Todos'" :class="activeCategory === 'Todos' ? 'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'" class="text-[11px] font-black px-4 py-2.5 rounded-full border transition-all duration-300">Todos</button>
                         <button type="button" @click="activeCategory = 'Gastronomía'" :class="activeCategory === 'Gastronomía' ? 'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'" class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Gastronomía</button>
                         <button type="button" @click="activeCategory = 'Moda y Estilo'" :class="activeCategory === 'Moda y Estilo' ? 'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'" class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Moda y Estilo</button>
@@ -403,9 +476,8 @@
             <!-- MODO ANIMADO (MARQUEE 2 FILAS) -->
             <div x-show="!isFiltering" class="space-y-6" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100">
                 <!-- Fila 1: Izquierda -->
-                <div class="overflow-hidden w-full relative py-2">
-                    <div class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#070913] to-transparent z-10 pointer-events-none"></div>
-                    <div class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#070913] to-transparent z-10 pointer-events-none"></div>
+                <div class="overflow-hidden w-full relative py-2 mask-marquee">
+                    
                     
                     <div class="animate-marquee-left flex gap-6 hover:[animation-play-state:paused]">
                         <div class="flex gap-6">
@@ -492,9 +564,8 @@
                 </div>
 
                 <!-- Fila 2: Derecha -->
-                <div class="overflow-hidden w-full relative py-2">
-                    <div class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#070913] to-transparent z-10 pointer-events-none"></div>
-                    <div class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#070913] to-transparent z-10 pointer-events-none"></div>
+                <div class="overflow-hidden w-full relative py-2 mask-marquee">
+                    
 
                     <div class="animate-marquee-right flex gap-6 hover:[animation-play-state:paused]">
                         <div class="flex gap-6">
