@@ -83,9 +83,13 @@ Route::get('/l/{code}', [ShortLinkController::class, 'redirect'])->name('short.l
 // Colocadas al final del archivo. La detección y el aislamiento ocurren mediante el Middleware 'tenant'.
 Route::middleware(['tenant'])->group(function () {
     // Auto-login de desarrollo para poder probar el panel de administración localmente
-    if (app()->environment('local') && !Illuminate\Support\Facades\Auth::check()) {
-        if ($user = \App\Models\User::first()) {
-            Illuminate\Support\Facades\Auth::login($user);
+    if (app()->environment('local') && !app()->runningInConsole() && !Illuminate\Support\Facades\Auth::check()) {
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('users') && $user = \App\Models\User::first()) {
+                Illuminate\Support\Facades\Auth::login($user);
+            }
+        } catch (\Throwable $e) {
+            // Ignorar silenciosamente si las tablas no existen todavía (ej. durante migraciones)
         }
     }
 
