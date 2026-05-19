@@ -39,6 +39,12 @@
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
             Marketing y Enlaces
         </button>
+        <button type="button" @click="activeTab = 'seguridad'" 
+                :class="activeTab === 'seguridad' ? 'bg-primary text-white font-black shadow-md shadow-primary/20 border-primary' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm'" 
+                class="px-5 py-3 rounded-xl text-xs transition-all whitespace-nowrap border flex items-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Seguridad
+        </button>
     </div>
 
     <!-- Formulario de Configuración Principal -->
@@ -101,6 +107,33 @@
                     <input type="url" id="google_maps_link" name="google_maps_link" 
                            class="w-full bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-medium" 
                            placeholder="https://maps.google.com/..." value="{{ old('google_maps_link', $shop->google_maps_link) }}">
+                </div>
+
+                <!-- Tasa de Delivery por Km -->
+                <div class="space-y-1.5 md:col-span-1">
+                    <label for="delivery_rate_per_km" class="text-xs font-bold text-slate-700 dark:text-slate-300">Tasa de Delivery por Km</label>
+                    <input type="number" step="0.01" id="delivery_rate_per_km" name="delivery_rate_per_km" 
+                           class="w-full bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-medium" 
+                           placeholder="0.00" value="{{ old('delivery_rate_per_km', $shop->delivery_rate_per_km) }}">
+                </div>
+
+                <!-- Coordenadas del Local (Lat / Lng) para cálculo de distancia -->
+                <div class="space-y-1.5 md:col-span-2 grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="latitude" class="text-xs font-bold text-slate-700 dark:text-slate-300">Latitud del Local</label>
+                        <input type="text" id="latitude" name="latitude" 
+                               class="w-full bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-medium" 
+                               placeholder="Ej: 10.4806" value="{{ old('latitude', $shop->latitude) }}">
+                    </div>
+                    <div>
+                        <label for="longitude" class="text-xs font-bold text-slate-700 dark:text-slate-300">Longitud del Local</label>
+                        <input type="text" id="longitude" name="longitude" 
+                               class="w-full bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-medium" 
+                               placeholder="Ej: -66.9036" value="{{ old('longitude', $shop->longitude) }}">
+                    </div>
+                    <div class="col-span-2">
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500">Estas coordenadas se utilizan para calcular la distancia en kilómetros desde el local hasta la ubicación del cliente.</p>
+                    </div>
                 </div>
 
                 <!-- Tasa Monetaria -->
@@ -368,6 +401,42 @@
                     @if($shop->cover_path)
                         <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="Preview Portada" class="w-full h-12 object-cover rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mt-4">
                     @endif
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: SEGURIDAD -->
+        <div x-show="activeTab === 'seguridad'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6 pt-2">
+            <div>
+                <span class="bg-primary/10 text-primary text-[10px] uppercase font-extrabold tracking-wider px-3 py-1 rounded-full border border-primary/20">
+                    Seguridad de la Cuenta
+                </span>
+                <h3 class="text-base md:text-lg font-black text-slate-800 dark:text-slate-100 mt-3 mb-1">
+                    Cambiar Contraseña de Administrador
+                </h3>
+                <p class="text-xs text-slate-400 dark:text-slate-500">
+                    Actualiza tu contraseña de acceso a este panel de administración. Déjala en blanco si no deseas cambiarla.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- Nueva Contraseña -->
+                <div class="space-y-1.5">
+                    <label for="password" class="text-xs font-bold text-slate-700 dark:text-slate-300">Nueva Contraseña</label>
+                    <input type="password" id="password" name="password" 
+                           class="w-full bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-semibold @error('password') border-red-500 @enderror" 
+                           placeholder="Mínimo 8 caracteres">
+                    @error('password')
+                        <span class="text-red-500 text-[10px] font-bold block mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Confirmar Nueva Contraseña -->
+                <div class="space-y-1.5">
+                    <label for="password_confirmation" class="text-xs font-bold text-slate-700 dark:text-slate-300">Confirmar Nueva Contraseña</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation" 
+                           class="w-full bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-semibold" 
+                           placeholder="Repite la contraseña">
                 </div>
             </div>
         </div>

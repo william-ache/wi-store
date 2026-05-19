@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('shops', function (Blueprint $table) {
-            $table->string('google_maps_link')->nullable();
-            $table->json('work_hours')->nullable();
-            $table->string('base_currency')->nullable(); // USD, EUR, etc.
+            $table->decimal('delivery_rate_per_km', 8, 2)->default(0)->after('exchange_updated_at');
+            $table->string('latitude')->nullable()->after('delivery_rate_per_km');
+            $table->string('longitude')->nullable()->after('latitude');
         });
     }
 
@@ -24,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('shops', function (Blueprint $table) {
-            $table->dropColumn(['google_maps_link', 'work_hours', 'base_currency']);
+            $table->dropColumn(['delivery_rate_per_km', 'latitude', 'longitude']);
         });
     }
 };

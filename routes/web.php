@@ -92,6 +92,7 @@ Route::middleware(['tenant'])->group(function () {
     // Frontend del Cliente (Público)
     Route::get('/{shop_slug}', [StoreController::class, 'index'])->name('store.index');
     Route::post('/{shop_slug}/reviews', [StoreController::class, 'storeReview'])->name('reviews.store');
+    Route::post('/{shop_slug}/clients/quick-register', [StoreController::class, 'registerClient'])->name('clients.quick-register');
     
     // Panel Administrativo de la Tienda (Privado)
     Route::middleware(['auth'])->prefix('/{shop_slug}/admin')->name('admin.')->group(function () {

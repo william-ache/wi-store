@@ -46,55 +46,16 @@
         </div>
     </div>
 
-    <!-- Tendencia de Ventas (Gráfico SVG) -->
+    <!-- Tendencia de Ventas (Gráfico Chart.js) -->
     <div class="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-sm flex flex-col justify-between transition-colors duration-300">
         <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Tendencia de Ventas</span>
-        <div class="flex-grow flex items-end mt-4">
-            <svg viewBox="0 0 280 100" class="w-full h-auto" preserveAspectRatio="none">
-                <defs>
-                    <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" style="stop-color:var(--tw-color-primary, #E60067);stop-opacity:0.3"/>
-                        <stop offset="100%" style="stop-color:var(--tw-color-primary, #E60067);stop-opacity:0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,80 C20,75 40,70 60,60 C80,50 100,65 120,55 C140,45 160,40 180,35 C200,30 220,25 240,20 C260,15 270,18 280,15 L280,100 L0,100 Z" fill="url(#chartGrad)"/>
-                <path d="M0,80 C20,75 40,70 60,60 C80,50 100,65 120,55 C140,45 160,40 180,35 C200,30 220,25 240,20 C260,15 270,18 280,15" fill="none" stroke="var(--tw-color-primary, #E60067)" stroke-width="2.5" stroke-linecap="round"/>
-                <circle cx="280" cy="15" r="4" fill="var(--tw-color-primary, #E60067)" stroke="white" stroke-width="2"/>
-            </svg>
-        </div>
-        <div class="flex justify-between text-[9px] text-slate-400 dark:text-slate-500 font-bold mt-3 px-1">
-            <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+        <div class="flex-grow flex items-end mt-4 relative w-full h-full min-h-[120px]">
+            <canvas id="salesChart"></canvas>
         </div>
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════ -->
-<!-- 2. TASA BCV + WHATSAPP DE PEDIDOS -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-    <!-- Tasa BCV Activa -->
-    <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm transition-colors duration-300">
-        <div>
-            <span class="text-[9px] font-extrabold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">Tasa BCV Activa</span>
-            <p class="text-xl font-black text-slate-800 dark:text-white mt-0.5">{{ config('current_shop')->exchange_rate ?? 'Bs. 515.18' }}</p>
-            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-medium">Última actualización BCV</span>
-        </div>
-        <button class="bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-[11px] px-4 py-2 rounded-xl transition-colors active:scale-95">
-            Actualizar Tasa
-        </button>
-    </div>
 
-    <!-- WhatsApp de Pedidos -->
-    <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm transition-colors duration-300">
-        <div>
-            <span class="text-[9px] font-extrabold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">WhatsApp de Pedidos</span>
-            <p class="text-xl font-black text-slate-800 dark:text-white mt-0.5">{{ config('current_shop')->whatsapp_number ?? '---' }}</p>
-        </div>
-        <a href="/{{ config('current_shop')->slug }}/admin/settings" class="bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-[11px] px-4 py-2 rounded-xl transition-colors active:scale-95">
-            Modificar
-        </a>
-    </div>
-</div>
 
 <!-- ═══════════════════════════════════════════════ -->
 <!-- 3. CLIENTES TOP + PRODUCTOS MÁS PEDIDOS -->
@@ -168,3 +129,98 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        const primaryColor = '{{ config('current_shop')->color_primary ?? '#E60067' }}';
+        const secondaryColor = '{{ config('current_shop')->color_secondary ?? '#C6A100' }}';
+        
+        // Detectar modo oscuro
+        const isDark = document.documentElement.classList.contains('dark');
+        
+        // Verificar luminancia del color primario
+        const hex = primaryColor.replace('#', '');
+        const r = parseInt(hex.substr(0, 2), 16);
+        const g = parseInt(hex.substr(2, 2), 16);
+        const b = parseInt(hex.substr(4, 2), 16);
+        const isPrimaryDark = ((r * 299) + (g * 587) + (b * 114)) / 1000 < 128;
+
+        // Usar color secundario o blanco si el primario no hace contraste en modo oscuro
+        const chartColor = (isDark && isPrimaryDark) ? (secondaryColor !== '#000000' && secondaryColor !== '#0f172a' ? secondaryColor : '#38bdf8') : primaryColor;
+        
+        // Crear gradiente debajo de la línea
+        let gradient = ctx.createLinearGradient(0, 0, 0, 150);
+        gradient.addColorStop(0, chartColor + '40'); // 25% opacidad
+        gradient.addColorStop(1, chartColor + '00'); // Transparente
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+                datasets: [{
+                    label: 'Ventas',
+                    data: [120, 250, 180, 400, 300, 500, 600],
+                    borderColor: chartColor,
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    pointBackgroundColor: isDark ? '#0f172a' : '#ffffff',
+                    pointBorderColor: chartColor,
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        titleColor: '#f8fafc',
+                        bodyColor: '#cbd5e1',
+                        padding: 10,
+                        cornerRadius: 8,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return '$' + context.parsed.y;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: {
+                                size: 10,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    y: {
+                        display: false,
+                        min: 0
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+            }
+        });
+    });
+</script>
+@endpush
+

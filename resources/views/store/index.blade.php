@@ -6,7 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $company['name'] }} - Menú Digital</title>
     
-    <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,16 +19,17 @@
         }
     </script>
     
-    <!-- Alpine.js Plugins & Core -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Estilos de Colores Dinámicos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet para el Mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         :root {
             --color-primary: {{ $company['colors']['primary'] }};
@@ -43,31 +43,14 @@
         }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Custom Scrollbar with Store Colors */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.02);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--color-primary);
-            border-radius: 9999px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--color-secondary);
-        }
-        
-        /* Firefox support */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: var(--color-primary) rgba(0, 0, 0, 0.02);
-        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.02); }
+        ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-secondary); }
+        * { scrollbar-width: thin; scrollbar-color: var(--color-primary) rgba(0, 0, 0, 0.02); }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 pb-16 md:pb-6 select-none" x-data="storeApp()">
+<body class="min-h-screen text-slate-800 pb-24 select-none" x-data="storeApp()">
 
 @php
     $currencySymbol = '$';
@@ -77,90 +60,48 @@
     elseif ($bc === 'cop') $currencySymbol = 'COP ';
 @endphp
 
-
-    <!-- LOADER ESTÉTICO DE 3 SEGUNDOS -->
+    <!-- LOADER -->
     <div id="app-loader" class="fixed inset-0 bg-white flex flex-col justify-center items-center z-[9999] transition-opacity duration-500">
         <div class="w-14 h-14 border-4 border-slate-100 rounded-full animate-spin" style="border-top-color: var(--color-primary);"></div>
         <span class="mt-4 text-xs font-semibold tracking-wider text-slate-400 uppercase">Cargando Menú...</span>
     </div>
 
-    <!-- 1. MÓVIL: PORTADA DE TIENDA -->
-    <div class="md:hidden relative h-48 w-full bg-slate-900 overflow-hidden shadow-inner">
+    <!-- PORTADA / BANNER DE LA TIENDA (MÓVIL Y PC) -->
+    <div class="relative h-48 md:h-64 w-full bg-slate-900 overflow-hidden shadow-inner">
         <img src="{{ $company['cover'] }}" alt="Portada" class="w-full h-full object-cover opacity-80">
-        <div class="absolute top-4 right-4 z-10">
-            <button @click="scrollToReviews()" class="w-10 h-10 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-md active:scale-95 transition">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-yellow-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            </button>
-        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
     </div>
 
-    <!-- LAYOUT MÓVIL / ESCRITORIO HÍBRIDO INTELIGENTE -->
-    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-4 md:pt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 -mt-16 md:-mt-24 relative z-30 pt-4 md:pt-0">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             
-            <!-- A. COLUMNA IZQUIERDA (Fija en Escritorio, Flotante en Móvil) -->
-            <!-- MD: 4 COLUMNAS DE ANCHO -->
+            <!-- A. COLUMNA IZQUIERDA (Info Tienda) -->
             <div class="md:col-span-4 lg:col-span-3 md:sticky md:top-6 space-y-6">
-                <!-- Tarjeta Comercial (Móvil -mt-16, Escritorio mt-0) -->
-                <div class="relative bg-white/90 backdrop-blur-md border border-white/50 rounded-3xl p-6 shadow-xl text-center -mt-16 md:mt-0 z-20 md:z-auto">
-                    <!-- Logo Flotante -->
+                <div class="relative bg-white/90 backdrop-blur-md border border-white/50 rounded-3xl p-6 shadow-xl text-center z-20 md:z-auto">
                     <div class="absolute -top-12 md:-top-10 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full border-4 border-white bg-white shadow-lg overflow-hidden">
                         <img src="{{ $company['logo'] }}" alt="Logo" class="w-full h-full object-cover">
                     </div>
 
-                    <!-- Datos Comerciales -->
                     <div class="pt-12">
                         <h1 class="text-xl md:text-2xl font-black tracking-tight" style="color: var(--color-secondary);">
                             {{ $company['name'] }}
                         </h1>
                         <p class="text-xs text-slate-400 mt-1 flex items-center justify-center gap-1">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <i class="fas fa-map-marker-alt"></i>
                             @if(!empty($company['google_maps_link']))
-                                <a href="{{ $company['google_maps_link'] }}" target="_blank" class="hover:underline hover:text-slate-600 transition">
-                                    {{ $company['address'] }}
-                                </a>
+                                <a href="{{ $company['google_maps_link'] }}" target="_blank" class="hover:underline hover:text-slate-600 transition">{{ $company['address'] }}</a>
                             @else
                                 {{ $company['address'] }}
                             @endif
                         </p>
 
-                        <!-- Medallas Estatus -->
-                        <div class="flex items-center justify-center gap-2 mt-4 text-[10px] md:text-xs font-semibold">
+                        <div class="flex flex-wrap items-center justify-center gap-2 mt-4 text-[10px] md:text-xs font-semibold">
                             @php
-                                $isOpen = false;
-                                $todayLabel = '';
-                                if (!empty($company['work_hours'])) {
-                                    $hours = is_string($company['work_hours']) ? json_decode($company['work_hours'], true) : $company['work_hours'];
-                                    $dayMap = ['Monday'=>'Lunes','Tuesday'=>'Martes','Wednesday'=>'Miércoles','Thursday'=>'Jueves','Friday'=>'Viernes','Saturday'=>'Sábado','Sunday'=>'Domingo'];
-                                    $todayEN = date('l');
-                                    $todayES = $dayMap[$todayEN] ?? $todayEN;
-                                    if (is_array($hours)) {
-                                        foreach ($hours as $h) {
-                                            if (($h['day'] ?? '') === $todayES && !empty($h['enabled'])) {
-                                                $open = $h['open'] ?? '00:00';
-                                                $close = $h['close'] ?? '23:59';
-                                                $now = date('H:i');
-                                                if ($now >= $open && $now <= $close) {
-                                                    $isOpen = true;
-                                                    $todayLabel = $open . ' - ' . $close;
-                                                }
-                                                break;
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    $isOpen = true; // Si no hay horario configurado, asumimos abierto
-                                }
+                                $isOpen = true; // Lógica simplificada de horario
                             @endphp
                             @if($isOpen)
                             <span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full border border-emerald-100 flex items-center gap-1">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                                Abierto
-                            </span>
-                            @else
-                            <span class="bg-rose-50 text-rose-600 px-3 py-1 rounded-full border border-rose-100 flex items-center gap-1">
-                                <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-                                Cerrado
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Abierto
                             </span>
                             @endif
                             <span class="bg-amber-50 text-amber-600 px-3 py-1 rounded-full border border-amber-100 flex items-center gap-1">
@@ -172,34 +113,15 @@
                             {{ $company['description'] ?: '¡Haz tu pedido en línea de forma rápida y sencilla!' }}
                         </p>
 
-                        <!-- Métodos de Pago en Escritorio -->
                         <div class="hidden md:block mt-6 text-left border-t border-slate-100 pt-4">
                             <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Métodos de Pago</h4>
                             <div class="flex flex-wrap gap-1.5">
-                                @php
-                                    $paymentColors = [
-                                        'pago móvil' => ['bg' => 'bg-blue-50', 'text' => 'text-blue-700', 'border' => 'border-blue-200/60'],
-                                        'zelle' => ['bg' => 'bg-violet-50', 'text' => 'text-violet-700', 'border' => 'border-violet-200/60'],
-                                        'efectivo' => ['bg' => 'bg-emerald-50', 'text' => 'text-emerald-700', 'border' => 'border-emerald-200/60'],
-                                        'transferencia' => ['bg' => 'bg-cyan-50', 'text' => 'text-cyan-700', 'border' => 'border-cyan-200/60'],
-                                        'paypal' => ['bg' => 'bg-sky-50', 'text' => 'text-sky-700', 'border' => 'border-sky-200/60'],
-                                        'binance' => ['bg' => 'bg-amber-50', 'text' => 'text-amber-700', 'border' => 'border-amber-200/60'],
-                                        'zinli' => ['bg' => 'bg-teal-50', 'text' => 'text-teal-700', 'border' => 'border-teal-200/60'],
-                                        'reserve' => ['bg' => 'bg-indigo-50', 'text' => 'text-indigo-700', 'border' => 'border-indigo-200/60'],
-                                        'default' => ['bg' => 'bg-slate-50', 'text' => 'text-slate-600', 'border' => 'border-slate-200/60'],
-                                    ];
-                                @endphp
                                 @foreach(explode(',', $company['payment_methods'] ?: 'Pago Móvil,Efectivo') as $method)
-                                    @php
-                                        $methodKey = strtolower(trim($method));
-                                        $colors = $paymentColors[$methodKey] ?? $paymentColors['default'];
-                                    @endphp
-                                    <span class="{{ $colors['bg'] }} {{ $colors['text'] }} {{ $colors['border'] }} text-[10px] font-bold px-2.5 py-1 rounded border">{{ trim($method) }}</span>
+                                    <span class="bg-slate-50 text-slate-600 border border-slate-200 text-[10px] font-bold px-2.5 py-1 rounded">{{ trim($method) }}</span>
                                 @endforeach
                             </div>
                         </div>
 
-                        <!-- Tasa de Cambio -->
                         @if(!empty($company['exchange_rate']))
                         <div class="mt-5 w-full bg-[#fff8e6] border border-[#ffe199] rounded-2xl px-4 py-2.5 flex flex-col items-center shadow-sm">
                             <span class="text-amber-800 text-[10px] font-extrabold uppercase tracking-wide">Tasa Monetaria</span>
@@ -209,64 +131,60 @@
                             @endif
                         </div>
                         @endif
-                    </div>
-                </div>
 
-                <!-- BARRALATERAL DE CATEGORÍAS EN ESCRITORIO -->
-                <div class="hidden md:block bg-white border border-slate-100 rounded-3xl p-5 shadow-sm space-y-1">
-                    <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider px-3 mb-3">Categorías</h3>
-                    @foreach($categories as $category)
-                        @if($category->products->count() > 0)
-                        <a href="#cat-{{ $category->id }}" 
-                           class="flex items-center justify-between p-3 rounded-2xl font-bold text-xs transition duration-200 border"
-                           :class="activeCategory === {{ $category->id }} 
-                                ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-md shadow-brand-500/10' 
-                                : 'bg-transparent border-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-800'"
-                           @click="activeCategory = {{ $category->id }}">
-                            {{ $category->name }}
-                            <span class="text-[10px] px-2 py-0.5 rounded-full" 
-                                  :class="activeCategory === {{ $category->id }} ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-400'">
-                                {{ $category->products->count() }}
-                            </span>
-                        </a>
-                        @endif
-                    @endforeach
+                        <!-- BOTÓN OPINIONES -->
+                        <button @click="showReviewsModal = true" class="mt-4 w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition active:scale-95">
+                            <i class="fas fa-comment-dots"></i> 
+                            <span>Ver Opiniones</span>
+                            <span class="bg-slate-200/80 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm">{{ $reviews->count() }}</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- B. COLUMNA CENTRAL: PRODUCTOS (Híbrida) -->
-            <!-- MD: 8 COLUMNAS DE ANCHO (O 6 SI EL CARRITO DE ESCRITORIO ESTÁ AL LADO) -->
-            <div class="md:col-span-8 lg:col-span-6 space-y-8">
-                <!-- MÓVIL: NAVEGACIÓN DE CATEGORÍAS EN PILL (md:hidden) -->
-                <div class="md:hidden sticky top-0 bg-white/90 backdrop-blur-md border-b border-slate-100 py-3.5 z-40 mt-4 shadow-sm -mx-4 px-4 overflow-x-auto flex items-center gap-2 whitespace-nowrap scrollbar-none">
+            <!-- B. COLUMNA CENTRAL (Buscador, Categorías y Productos) -->
+            <div class="md:col-span-8 lg:col-span-9 space-y-6">
+                
+                <!-- Buscador Dinámico -->
+                <div class="bg-white/80 backdrop-blur-md rounded-2xl p-2 shadow-sm border border-slate-100 flex items-center gap-2">
+                    <i class="fas fa-search text-slate-400 ml-3"></i>
+                    <input type="text" x-model="searchQuery" placeholder="Buscar productos..." class="w-full bg-transparent border-none focus:ring-0 text-sm py-2 px-2 text-slate-800 placeholder-slate-400">
+                    <button x-show="searchQuery !== ''" @click="searchQuery = ''" class="mr-3 text-slate-400 hover:text-rose-500"><i class="fas fa-times"></i></button>
+                </div>
+
+                <!-- Categorías (Navegación Horizontal) -->
+                <div class="sticky top-0 bg-white/90 backdrop-blur-md border border-slate-100 py-3 z-40 shadow-sm rounded-2xl px-4 overflow-x-auto flex items-center gap-2 whitespace-nowrap scrollbar-none">
+                    <a href="#" class="px-4 py-2 rounded-full text-xs font-bold transition duration-200 border"
+                       :class="activeCategory === 0 ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'"
+                       @click.prevent="activeCategory = 0">
+                        Todas
+                    </a>
                     @foreach($categories as $category)
                         @if($category->products->count() > 0)
                         <a href="#cat-{{ $category->id }}" 
                            class="px-4 py-2 rounded-full text-xs font-bold transition duration-200 border"
-                           :class="activeCategory === {{ $category->id }} 
-                                ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-sm' 
-                                : 'bg-white border-slate-200 text-slate-500'"
-                           @click="activeCategory = {{ $category->id }}">
+                           :class="activeCategory === {{ $category->id }} ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'"
+                           @click.prevent="activeCategory = {{ $category->id }}">
                             {{ $category->name }}
                         </a>
                         @endif
                     @endforeach
                 </div>
 
-                <!-- LISTADO PRODUCTOS -->
+                <!-- PRODUCTOS -->
                 <div>
                     @foreach($categories as $category)
                         @if($category->products->count() > 0)
-                        <section id="cat-{{ $category->id }}" class="mb-12 scroll-margin-top-[80px]" x-intersect="activeCategory = {{ $category->id }}">
-                            <div class="flex items-center gap-2.5 mb-6">
+                        <section id="cat-{{ $category->id }}" class="mb-10" x-show="activeCategory === 0 || activeCategory === {{ $category->id }}">
+                            <div class="flex items-center gap-2.5 mb-4">
                                 <span class="w-1.5 h-6 rounded-full" style="background-color: var(--color-primary);"></span>
                                 <h2 class="text-lg font-black tracking-tight" style="color: var(--color-secondary);">{{ $category->name }}</h2>
                             </div>
 
-                            <!-- Grid 2 Columnas Móvil, 3 Columnas Escritorio -->
-                            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 @foreach($category->products as $product)
-                                <div class="bg-white border border-slate-100 rounded-3xl p-3 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                                <div class="bg-white border border-slate-100 rounded-3xl p-3 shadow-sm flex flex-col justify-between relative overflow-hidden group"
+                                     x-show="searchQuery === '' || '{{ strtolower(str_replace("'", "\'", $product->name)) }}'.includes(searchQuery.toLowerCase())">
                                     @if($product->image_path)
                                     <div class="h-32 w-full rounded-2xl overflow-hidden mb-3 bg-slate-50">
                                         <img src="{{ filter_var($product->image_path, FILTER_VALIDATE_URL) ? $product->image_path : asset('storage/'.$product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
@@ -280,18 +198,11 @@
                                         </div>
                                         
                                         <div class="flex justify-between items-center mt-2">
-                                            @php
-                                                $currencySymbol = '$';
-                                                $bc = strtolower($company['base_currency'] ?? 'usd');
-                                                if ($bc === 'eur') $currencySymbol = '€';
-                                                elseif ($bc === 'bs' || $bc === 'ves') $currencySymbol = 'Bs.';
-                                                elseif ($bc === 'cop') $currencySymbol = 'COP';
-                                            @endphp
                                             <span class="text-sm md:text-base font-extrabold text-slate-900">{{ $currencySymbol }}{{ number_format($product->price, 2) }}</span>
                                             <button class="w-8 h-8 rounded-full text-white flex items-center justify-center shadow active:scale-90 transition"
                                                     style="background-color: var(--color-primary);"
                                                     @click="addToCart({{ $product->toJson() }})">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                                <i class="fas fa-plus text-xs"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -302,186 +213,250 @@
                         @endif
                     @endforeach
                 </div>
-
-                <!-- OPINIONES DE CLIENTES -->
-                <section id="reviews-section" class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
-                    <div class="flex items-center gap-2 mb-6">
-                        <span class="w-1.5 h-6 rounded-full" style="background-color: var(--color-primary);"></span>
-                        <h2 class="text-lg font-black tracking-tight" style="color: var(--color-secondary);">Opiniones de Clientes</h2>
-                    </div>
-
-                    <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4 mb-6">
-                        <h3 class="text-xs font-bold mb-3">Deja tu opinión</h3>
-                        <div x-show="reviewSubmitted" class="bg-emerald-50 text-emerald-700 text-xs font-semibold p-3.5 rounded-2xl border border-emerald-100 mb-3">¡Calificación recibida!</div>
-                        <form @submit.prevent="submitReview" x-show="!reviewSubmitted" class="flex flex-col gap-3">
-                            <input type="text" x-model="review.name" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500" placeholder="Nombre" required>
-                            <div class="flex items-center justify-between bg-white border border-slate-200 rounded-xl px-4 py-2">
-                                <span class="text-xs font-bold text-slate-500">Valoración:</span>
-                                <div class="flex gap-1 flex-row-reverse">
-                                    <input type="radio" id="star5" name="rating" value="5" x-model="review.rating" class="hidden" required/><label for="star5" class="text-xl text-slate-200 cursor-pointer hover:text-amber-400">★</label>
-                                    <input type="radio" id="star4" name="rating" value="4" x-model="review.rating" class="hidden" /><label for="star4" class="text-xl text-slate-200 cursor-pointer hover:text-amber-400">★</label>
-                                    <input type="radio" id="star3" name="rating" value="3" x-model="review.rating" class="hidden" /><label for="star3" class="text-xl text-slate-200 cursor-pointer hover:text-amber-400">★</label>
-                                    <input type="radio" id="star2" name="rating" value="2" x-model="review.rating" class="hidden" /><label for="star2" class="text-xl text-slate-200 cursor-pointer hover:text-amber-400">★</label>
-                                    <input type="radio" id="star1" name="rating" value="1" x-model="review.rating" class="hidden" /><label for="star1" class="text-xl text-slate-200 cursor-pointer hover:text-amber-400">★</label>
-                                </div>
-                            </div>
-                            <textarea x-model="review.comment" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500" rows="2" placeholder="Comentario..."></textarea>
-                            <button type="submit" class="w-full text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition" style="background-color: var(--color-primary);">Enviar Calificación</button>
-                        </form>
-                    </div>
-
-                    <div class="space-y-4 max-h-[300px] overflow-y-auto scrollbar-none pr-1">
-                        @forelse($reviews as $rev)
-                        <div class="border-b border-slate-100 pb-3 last:border-none">
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs font-bold text-slate-800">{{ $rev->customer_name }}</span>
-                                <span class="text-xs text-amber-500">
-                                    @for($i=1; $i<=5; $i++)
-                                        @if($i <= $rev->rating) ★ @else ☆ @endif
-                                    @endfor
-                                </span>
-                            </div>
-                            @if($rev->comment)
-                                <p class="text-xs text-slate-400 mt-1">"{{ $rev->comment }}"</p>
-                            @endif
-                        </div>
-                        @empty
-                        <p class="text-xs text-slate-400 text-center py-4">Sin comentarios registrados.</p>
-                        @endforelse
-                    </div>
-                </section>
             </div>
-
-            <!-- C. COLUMNA DERECHA: CARRITO FIJO EN ESCRITORIO (md:block) -->
-            <!-- MD: 3 COLUMNAS DE ANCHO -->
-            <div class="hidden lg:col-span-3 lg:block lg:sticky lg:top-6 space-y-6">
-                <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-md flex flex-col justify-between max-h-[90vh]">
-                    <div class="overflow-y-auto scrollbar-none">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-lg font-black text-slate-800">Tu Pedido</h2>
-                            <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-0.5 rounded" x-text="totalItems"></span>
-                        </div>
-
-                        <!-- Lista de productos -->
-                        <div class="space-y-3.5 mb-6" x-show="cart.length > 0">
-                            <template x-for="item in cart" :key="item.id">
-                                <div class="bg-slate-50 border border-slate-100/60 p-3 rounded-2xl">
-                                    <div class="flex justify-between items-start">
-                                        <span class="text-xs font-bold text-slate-800" x-text="item.name"></span>
-                                        <span class="text-xs font-black text-slate-900" x-text="currencySymbol + (item.price * item.quantity).toFixed(2)"></span>
-                                    </div>
-                                    <div class="flex justify-between items-center mt-2.5">
-                                        <span class="text-[10px] text-slate-400" x-text="'Precio unitario: ' + currencySymbol + parseFloat(item.price).toFixed(2)"></span>
-                                        <div class="flex items-center gap-2">
-                                            <button class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold text-xs" @click="updateQty(item.id, -1)">-</button>
-                                            <span class="text-xs font-extrabold text-slate-800" x-text="item.quantity"></span>
-                                            <button class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold text-xs" @click="updateQty(item.id, 1)">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                        
-                        <div x-show="cart.length === 0" class="text-center py-8">
-                            <p class="text-xs text-slate-400">Tu pedido está vacío.</p>
-                        </div>
-
-                        <!-- Datos de entrega -->
-                        <div class="border-t border-slate-100 pt-5 space-y-3" x-show="cart.length > 0">
-                            <h3 class="text-xs font-black text-slate-800">Datos de Entrega</h3>
-                            <input type="text" x-model="customerName" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs placeholder-slate-400 focus:outline-none focus:border-brand-500" placeholder="Nombre completo">
-                        </div>
-                    </div>
-
-                    <!-- Botón Checkout -->
-                    <div class="border-t border-slate-100 pt-5 mt-6" x-show="cart.length > 0">
-                        <div class="flex justify-between items-center text-sm font-black mb-4">
-                            <span>Total del Pedido:</span>
-                            <span class="text-lg text-[var(--color-primary)]" x-text="currencySymbol + total.toFixed(2)"></span>
-                        </div>
-                        <button @click="sendWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20ba56] text-white font-extrabold py-3.5 rounded-2xl flex items-center justify-center gap-2 text-xs transition active:scale-95 shadow-md shadow-emerald-500/10">
-                            Enviar por WhatsApp
-                        </button>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
-    <!-- FOOTER MARCA BLANCA / WI-STORE -->
-    <footer class="mt-16 border-t border-slate-100/80 py-8 text-center text-slate-400 relative z-10 bg-white/30 backdrop-blur-sm">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold">
-            <p>© 2026 {{ $company['name'] }}. Todos los derechos reservados.</p>
-            <p class="flex items-center gap-1.5">
-                <span>Potenciado por</span>
-                <a href="/" class="font-extrabold text-slate-600 hover:text-[var(--color-primary)] transition-colors uppercase tracking-wider text-[10px]">
-                    WI<span class="text-[var(--color-primary)]">Store</span>
-                </a>
-            </p>
-        </div>
-    </footer>
-
-    <!-- MÓVIL: STICKY FLOATING CART BAR (md:hidden) -->
-    <div class="md:hidden fixed bottom-4 left-4 right-4 z-50" x-show="totalItems > 0" x-transition style="display: none;">
-        <button class="w-full rounded-2xl py-4 px-6 flex justify-between items-center text-white font-extrabold shadow-lg active:scale-95 transition"
-                style="background-color: var(--color-primary);"
-                @click="isCartOpen = true">
-            <div class="flex items-center gap-3">
-                <div class="bg-white/20 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black">
-                    <span x-text="totalItems"></span>
-                </div>
-                <span class="text-sm uppercase tracking-wide">Ver mi Pedido</span>
-            </div>
-            <div class="flex items-center gap-1.5 text-lg">
-                <span x-text="currencySymbol + total.toFixed(2)"></span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </div>
+    <!-- FLOATING CART BUTTON -->
+    <div class="fixed bottom-6 right-6 z-40" x-show="totalItems > 0" x-transition style="display: none;">
+        <button @click="isCartOpen = true" class="relative w-16 h-16 rounded-full flex items-center justify-center text-white shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:scale-105 active:scale-95 transition-transform" style="background-color: var(--color-primary);">
+            <i class="fas fa-shopping-bag text-2xl"></i>
+            <span class="absolute -top-1 -right-1 bg-rose-500 text-white text-[11px] font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-white shadow-sm" x-text="totalItems"></span>
         </button>
     </div>
 
-    <!-- MÓVIL: BOTTOM SHEET CHECKOUT MODAL (md:hidden) -->
-    <div class="md:hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[998]" 
-         x-show="isCartOpen" @click="isCartOpen = false" x-transition style="display: none;"></div>
-
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white rounded-t-[2.5rem] shadow-2xl border-t border-slate-100 z-[999] max-h-[85vh] flex flex-col justify-between overflow-hidden"
-         x-show="isCartOpen" x-transition:enter="ease-out duration-300 transform" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0" x-transition:leave="ease-in duration-200 transform" x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full" style="display: none;">
-        <div class="py-3 flex justify-center cursor-pointer" @click="isCartOpen = false">
-            <span class="w-12 h-1.5 rounded-full bg-slate-200"></span>
+    <!-- CART MODAL -->
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[1000]" x-show="isCartOpen" @click="isCartOpen = false" x-transition style="display: none;"></div>
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-3xl shadow-2xl z-[1001] max-h-[90vh] flex flex-col overflow-hidden"
+         x-show="isCartOpen" x-transition style="display: none;">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-white">
+            <h2 class="text-xl font-black text-slate-800">Mi Pedido</h2>
+            <button @click="isCartOpen = false" class="text-slate-400 hover:text-rose-500 w-8 h-8 flex items-center justify-center rounded-full bg-slate-50"><i class="fas fa-times"></i></button>
         </div>
-        <div class="px-6 pb-6 flex-grow overflow-y-auto scrollbar-none">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-lg font-black text-slate-800">Mi Pedido</h2>
-                <button @click="isCartOpen = false" class="text-xs font-bold text-slate-400 uppercase tracking-wide">Cerrar</button>
-            </div>
-            <div class="space-y-4 mb-6">
+        <div class="p-6 flex-grow overflow-y-auto scrollbar-none bg-slate-50">
+            <div class="space-y-3 mb-6">
                 <template x-for="item in cart" :key="item.id">
-                    <div class="flex justify-between items-center bg-slate-50 border border-slate-100 p-4 rounded-2xl">
+                    <div class="flex justify-between items-center bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
                         <div>
-                            <span class="text-sm font-bold text-slate-800" x-text="item.name"></span>
-                            <span class="block text-xs font-extrabold text-emerald-600 mt-0.5" x-text="currencySymbol + (item.price * item.quantity).toFixed(2)"></span>
+                            <span class="text-sm font-bold text-slate-800 block" x-text="item.name"></span>
+                            <span class="text-xs font-extrabold text-[var(--color-primary)]" x-text="currencySymbol + (item.price * item.quantity).toFixed(2)"></span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <button class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold" @click="updateQty(item.id, -1)">-</button>
+                            <button class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center font-bold text-xs" @click="updateQty(item.id, -1)">-</button>
                             <span class="text-sm font-extrabold text-slate-800" x-text="item.quantity"></span>
-                            <button class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold" @click="updateQty(item.id, 1)">+</button>
+                            <button class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center font-bold text-xs" @click="updateQty(item.id, 1)">+</button>
                         </div>
                     </div>
                 </template>
+                <div x-show="cart.length === 0" class="text-center py-8 text-sm text-slate-400">El carrito está vacío.</div>
             </div>
-            <div class="border-t border-slate-100 pt-6 space-y-4">
-                <h3 class="text-sm font-black text-slate-800">Datos de Entrega</h3>
-                <input type="text" x-model="customerName" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-brand-500" placeholder="Nombre completo">
+            
+            <div class="border-t border-slate-200 pt-6" x-show="cart.length > 0">
+                <h3 class="text-sm font-black text-slate-800 mb-3">Datos de Entrega</h3>
+                
+                <div class="flex bg-slate-100 rounded-xl p-1 mb-4">
+                    <button @click="deliveryType = 'pickup'; deliveryCost = 0" :class="deliveryType === 'pickup' ? 'bg-white shadow-sm text-slate-800 font-bold' : 'text-slate-500 font-medium'" class="flex-1 py-2 text-xs rounded-lg transition">Retiro en local</button>
+                    <button @click="deliveryType = 'delivery'; if(!mapInitialized) initMap()" :class="deliveryType === 'delivery' ? 'bg-white shadow-sm text-slate-800 font-bold' : 'text-slate-500 font-medium'" class="flex-1 py-2 text-xs rounded-lg transition">Delivery</button>
+                </div>
+
+                <div x-show="deliveryType === 'delivery'" class="mb-4 space-y-2">
+                    <p class="text-[10px] text-slate-500 font-bold">Mueve el marcador a tu ubicación de entrega:</p>
+                    <div id="delivery-map" class="w-full h-40 rounded-xl border border-slate-200 z-10" wire:ignore></div>
+                    <p x-show="deliveryCost > 0" class="text-xs text-emerald-700 font-bold bg-emerald-50 p-2.5 rounded-xl text-center border border-emerald-100 mt-2">
+                        Distancia: <span x-text="deliveryDistance.toFixed(1)"></span> km <br>
+                        Costo de Envío: <span x-text="currencySymbol + deliveryCost.toFixed(2)"></span>
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <input type="text" x-model="customerName" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-[var(--color-primary)] shadow-sm" placeholder="Tu nombre completo">
+                    <input type="tel" x-model="customerPhone" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-[var(--color-primary)] shadow-sm" placeholder="Tu número de celular / WhatsApp">
+                </div>
             </div>
         </div>
-        <div class="p-6 bg-slate-50 border-t border-slate-100">
+        <div class="p-6 bg-white border-t border-slate-100">
             <div class="flex justify-between items-center text-lg font-black text-slate-800 mb-4">
-                <span>Total del Pedido:</span>
-                <span x-text="currencySymbol + total.toFixed(2)"></span>
+                <span>Total:</span>
+                <span x-text="currencySymbol + (total + deliveryCost).toFixed(2)"></span>
             </div>
-            <button @click="sendWhatsApp()" class="w-full bg-[#25D366] text-white font-extrabold py-4 rounded-2xl flex items-center justify-center gap-2 active:scale-95 transition shadow-lg shadow-emerald-500/10">
-                Enviar por WhatsApp
+            <button @click="sendWhatsApp()" class="w-full bg-[#25D366] text-white font-extrabold py-3.5 rounded-2xl flex items-center justify-center gap-2 active:scale-95 transition shadow-lg shadow-emerald-500/20 text-sm">
+                <i class="fab fa-whatsapp text-lg"></i> Confirmar y Enviar Pedido
             </button>
+        </div>
+    </div>
+
+    <!-- REVIEWS MODAL -->
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[1000]" x-show="showReviewsModal" @click="showReviewsModal = false; showForm = false" x-transition style="display: none;"></div>
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-3xl shadow-2xl z-[1001] max-h-[90vh] flex flex-col overflow-hidden"
+         x-show="showReviewsModal" x-transition style="display: none;" x-data="{ showForm: false }">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-white">
+            <h2 class="text-xl font-black text-slate-800">Opiniones</h2>
+            <button @click="showReviewsModal = false" class="text-slate-400 hover:text-rose-500 w-8 h-8 flex items-center justify-center rounded-full bg-slate-50"><i class="fas fa-times"></i></button>
+        </div>
+        
+        @php
+            $totalReviews = $reviews->count();
+            $count5 = $reviews->where('rating', 5)->count();
+            $count4 = $reviews->where('rating', 4)->count();
+            $count3 = $reviews->where('rating', 3)->count();
+            $count2 = $reviews->where('rating', 2)->count();
+            $count1 = $reviews->where('rating', 1)->count();
+
+            $pct5 = $totalReviews > 0 ? ($count5 / $totalReviews) * 100 : 0;
+            $pct4 = $totalReviews > 0 ? ($count4 / $totalReviews) * 100 : 0;
+            $pct3 = $totalReviews > 0 ? ($count3 / $totalReviews) * 100 : 0;
+            $pct2 = $totalReviews > 0 ? ($count2 / $totalReviews) * 100 : 0;
+            $pct1 = $totalReviews > 0 ? ($count1 / $totalReviews) * 100 : 0;
+        @endphp
+
+        <!-- Resumen de Valoración y Distribución Visual (Histograma) -->
+        <div class="px-6 py-5 bg-slate-50 border-b border-slate-100 grid grid-cols-12 gap-4 items-center select-none">
+            <!-- Puntuación Promedio (Hacer click aquí resetea a 'Todas') -->
+            <div @click="starFilter = 0" 
+                 class="col-span-4 text-center border-r border-slate-200/80 pr-3 flex flex-col justify-center items-center cursor-pointer p-2.5 rounded-2xl transition hover:bg-slate-200/40"
+                 :class="starFilter === 0 ? 'bg-slate-250 ring-1 ring-slate-200/60' : ''"
+                 title="Ver todas las opiniones">
+                <span class="text-4xl font-black text-slate-800 leading-none">{{ number_format($averageRating, 1) }}</span>
+                <div class="flex justify-center text-amber-400 text-xs my-1.5 gap-0.5">
+                    @for($i = 1; $i <= 5; $i++)
+                        @if($i <= round($averageRating))
+                            <i class="fas fa-star"></i>
+                        @else
+                            <i class="far fa-star"></i>
+                        @endif
+                    @endfor
+                </div>
+                <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider block">
+                    {{ $totalReviews }} {{ $totalReviews == 1 ? 'opinión' : 'opiniones' }}
+                </span>
+            </div>
+
+            <!-- Distribución / Histograma de Barras (Filtrables al hacer click) -->
+            <div class="col-span-8 space-y-1 pl-3">
+                @foreach([5, 4, 3, 2, 1] as $star)
+                    @php
+                        $cStar = ${"count".$star};
+                        $pctStar = ${"pct".$star};
+                    @endphp
+                    <div @click="starFilter = starFilter === {{ $star }} ? 0 : {{ $star }}"
+                         class="flex items-center gap-2 text-[10px] font-bold text-slate-500 cursor-pointer p-1 rounded-xl transition hover:bg-slate-200/50"
+                         :class="starFilter === {{ $star }} ? 'bg-amber-100/50 text-amber-900 ring-1 ring-amber-200/70' : ''"
+                         title="Filtrar por {{ $star }} estrellas">
+                        <span class="w-3 text-right">{{ $star }}</span>
+                        <i class="fas fa-star text-amber-400 text-[8px]"></i>
+                        <div class="flex-grow bg-slate-200 rounded-full h-2 overflow-hidden shadow-inner">
+                            <div class="bg-amber-400 h-full rounded-full transition-all duration-500" style="width: {{ $pctStar }}%"></div>
+                        </div>
+                        <span class="w-6 text-right text-slate-400 font-semibold">{{ $cStar }}</span>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Banner de Filtro Activo -->
+        <div x-show="starFilter !== 0" x-cloak x-transition
+             class="px-6 py-2.5 bg-amber-50/50 border-b border-slate-100 flex justify-between items-center text-xs select-none">
+            <span class="text-amber-800/90 font-bold flex items-center gap-1.5">
+                <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                Mostrando opiniones de <span x-text="starFilter" class="underline decoration-amber-400 font-black"></span> estrellas
+            </span>
+            <button @click="starFilter = 0" class="text-[var(--color-primary)] hover:underline font-extrabold text-[10px] uppercase tracking-wider transition active:scale-95">
+                Ver Todas
+            </button>
+        </div>
+
+        <div class="p-6 flex-grow overflow-y-auto scrollbar-none bg-slate-50">
+            <div class="space-y-4">
+                @forelse($reviews as $rev)
+                    <div x-show="starFilter === 0 || starFilter === {{ $rev->rating }}" class="bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-bold text-slate-800">{{ $rev->customer_name }}</span>
+                            <span class="text-xs text-amber-500">
+                                @for($i=1; $i<=5; $i++)
+                                    @if($i <= $rev->rating) <i class="fas fa-star"></i> @else <i class="far fa-star"></i> @endif
+                                @endfor
+                            </span>
+                        </div>
+                        @if($rev->comment)
+                            <p class="text-xs text-slate-500 mt-2 italic">"{{ $rev->comment }}"</p>
+                        @endif
+                    </div>
+                @empty
+                    <p class="text-sm text-slate-400 text-center py-4">No hay opiniones disponibles.</p>
+                @endforelse
+            </div>
+        </div>
+
+        <div class="p-6 bg-white border-t border-slate-100 flex flex-col gap-3 select-none">
+            <!-- Botón para desplegar el formulario -->
+            <button x-show="!showForm" @click="showForm = true"
+                    class="w-full bg-[var(--color-primary)] hover:brightness-110 text-white font-extrabold py-3 rounded-2xl text-xs transition shadow-lg shadow-[var(--color-primary)]/15 flex items-center justify-center gap-2 active:scale-[0.98]">
+                <i class="fas fa-pen-fancy"></i> Agregar Opinión
+            </button>
+
+            <!-- Bloque del Formulario Desplegado -->
+            <div x-show="showForm" x-cloak x-transition:enter="transition ease-out duration-250" x-transition:enter-start="opacity-0 translate-y-3" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-3">
+                <div class="flex justify-between items-center mb-1">
+                    <h3 class="text-sm font-black text-slate-800">Deja tu opinión</h3>
+                    <button @click="showForm = false" class="text-slate-400 hover:text-slate-600 text-xs font-bold transition">Cancelar</button>
+                </div>
+                
+                <div x-show="reviewSubmitted" class="bg-emerald-50 text-emerald-700 text-sm font-bold p-3 rounded-xl border border-emerald-100 text-center mb-0">¡Gracias por tu valoración!</div>
+                <form @submit.prevent="submitReview" x-show="!reviewSubmitted" class="flex flex-col gap-3">
+                    <div class="flex items-center gap-2 mb-1">
+                        <input type="checkbox" id="anon" x-model="review.anonymous" class="rounded border-slate-300 text-[var(--color-primary)]">
+                        <label for="anon" class="text-xs font-bold text-slate-600 cursor-pointer">Comentar como Anónimo</label>
+                    </div>
+                    <input type="text" x-show="!review.anonymous" x-model="review.name" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none" placeholder="Tu nombre">
+                    
+                    <div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-4 py-2" x-data="{ hoverRating: 0 }">
+                        <span class="text-xs font-bold text-slate-500">Valoración:</span>
+                        <div class="flex gap-1 flex-row-reverse" @mouseleave="hoverRating = 0">
+                            <!-- Estrella 5 -->
+                            <input type="radio" id="star5" name="rating" value="5" x-model="review.rating" class="hidden" required/>
+                            <label for="star5" class="text-lg cursor-pointer transition duration-150"
+                                   @mouseenter="hoverRating = 5"
+                                   :class="(hoverRating ? hoverRating >= 5 : parseInt(review.rating) >= 5) ? 'text-amber-400 scale-110' : 'text-slate-300'">
+                                <i class="fas fa-star"></i>
+                            </label>
+
+                            <!-- Estrella 4 -->
+                            <input type="radio" id="star4" name="rating" value="4" x-model="review.rating" class="hidden"/>
+                            <label for="star4" class="text-lg cursor-pointer transition duration-150"
+                                   @mouseenter="hoverRating = 4"
+                                   :class="(hoverRating ? hoverRating >= 4 : parseInt(review.rating) >= 4) ? 'text-amber-400 scale-110' : 'text-slate-300'">
+                                <i class="fas fa-star"></i>
+                            </label>
+
+                            <!-- Estrella 3 -->
+                            <input type="radio" id="star3" name="rating" value="3" x-model="review.rating" class="hidden"/>
+                            <label for="star3" class="text-lg cursor-pointer transition duration-150"
+                                   @mouseenter="hoverRating = 3"
+                                   :class="(hoverRating ? hoverRating >= 3 : parseInt(review.rating) >= 3) ? 'text-amber-400 scale-110' : 'text-slate-300'">
+                                <i class="fas fa-star"></i>
+                            </label>
+
+                            <!-- Estrella 2 -->
+                            <input type="radio" id="star2" name="rating" value="2" x-model="review.rating" class="hidden"/>
+                            <label for="star2" class="text-lg cursor-pointer transition duration-150"
+                                   @mouseenter="hoverRating = 2"
+                                   :class="(hoverRating ? hoverRating >= 2 : parseInt(review.rating) >= 2) ? 'text-amber-400 scale-110' : 'text-slate-300'">
+                                <i class="fas fa-star"></i>
+                            </label>
+
+                            <!-- Estrella 1 -->
+                            <input type="radio" id="star1" name="rating" value="1" x-model="review.rating" class="hidden"/>
+                            <label for="star1" class="text-lg cursor-pointer transition duration-150"
+                                   @mouseenter="hoverRating = 1"
+                                   :class="(hoverRating ? hoverRating >= 1 : parseInt(review.rating) >= 1) ? 'text-amber-400 scale-110' : 'text-slate-300'">
+                                <i class="fas fa-star"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <textarea x-model="review.comment" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none" rows="2" placeholder="Opcional: Escribe un comentario..."></textarea>
+                    <button type="submit" class="w-full text-white font-bold py-3 rounded-xl text-xs active:scale-95 transition mt-1" style="background-color: var(--color-primary);">Enviar Calificación</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -501,16 +476,31 @@
             return {
                 cart: JSON.parse(localStorage.getItem('cart') || '[]'),
                 customerName: localStorage.getItem('customerName') || '',
+                customerPhone: localStorage.getItem('customerPhone') || '',
                 isCartOpen: false,
-                activeCategory: {{ $categories->first()->id ?? 0 }},
-                review: { name: '', rating: '5', comment: '' },
+                showReviewsModal: false,
+                activeCategory: 0,
+                searchQuery: '',
+                starFilter: 0,
+                review: { name: '', rating: '5', comment: '', anonymous: false },
                 isSubmitting: false,
                 reviewSubmitted: false,
                 currencySymbol: '{{ $currencySymbol }}',
+                
+                deliveryType: 'pickup',
+                deliveryDistance: 0,
+                deliveryCost: 0,
+                mapInitialized: false,
+                map: null,
+                marker: null,
+                storeLat: parseFloat('{{ $company['latitude'] ?? 0 }}'),
+                storeLng: parseFloat('{{ $company['longitude'] ?? 0 }}'),
+                deliveryRate: parseFloat('{{ $company['delivery_rate_per_km'] ?? 0 }}'),
 
                 init() {
                     this.$watch('cart', val => localStorage.setItem('cart', JSON.stringify(val)));
                     this.$watch('customerName', val => localStorage.setItem('customerName', val));
+                    this.$watch('customerPhone', val => localStorage.setItem('customerPhone', val));
                 },
 
                 get total() { return this.cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0); },
@@ -529,12 +519,11 @@
                     }
                 },
 
-                scrollToReviews() {
-                    document.getElementById('reviews-section').scrollIntoView({ behavior: 'smooth' });
-                },
-
                 async submitReview() {
-                    if(!this.review.name || !this.review.rating) return;
+                    let finalName = this.review.anonymous ? 'Anónimo' : this.review.name.trim();
+                    if(!finalName) return alert('Por favor ingresa tu nombre o marca la casilla de anónimo.');
+                    if(!this.review.rating) return alert('Por favor selecciona una valoración en estrellas.');
+
                     this.isSubmitting = true;
                     try {
                         let response = await fetch('/{{ $company['slug'] }}/reviews', {
@@ -544,7 +533,7 @@
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                             },
                             body: JSON.stringify({
-                                customer_name: this.review.name,
+                                customer_name: finalName,
                                 rating: parseInt(this.review.rating),
                                 comment: this.review.comment
                             })
@@ -560,14 +549,82 @@
                     }
                 },
 
-                sendWhatsApp() {
+                initMap() {
+                    if (this.mapInitialized || !this.storeLat || !this.storeLng) return;
+                    setTimeout(() => {
+                        let center = [this.storeLat, this.storeLng];
+                        this.map = L.map('delivery-map').setView(center, 13);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+                        
+                        this.marker = L.marker(center, {draggable: true}).addTo(this.map);
+                        
+                        this.marker.on('dragend', (e) => {
+                            let pos = e.target.getLatLng();
+                            this.calculateDistance(pos.lat, pos.lng);
+                        });
+                        
+                        this.map.on('click', (e) => {
+                            this.marker.setLatLng(e.latlng);
+                            this.calculateDistance(e.latlng.lat, e.latlng.lng);
+                        });
+                        
+                        this.mapInitialized = true;
+                    }, 300);
+                },
+
+                calculateDistance(lat2, lon2) {
+                    if (!this.storeLat || !this.storeLng) return;
+                    let lat1 = this.storeLat;
+                    let lon1 = this.storeLng;
+                    
+                    const R = 6371;
+                    const dLat = (lat2 - lat1) * Math.PI / 180;
+                    const dLon = (lon2 - lon1) * Math.PI / 180;
+                    const a = 
+                        Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+                    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                    const d = R * c; 
+                    
+                    this.deliveryDistance = d;
+                    this.deliveryCost = d * this.deliveryRate;
+                },
+
+                async sendWhatsApp() {
                     if(this.cart.length === 0) return alert('Carrito vacío');
-                    if(!this.customerName.trim()) return alert('Ingresa tu nombre');
-                    let text = `*Pedido de ${this.customerName}*%0A%0A`;
+                    if(!this.customerName.trim()) return alert('Por favor ingresa tu nombre para el pedido.');
+                    if(!this.customerPhone.trim()) return alert('Por favor ingresa tu número de teléfono (celular).');
+                    if(this.deliveryType === 'delivery' && (!this.storeLat || !this.storeLng)) return alert('El servicio de delivery no está disponible. Coordenadas de tienda no configuradas.');
+
+                    try {
+                        await fetch('/{{ $company['slug'] }}/clients/quick-register', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                name: this.customerName,
+                                phone: this.customerPhone
+                            })
+                        });
+                    } catch (e) { console.error('Error', e); }
+
+                    let text = `*Pedido de ${this.customerName}*%0A`;
+                    text += `*Teléfono:* ${this.customerPhone}%0A`;
+                    text += `*Tipo:* ${this.deliveryType === 'delivery' ? 'Delivery' : 'Retiro en local'}%0A%0A`;
+                    
                     this.cart.forEach(i => {
                         text += `▫️ ${i.quantity}x ${i.name} - ${this.currencySymbol}${(i.price * i.quantity).toFixed(2)}%0A`;
                     });
-                    text += `%0A*TOTAL:* ${this.currencySymbol}${this.total.toFixed(2)}`;
+
+                    if (this.deliveryType === 'delivery' && this.marker) {
+                        text += `%0A*Costo de Envío:* ${this.currencySymbol}${this.deliveryCost.toFixed(2)}`;
+                        text += `%0A*Ubicación:* https://www.google.com/maps?q=${this.marker.getLatLng().lat},${this.marker.getLatLng().lng}`;
+                    }
+
+                    text += `%0A%0A*TOTAL:* ${this.currencySymbol}${(this.total + this.deliveryCost).toFixed(2)}`;
                     window.open(`https://wa.me/{{ $company['whatsapp'] }}?text=${text}`, '_blank');
                 }
             }

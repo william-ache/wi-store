@@ -33,13 +33,18 @@ class ShopSettingsController extends Controller
             'color_primary' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
             'color_secondary' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
             'color_background' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
+            'delivery_rate_per_km' => 'nullable|numeric|min:0',
+            'latitude' => 'nullable|string|max:50',
+            'longitude' => 'nullable|string|max:50',
             'logo' => 'nullable|image|max:2048',
             'cover' => 'nullable|image|max:2048',
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $data = $request->only([
             'name', 'whatsapp_number', 'description', 'address', 'google_maps_link', 'base_currency', 'exchange_rate',
-            'payment_methods', 'color_primary', 'color_secondary', 'color_background'
+            'payment_methods', 'color_primary', 'color_secondary', 'color_background',
+            'delivery_rate_per_km', 'latitude', 'longitude'
         ]);
 
         if ($request->filled('work_hours')) {
@@ -66,6 +71,13 @@ class ShopSettingsController extends Controller
         }
 
         $shop->update($data);
+
+        // Actualizar contraseña si se proporcionó
+        if ($request->filled('password')) {
+            $user = Auth::user();
+            $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+            $user->save();
+        }
 
         return redirect()->back()->with('success', 'Configuración de tienda actualizada exitosamente.');
     }

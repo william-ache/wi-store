@@ -37,4 +37,19 @@ class StoreController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function registerClient(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:255'
+        ]);
+
+        $client = \App\Models\Client::firstOrCreate(
+            ['phone' => $request->phone],
+            ['name' => $request->name, 'status' => 'Activo']
+        );
+
+        return response()->json(['success' => true, 'client' => $client]);
+    }
 }

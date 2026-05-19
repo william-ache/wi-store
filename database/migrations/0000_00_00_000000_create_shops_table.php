@@ -23,6 +23,11 @@ return new class extends Migration
             $table->string('color_background')->default('#FFF0F8');
             $table->string('exchange_rate')->default('Bs. 515.18');
             $table->string('exchange_updated_at')->nullable();
+            
+            $table->string('google_maps_link')->nullable();
+            $table->json('work_hours')->nullable();
+            $table->string('base_currency')->nullable(); // USD, EUR, etc.
+            
             $table->timestamps();
         });
     }
