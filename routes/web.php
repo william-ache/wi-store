@@ -102,8 +102,10 @@ Route::middleware(['tenant'])->group(function () {
         Route::put('/settings', [ShopSettingsController::class, 'update'])->name('settings.update');
         Route::post('/settings/short-link', [ShortLinkController::class, 'store'])->name('settings.short-link');
 
-        // CRUDs de Categorías y Productos
+        // CRUDs de Categorías, Productos, Órdenes y Clientes
         Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
+        Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
+        Route::resource('clients', App\Http\Controllers\Admin\ClientController::class);
     });
 });

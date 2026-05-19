@@ -40,6 +40,9 @@ class IdentifyTenant
                 'payment_methods' => $shop->payment_methods,
                 'exchange_rate' => $shop->exchange_rate,
                 'exchange_updated_at' => $shop->exchange_updated_at ?: date('d/m/Y h:i A'),
+                'google_maps_link' => $shop->google_maps_link,
+                'work_hours' => $shop->work_hours,
+                'base_currency' => $shop->base_currency,
                 'colors' => [
                     'primary' => $shop->color_primary,
                     'secondary' => $shop->color_secondary,

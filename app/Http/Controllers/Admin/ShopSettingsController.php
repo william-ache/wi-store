@@ -25,6 +25,10 @@ class ShopSettingsController extends Controller
             'whatsapp_number' => 'required|string|max:20',
             'description' => 'nullable|string',
             'address' => 'nullable|string',
+            'google_maps_link' => 'nullable|url|max:500',
+            'work_hours' => 'nullable|string', // Viene como JSON string desde Alpine
+            'base_currency' => 'nullable|string|max:10',
+            'exchange_rate' => 'nullable|string|max:50',
             'payment_methods' => 'nullable|string',
             'color_primary' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
             'color_secondary' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
@@ -34,9 +38,16 @@ class ShopSettingsController extends Controller
         ]);
 
         $data = $request->only([
-            'name', 'whatsapp_number', 'description', 'address',
+            'name', 'whatsapp_number', 'description', 'address', 'google_maps_link', 'base_currency', 'exchange_rate',
             'payment_methods', 'color_primary', 'color_secondary', 'color_background'
         ]);
+
+        if ($request->filled('work_hours')) {
+            $decoded = json_decode($request->work_hours, true);
+            $data['work_hours'] = is_array($decoded) ? $decoded : $request->work_hours;
+        } else {
+            $data['work_hours'] = null;
+        }
 
         // Subida segura del Logo (elimina el archivo previo si existe)
         if ($request->hasFile('logo')) {

@@ -12,7 +12,11 @@ class Shop extends Model
     protected $fillable = [
         'name', 'slug', 'whatsapp_number', 'description', 'address',
         'payment_methods', 'logo_path', 'cover_path', 'color_primary',
-        'color_secondary', 'color_background', 'exchange_rate', 'exchange_updated_at'
+        'google_maps_link', 'work_hours', 'base_currency'
+    ];
+
+    protected $casts = [
+        'work_hours' => 'array',
     ];
 
     public function categories()

@@ -69,6 +69,13 @@
 </head>
 <body class="min-h-screen text-slate-800 pb-16 md:pb-6 select-none" x-data="storeApp()">
 
+@php
+    $currencySymbol = '$';
+    $bc = strtolower($company['base_currency'] ?? 'usd');
+    if ($bc === 'eur') $currencySymbol = '€';
+    elseif ($bc === 'bs' || $bc === 'ves') $currencySymbol = 'Bs.';
+    elseif ($bc === 'cop') $currencySymbol = 'COP ';
+@endphp
 
 
     <!-- LOADER ESTÉTICO DE 3 SEGUNDOS -->
@@ -108,15 +115,54 @@
                         </h1>
                         <p class="text-xs text-slate-400 mt-1 flex items-center justify-center gap-1">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                            {{ $company['address'] }}
+                            @if(!empty($company['google_maps_link']))
+                                <a href="{{ $company['google_maps_link'] }}" target="_blank" class="hover:underline hover:text-slate-600 transition">
+                                    {{ $company['address'] }}
+                                </a>
+                            @else
+                                {{ $company['address'] }}
+                            @endif
                         </p>
 
                         <!-- Medallas Estatus -->
                         <div class="flex items-center justify-center gap-2 mt-4 text-[10px] md:text-xs font-semibold">
+                            @php
+                                $isOpen = false;
+                                $todayLabel = '';
+                                if (!empty($company['work_hours'])) {
+                                    $hours = is_string($company['work_hours']) ? json_decode($company['work_hours'], true) : $company['work_hours'];
+                                    $dayMap = ['Monday'=>'Lunes','Tuesday'=>'Martes','Wednesday'=>'Miércoles','Thursday'=>'Jueves','Friday'=>'Viernes','Saturday'=>'Sábado','Sunday'=>'Domingo'];
+                                    $todayEN = date('l');
+                                    $todayES = $dayMap[$todayEN] ?? $todayEN;
+                                    if (is_array($hours)) {
+                                        foreach ($hours as $h) {
+                                            if (($h['day'] ?? '') === $todayES && !empty($h['enabled'])) {
+                                                $open = $h['open'] ?? '00:00';
+                                                $close = $h['close'] ?? '23:59';
+                                                $now = date('H:i');
+                                                if ($now >= $open && $now <= $close) {
+                                                    $isOpen = true;
+                                                    $todayLabel = $open . ' - ' . $close;
+                                                }
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    $isOpen = true; // Si no hay horario configurado, asumimos abierto
+                                }
+                            @endphp
+                            @if($isOpen)
                             <span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full border border-emerald-100 flex items-center gap-1">
                                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
                                 Abierto
                             </span>
+                            @else
+                            <span class="bg-rose-50 text-rose-600 px-3 py-1 rounded-full border border-rose-100 flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                                Cerrado
+                            </span>
+                            @endif
                             <span class="bg-amber-50 text-amber-600 px-3 py-1 rounded-full border border-amber-100 flex items-center gap-1">
                                 ⭐ {{ number_format($averageRating, 1) }}
                             </span>
@@ -130,18 +176,39 @@
                         <div class="hidden md:block mt-6 text-left border-t border-slate-100 pt-4">
                             <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Métodos de Pago</h4>
                             <div class="flex flex-wrap gap-1.5">
+                                @php
+                                    $paymentColors = [
+                                        'pago móvil' => ['bg' => 'bg-blue-50', 'text' => 'text-blue-700', 'border' => 'border-blue-200/60'],
+                                        'zelle' => ['bg' => 'bg-violet-50', 'text' => 'text-violet-700', 'border' => 'border-violet-200/60'],
+                                        'efectivo' => ['bg' => 'bg-emerald-50', 'text' => 'text-emerald-700', 'border' => 'border-emerald-200/60'],
+                                        'transferencia' => ['bg' => 'bg-cyan-50', 'text' => 'text-cyan-700', 'border' => 'border-cyan-200/60'],
+                                        'paypal' => ['bg' => 'bg-sky-50', 'text' => 'text-sky-700', 'border' => 'border-sky-200/60'],
+                                        'binance' => ['bg' => 'bg-amber-50', 'text' => 'text-amber-700', 'border' => 'border-amber-200/60'],
+                                        'zinli' => ['bg' => 'bg-teal-50', 'text' => 'text-teal-700', 'border' => 'border-teal-200/60'],
+                                        'reserve' => ['bg' => 'bg-indigo-50', 'text' => 'text-indigo-700', 'border' => 'border-indigo-200/60'],
+                                        'default' => ['bg' => 'bg-slate-50', 'text' => 'text-slate-600', 'border' => 'border-slate-200/60'],
+                                    ];
+                                @endphp
                                 @foreach(explode(',', $company['payment_methods'] ?: 'Pago Móvil,Efectivo') as $method)
-                                    <span class="bg-slate-50 text-slate-600 text-[10px] font-bold px-2.5 py-1 rounded border border-slate-200/60">{{ trim($method) }}</span>
+                                    @php
+                                        $methodKey = strtolower(trim($method));
+                                        $colors = $paymentColors[$methodKey] ?? $paymentColors['default'];
+                                    @endphp
+                                    <span class="{{ $colors['bg'] }} {{ $colors['text'] }} {{ $colors['border'] }} text-[10px] font-bold px-2.5 py-1 rounded border">{{ trim($method) }}</span>
                                 @endforeach
                             </div>
                         </div>
 
-                        <!-- Tasa de Cambio BCV -->
-                        <div class="mt-5 w-full bg-[#fff8e6] border border-[#ffe199] rounded-2xl px-4 py-2.5 flex flex-col items-center">
-                            <span class="text-amber-800 text-[10px] font-extrabold uppercase tracking-wide">Tasa BCV Oficial</span>
+                        <!-- Tasa de Cambio -->
+                        @if(!empty($company['exchange_rate']))
+                        <div class="mt-5 w-full bg-[#fff8e6] border border-[#ffe199] rounded-2xl px-4 py-2.5 flex flex-col items-center shadow-sm">
+                            <span class="text-amber-800 text-[10px] font-extrabold uppercase tracking-wide">Tasa Monetaria</span>
                             <span class="text-base font-black text-amber-950 mt-0.5">{{ $company['exchange_rate'] }}</span>
-                            <span class="text-[9px] text-amber-700/80">Act: {{ $company['exchange_updated_at'] }}</span>
+                            @if(!empty($company['exchange_updated_at']))
+                            <span class="text-[9px] text-amber-700/80 font-semibold">Act: {{ $company['exchange_updated_at'] }}</span>
+                            @endif
                         </div>
+                        @endif
                     </div>
                 </div>
 
@@ -213,7 +280,14 @@
                                         </div>
                                         
                                         <div class="flex justify-between items-center mt-2">
-                                            <span class="text-sm md:text-base font-extrabold text-slate-900">${{ number_format($product->price, 2) }}</span>
+                                            @php
+                                                $currencySymbol = '$';
+                                                $bc = strtolower($company['base_currency'] ?? 'usd');
+                                                if ($bc === 'eur') $currencySymbol = '€';
+                                                elseif ($bc === 'bs' || $bc === 'ves') $currencySymbol = 'Bs.';
+                                                elseif ($bc === 'cop') $currencySymbol = 'COP';
+                                            @endphp
+                                            <span class="text-sm md:text-base font-extrabold text-slate-900">{{ $currencySymbol }}{{ number_format($product->price, 2) }}</span>
                                             <button class="w-8 h-8 rounded-full text-white flex items-center justify-center shadow active:scale-90 transition"
                                                     style="background-color: var(--color-primary);"
                                                     @click="addToCart({{ $product->toJson() }})">
@@ -294,10 +368,10 @@
                                 <div class="bg-slate-50 border border-slate-100/60 p-3 rounded-2xl">
                                     <div class="flex justify-between items-start">
                                         <span class="text-xs font-bold text-slate-800" x-text="item.name"></span>
-                                        <span class="text-xs font-black text-slate-900" x-text="'$' + (item.price * item.quantity).toFixed(2)"></span>
+                                        <span class="text-xs font-black text-slate-900" x-text="currencySymbol + (item.price * item.quantity).toFixed(2)"></span>
                                     </div>
                                     <div class="flex justify-between items-center mt-2.5">
-                                        <span class="text-[10px] text-slate-400" x-text="'Precio unitario: $' + parseFloat(item.price).toFixed(2)"></span>
+                                        <span class="text-[10px] text-slate-400" x-text="'Precio unitario: ' + currencySymbol + parseFloat(item.price).toFixed(2)"></span>
                                         <div class="flex items-center gap-2">
                                             <button class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold text-xs" @click="updateQty(item.id, -1)">-</button>
                                             <span class="text-xs font-extrabold text-slate-800" x-text="item.quantity"></span>
@@ -323,7 +397,7 @@
                     <div class="border-t border-slate-100 pt-5 mt-6" x-show="cart.length > 0">
                         <div class="flex justify-between items-center text-sm font-black mb-4">
                             <span>Total del Pedido:</span>
-                            <span class="text-lg text-[var(--color-primary)]" x-text="'$' + total.toFixed(2)"></span>
+                            <span class="text-lg text-[var(--color-primary)]" x-text="currencySymbol + total.toFixed(2)"></span>
                         </div>
                         <button @click="sendWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20ba56] text-white font-extrabold py-3.5 rounded-2xl flex items-center justify-center gap-2 text-xs transition active:scale-95 shadow-md shadow-emerald-500/10">
                             Enviar por WhatsApp
@@ -360,7 +434,7 @@
                 <span class="text-sm uppercase tracking-wide">Ver mi Pedido</span>
             </div>
             <div class="flex items-center gap-1.5 text-lg">
-                <span x-text="'$' + total.toFixed(2)"></span>
+                <span x-text="currencySymbol + total.toFixed(2)"></span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </div>
         </button>
@@ -385,7 +459,7 @@
                     <div class="flex justify-between items-center bg-slate-50 border border-slate-100 p-4 rounded-2xl">
                         <div>
                             <span class="text-sm font-bold text-slate-800" x-text="item.name"></span>
-                            <span class="block text-xs font-extrabold text-emerald-600 mt-0.5" x-text="'$' + (item.price * item.quantity).toFixed(2)"></span>
+                            <span class="block text-xs font-extrabold text-emerald-600 mt-0.5" x-text="currencySymbol + (item.price * item.quantity).toFixed(2)"></span>
                         </div>
                         <div class="flex items-center gap-3">
                             <button class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold" @click="updateQty(item.id, -1)">-</button>
@@ -403,7 +477,7 @@
         <div class="p-6 bg-slate-50 border-t border-slate-100">
             <div class="flex justify-between items-center text-lg font-black text-slate-800 mb-4">
                 <span>Total del Pedido:</span>
-                <span x-text="'$' + total.toFixed(2)"></span>
+                <span x-text="currencySymbol + total.toFixed(2)"></span>
             </div>
             <button @click="sendWhatsApp()" class="w-full bg-[#25D366] text-white font-extrabold py-4 rounded-2xl flex items-center justify-center gap-2 active:scale-95 transition shadow-lg shadow-emerald-500/10">
                 Enviar por WhatsApp
@@ -432,6 +506,7 @@
                 review: { name: '', rating: '5', comment: '' },
                 isSubmitting: false,
                 reviewSubmitted: false,
+                currencySymbol: '{{ $currencySymbol }}',
 
                 init() {
                     this.$watch('cart', val => localStorage.setItem('cart', JSON.stringify(val)));
@@ -490,9 +565,9 @@
                     if(!this.customerName.trim()) return alert('Ingresa tu nombre');
                     let text = `*Pedido de ${this.customerName}*%0A%0A`;
                     this.cart.forEach(i => {
-                        text += `▫️ ${i.quantity}x ${i.name} - $${(i.price * i.quantity).toFixed(2)}%0A`;
+                        text += `▫️ ${i.quantity}x ${i.name} - ${this.currencySymbol}${(i.price * i.quantity).toFixed(2)}%0A`;
                     });
-                    text += `%0A*TOTAL:* $${this.total.toFixed(2)}`;
+                    text += `%0A*TOTAL:* ${this.currencySymbol}${this.total.toFixed(2)}`;
                     window.open(`https://wa.me/{{ $company['whatsapp'] }}?text=${text}`, '_blank');
                 }
             }

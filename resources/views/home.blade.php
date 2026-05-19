@@ -199,8 +199,8 @@
         <!-- Glow Bottom Center (Precios Area) -->
         <div class="absolute -bottom-[10%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-pink-600/10 via-purple-600/10 to-transparent blur-[160px] blur-accelerated"></div>
 
-        <!-- 2. Ondas Fluidas de Neón (SVG Abstract Mesh) -->
-        <svg class="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none" viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 2. Ondas Fluidas de Neón (SVG Abstract Mesh) - Atenuado para Legibilidad -->
+        <svg class="absolute inset-0 w-full h-full opacity-20 pointer-events-none z-0" preserveAspectRatio="none" viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <!-- Gradiente Cian a Morado -->
                 <linearGradient id="neonGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -226,39 +226,147 @@
     </div>
 
     <!-- Header / Navbar (Híbrido Inteligente) -->
-    <header class="border-b border-gray-800/50 bg-[#070913]/70 backdrop-blur-md sticky top-0 z-50">
+    <header class="border-b border-gray-800/50 bg-[#070913]/85 backdrop-blur-lg sticky top-0 z-50">
         <!-- El contenedor se ensancha en escritorio y se achica en móvil -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2">
+            <a href="/" class="flex items-center gap-2 group transition-transform duration-300 active:scale-95">
                 <span class="text-xl md:text-2xl font-black tracking-tight text-white uppercase">
                     WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span>
                 </span>
             </a>
             
-            <!-- EN ESCRITORIO: Links de Navegación -->
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="#explorar" class="text-sm font-semibold text-gray-300 hover:text-white transition">Explorar Tiendas</a>
-                <a href="#como-funciona" class="text-sm font-semibold text-gray-300 hover:text-white transition">¿Cómo funciona?</a>
-                <a href="#precios" class="text-sm font-semibold text-gray-300 hover:text-white transition">Precios</a>
-                <a href="/login" class="text-sm font-semibold text-gray-300 hover:text-white transition">Iniciar Sesión</a>
-                <a href="#precios" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-black px-4 py-2.5 rounded-xl shadow-md shadow-brand-600/20 transition">
+            <!-- EN ESCRITORIO: Links de Navegación con Alto Contraste (WCAG Compliant) -->
+            <nav class="hidden md:flex items-center gap-8" x-data="{ openDropdown: false }" @click.away="openDropdown = false">
+                <a href="#explorar" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Explorar Tiendas</a>
+                <a href="#como-funciona" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">¿Cómo funciona?</a>
+                
+                <a href="#precios" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Planes</a>
+                
+                <!-- Dropdown de Demos -->
+                <div class="relative">
+                    <button @click="openDropdown = !openDropdown" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200 flex items-center gap-1.5 focus:outline-none select-none">
+                        <span>Demos</span>
+                        <svg class="w-3 h-3 transition-transform duration-300" :class="{'rotate-180 text-cyan-400': openDropdown}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <!-- Menú Desplegable Premium Glassmorphism -->
+                    <div x-show="openDropdown"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                         class="absolute left-1/2 -translate-x-1/2 mt-3 w-64 rounded-2xl bg-[#0c0e22]/95 border border-white/10 backdrop-blur-xl p-2 shadow-[0_10px_40px_rgba(0,0,0,0.6)] z-50 space-y-1"
+                         style="display: none;">
+                        
+                        <!-- Opción 1: WI-Link -->
+                        <a href="/demo-wilink" @click="openDropdown = false" class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-white/5 transition-all duration-200 group">
+                            <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all duration-300 shadow-[0_0_15px_rgba(6,182,212,0.1)]">
+                                <i class="fas fa-link text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white group-hover:text-cyan-400 transition-colors">WI-Link</p>
+                                <p class="text-[9.5px] text-slate-400 mt-0.5">Árbol de enlaces biográficos</p>
+                            </div>
+                        </a>
+
+                        <!-- Opción 2: WI-Menu -->
+                        <a href="/ys-detallitos" @click="openDropdown = false" class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-white/5 transition-all duration-200 group">
+                            <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                                <i class="fas fa-store text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white group-hover:text-purple-400 transition-colors">WI-Menu</p>
+                                <p class="text-[9.5px] text-slate-400 mt-0.5">Catálogo Digital + Pedidos</p>
+                            </div>
+                        </a>
+
+                        <!-- Opción 3: WI-Custom -->
+                        <a href="/demo-custom" @click="openDropdown = false" class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-white/5 transition-all duration-200 group">
+                            <div class="w-9 h-9 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 group-hover:scale-110 group-hover:bg-pink-500/20 transition-all duration-300 shadow-[0_0_15px_rgba(236,72,153,0.1)]">
+                                <i class="fas fa-cogs text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white group-hover:text-pink-400 transition-colors">WI-Custom</p>
+                                <p class="text-[9.5px] text-slate-400 mt-0.5">Desarrollo a medida B2B</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <a href="/login" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Iniciar Sesión</a>
+                <a href="#precios" class="bg-brand-600 hover:bg-brand-555 hover:scale-[1.03] text-white text-sm font-black px-5 py-2.5 rounded-xl shadow-md shadow-brand-600/30 transition-all duration-300">
                     Crear mi Menú
                 </a>
             </nav>
 
-            <!-- EN MÓVIL: Botones Rápidos iOS-style -->
-            <div class="flex items-center gap-2 md:hidden">
-                <a href="/login" class="text-xs font-bold text-gray-300 hover:text-white px-2.5 py-1.5 rounded-lg">Log In</a>
-                <a href="#precios" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-black px-3.5 py-2 rounded-xl shadow-md transition">
-                    Crear Tienda
+            <!-- EN MÓVIL: Botones Rápidos iOS-style con Dropdown de Planes -->
+            <div class="flex items-center gap-2 md:hidden" x-data="{ openMobileDropdown: false }" @click.away="openMobileDropdown = false">
+                <a href="/login" class="text-xs font-bold text-slate-200 hover:text-white px-2.5 py-1.5 rounded-lg">Log In</a>
+                
+                <div class="relative">
+                    <button @click="openMobileDropdown = !openMobileDropdown" class="text-xs font-bold text-slate-200 hover:text-white px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-all select-none">
+                        <span>Demos</span>
+                        <svg class="w-3 h-3 transition-transform duration-300" :class="{'rotate-180': openMobileDropdown}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Menú Desplegable Móvil -->
+                    <div x-show="openMobileDropdown"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                         class="absolute right-0 mt-2.5 w-48 rounded-xl bg-[#0c0e22]/98 border border-white/10 backdrop-blur-xl p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.6)] z-50 space-y-0.5"
+                         style="display: none;">
+                        
+                        <a href="/demo-wilink" @click="openMobileDropdown = false" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-all duration-200">
+                            <div class="w-7 h-7 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-link text-[10px]"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-white">WI-Link</p>
+                                <p class="text-[8px] text-slate-400">Enlaces Bio</p>
+                            </div>
+                        </a>
+
+                        <a href="/ys-detallitos" @click="openMobileDropdown = false" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-all duration-200">
+                            <div class="w-7 h-7 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
+                                <i class="fas fa-store text-[10px]"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-white">WI-Menu</p>
+                                <p class="text-[8px] text-slate-400">Catálogo Digital</p>
+                            </div>
+                        </a>
+
+                        <a href="/demo-custom" @click="openMobileDropdown = false" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-all duration-200">
+                            <div class="w-7 h-7 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400">
+                                <i class="fas fa-cogs text-[10px]"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-white">WI-Custom</p>
+                                <p class="text-[8px] text-slate-400">A Medida</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <a href="#precios" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-black px-3.5 py-2 rounded-xl shadow-md transition whitespace-nowrap">
+                    Planes
                 </a>
             </div>
         </div>
     </header>
 
     <!-- HERO SECTION (Premium 3D Asymmetric Layout) -->
-    <section class="relative pt-12 md:pt-20 pb-20 md:pb-32 px-4 max-w-7xl mx-auto overflow-hidden z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+    <section class="relative pt-16 md:pt-24 pb-20 md:pb-36 px-4 max-w-7xl mx-auto overflow-hidden z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
             
             <!-- COLUMNA IZQUIERDA: Propuesta de Valor y CTAs -->
             <div class="lg:col-span-6 text-center lg:text-left space-y-8">
@@ -280,19 +388,19 @@
                     Personaliza tu logotipo, edita los 3 colores principales de tu identidad en tiempo real y recibe todos tus pedidos de forma estructurada directamente a tu WhatsApp o Telegram. ¡Todo listo en menos de 3 minutos!
                 </p>
                 
-                <!-- Botones Principales -->
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-4">
-                    <a href="#precios" class="w-full sm:w-auto text-center bg-purple-600 hover:bg-purple-500 text-white font-bold px-8 py-4 rounded-2xl shadow-[0_0_20px_rgba(147,51,234,0.4)] transition-all duration-300 hover:-translate-y-1 text-sm md:text-base">
+                <!-- Botones Principales con Espaciado Generoso y Mayor Peso Visual -->
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 pt-6">
+                    <a href="#precios" class="w-full sm:w-auto text-center bg-purple-600 hover:bg-purple-500 hover:scale-[1.02] text-white font-black px-10 py-4 rounded-2xl shadow-[0_0_25px_rgba(147,51,234,0.4)] transition-all duration-300 text-sm md:text-base">
                         Empezar Catálogo Gratis
                     </a>
-                    <a href="#explorar" class="w-full sm:w-auto text-center border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1 text-sm md:text-base">
+                    <a href="#explorar" class="w-full sm:w-auto text-center border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-[1.02] backdrop-blur-sm text-white font-extrabold px-10 py-4 rounded-2xl transition-all duration-300 text-sm md:text-base sm:ml-2">
                         Explorar Tiendas
                     </a>
                 </div>
             </div>
 
-            <!-- COLUMNA DERECHA: Mockup Interactivo de Tableta Flotante -->
-            <div class="lg:col-span-6 relative flex justify-center items-center py-8 lg:py-0 mt-8 lg:mt-0">
+            <!-- COLUMNA DERECHA: Mockup Interactivo de Tableta Flotante (Aireado con Excelente Jerarquía) -->
+            <div class="lg:col-span-6 relative flex justify-center items-center py-12 lg:py-16 lg:pl-12 mt-8 lg:mt-0">
                 
                 <!-- Sticker Circular Flotante -->
                 <div class="absolute -top-4 left-0 md:left-10 z-30 bg-gradient-to-br from-purple-500 to-cyan-500 w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center p-3 shadow-2xl animate-[bounce_4s_infinite] transform -rotate-12 border-4 border-[#070913]">
@@ -726,15 +834,15 @@
                 <p class="text-sm md:text-base text-slate-400 mt-3 max-w-xl mx-auto">Crea tu menú interactivo de marca blanca y recibe pedidos en WhatsApp o Telegram en 3 pasos sencillos.</p>
             </div>
 
-            <!-- 3 Bloques Numéricos (Horizontal en PC) -->
+            <!-- 3 Bloques Numéricos (Horizontal en PC) - Limpieza de Ruido Visual -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
                 <!-- Paso 1 -->
-                <div class="bg-slate-900/40 border border-slate-800/80 p-8 md:p-10 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-purple-500/30 transition-colors group">
+                <div class="bg-slate-900/15 border border-white/5 p-10 md:p-12 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-purple-500/40 hover:bg-purple-950/5 transition-all duration-300 group">
                     <!-- Número Escondido Decorativo -->
-                    <span class="absolute top-4 right-6 text-6xl font-black text-white/[0.02] group-hover:text-purple-500/5 transition-colors select-none">1</span>
+                    <span class="absolute top-4 right-6 text-6xl font-black text-white/[0.015] group-hover:text-purple-500/5 transition-colors select-none">1</span>
                     
                     <!-- Icono Neón -->
-                    <div class="w-20 h-20 rounded-full bg-slate-900 border border-slate-800 shadow-[0_0_30px_rgba(168,85,247,0.15)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.3)] flex items-center justify-center mb-6 relative">
+                    <div class="w-20 h-20 rounded-full bg-slate-950 border border-slate-800 shadow-[0_0_30px_rgba(168,85,247,0.15)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.35)] flex items-center justify-center mb-6 relative transition-all duration-300">
                         <div class="absolute inset-0 bg-purple-500/20 rounded-full blur-md"></div>
                         <svg class="w-8 h-8 text-purple-400 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -746,11 +854,11 @@
                 </div>
 
                 <!-- Paso 2 -->
-                <div class="bg-slate-900/40 border border-slate-800/80 p-8 md:p-10 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-cyan-500/30 transition-colors group">
-                    <span class="absolute top-4 right-6 text-6xl font-black text-white/[0.02] group-hover:text-cyan-500/5 transition-colors select-none">2</span>
+                <div class="bg-slate-900/15 border border-white/5 p-10 md:p-12 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-cyan-500/40 hover:bg-cyan-950/5 transition-all duration-300 group">
+                    <span class="absolute top-4 right-6 text-6xl font-black text-white/[0.015] group-hover:text-cyan-500/5 transition-colors select-none">2</span>
                     
                     <!-- Icono Neón -->
-                    <div class="w-20 h-20 rounded-full bg-slate-900 border border-slate-800 shadow-[0_0_30px_rgba(34,211,238,0.15)] group-hover:shadow-[0_0_40px_rgba(34,211,238,0.3)] flex items-center justify-center mb-6 relative">
+                    <div class="w-20 h-20 rounded-full bg-slate-950 border border-slate-800 shadow-[0_0_30px_rgba(34,211,238,0.15)] group-hover:shadow-[0_0_40px_rgba(34,211,238,0.35)] flex items-center justify-center mb-6 relative transition-all duration-300">
                         <div class="absolute inset-0 bg-cyan-500/20 rounded-full blur-md"></div>
                         <svg class="w-8 h-8 text-cyan-400 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
@@ -762,11 +870,11 @@
                 </div>
 
                 <!-- Paso 3 -->
-                <div class="bg-slate-900/40 border border-slate-800/80 p-8 md:p-10 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-pink-500/30 transition-colors group">
-                    <span class="absolute top-4 right-6 text-6xl font-black text-white/[0.02] group-hover:text-pink-500/5 transition-colors select-none">3</span>
+                <div class="bg-slate-900/15 border border-white/5 p-10 md:p-12 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-pink-500/40 hover:bg-pink-950/5 transition-all duration-300 group">
+                    <span class="absolute top-4 right-6 text-6xl font-black text-white/[0.015] group-hover:text-pink-500/5 transition-colors select-none">3</span>
                     
                     <!-- Icono Neón -->
-                    <div class="w-20 h-20 rounded-full bg-slate-900 border border-slate-800 shadow-[0_0_30px_rgba(236,72,153,0.15)] group-hover:shadow-[0_0_40px_rgba(236,72,153,0.3)] flex items-center justify-center mb-6 relative">
+                    <div class="w-20 h-20 rounded-full bg-slate-950 border border-slate-800 shadow-[0_0_30px_rgba(236,72,153,0.15)] group-hover:shadow-[0_0_40px_rgba(236,72,153,0.35)] flex items-center justify-center mb-6 relative transition-all duration-300">
                         <div class="absolute inset-0 bg-pink-500/20 rounded-full blur-md"></div>
                         <svg class="w-8 h-8 text-pink-400 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -813,14 +921,14 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch justify-center">
 
                 <!-- PLAN 1: WILink Pro -->
-                <div class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
+                <div id="plan-wilink" class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
                     <div>
                         <h3 class="text-xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Link</span></h3>
                         <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Tu árbol de enlaces biográficos personalizado.</p>
                         
-                        <!-- Precio -->
+                        <!-- Precio Unificado -->
                         <div class="my-6">
-                            <div class="text-4xl font-black text-white flex items-baseline gap-1">8.99$ <span class="text-sm font-medium text-slate-500">/ mes</span></div>
+                            <div class="text-4xl font-black text-white flex items-baseline gap-1">$8.99 <span class="text-xs font-bold text-slate-400">/ mes</span></div>
                         </div>
 
                         <!-- Beneficios -->
@@ -858,10 +966,10 @@
                     </div>
                 </div>
 
-                <!-- PLAN 2: WIMenu Premium (EL DESTACADO) -->
-                <div class="relative rounded-3xl p-[2px] bg-gradient-to-b from-purple-500 via-cyan-500 to-purple-600 shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-transform duration-300 hover:-translate-y-2">
-                    <!-- Badge Flotante "✨ RECOMENDADO" -->
-                    <span class="absolute -top-4 -right-2 bg-purple-600 text-white text-[9px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.6)] transform rotate-3 select-none z-10">
+                <!-- PLAN 2: WIMenu Premium (EL DESTACADO con Badge Aireado) -->
+                <div id="plan-wimenu" class="relative rounded-3xl p-[2px] bg-gradient-to-b from-purple-500 via-cyan-500 to-purple-600 shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-transform duration-300 hover:-translate-y-2">
+                    <!-- Badge Flotante "✨ RECOMENDADO" - Posicionamiento Aireado sin Colapso -->
+                    <span class="absolute -top-4 right-6 bg-purple-600 text-white text-[9px] uppercase font-black tracking-widest px-4.5 py-1.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.6)] select-none z-10">
                         ✨ RECOMENDADO
                     </span>
 
@@ -873,9 +981,9 @@
                             <h3 class="text-xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Menu</span></h3>
                             <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Menú digital interactivo con pedidos directos a WhatsApp o Telegram + WI-Link incluido.</p>
                             
-                            <!-- Precio -->
+                            <!-- Precio Unificado -->
                             <div class="my-6">
-                                <div class="text-4xl font-black text-white flex items-baseline gap-1">24.99$ <span class="text-sm font-medium text-purple-300">/ mes</span></div>
+                                <div class="text-4xl font-black text-white flex items-baseline gap-1">$24.99 <span class="text-xs font-bold text-purple-300">/ mes</span></div>
                             </div>
 
                             <!-- Beneficios -->
@@ -918,20 +1026,20 @@
                     </div>
                 </div>
 
-                <!-- PLAN 3: WIAdmin / Custom -->
-                <div class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
+                <!-- PLAN 3: WIAdmin / Custom (Ajustado Espaciado y Altura de Líneas) -->
+                <div id="plan-wiadmin" class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
                     <div>
                         <h3 class="text-xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Admin/Custom</span></h3>
-                        <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Gestión integral corporativa o software independiente a medida.</p>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Gestión integral corporativa o software independiente a medida.</p>
                         
                         <!-- Precio -->
                         <div class="my-6">
-                            <div class="text-3xl font-black text-white">Personalizado</div>
-                            <span class="text-[10px] text-slate-400 block mt-1 font-semibold">Precio a Convenir</span>
+                            <div class="text-3xl font-black text-white tracking-tight">Personalizado</div>
+                            <span class="text-[10px] text-slate-400 block mt-1.5 font-semibold">Precio a Convenir</span>
                         </div>
 
-                        <!-- Beneficios -->
-                        <ul class="space-y-4 text-xs text-slate-300 border-t border-white/10 pt-6">
+                        <!-- Beneficios - Espaciados y con Mayor Legibilidad -->
+                        <ul class="space-y-5 text-xs text-slate-300 border-t border-white/10 pt-6 leading-relaxed">
                             <li class="flex items-start gap-3">
                                 <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                                 <span><strong>Módulos de Clientes y Empleados</strong> (Roles, Permisos y Fidelización).</span>
@@ -1244,28 +1352,78 @@
                             <tbody class="divide-y divide-white/5 text-slate-300">
                                 <tr>
                                     <td class="p-4 font-medium">Precio Mensual</td>
-                                    <td class="p-4 text-center text-white font-bold bg-cyan-900/10">$8.99 / mes <span class="block text-[9px] font-normal text-cyan-400/80">(Tasa BCV)</span></td>
-                                    <td class="p-4 text-center text-slate-400">$24 / mes</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            $8.99 / mes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-xs font-bold">—</span>
+                                            $24 / mes
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-4 font-medium">Personalización Visual</td>
-                                    <td class="p-4 text-center font-bold text-emerald-400 bg-cyan-900/10">Total (Tu Marca)</td>
-                                    <td class="p-4 text-center text-rose-400">Limitada a plantillas</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Total (Tu Marca)
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            Limitada
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
-                                     <td class="p-4 font-medium">Integración WhatsApp / Telegram</td>
-                                    <td class="p-4 text-center font-bold text-emerald-400 bg-cyan-900/10">Nativo + Flotante</td>
-                                    <td class="p-4 text-center text-rose-400">Solo enlace básico</td>
+                                     <td class="p-4 font-medium">Integración WhatsApp</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Nativo + Flotante
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            Solo básico
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-4 font-medium">Atención y Soporte</td>
-                                    <td class="p-4 text-center font-bold text-emerald-400 bg-cyan-900/10">Local Prioritario (VE)</td>
-                                    <td class="p-4 text-center text-rose-400">Lento / Solo Inglés</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Local Prioritario
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            Solo Inglés
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-4 font-medium">Velocidad de Carga</td>
-                                    <td class="p-4 text-center font-bold text-emerald-400 bg-cyan-900/10">Ultra Rápida (&lt;0.2s)</td>
-                                    <td class="p-4 text-center text-slate-400">Promedio</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Ultra Rápida
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            Promedio
+                                        </span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1297,28 +1455,78 @@
                             <tbody class="divide-y divide-white/5 text-slate-300">
                                 <tr>
                                     <td class="p-4 font-medium">Comisiones por Venta</td>
-                                    <td class="p-4 text-center text-emerald-400 font-black bg-purple-900/10">0% <span class="block text-[9px] font-normal text-purple-300">(Ganas el 100%)</span></td>
-                                    <td class="p-4 text-center text-rose-400 font-bold">2% - 5% <span class="block text-[9px] font-normal text-slate-500">(Por transacción)</span></td>
+                                    <td class="p-4 text-center bg-purple-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            0% Comisiones
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            2% - 5% por transacción
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-4 font-medium">Precio Mensual</td>
-                                    <td class="p-4 text-center text-white font-bold bg-purple-900/10">$24.99 / mes <span class="block text-[9px] font-normal text-purple-300">(Tasa BCV)</span></td>
-                                    <td class="p-4 text-center text-slate-400">Desde $35 / mes</td>
+                                    <td class="p-4 text-center bg-purple-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            $24.99 / mes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-xs font-bold">—</span>
+                                            Desde $35 / mes
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-4 font-medium">Límite de Productos</td>
-                                    <td class="p-4 text-center font-bold text-emerald-400 bg-purple-900/10">Ilimitado</td>
-                                    <td class="p-4 text-center text-rose-400">Limitado por Plan</td>
+                                    <td class="p-4 text-center bg-purple-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Ilimitado
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            Limitado por Plan
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="p-4 font-medium">Enlace Biográfico (Link in Bio)</td>
-                                    <td class="p-4 text-center font-bold text-emerald-400 bg-purple-900/10">Incluye WI-Link gratis</td>
-                                    <td class="p-4 text-center text-rose-400">No incluye</td>
+                                    <td class="p-4 font-medium">Enlace Biográfico</td>
+                                    <td class="p-4 text-center bg-purple-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Incluye WI-Link gratis
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            No incluye
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-4 font-medium">Experiencia / Interfaz</td>
-                                    <td class="p-4 text-center font-bold text-emerald-400 bg-purple-900/10">Híbrida, Premium y Rápida</td>
-                                    <td class="p-4 text-center text-slate-400">Plantillas genéricas</td>
+                                    <td class="p-4 text-center bg-purple-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Híbrida y Rápida
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            Genérica
+                                        </span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1341,18 +1549,18 @@
                     <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
                         La plataforma B2B premium líder en digitalización de comercios en Venezuela. Crea tu catálogo inteligente interactivo con pedidos directos a WhatsApp o Telegram, libre de comisiones por venta.
                     </p>
-                    <div class="flex items-center gap-4 pt-2">
-                        <a href="javascript:void(0)" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300">
-                            <i class="fab fa-facebook-f text-sm"></i>
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="javascript:void(0)" class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300" title="Facebook">
+                            <i class="fab fa-facebook-f text-xs"></i>
                         </a>
-                        <a href="javascript:void(0)" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300">
-                            <i class="fab fa-instagram text-sm"></i>
+                        <a href="javascript:void(0)" class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300" title="Instagram">
+                            <i class="fab fa-instagram text-xs"></i>
                         </a>
-                        <a href="javascript:void(0)" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300">
-                            <i class="fab fa-tiktok text-sm"></i>
+                        <a href="javascript:void(0)" class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300" title="TikTok">
+                            <i class="fab fa-tiktok text-xs"></i>
                         </a>
-                        <a href="javascript:void(0)" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300">
-                            <i class="fab fa-youtube text-sm"></i>
+                        <a href="javascript:void(0)" class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300" title="YouTube">
+                            <i class="fab fa-youtube text-xs"></i>
                         </a>
                     </div>
                 </div>
