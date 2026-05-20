@@ -39,11 +39,17 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048', // max 2MB
             'is_available' => 'required|boolean',
+            'features' => 'nullable|string',
         ]);
 
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('products', 'public');
+        }
+
+        $features = null;
+        if ($request->filled('features')) {
+            $features = json_decode($request->input('features'), true);
         }
 
         $product = Product::create([
@@ -53,6 +59,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'image_path' => $imagePath,
             'is_available' => $request->is_available,
+            'features' => $features,
         ]);
 
         // Load relation for response
@@ -88,6 +95,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048',
             'is_available' => 'required|boolean',
+            'features' => 'nullable|string',
         ]);
 
         $imagePath = $product->image_path;
@@ -99,6 +107,11 @@ class ProductController extends Controller
             $imagePath = $request->file('image')->store('products', 'public');
         }
 
+        $features = $product->features;
+        if ($request->has('features')) {
+            $features = $request->filled('features') ? json_decode($request->input('features'), true) : null;
+        }
+
         $product->update([
             'category_id' => $request->category_id,
             'name' => $request->name,
@@ -106,6 +119,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'image_path' => $imagePath,
             'is_available' => $request->is_available,
+            'features' => $features,
         ]);
 
         $product->load('category');

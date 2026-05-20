@@ -25,6 +25,40 @@ class IdentifyTenant
             config(['current_shop' => $shop]);
             config(['current_shop_id' => $shop->id]);
 
+            // Auto-login de desarrollo para poder probar el panel de administración localmente de la tienda demo
+            if (app()->environment('local') && !app()->runningInConsole() && !\Illuminate\Support\Facades\Auth::check()) {
+                if ($shop->slug === 'demo' && ($request->is('*/admin*') || $request->routeIs('admin.*'))) {
+                    try {
+                        if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
+                            $user = \App\Models\User::where('email', 'admin@wistore.com')->first();
+                            if ($user) {
+                                \Illuminate\Support\Facades\Auth::login($user);
+                            }
+                        }
+                    } catch (\Throwable $e) {
+                        // Ignorar silenciosamente
+                    }
+                }
+            }
+
+            // Control de acceso multi-tenant para el panel administrativo
+            if (\Illuminate\Support\Facades\Auth::check() && ($request->is('*/admin*') || $request->routeIs('admin.*'))) {
+                $user = \Illuminate\Support\Facades\Auth::user();
+                if ($user->shop_id !== $shop->id) {
+                    // Obtener la tienda del usuario logueado
+                    $userShop = Shop::find($user->shop_id);
+                    if ($userShop) {
+                        return redirect()->route('admin.dashboard', ['shop_slug' => $userShop->slug])
+                            ->with('error', 'No tienes permiso para acceder al panel administrativo de otra tienda.');
+                    } else {
+                        \Illuminate\Support\Facades\Auth::logout();
+                        return redirect()->route('login')->withErrors([
+                            'email' => 'Tu usuario no está asociado a una tienda válida.',
+                        ]);
+                    }
+                }
+            }
+
             // Compartir de forma global para las vistas Blade
             View::share('currentShop', $shop);
 

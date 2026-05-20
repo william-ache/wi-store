@@ -27,6 +27,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Leaflet para el Mapa -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -36,6 +39,9 @@
             --color-secondary: {{ $company['colors']['secondary'] }};
             --color-bg: {{ $company['colors']['bg_light'] }};
         }
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Outfit', 'sans-serif';
             background: linear-gradient(135deg, var(--color-bg) 0%, rgba(255, 255, 255, 0.4) 100%);
@@ -43,11 +49,11 @@
         }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.02); }
-        ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 9999px; transition: background 0.3s ease; }
         ::-webkit-scrollbar-thumb:hover { background: var(--color-secondary); }
-        * { scrollbar-width: thin; scrollbar-color: var(--color-primary) rgba(0, 0, 0, 0.02); }
+        * { scrollbar-width: thin; scrollbar-color: var(--color-primary) transparent; }
     </style>
 </head>
 <body class="min-h-screen text-slate-800 pb-24 select-none" x-data="storeApp()">
@@ -105,7 +111,7 @@
                             </span>
                             @endif
                             <span class="bg-amber-50 text-amber-600 px-3 py-1 rounded-full border border-amber-100 flex items-center gap-1">
-                                ⭐ {{ number_format($averageRating, 1) }}
+                                ⭐ <span x-text="averageRating.toFixed(1)">{{ number_format($averageRating, 1) }}</span>
                             </span>
                         </div>
 
@@ -136,7 +142,7 @@
                         <button @click="showReviewsModal = true" class="mt-4 w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition active:scale-95">
                             <i class="fas fa-comment-dots"></i> 
                             <span>Ver Opiniones</span>
-                            <span class="bg-slate-200/80 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm">{{ $reviews->count() }}</span>
+                            <span class="bg-slate-200/80 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm" x-text="totalReviewsCount">{{ $reviews->count() }}</span>
                         </button>
                     </div>
                 </div>
@@ -146,25 +152,25 @@
             <div class="md:col-span-8 lg:col-span-9 space-y-6">
                 
                 <!-- Buscador Dinámico -->
-                <div class="bg-white/80 backdrop-blur-md rounded-2xl p-2 shadow-sm border border-slate-100 flex items-center gap-2">
+                <div class="bg-white rounded-2xl p-2 shadow-sm border border-slate-100 flex items-center gap-2">
                     <i class="fas fa-search text-slate-400 ml-3"></i>
                     <input type="text" x-model="searchQuery" placeholder="Buscar productos..." class="w-full bg-transparent border-none focus:ring-0 text-sm py-2 px-2 text-slate-800 placeholder-slate-400">
                     <button x-show="searchQuery !== ''" @click="searchQuery = ''" class="mr-3 text-slate-400 hover:text-rose-500"><i class="fas fa-times"></i></button>
                 </div>
 
                 <!-- Categorías (Navegación Horizontal) -->
-                <div class="sticky top-0 bg-white/90 backdrop-blur-md border border-slate-100 py-3 z-40 shadow-sm rounded-2xl px-4 overflow-x-auto flex items-center gap-2 whitespace-nowrap scrollbar-none">
-                    <a href="#" class="px-4 py-2 rounded-full text-xs font-bold transition duration-200 border"
+                <div id="category-nav-bar" class="sticky top-0 bg-white/90 backdrop-blur-md border border-slate-100 py-3 z-40 shadow-sm rounded-2xl px-4 overflow-x-auto flex items-center gap-2 whitespace-nowrap scrollbar-none">
+                    <a href="#" id="nav-chip-0" class="px-4 py-2 rounded-full text-xs font-bold transition duration-200 border"
                        :class="activeCategory === 0 ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'"
-                       @click.prevent="activeCategory = 0">
+                       @click.prevent="scrollToCategory(0)">
                         Todas
                     </a>
                     @foreach($categories as $category)
                         @if($category->products->count() > 0)
-                        <a href="#cat-{{ $category->id }}" 
+                        <a href="#cat-{{ $category->id }}" id="nav-chip-{{ $category->id }}"
                            class="px-4 py-2 rounded-full text-xs font-bold transition duration-200 border"
                            :class="activeCategory === {{ $category->id }} ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'"
-                           @click.prevent="activeCategory = {{ $category->id }}">
+                           @click.prevent="scrollToCategory({{ $category->id }})">
                             {{ $category->name }}
                         </a>
                         @endif
@@ -175,7 +181,13 @@
                 <div>
                     @foreach($categories as $category)
                         @if($category->products->count() > 0)
-                        <section id="cat-{{ $category->id }}" class="mb-10" x-show="activeCategory === 0 || activeCategory === {{ $category->id }}">
+                        <section id="cat-{{ $category->id }}" class="mb-10 scroll-mt-28" 
+                                 x-intersect:enter="onSectionIntersect({{ $category->id }}, true)"
+                                 x-show="searchQuery === '' || [
+                                     @foreach($category->products as $product)
+                                         '{{ strtolower(str_replace("'", "\'", $product->name)) }}',
+                                     @endforeach
+                                 ].some(name => name.includes(searchQuery.toLowerCase()))">
                             <div class="flex items-center gap-2.5 mb-4">
                                 <span class="w-1.5 h-6 rounded-full" style="background-color: var(--color-primary);"></span>
                                 <h2 class="text-lg font-black tracking-tight" style="color: var(--color-secondary);">{{ $category->name }}</h2>
@@ -316,18 +328,14 @@
                  class="col-span-4 text-center border-r border-slate-200/80 pr-3 flex flex-col justify-center items-center cursor-pointer p-2.5 rounded-2xl transition hover:bg-slate-200/40"
                  :class="starFilter === 0 ? 'bg-slate-250 ring-1 ring-slate-200/60' : ''"
                  title="Ver todas las opiniones">
-                <span class="text-4xl font-black text-slate-800 leading-none">{{ number_format($averageRating, 1) }}</span>
+                <span class="text-4xl font-black text-slate-800 leading-none" x-text="averageRating.toFixed(1)">{{ number_format($averageRating, 1) }}</span>
                 <div class="flex justify-center text-amber-400 text-xs my-1.5 gap-0.5">
-                    @for($i = 1; $i <= 5; $i++)
-                        @if($i <= round($averageRating))
-                            <i class="fas fa-star"></i>
-                        @else
-                            <i class="far fa-star"></i>
-                        @endif
-                    @endfor
+                    <template x-for="i in 5" :key="i">
+                        <i :class="i <= Math.round(averageRating) ? 'fas fa-star' : 'far fa-star'"></i>
+                    </template>
                 </div>
                 <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider block">
-                    {{ $totalReviews }} {{ $totalReviews == 1 ? 'opinión' : 'opiniones' }}
+                    <span x-text="totalReviewsCount">{{ $totalReviews }}</span> <span x-text="totalReviewsCount === 1 ? 'opinión' : 'opiniones'">{{ $totalReviews == 1 ? 'opinión' : 'opiniones' }}</span>
                 </span>
             </div>
 
@@ -345,9 +353,11 @@
                         <span class="w-3 text-right">{{ $star }}</span>
                         <i class="fas fa-star text-amber-400 text-[8px]"></i>
                         <div class="flex-grow bg-slate-200 rounded-full h-2 overflow-hidden shadow-inner">
-                            <div class="bg-amber-400 h-full rounded-full transition-all duration-500" style="width: {{ $pctStar }}%"></div>
+                            <div class="bg-amber-400 h-full rounded-full transition-all duration-500" 
+                                 :style="'width: ' + starPercentages[{{ $star }}] + '%'"
+                                 style="width: {{ $pctStar }}%"></div>
                         </div>
-                        <span class="w-6 text-right text-slate-400 font-semibold">{{ $cStar }}</span>
+                        <span class="w-6 text-right text-slate-400 font-semibold" x-text="starCounts[{{ $star }}]">{{ $cStar }}</span>
                     </div>
                 @endforeach
             </div>
@@ -367,23 +377,31 @@
 
         <div class="p-6 flex-grow overflow-y-auto scrollbar-none bg-slate-50">
             <div class="space-y-4">
-                @forelse($reviews as $rev)
-                    <div x-show="starFilter === 0 || starFilter === {{ $rev->rating }}" class="bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
+                <!-- Alpine Dynamic List -->
+                <template x-for="(rev, index) in reviewsList" :key="index">
+                    <div x-show="starFilter === 0 || starFilter === rev.rating" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         class="bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
                         <div class="flex justify-between items-center mb-1">
-                            <span class="text-sm font-bold text-slate-800">{{ $rev->customer_name }}</span>
+                            <span class="text-sm font-bold text-slate-800" x-text="rev.customer_name"></span>
                             <span class="text-xs text-amber-500">
-                                @for($i=1; $i<=5; $i++)
-                                    @if($i <= $rev->rating) <i class="fas fa-star"></i> @else <i class="far fa-star"></i> @endif
-                                @endfor
+                                <template x-for="star in 5" :key="star">
+                                    <i :class="star <= rev.rating ? 'fas fa-star' : 'far fa-star'" class="mr-0.5"></i>
+                                </template>
                             </span>
                         </div>
-                        @if($rev->comment)
-                            <p class="text-xs text-slate-500 mt-2 italic">"{{ $rev->comment }}"</p>
-                        @endif
+                        <template x-if="rev.comment">
+                            <p class="text-xs text-slate-500 mt-2 italic" x-text="'“' + rev.comment + '”'"></p>
+                        </template>
                     </div>
-                @empty
-                    <p class="text-sm text-slate-400 text-center py-4">No hay opiniones disponibles.</p>
-                @endforelse
+                </template>
+
+                <!-- No reviews empty state -->
+                <div x-show="reviewsList.length === 0" class="text-sm text-slate-400 text-center py-4">
+                    No hay opiniones disponibles.
+                </div>
             </div>
         </div>
 
@@ -497,6 +515,13 @@
                 storeLng: parseFloat('{{ $company['longitude'] ?? 0 }}'),
                 deliveryRate: parseFloat('{{ $company['delivery_rate_per_km'] ?? 0 }}'),
 
+                // Dynamic reactive reviews list loaded from database initially
+                reviewsList: @json($reviews->map(fn($r) => [
+                    'customer_name' => $r->customer_name,
+                    'rating' => (int)$r->rating,
+                    'comment' => $r->comment
+                ])),
+
                 init() {
                     this.$watch('cart', val => localStorage.setItem('cart', JSON.stringify(val)));
                     this.$watch('customerName', val => localStorage.setItem('customerName', val));
@@ -505,6 +530,33 @@
 
                 get total() { return this.cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0); },
                 get totalItems() { return this.cart.reduce((sum, item) => sum + item.quantity, 0); },
+
+                // Reactive getters for real-time calculation in modal/storefront
+                get averageRating() {
+                    if (this.reviewsList.length === 0) return 5.0;
+                    let sum = this.reviewsList.reduce((acc, r) => acc + r.rating, 0);
+                    return (sum / this.reviewsList.length);
+                },
+                get totalReviewsCount() {
+                    return this.reviewsList.length;
+                },
+                get starCounts() {
+                    let counts = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+                    this.reviewsList.forEach(r => {
+                        if (counts[r.rating] !== undefined) counts[r.rating]++;
+                    });
+                    return counts;
+                },
+                get starPercentages() {
+                    let total = this.reviewsList.length;
+                    let pcts = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+                    if (total > 0) {
+                        for (let i = 1; i <= 5; i++) {
+                            pcts[i] = (this.starCounts[i] / total) * 100;
+                        }
+                    }
+                    return pcts;
+                },
 
                 addToCart(product) {
                     let existing = this.cart.find(i => i.id === product.id);
@@ -516,6 +568,58 @@
                     if (item) {
                         item.quantity += amount;
                         if (item.quantity <= 0) this.cart = this.cart.filter(i => i.id !== id);
+                    }
+                },
+
+                scrollToCategory(catId) {
+                    this.activeCategory = catId;
+                    let targetSection = document.getElementById('cat-' + catId);
+                    if (catId === 0) {
+                        targetSection = document.querySelector('section[id^="cat-"]');
+                    }
+                    if (targetSection) {
+                        this.isProgrammaticScroll = true;
+                        if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
+
+                        const offset = 112; // Matches scroll-mt-28 beautifully
+                        const bodyRect = document.body.getBoundingClientRect().top;
+                        const elementRect = targetSection.getBoundingClientRect().top;
+                        const elementPosition = elementRect - bodyRect;
+                        const offsetPosition = elementPosition - offset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // Set a guard timeout to prevent scrollspy updates during smooth scrolling
+                        this.scrollTimeout = setTimeout(() => {
+                            this.isProgrammaticScroll = false;
+                        }, 800);
+                    }
+                    this.centerCategoryNavChip(catId);
+                },
+
+                centerCategoryNavChip(catId) {
+                    const navBar = document.getElementById('category-nav-bar');
+                    const activeChip = document.getElementById('nav-chip-' + catId);
+                    if (navBar && activeChip) {
+                        const navBarWidth = navBar.offsetWidth;
+                        const chipLeft = activeChip.offsetLeft;
+                        const chipWidth = activeChip.offsetWidth;
+                        
+                        navBar.scrollTo({
+                            left: chipLeft - (navBarWidth / 2) + (chipWidth / 2),
+                            behavior: 'smooth'
+                        });
+                    }
+                },
+
+                onSectionIntersect(catId, isIntersecting) {
+                    if (this.isProgrammaticScroll) return;
+                    if (isIntersecting && this.searchQuery === '') {
+                        this.activeCategory = catId;
+                        this.centerCategoryNavChip(catId);
                     }
                 },
 
@@ -539,11 +643,21 @@
                             })
                         });
                         if(response.ok) {
+                            // Inject into the list dynamically in real-time
+                            this.reviewsList.unshift({
+                                customer_name: finalName,
+                                rating: parseInt(this.review.rating),
+                                comment: this.review.comment
+                            });
                             this.reviewSubmitted = true;
-                            setTimeout(() => window.location.reload(), 1500);
+                            setTimeout(() => {
+                                this.review = { name: '', rating: '5', comment: '', anonymous: false };
+                                this.reviewSubmitted = false;
+                                this.showForm = false;
+                            }, 2000);
                         }
                     } catch (error) {
-                        alert('Error al enviar calificación');
+                         alert('Error al enviar calificación');
                     } finally {
                         this.isSubmitting = false;
                     }
@@ -592,10 +706,52 @@
                 },
 
                 async sendWhatsApp() {
-                    if(this.cart.length === 0) return alert('Carrito vacío');
-                    if(!this.customerName.trim()) return alert('Por favor ingresa tu nombre para el pedido.');
-                    if(!this.customerPhone.trim()) return alert('Por favor ingresa tu número de teléfono (celular).');
-                    if(this.deliveryType === 'delivery' && (!this.storeLat || !this.storeLng)) return alert('El servicio de delivery no está disponible. Coordenadas de tienda no configuradas.');
+                    if(this.cart.length === 0) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Carrito vacío',
+                            text: 'Por favor agrega productos antes de enviar tu pedido.',
+                            confirmButtonColor: 'var(--color-primary)'
+                        });
+                        return;
+                    }
+                    if(!this.customerName.trim()) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Faltan datos',
+                            text: 'Por favor ingresa tu nombre para el pedido.',
+                            confirmButtonColor: 'var(--color-primary)'
+                        });
+                        return;
+                    }
+                    if(!this.customerPhone.trim()) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Faltan datos',
+                            text: 'Por favor ingresa tu número de teléfono (celular).',
+                            confirmButtonColor: 'var(--color-primary)'
+                        });
+                        return;
+                    }
+                    if(this.deliveryType === 'delivery' && (!this.storeLat || !this.storeLng)) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Servicio no disponible',
+                            text: 'El servicio de delivery no está disponible. Coordenadas de tienda no configuradas.',
+                            confirmButtonColor: 'var(--color-primary)'
+                        });
+                        return;
+                    }
+
+                    // Mostrar SweetAlert2 Cargando
+                    Swal.fire({
+                        title: 'Procesando pedido...',
+                        text: 'Estamos registrando tu orden, por favor espera.',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
 
                     try {
                         await fetch('/{{ $company['slug'] }}/clients/quick-register', {
@@ -609,7 +765,25 @@
                                 phone: this.customerPhone
                             })
                         });
-                    } catch (e) { console.error('Error', e); }
+                    } catch (e) { console.error('Error en quick-register:', e); }
+
+                    // Notificar orden al backend para generar alerta y registrar en el sistema
+                    const orderTotal = this.total + this.deliveryCost;
+                    try {
+                        await fetch('/{{ $company['slug'] }}/orders/notify', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                customer_name: this.customerName,
+                                customer_phone: this.customerPhone,
+                                total: orderTotal,
+                                delivery_type: this.deliveryType
+                            })
+                        });
+                    } catch (e) { console.error('Error registrando notificación de orden:', e); }
 
                     let text = `*Pedido de ${this.customerName}*%0A`;
                     text += `*Teléfono:* ${this.customerPhone}%0A`;
@@ -624,8 +798,19 @@
                         text += `%0A*Ubicación:* https://www.google.com/maps?q=${this.marker.getLatLng().lat},${this.marker.getLatLng().lng}`;
                     }
 
-                    text += `%0A%0A*TOTAL:* ${this.currencySymbol}${(this.total + this.deliveryCost).toFixed(2)}`;
-                    window.open(`https://wa.me/{{ $company['whatsapp'] }}?text=${text}`, '_blank');
+                    text += `%0A%0A*TOTAL:* ${this.currencySymbol}${orderTotal.toFixed(2)}`;
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Pedido Registrado!',
+                        text: 'Te estamos redirigiendo a WhatsApp para completar el envío.',
+                        timer: 2500,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        willClose: () => {
+                            window.open(`https://wa.me/{{ $company['whatsapp'] }}?text=${text}`, '_blank');
+                        }
+                    });
                 }
             }
         }

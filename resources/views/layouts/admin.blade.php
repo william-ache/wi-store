@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Panel de Administración') - {{ config('current_shop')->name ?? 'Mi Tienda' }}</title>
     
     <!-- Tailwind CSS -->
@@ -34,9 +35,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        @php
+            $primaryColor = config('current_shop')->color_primary ?? '#E60067';
+            $primaryColor = ltrim($primaryColor, '#');
+            if (strlen($primaryColor) === 3) {
+                $r = hexdec(substr($primaryColor, 0, 1) . substr($primaryColor, 0, 1));
+                $g = hexdec(substr($primaryColor, 1, 1) . substr($primaryColor, 1, 1));
+                $b = hexdec(substr($primaryColor, 2, 1) . substr($primaryColor, 2, 1));
+            } elseif (strlen($primaryColor) === 6) {
+                $r = hexdec(substr($primaryColor, 0, 2));
+                $g = hexdec(substr($primaryColor, 2, 2));
+                $b = hexdec(substr($primaryColor, 4, 2));
+            } else {
+                $r = 230;
+                $g = 0;
+                $b = 103;
+            }
+        @endphp
         :root {
             --color-primary: {{ config('current_shop')->color_primary ?? '#E60067' }};
+            --color-primary-rgb: {{ $r }}, {{ $g }}, {{ $b }};
             --color-secondary: {{ config('current_shop')->color_secondary ?? '#C6A100' }};
+        }
+        html {
+            scroll-behavior: smooth;
         }
         body {
             font-family: 'Outfit', sans-serif;
@@ -44,6 +66,31 @@
             -webkit-tap-highlight-color: transparent;
         }
         [x-cloak] { display: none !important; }
+        
+        /* Custom Premium Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.02);
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 9999px;
+            transition: background 0.3s ease;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-secondary);
+        }
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-primary) transparent;
+        }
+
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .overflow-x-auto {
@@ -98,7 +145,10 @@
         }
         .dataTables_wrapper .dataTables_filter input:focus {
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(230, 0, 103, 0.15);
+            box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.15);
+        }
+        .dark .dataTables_wrapper .dataTables_filter input:focus {
+            box-shadow: 0 0 0 3px rgba(51, 65, 85, 0.4);
         }
         .dark .dataTables_wrapper .dataTables_filter input {
             background-color: #1e293b;
@@ -132,18 +182,24 @@
             padding: 1rem 1.25rem !important;
             font-size: 0.8125rem !important;
             border-bottom: 1px solid #f1f5f9 !important;
-            background-color: white !important;
+            background-color: #fafbfc !important;
+        }
+        table.dataTable tbody tr:nth-child(even) td {
+            background-color: rgba(var(--color-primary-rgb), 0.015) !important;
         }
         .dark table.dataTable tbody td {
             border-bottom-color: #1e293b !important;
             color: #e2e8f0 !important;
             background-color: #0f172a !important;
         }
+        .dark table.dataTable tbody tr:nth-child(even) td {
+            background-color: rgba(var(--color-primary-rgb), 0.03) !important;
+        }
         table.dataTable tbody tr:hover td {
-            background-color: #f8fafc !important;
+            background-color: rgba(var(--color-primary-rgb), 0.05) !important;
         }
         .dark table.dataTable tbody tr:hover td {
-            background-color: #1e293b !important;
+            background-color: rgba(var(--color-primary-rgb), 0.12) !important;
         }
         .dataTables_wrapper .dataTables_paginate {
             padding-top: 1rem !important;
@@ -179,7 +235,7 @@
             background: var(--color-primary, #E60067) !important;
             color: white !important;
             border-color: var(--color-primary, #E60067) !important;
-            box-shadow: 0 4px 12px rgba(230, 0, 103, 0.25) !important;
+            box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.25) !important;
         }
         .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
         .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
@@ -237,7 +293,7 @@
             font-weight: 700 !important;
             font-size: 0.8125rem !important;
             padding: 0.625rem 1.5rem !important;
-            box-shadow: 0 4px 12px rgba(230, 0, 103, 0.2) !important;
+            box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.2) !important;
         }
         .swal2-cancel {
             border-radius: 0.75rem !important;
@@ -343,10 +399,157 @@
                 max-width: 100% !important;
             }
         }
+
+        /* Custom Select2 Premium styling matching dark mode and outfit font */
+        .select2-container .select2-selection--single {
+            background-color: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 0.75rem !important;
+            height: 44px !important;
+            transition: all 0.2s ease-in-out !important;
+            display: flex !important;
+            align-items: center !important;
+            padding: 0 0.5rem !important;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.02) !important;
+        }
+        .dark .select2-container .select2-selection--single {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.15) !important;
+        }
+        .select2-container--default.select2-container--focus .select2-selection--single,
+        .select2-container--default.select2-container--open .select2-selection--single {
+            border-color: var(--color-primary, #E60067) !important;
+            box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.15) !important;
+            outline: none !important;
+        }
+        .dark .select2-container--default.select2-container--focus .select2-selection--single,
+        .dark .select2-container--default.select2-container--open .select2-selection--single {
+            box-shadow: 0 0 0 3px rgba(51, 65, 85, 0.4) !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #334155 !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            line-height: normal !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+            display: flex !important;
+            align-items: center !important;
+            height: 100% !important;
+            width: 100% !important;
+        }
+        .dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #cbd5e1 !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #94a3b8 !important;
+        }
+        .dark .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #64748b !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100% !important;
+            right: 0.75rem !important;
+            top: 0 !important;
+            display: none !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 20px !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: #94a3b8 transparent transparent transparent !important;
+            border-width: 5px 4px 0 4px !important;
+            border-style: solid !important;
+            margin-left: 0 !important;
+            margin-top: 0 !important;
+            left: auto !important;
+            top: auto !important;
+            position: relative !important;
+            transition: transform 0.2s ease-in-out !important;
+        }
+        .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+            transform: rotate(180deg) !important;
+            border-color: var(--color-primary, #E60067) transparent transparent transparent !important;
+        }
+        .dark .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: #64748b transparent transparent transparent !important;
+        }
+        .select2-dropdown {
+            background-color: white !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 0.75rem !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+            z-index: 99999 !important;
+            overflow: hidden !important;
+            font-family: 'Outfit', sans-serif !important;
+            margin-top: 4px !important;
+        }
+        .dark .select2-dropdown {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3) !important;
+        }
+        .select2-container--default .select2-search--dropdown {
+            padding: 0.75rem !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+        }
+        .dark .select2-container--default .select2-search--dropdown {
+            border-bottom-color: #334155 !important;
+        }
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            background-color: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 0.5rem !important;
+            padding: 0.5rem 0.75rem !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            outline: none !important;
+            color: #334155 !important;
+            width: 100% !important;
+        }
+        .dark .select2-container--default .select2-search--dropdown .select2-search__field {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+        .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+            border-color: var(--color-primary, #E60067) !important;
+            box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.15) !important;
+        }
+        .dark .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+            box-shadow: 0 0 0 2px rgba(51, 65, 85, 0.4) !important;
+        }
+        .select2-container--default .select2-results__option {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            padding: 0.625rem 1rem !important;
+            color: #475569 !important;
+            transition: background-color 0.15s, color 0.15s !important;
+        }
+        .dark .select2-container--default .select2-results__option {
+            color: #cbd5e1 !important;
+        }
+        .select2-container--default .select2-results__option--highlighted[aria-selected],
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: var(--color-primary, #E60067) !important;
+            color: white !important;
+        }
+        .select2-container--default .select2-results__options {
+            max-height: 200px !important;
+            overflow-y: auto !important;
+        }
     </style>
     
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Select2 CSS & JS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -367,7 +570,9 @@
       x-data="{ 
           showAllNotifs: false, 
           darkMode: localStorage.getItem('admin-dark-mode') === 'true', 
-          unreadCount: 120,
+          unreadCount: 0,
+          notifications: [],
+          shopSlug: '{{ config('current_shop')->slug }}',
           init() {
               // Apply theme instantly on boot
               if (this.darkMode) {
@@ -383,6 +588,152 @@
                       document.documentElement.classList.remove('dark');
                   }
               });
+              
+              this.fetchNotifications();
+              // Poll notifications every 30 seconds for live updates
+              setInterval(() => {
+                  this.fetchNotifications();
+              }, 30000);
+          },
+          async fetchNotifications() {
+              try {
+                  const response = await fetch(`/${this.shopSlug}/admin/notifications`);
+                  const data = await response.json();
+                  if (data.success) {
+                      this.notifications = data.notifications;
+                      this.unreadCount = data.unreadCount;
+                  }
+              } catch (e) {
+                  console.error('Error fetching notifications:', e);
+              }
+          },
+          async markAsRead(notif) {
+              if (notif.is_read) return;
+              try {
+                  const response = await fetch(`/${this.shopSlug}/admin/notifications/${notif.id}/read`, {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content')
+                      }
+                  });
+                  const data = await response.json();
+                  if (data.success) {
+                      notif.is_read = true;
+                      this.unreadCount = data.unreadCount;
+                  }
+              } catch (e) {
+                  console.error('Error marking notification as read:', e);
+              }
+          },
+          async deleteNotification(id) {
+              Swal.fire({
+                  title: '¿Eliminar notificación?',
+                  text: 'Esta acción no se puede deshacer.',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: 'var(--color-primary)',
+                  cancelButtonColor: '#94a3b8',
+                  confirmButtonText: 'Sí, eliminar',
+                  cancelButtonText: 'Cancelar',
+                  customClass: {
+                      popup: 'rounded-3xl dark:bg-slate-900 dark:text-white',
+                      title: 'font-black text-slate-800 dark:text-white',
+                      htmlContainer: 'text-slate-500 dark:text-slate-400 text-xs font-semibold'
+                  }
+              }).then(async (result) => {
+                  if (result.isConfirmed) {
+                      try {
+                          const response = await fetch(`/${this.shopSlug}/admin/notifications/${id}`, {
+                              method: 'DELETE',
+                              headers: {
+                                  'Content-Type': 'application/json',
+                                  'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content')
+                              }
+                          });
+                          const data = await response.json();
+                          if (data.success) {
+                              this.notifications = this.notifications.filter(n => n.id !== id);
+                              this.unreadCount = data.unreadCount;
+                              Swal.fire({
+                                  toast: true,
+                                  position: 'top-end',
+                                  icon: 'success',
+                                  title: 'Notificación eliminada',
+                                  showConfirmButton: false,
+                                  timer: 2000,
+                                  timerProgressBar: true
+                              });
+                          }
+                      } catch (e) {
+                          console.error('Error deleting notification:', e);
+                      }
+                  }
+              });
+          },
+          async clearAllNotifications() {
+              Swal.fire({
+                  title: '¿Limpiar todas las notificaciones?',
+                  text: 'Se eliminarán permanentemente todas las notificaciones de la bandeja.',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: 'var(--color-primary)',
+                  cancelButtonColor: '#94a3b8',
+                  confirmButtonText: 'Sí, limpiar todo',
+                  cancelButtonText: 'Cancelar',
+                  customClass: {
+                      popup: 'rounded-3xl dark:bg-slate-900 dark:text-white',
+                      title: 'font-black text-slate-800 dark:text-white',
+                      htmlContainer: 'text-slate-500 dark:text-slate-400 text-xs font-semibold'
+                  }
+              }).then(async (result) => {
+                  if (result.isConfirmed) {
+                      try {
+                          const response = await fetch(`/${this.shopSlug}/admin/notifications`, {
+                              method: 'DELETE',
+                              headers: {
+                                  'Content-Type': 'application/json',
+                                  'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content')
+                              }
+                          });
+                          const data = await response.json();
+                          if (data.success) {
+                              this.notifications = [];
+                              this.unreadCount = 0;
+                              Swal.fire({
+                                  toast: true,
+                                  position: 'top-end',
+                                  icon: 'success',
+                                  title: 'Bandeja de notificaciones vaciada',
+                                  showConfirmButton: false,
+                                  timer: 2000,
+                                  timerProgressBar: true
+                              });
+                          }
+                      } catch (e) {
+                          console.error('Error clearing notifications:', e);
+                      }
+                  }
+              });
+          },
+          formatTime(dateStr) {
+              if (!dateStr) return '';
+              const date = new Date(dateStr);
+              const now = new Date();
+              const diffMs = now - date;
+              const diffMins = Math.floor(diffMs / 60000);
+              
+              if (diffMins < 1) return 'Hace un momento';
+              if (diffMins < 60) return `Hace ${diffMins} min`;
+              
+              const diffHours = Math.floor(diffMins / 60);
+              if (diffHours < 24) return `Hace ${diffHours} ${diffHours === 1 ? 'hora' : 'horas'}`;
+              
+              const diffDays = Math.floor(diffHours / 24);
+              if (diffDays === 1) return 'Ayer';
+              if (diffDays < 7) return `Hace ${diffDays} días`;
+              
+              return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
           }
       }" 
       :class="{ 'dark': darkMode }">
@@ -450,28 +801,246 @@
         <div class="flex-grow flex flex-col min-h-screen">
             
             <!-- TOP HEADER -->
-            <header class="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-4 md:px-8 py-4 sticky top-0 z-30 transition-colors duration-300">
+            <header class="bg-gradient-to-r from-primary to-primary/95 text-white shadow-md border-b border-white/10 px-4 md:px-8 py-4 sticky top-0 z-30 transition-all duration-300">
                 <div class="max-w-7xl mx-auto flex justify-between items-center">
                     <div class="flex items-center gap-3">
                         <div>
-                            <span class="text-[10px] uppercase font-extrabold tracking-widest text-slate-400">Panel Administrativo</span>
-                            <h1 class="text-lg md:text-2xl font-black text-primary tracking-tight leading-none mt-0.5">
+                            <span class="text-[10px] uppercase font-extrabold tracking-widest text-white/60">Panel Administrativo</span>
+                            <h1 class="text-lg md:text-2xl font-black text-white tracking-tight leading-none mt-0.5">
                                 {{ config('current_shop')->name ?? 'Mi Tienda' }}
                             </h1>
                         </div>
                     </div>
-                    
-                    <div class="flex items-center gap-3 md:gap-5">
+                                        <div class="flex items-center gap-3 md:gap-5">
                         <!-- Buscador -->
-                        <div class="hidden md:flex relative group">
+                        <div class="hidden md:flex relative group"
+                             x-data="{ 
+                                 searchQuery: '', 
+                                 results: { categories: [], products: [], orders: [], clients: [] }, 
+                                 isOpen: false,
+                                 isLoading: false,
+                                 async search() {
+                                     if (this.searchQuery.trim().length < 2) {
+                                         this.results = { categories: [], products: [], orders: [], clients: [] };
+                                         this.isOpen = false;
+                                         return;
+                                     }
+                                     this.isLoading = true;
+                                     try {
+                                         let res = await fetch(`/{{ config('current_shop')->slug }}/admin/search?query=` + encodeURIComponent(this.searchQuery));
+                                         let data = await res.json();
+                                         if (data.success) {
+                                             this.results = data.data;
+                                             this.isOpen = true;
+                                         }
+                                     } catch(e) {
+                                         console.error(e);
+                                     } finally {
+                                         this.isLoading = false;
+                                     }
+                                 },
+                                 clearSearch() {
+                                     this.searchQuery = '';
+                                     this.results = { categories: [], products: [], orders: [], clients: [] };
+                                     this.isOpen = false;
+                                 },
+                                 hasResults() {
+                                     return (this.results.categories && this.results.categories.length > 0) || 
+                                            (this.results.products && this.results.products.length > 0) || 
+                                            (this.results.orders && this.results.orders.length > 0) || 
+                                            (this.results.clients && this.results.clients.length > 0);
+                                 },
+                                 handleSelect(type, item) {
+                                     const currentPath = window.location.pathname;
+                                     const shopSlug = '{{ config('current_shop')->slug }}';
+                                     
+                                     if (type === 'category') {
+                                         if (currentPath.includes('/admin/categories')) {
+                                             this.clearSearch();
+                                             editCategory(item.id, item.name, item.status);
+                                         } else {
+                                             window.location.href = `/${shopSlug}/admin/categories?edit_id=${item.id}`;
+                                         }
+                                     } else if (type === 'product') {
+                                         if (currentPath.includes('/admin/products')) {
+                                             this.clearSearch();
+                                             editProduct(item.id, item.name, item.category_id, item.price, item.description || '', item.is_available, item.image_path || '', encodeURIComponent(JSON.stringify(item.features || null)));
+                                         } else {
+                                             window.location.href = `/${shopSlug}/admin/products?edit_id=${item.id}`;
+                                         }
+                                     } else if (type === 'client') {
+                                         if (currentPath.includes('/admin/clients')) {
+                                             this.clearSearch();
+                                             editClient(item.id, item.name, item.phone, item.email || '', item.status);
+                                         } else {
+                                             window.location.href = `/${shopSlug}/admin/clients?edit_id=${item.id}`;
+                                         }
+                                     } else if (type === 'order') {
+                                         if (currentPath.includes('/admin/orders')) {
+                                             this.clearSearch();
+                                             editOrder(item.id, item.client_id || '', item.customer_name, item.customer_phone, item.total, item.status, item.payment_method, item.payment_status);
+                                         } else {
+                                             window.location.href = `/${shopSlug}/admin/orders?edit_id=${item.id}`;
+                                         }
+                                     }
+                                 }
+                             }"
+                             @click.away="isOpen = false">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-slate-400 group-focus-within:text-primary transition-colors"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/60 group-focus-within:text-white transition-colors"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                             </div>
-                            <input type="text" class="w-80 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-full pl-9 pr-4 py-2 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-inner transition-all placeholder-slate-400 dark:placeholder-slate-500" placeholder="Buscar órdenes, productos...">
-                        </div>
+                            <input type="text" 
+                                   x-model="searchQuery" 
+                                   @input.debounce.300ms="search()" 
+                                   @focus="if (hasResults()) isOpen = true"
+                                   class="w-80 bg-white/10 border border-white/10 text-white text-xs font-semibold rounded-full pl-9 pr-8 py-2 focus:outline-none focus:bg-white/20 focus:border-white/30 focus:ring-1 focus:ring-white/30 shadow-inner transition-all placeholder-white/60" 
+                                   placeholder="Buscar categorías, productos, órdenes...">
+                            
+                            <!-- Clear button / Loader -->
+                            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                                <template x-if="isLoading">
+                                    <svg class="animate-spin h-3.5 w-3.5 text-white/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                </template>
+                                <template x-if="searchQuery && !isLoading">
+                                    <button @click="clearSearch()" class="text-white/60 hover:text-white transition-colors cursor-pointer">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    </button>
+                                </template>
+                            </div>
 
+                            <!-- Dropdown de resultados -->
+                            <div x-show="isOpen && searchQuery.trim().length >= 2" 
+                                 x-cloak 
+                                 x-transition.opacity.duration.200ms
+                                 class="absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-100 dark:border-slate-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden z-[100] max-h-96 overflow-y-auto text-slate-800 dark:text-slate-200">
+                                
+                                <!-- Categorías -->
+                                <template x-if="results.categories && results.categories.length > 0">
+                                    <div>
+                                        <div class="px-4 py-2 bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
+                                            <span class="text-[9px] uppercase font-black tracking-widest text-primary">Categorías</span>
+                                            <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="results.categories.length"></span>
+                                        </div>
+                                        <div class="p-1.5 space-y-0.5">
+                                            <template x-for="item in results.categories" :key="'cat-'+item.id">
+                                                <button @click="handleSelect('category', item)" 
+                                                        class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
+                                                    <div class="flex items-center gap-2">
+                                                        <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
+                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="item.name"></p>
+                                                            <p class="text-[9px] font-mono text-slate-400" x-text="item.slug"></p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
+                                                </button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- Productos -->
+                                <template x-if="results.products && results.products.length > 0">
+                                    <div>
+                                        <div class="px-4 py-2 bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
+                                            <span class="text-[9px] uppercase font-black tracking-widest text-primary">Productos</span>
+                                            <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="results.products.length"></span>
+                                        </div>
+                                        <div class="p-1.5 space-y-0.5">
+                                            <template x-for="item in results.products" :key="'prod-'+item.id">
+                                                <button @click="handleSelect('product', item)" 
+                                                        class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
+                                                    <div class="flex items-center gap-2">
+                                                        <template x-if="item.image_path">
+                                                            <img :src="item.image_path.startsWith('http') ? item.image_path : '/storage/' + item.image_path" class="w-7 h-7 rounded-lg object-cover border border-slate-100 dark:border-slate-800">
+                                                        </template>
+                                                        <template x-if="!item.image_path">
+                                                            <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
+                                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                                                            </div>
+                                                        </template>
+                                                        <div>
+                                                            <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="item.name"></p>
+                                                            <p class="text-[9px] font-bold text-slate-400" x-text="'$' + parseFloat(item.price).toFixed(2)"></p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
+                                                </button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- Órdenes -->
+                                <template x-if="results.orders && results.orders.length > 0">
+                                    <div>
+                                        <div class="px-4 py-2 bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
+                                            <span class="text-[9px] uppercase font-black tracking-widest text-primary">Órdenes</span>
+                                            <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="results.orders.length"></span>
+                                        </div>
+                                        <div class="p-1.5 space-y-0.5">
+                                            <template x-for="item in results.orders" :key="'ord-'+item.id">
+                                                <button @click="handleSelect('order', item)" 
+                                                        class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
+                                                    <div class="flex items-center gap-2">
+                                                        <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
+                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="'Orden #' + item.id"></p>
+                                                            <p class="text-[9px] font-bold text-slate-400" x-text="item.customer_name + ' | $' + parseFloat(item.total).toFixed(2)"></p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
+                                                </button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- Clientes -->
+                                <template x-if="results.clients && results.clients.length > 0">
+                                    <div>
+                                        <div class="px-4 py-2 bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
+                                            <span class="text-[9px] uppercase font-black tracking-widest text-primary">Clientes</span>
+                                            <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="results.clients.length"></span>
+                                        </div>
+                                        <div class="p-1.5 space-y-0.5">
+                                            <template x-for="item in results.clients" :key="'cli-'+item.id">
+                                                <button @click="handleSelect('client', item)" 
+                                                        class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
+                                                    <div class="flex items-center gap-2">
+                                                        <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
+                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="item.name"></p>
+                                                            <p class="text-[9px] font-bold text-slate-400" x-text="item.phone + (item.email ? ' | ' + item.email : '')"></p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
+                                                </button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- No Results -->
+                                <template x-if="!hasResults()">
+                                    <div class="p-6 text-center text-xs text-slate-400 font-bold bg-white dark:bg-slate-900 transition-colors duration-300">
+                                        No se encontraron resultados
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        
                         <!-- Botón Dark/Light Mode -->
-                        <button @click="darkMode = !darkMode" class="relative p-2 text-slate-400 hover:text-primary transition-colors cursor-pointer hidden md:block" title="Alternar tema">
+                        <button @click="darkMode = !darkMode" class="relative p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer hidden md:block" title="Alternar tema">
                             <!-- Icono Luna (Visible en Light Mode) -->
                             <svg x-show="!darkMode" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -492,9 +1061,9 @@
 
                         <!-- Campana de Notificaciones -->
                         <div x-data="{ notifOpen: false }" class="relative z-50">
-                            <button @click="notifOpen = !notifOpen" @click.away="notifOpen = false" class="relative p-2 text-slate-400 hover:text-primary transition-colors cursor-pointer hidden md:block">
+                            <button @click="notifOpen = !notifOpen" @click.away="notifOpen = false" class="relative p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer hidden md:block">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                                <span x-cloak x-show="unreadCount > 0" class="absolute top-0 right-0 w-[18px] h-[18px] bg-rose-500 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center text-[8px] font-black text-white shadow-sm" x-text="unreadCount > 99 ? '+99' : unreadCount"></span>
+                                <span x-cloak x-show="unreadCount > 0" class="absolute top-0 right-0 w-[18px] h-[18px] bg-rose-500 rounded-full border-2 border-primary flex items-center justify-center text-[8px] font-black text-white shadow-sm" x-text="unreadCount > 99 ? '+99' : unreadCount"></span>
                             </button>
 
                             <!-- Mini Modal de Notificaciones -->
@@ -504,28 +1073,30 @@
                                     <span class="text-[10px] bg-rose-100 text-rose-600 font-bold px-2 py-0.5 rounded-full" x-text="unreadCount > 99 ? '+99 Nuevas' : unreadCount + ' Nuevas'">Nuevas</span>
                                 </div>
                                 <div class="max-h-64 overflow-y-auto">
-                                    <!-- Item 1 -->
-                                    <div class="p-4 border-b border-slate-50 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer flex gap-3">
-                                        <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center shrink-0 mt-0.5">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-emerald-600 dark:text-emerald-400"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <template x-for="notif in notifications.slice(0, 5)" :key="notif.id">
+                                        <div @click="markAsRead(notif)" class="p-4 border-b border-slate-50 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer flex gap-3" :class="{'opacity-70 bg-slate-50/20 dark:bg-slate-800/10': notif.is_read}">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                                                 :class="notif.type === 'new_order' ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400' : 'bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400'">
+                                                <template x-if="notif.type === 'new_order'">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                                </template>
+                                                <template x-if="notif.type !== 'new_order'">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                                </template>
+                                            </div>
+                                            <div class="flex-grow min-w-0">
+                                                <p class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate" x-text="notif.title" :class="{'font-black': !notif.is_read}"></p>
+                                                <p class="text-[10px] text-slate-500 mt-0.5 truncate" x-text="notif.content"></p>
+                                                <span class="text-[9px] font-bold text-primary mt-1 block" x-text="formatTime(notif.created_at)"></span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">Nueva orden recibida</p>
-                                            <p class="text-[10px] text-slate-500 mt-0.5">Orden #1042 por $25.00</p>
-                                            <span class="text-[9px] font-bold text-primary mt-1 block">Hace 5 min</span>
+                                    </template>
+                                    
+                                    <template x-if="notifications.length === 0">
+                                        <div class="p-6 text-center text-xs text-slate-400 font-semibold">
+                                            No tienes notificaciones
                                         </div>
-                                    </div>
-                                    <!-- Item 2 -->
-                                    <div class="p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer flex gap-3">
-                                        <div class="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950 flex items-center justify-center shrink-0 mt-0.5">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-amber-600 dark:text-amber-400"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">Actualiza tu tasa BCV</p>
-                                            <p class="text-[10px] text-slate-500 mt-0.5">La tasa oficial ha cambiado recientemente.</p>
-                                            <span class="text-[9px] font-bold text-primary mt-1 block">Hace 1 hora</span>
-                                        </div>
-                                    </div>
+                                    </template>
                                 </div>
                                 <button type="button" @click="showAllNotifs = true; notifOpen = false" class="block w-full text-center p-3 text-xs font-bold text-primary bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border-t border-slate-100 dark:border-slate-800">
                                     Ver todas las notificaciones
@@ -533,11 +1104,11 @@
                             </div>
                         </div>
                         
-                        <div class="hidden md:block w-px h-6 bg-slate-200 dark:bg-slate-700"></div>
+                        <div class="hidden md:block w-px h-6 bg-white/20"></div>
 
                         <!-- Perfil Dropdown -->
                         <div x-data="{ open: false }" class="relative z-50">
-                            <button @click="open = !open" @click.away="open = false" class="flex items-center gap-2.5 hover:bg-slate-50 dark:hover:bg-slate-800 p-1 md:pr-3 rounded-full border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all cursor-pointer">
+                            <button @click="open = !open" @click.away="open = false" class="flex items-center gap-2.5 hover:bg-white/10 p-1 md:pr-3 rounded-full border border-transparent hover:border-white/10 transition-all cursor-pointer">
                                 @if(config('current_shop') && config('current_shop')->logo_path)
                                     <img src="{{ filter_var(config('current_shop')->logo_path, FILTER_VALIDATE_URL) ? config('current_shop')->logo_path : asset('storage/' . config('current_shop')->logo_path) }}" alt="Logo" class="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover shadow-sm border border-slate-100 dark:border-slate-800">
                                 @else
@@ -545,10 +1116,10 @@
                                         A
                                     </div>
                                 @endif
-                                <span class="text-sm font-bold text-slate-700 dark:text-slate-300 hidden md:inline">
+                                <span class="text-sm font-bold text-white hidden md:inline">
                                      {{ config('current_shop')->name ?? 'Admin' }}
                                  </span>
-                                 <svg class="w-4 h-4 text-slate-400 hidden md:inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                 <svg class="w-4 h-4 text-white/70 hidden md:inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                             </button>
 
                             <!-- Menú Desplegable -->
@@ -578,32 +1149,34 @@
         </div>
     </div>
 
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex justify-around items-center z-40 max-w-md mx-auto shadow-lg transition-colors duration-300">
-        <a href="/{{ config('current_shop')->slug }}/admin/dashboard" 
-           class="flex flex-col items-center justify-center flex-1 h-full transition {{ request()->is('*/admin/dashboard') ? 'text-primary font-bold active:scale-95' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300' }}">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-            <span class="text-[9px] mt-1 tracking-wider">Inicio</span>
-        </a>
-        <a href="/{{ config('current_shop')->slug }}/admin/categories" 
-           class="flex flex-col items-center justify-center flex-1 h-full transition {{ request()->is('*/admin/categories*') ? 'text-primary font-bold active:scale-95' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300' }}">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
-            <span class="text-[9px] mt-1 tracking-wider">Categorías</span>
-        </a>
-        <a href="/{{ config('current_shop')->slug }}/admin/products" 
-           class="flex flex-col items-center justify-center flex-1 h-full transition {{ request()->is('*/admin/products*') ? 'text-primary font-bold active:scale-95' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300' }}">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-            <span class="text-[9px] mt-1 tracking-wider">Productos</span>
-        </a>
-        <a href="/{{ config('current_shop')->slug }}/admin/orders" 
-           class="flex flex-col items-center justify-center flex-1 h-full transition {{ request()->is('*/admin/orders*') ? 'text-primary font-bold active:scale-95' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300' }}">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            <span class="text-[9px] mt-1 tracking-wider">Órdenes</span>
-        </a>
-        <a href="/{{ config('current_shop')->slug }}/admin/settings" 
-           class="flex flex-col items-center justify-center flex-1 h-full transition {{ request()->is('*/admin/settings') ? 'text-primary font-bold active:scale-95' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300' }}">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line></svg>
-            <span class="text-[9px] mt-1 tracking-wider">Config.</span>
-        </a>
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-gradient-to-r from-primary to-primary/95 text-white border-t border-white/10 flex justify-around items-center z-40 max-w-md mx-auto shadow-2xl transition-all duration-300">
+        <div class="flex justify-around items-center w-full px-2">
+            <a href="/{{ config('current_shop')->slug }}/admin/dashboard" 
+               class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition {{ request()->is('*/admin/dashboard') ? 'text-white font-black active:scale-95 bg-white/15 shadow-sm' : 'text-white/60 hover:text-white' }}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Inicio</span>
+            </a>
+            <a href="/{{ config('current_shop')->slug }}/admin/categories" 
+               class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition {{ request()->is('*/admin/categories*') ? 'text-white font-black active:scale-95 bg-white/15 shadow-sm' : 'text-white/60 hover:text-white' }}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Categorías</span>
+            </a>
+            <a href="/{{ config('current_shop')->slug }}/admin/products" 
+               class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition {{ request()->is('*/admin/products*') ? 'text-white font-black active:scale-95 bg-white/15 shadow-sm' : 'text-white/60 hover:text-white' }}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Productos</span>
+            </a>
+            <a href="/{{ config('current_shop')->slug }}/admin/orders" 
+               class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition {{ request()->is('*/admin/orders*') ? 'text-white font-black active:scale-95 bg-white/15 shadow-sm' : 'text-white/60 hover:text-white' }}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Órdenes</span>
+            </a>
+            <a href="/{{ config('current_shop')->slug }}/admin/settings" 
+               class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition {{ request()->is('*/admin/settings') ? 'text-white font-black active:scale-95 bg-white/15 shadow-sm' : 'text-white/60 hover:text-white' }}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line></svg>
+                <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Config.</span>
+            </a>
+        </div>
     </nav>
 
     <!-- MODAL TODAS LAS NOTIFICACIONES -->
@@ -619,58 +1192,60 @@
              class="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[85vh] transition-colors duration-300">
             
             <!-- Modal Header -->
-            <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 z-10 transition-colors duration-300">
+            <div class="px-6 py-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between bg-primary text-white sticky top-0 z-10 transition-colors duration-300 shadow-md">
                 <div class="flex items-center gap-3">
-                    <h3 class="text-lg font-black text-slate-800 dark:text-slate-200">Todas las Notificaciones</h3>
-                    <span class="bg-rose-100 text-rose-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full" x-text="unreadCount > 99 ? '+99 Nuevas' : unreadCount + ' Nuevas'">2 Nuevas</span>
+                    <h3 class="text-base md:text-lg font-black text-white">Todas las Notificaciones</h3>
+                    <span class="bg-white/20 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full" x-text="unreadCount > 99 ? '+99 Nuevas' : unreadCount + ' Nuevas'">2 Nuevas</span>
                 </div>
-                <button @click="showAllNotifs = false" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                <button @click="showAllNotifs = false" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-200">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
             
             <!-- Modal Body (Scrollable list) -->
-            <div class="overflow-y-auto flex-grow p-2">
-                <!-- Item 1 -->
-                <div class="p-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition cursor-pointer flex gap-4">
-                    <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center shrink-0">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-emerald-600 dark:text-emerald-400"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <div class="overflow-y-auto flex-grow p-4 space-y-3">
+                <template x-for="notif in notifications" :key="notif.id">
+                    <div class="p-4 rounded-2xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition flex gap-4 items-start relative group" :class="notif.is_read ? 'opacity-70' : 'bg-slate-50/30 dark:bg-slate-800/20'">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                             :class="notif.type === 'new_order' ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400' : 'bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400'">
+                            <template x-if="notif.type === 'new_order'">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </template>
+                            <template x-if="notif.type !== 'new_order'">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            </template>
+                        </div>
+                        <div class="flex-grow pr-8 cursor-pointer" @click="markAsRead(notif)">
+                            <p class="text-sm font-bold text-slate-800 dark:text-slate-200" x-text="notif.title" :class="{'font-black': !notif.is_read}"></p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed" x-text="notif.content"></p>
+                            <span class="text-[10px] font-bold text-primary mt-2 block" x-text="formatTime(notif.created_at)"></span>
+                        </div>
+                        
+                        <!-- Delete single notification button -->
+                        <button @click.stop="deleteNotification(notif.id)" class="absolute right-4 top-4 w-7 h-7 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-rose-100 text-slate-400 hover:text-rose-600 dark:bg-slate-800 dark:hover:bg-rose-950/50 dark:hover:text-rose-400 transition-all opacity-0 group-hover:opacity-100 md:opacity-100 duration-200" title="Eliminar notificación">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        </button>
                     </div>
-                    <div>
-                        <p class="text-sm font-bold text-slate-800 dark:text-slate-200">Nueva orden recibida</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Has recibido una nueva orden (#1042) por el monto de $25.00. Revisa el panel de órdenes para más detalles y confirmar su preparación.</p>
-                        <span class="text-[10px] font-bold text-primary mt-2 block">Hace 5 min</span>
-                    </div>
-                </div>
+                </template>
                 
-                <!-- Item 2 -->
-                <div class="p-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition cursor-pointer flex gap-4">
-                    <div class="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-950 flex items-center justify-center shrink-0">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-amber-600 dark:text-amber-400"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <template x-if="notifications.length === 0">
+                    <div class="py-12 text-center">
+                        <svg class="w-12 h-12 text-slate-300 dark:text-slate-700 mx-auto mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <p class="text-sm font-bold text-slate-400 dark:text-slate-600">No tienes notificaciones en tu bandeja</p>
                     </div>
-                    <div>
-                        <p class="text-sm font-bold text-slate-800 dark:text-slate-200">Actualiza tu tasa BCV</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">La tasa oficial ha cambiado recientemente. Te sugerimos revisar y ajustar tus precios o sincronizar con DolarAPI para mantener todo actualizado.</p>
-                        <span class="text-[10px] font-bold text-primary mt-2 block">Hace 1 hora</span>
-                    </div>
-                </div>
-                
-                <!-- Item 3 (Leída) -->
-                <div class="p-4 rounded-2xl flex gap-4 opacity-70">
-                    <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-slate-500 dark:text-slate-400"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    </div>
-                    <div>
-                        <p class="text-sm font-bold text-slate-700 dark:text-slate-300">Bienvenido a WIStore</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Tu cuenta ha sido creada exitosamente. Empieza a configurar tu menú digital y personaliza tus ajustes visuales para empezar a vender.</p>
-                        <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-2 block">Ayer</span>
-                    </div>
-                </div>
+                </template>
             </div>
             
             <!-- Modal Footer -->
-            <div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex justify-end transition-colors duration-300">
-                <button @click="showAllNotifs = false" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300 font-bold text-xs px-5 py-2.5 rounded-xl transition-colors shadow-sm active:scale-95">
+            <div class="px-6 py-4 bg-primary flex justify-between items-center sticky bottom-0 z-10 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] border-t border-black/10 transition-colors">
+                <button x-show="notifications.length > 0" @click="clearAllNotifications()" class="bg-white/10 hover:bg-white/20 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-sm active:scale-95 flex items-center gap-1.5 border border-white/20">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    Limpiar Bandeja
+                </button>
+                <button @click="showAllNotifs = false" class="bg-white hover:bg-white/95 text-primary font-bold text-xs px-5 py-2.5 rounded-xl transition shadow-sm active:scale-95 ml-auto">
                     Cerrar
                 </button>
             </div>
@@ -678,7 +1253,7 @@
     </div>
 
     <!-- PRINT PREVIEW OVERLAY -->
-    <div id="print-preview-modal" class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm hidden flex-col select-text">
+    <div id="print-preview-modal" class="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/60 backdrop-blur-sm hidden flex-col select-text">
         <!-- Top Bar -->
         <div class="text-white px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-md" style="background-color: var(--color-primary, #E60067) !important;">
             <div class="flex items-center gap-2.5 font-bold">

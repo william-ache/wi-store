@@ -52,4 +52,23 @@ class StoreController extends Controller
 
         return response()->json(['success' => true, 'client' => $client]);
     }
+
+    public function notifyOrder(Request $request)
+    {
+        $request->validate([
+            'customer_name' => 'required|string|max:255',
+            'customer_phone' => 'required|string|max:255',
+            'total' => 'required|numeric|min:0',
+            'delivery_type' => 'required|string'
+        ]);
+
+        \App\Models\Notification::create([
+            'title' => 'Nueva orden recibida',
+            'content' => 'Has recibido una nueva orden de ' . $request->customer_name . ' (' . $request->customer_phone . ') por un monto de $' . number_format($request->total, 2) . '. Tipo: ' . ($request->delivery_type === 'delivery' ? 'Delivery' : 'Retiro en local') . '.',
+            'type' => 'new_order',
+            'is_read' => false
+        ]);
+
+        return response()->json(['success' => true]);
+    }
 }

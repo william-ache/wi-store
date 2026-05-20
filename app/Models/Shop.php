@@ -44,4 +44,9 @@ class Shop extends Model
     {
         return $this->hasMany(ShortLink::class);
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

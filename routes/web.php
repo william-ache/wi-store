@@ -11,6 +11,13 @@ use App\Http\Controllers\ShortLinkController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', function () {
+    if (Illuminate\Support\Facades\Auth::check()) {
+        $user = Illuminate\Support\Facades\Auth::user();
+        $shop = \App\Models\Shop::find($user->shop_id);
+        if ($shop) {
+            return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug]);
+        }
+    }
     return view('auth.login');
 })->name('login');
 
@@ -82,30 +89,29 @@ Route::get('/l/{code}', [ShortLinkController::class, 'redirect'])->name('short.l
 // 2. RUTAS DINÁMICAS MULTI-TENANT (Tiendas Individuales)
 // Colocadas al final del archivo. La detección y el aislamiento ocurren mediante el Middleware 'tenant'.
 Route::middleware(['tenant'])->group(function () {
-    // Auto-login de desarrollo para poder probar el panel de administración localmente
-    if (app()->environment('local') && !app()->runningInConsole() && !Illuminate\Support\Facades\Auth::check()) {
-        try {
-            if (\Illuminate\Support\Facades\Schema::hasTable('users') && $user = \App\Models\User::first()) {
-                Illuminate\Support\Facades\Auth::login($user);
-            }
-        } catch (\Throwable $e) {
-            // Ignorar silenciosamente si las tablas no existen todavía (ej. durante migraciones)
-        }
-    }
 
     // Frontend del Cliente (Público)
     Route::get('/{shop_slug}', [StoreController::class, 'index'])->name('store.index');
     Route::post('/{shop_slug}/reviews', [StoreController::class, 'storeReview'])->name('reviews.store');
     Route::post('/{shop_slug}/clients/quick-register', [StoreController::class, 'registerClient'])->name('clients.quick-register');
+    Route::post('/{shop_slug}/orders/notify', [StoreController::class, 'notifyOrder'])->name('orders.notify');
     
     // Panel Administrativo de la Tienda (Privado)
     Route::middleware(['auth'])->prefix('/{shop_slug}/admin')->name('admin.')->group(function () {
-        Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/search', [App\Http\Controllers\Admin\DashboardController::class, 'search'])->name('search');
         
         // Perfil de Tienda y Configuración Visual
         Route::get('/settings', [ShopSettingsController::class, 'edit'])->name('settings.edit');
         Route::put('/settings', [ShopSettingsController::class, 'update'])->name('settings.update');
+        Route::post('/settings/resolve-url', [ShopSettingsController::class, 'resolveShortUrl'])->name('settings.resolve-url');
         Route::post('/settings/short-link', [ShortLinkController::class, 'store'])->name('settings.short-link');
+
+        // API de Notificaciones
+        Route::get('/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('notifications.index');
+        Route::post('/notifications/{id}/read', [App\Http\Controllers\Admin\NotificationController::class, 'markAsRead'])->name('notifications.read');
+        Route::delete('/notifications/{id}', [App\Http\Controllers\Admin\NotificationController::class, 'destroy'])->name('notifications.destroy');
+        Route::delete('/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'destroyAll'])->name('notifications.destroyAll');
 
         // CRUDs de Categorías, Productos, Órdenes y Clientes
         Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
