@@ -25,11 +25,7 @@
 </style>
 <div x-data="{ activeTab: 'comercio', colorPrimary: '{{ old('color_primary', $shop->color_primary ?? '#E60067') }}', colorSecondary: '{{ old('color_secondary', $shop->color_secondary ?? '#0B132B') }}', colorBackground: '{{ old('color_background', $shop->color_background ?? '#FFFFFF') }}' }" class="space-y-6">
 
-    @if(session('success'))
-        <div class="bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold p-4 rounded-2xl border border-emerald-100 dark:border-emerald-900/50 transition-colors">
-            {{ session('success') }}
-        </div>
-    @endif    <!-- Tabs de Navegación -->
+    <!-- Tabs de Navegación -->
     <div class="flex overflow-x-auto gap-2 pb-2 hide-scrollbar">
         <button type="button" @click="activeTab = 'comercio'" 
                 :class="activeTab === 'comercio' ? 'bg-primary text-white font-black shadow-md shadow-primary/20 border-primary' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm'" 
@@ -43,12 +39,6 @@
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
             Apariencia & Activos
         </button>
-        <button type="button" @click="activeTab = 'enlaces'" 
-                :class="activeTab === 'enlaces' ? 'bg-primary text-white font-black shadow-md shadow-primary/20 border-primary' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm'" 
-                class="px-4 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap border flex items-center gap-2">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-            Marketing y Enlaces
-        </button>
         <button type="button" @click="activeTab = 'seguridad'" 
                 :class="activeTab === 'seguridad' ? 'bg-primary text-white font-black shadow-md shadow-primary/20 border-primary' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm'" 
                 class="px-4 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap border flex items-center gap-2">
@@ -60,7 +50,7 @@
     <!-- Formulario de Configuración Principal -->
     <form action="/{{ $shop->slug }}/admin/settings" method="POST" enctype="multipart/form-data" 
           class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-4 md:p-5 shadow-sm space-y-3.5 transition-colors duration-300" 
-          x-show="activeTab !== 'enlaces'" x-cloak>
+          x-cloak>
         @csrf
         @method('PUT')
 
@@ -776,8 +766,8 @@
     </form>
 
     <!-- TAB 4: COMPONENTE GESTIÓN DE ENLACE CORTO -->
-    <div x-show="activeTab === 'enlaces'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" 
-         class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-sm relative transition-colors duration-300" 
+    <div x-show="activeTab === 'comercio'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" 
+         class="mt-6 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-sm relative overflow-hidden transition-colors duration-300" 
          x-data="{ showToast: false }">
         <div class="absolute -right-12 -top-12 w-28 h-28 bg-primary/5 rounded-full blur-xl"></div>
 
@@ -794,11 +784,7 @@
             </p>
         </div>
 
-        @if(session('success_short_link'))
-            <div class="bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold p-4 rounded-xl border border-emerald-100 dark:border-emerald-900/50 mb-6 transition-colors">
-                {{ session('success_short_link') }}
-            </div>
-        @endif
+
 
         <!-- A. COMPONENTE "COPIAR LINK" -->
         @if($shortLink = $shop->shortLinks()->first())
