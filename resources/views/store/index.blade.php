@@ -147,6 +147,45 @@
         input[type="range"]:focus {
             outline: none;
         }
+
+        /* Premium Gold Effects */
+        @keyframes premium-glow {
+            0%, 100% {
+                box-shadow: 0 0 12px rgba(251, 191, 36, 0.5), 0 0 25px rgba(251, 191, 36, 0.25), inset 0 0 10px rgba(251, 191, 36, 0.3);
+                border-color: #FBBF24;
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(251, 191, 36, 0.9), 0 0 50px rgba(251, 191, 36, 0.5), inset 0 0 20px rgba(251, 191, 36, 0.6);
+                border-color: #F59E0B;
+            }
+        }
+
+        @keyframes float-crown {
+            0%, 100% {
+                transform: translate(-50%, 0) rotate(0deg);
+                filter: drop-shadow(0 4px 6px rgba(251, 191, 36, 0.7));
+            }
+            50% {
+                transform: translate(-50%, -6px) rotate(2deg);
+                filter: drop-shadow(0 10px 15px rgba(251, 191, 36, 0.95));
+            }
+        }
+
+        .premium-border-glow {
+            animation: premium-glow 3s infinite ease-in-out !important;
+            border-color: #FBBF24 !important;
+        }
+
+        .float-crown-animation {
+            animation: float-crown 3s infinite ease-in-out;
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #FFE885 0%, #F5B041 40%, #F39C12 70%, #D4AC0D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -339,7 +378,9 @@
     <!-- PORTADA / BANNER DE LA TIENDA (MÓVIL Y PC) -->
     <main class="flex-grow">
         <div class="relative h-56 md:h-80 w-full bg-slate-900 overflow-hidden">
-            <img src="{{ $company['cover'] }}" alt="Portada" class="w-full h-full object-cover opacity-70">
+            <img src="{{ !empty($company['cover']) ? $company['cover'] : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200' }}" 
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200';" 
+                 alt="Portada" class="w-full h-full object-cover opacity-70">
             <!-- Oscurecimiento sutil general -->
             <div class="absolute inset-0 bg-black/10"></div>
             <!-- Desvanecimiento (Fade) elegante hacia el color de fondo de la aplicación -->
@@ -356,13 +397,47 @@
                     <!-- Se redujo el border-radius, se quitó el shadow gigante y backdrop-blur para hacerlo más sutil -->
                     <div
                         class="relative bg-white/95 backdrop-blur-xl border border-white/40 rounded-2xl p-6 shadow-lg text-center mt-0">
+                        @php
+                            $words = explode(' ', trim($company['name'] ?? ''));
+                            $initials = '';
+                            if (count($words) >= 2) {
+                                $initials = mb_substr($words[0], 0, 1) . mb_substr($words[1], 0, 1);
+                            } elseif (count($words) == 1 && !empty($words[0])) {
+                                $initials = mb_substr($words[0], 0, 2);
+                            }
+                            $initials = mb_strtoupper($initials ?: 'WD');
+
+                            $companyPlanKey = strtolower(trim($company['plan'] ?? ($company['subscription_plan'] ?? '')));
+                            if ($companyPlanKey === 'standar') {
+                                $companyPlanKey = 'standard';
+                            }
+                            if (empty($companyPlanKey)) {
+                                $companyPlanKey = 'prueba gratuita';
+                            }
+                            $isPremiumPlan = in_array($companyPlanKey, ['premium', 'premiun', 'gold']);
+                        @endphp
+                        
+                        @if ($isPremiumPlan)
+                            <div class="absolute -top-20 left-1/2 z-40 pointer-events-none float-crown-animation flex items-center justify-center">
+                                <i class="fas fa-crown text-[30px] text-gold-gradient filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"></i>
+                                <span class="absolute w-2 h-2 rounded-full bg-white animate-ping opacity-75" style="top: 2px;"></span>
+                            </div>
+                        @endif
+                        
                         <div
-                            class="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full border-4 border-white bg-white shadow-sm overflow-hidden">
+                            class="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full border-4 {{ $isPremiumPlan ? 'premium-border-glow border-yellow-400 shadow-[0_0_20px_rgba(251,191,36,0.6)] bg-white' : 'border-white bg-white shadow-sm' }} overflow-hidden flex items-center justify-center">
                         @if (!empty($company['logo']))
-                            <img src="{{ $company['logo'] }}" alt="Logo" class="w-full h-full object-cover">
+                            <img src="{{ $company['logo'] }}" alt="Logo" class="w-full h-full object-cover" 
+                                 id="company-logo-img"
+                                 onerror="this.style.display='none'; document.getElementById('company-logo-fallback').classList.remove('hidden');">
+                            <div id="company-logo-fallback" class="hidden w-full h-full text-white flex items-center justify-center text-xl font-black tracking-wider"
+                                 style="background-color: var(--color-primary);">
+                                {{ $initials }}
+                            </div>
                         @else
-                            <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 text-xs font-bold">
-                                Logo
+                            <div class="w-full h-full text-white flex items-center justify-center text-xl font-black tracking-wider"
+                                 style="background-color: var(--color-primary);">
+                                {{ $initials }}
                             </div>
                         @endif
                         </div>
@@ -372,15 +447,7 @@
                                 ? $company['google_maps_link']
                                 : 'https://www.google.com/maps/search/?api=1&query=' .
                                     urlencode($company['address'] ?? '');
-                            $companyPlanKey = strtolower(
-                                trim($company['plan'] ?? ($company['subscription_plan'] ?? '')),
-                            );
-                            if ($companyPlanKey === 'standar') {
-                                $companyPlanKey = 'standard';
-                            }
-                            if (empty($companyPlanKey)) {
-                                $companyPlanKey = 'prueba gratuita';
-                            }
+                            
                             $planOptions = [
                                 'prueba gratuita' => [
                                     'label' => 'Prueba 7 días',
@@ -404,7 +471,8 @@
                                     'icon' => 'fas fa-crown',
                                 ],
                             ];
-                            $planInfo = $planOptions[$companyPlanKey] ?? [
+                            $displayPlanKey = in_array($companyPlanKey, ['premium', 'premiun', 'gold']) ? 'premium' : $companyPlanKey;
+                            $planInfo = $planOptions[$displayPlanKey] ?? [
                                 'label' => ucfirst($companyPlanKey),
                                 'bg' => 'bg-slate-100',
                                 'text' => 'text-slate-700',
@@ -423,12 +491,20 @@
                                 style="color: var(--color-secondary);">
                                 {{ $company['name'] }}
                             </h1>
-                            <div class="flex items-center justify-center gap-2 mt-2">
-                                <span
-                                    class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold {{ $planInfo['bg'] }} {{ $planInfo['text'] }} border {{ $planInfo['border'] }}">
-                                    <i class="{{ $planInfo['icon'] }} text-[11px]"></i>
-                                    {{ $planInfo['label'] }}
-                                </span>
+                            <div class="flex items-center justify-center gap-2 mt-2 flex-wrap">
+                                @if (!$isPremiumPlan)
+                                    <span
+                                        class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold {{ $planInfo['bg'] }} {{ $planInfo['text'] }} border {{ $planInfo['border'] }}">
+                                        <i class="{{ $planInfo['icon'] }} text-[11px]"></i>
+                                        {{ $planInfo['label'] }}
+                                    </span>
+                                @endif
+                                @if ($isPremiumPlan)
+                                    <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-black bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-500 text-white border border-yellow-300 shadow-[0_2px_10px_rgba(251,191,36,0.5)] select-none">
+                                        <i class="fas fa-circle-check text-[11px] text-white"></i>
+                                        <span>Verificado Premium</span>
+                                    </span>
+                                @endif
                             </div>
                             <p class="text-xs text-slate-500 mt-2 flex items-center justify-center gap-2">
                                 <a href="{{ $companyMapUrl }}" target="_blank"
@@ -538,136 +614,98 @@
                                 }
                             @endphp
 
-                            <!-- REDES SOCIALES -->
-                            @php
-                                $hasFacebook = !empty($company['facebook']);
-                                $hasTiktok = !empty($company['tiktok']);
-                                $hasInstagram = !empty($company['instagram']);
-                                $hasX = !empty($company['x_twitter']);
-                                $hasAnySocial = $hasFacebook || $hasTiktok || $hasInstagram || $hasX;
-                            @endphp
+                             <!-- REDES SOCIALES -->
+                             @php
+                                 $hasFacebook = !empty($company['facebook']);
+                                 $hasTiktok = !empty($company['tiktok']);
+                                 $hasInstagram = !empty($company['instagram']);
+                                 $hasX = !empty($company['x_twitter']);
+                                 $hasAnySocial = $hasFacebook || $hasTiktok || $hasInstagram || $hasX;
+                             @endphp
 
-                            <div class="mt-4 flex items-center justify-center gap-2.5 select-none">
-                                <!-- Facebook -->
-                                @if ($hasFacebook)
-                                    <a href="{{ $company['facebook'] }}" target="_blank"
-                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-[#1877F2]/10 border-[#1877F2]/20 text-[#1877F2] hover:bg-[#1877F2] hover:text-white hover:scale-110 active:scale-95"
-                                        title="Visítanos en Facebook">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                @else
-                                    <button type="button"
-                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs border border-slate-200 bg-slate-100 text-slate-300 cursor-not-allowed opacity-60"
-                                        disabled title="Facebook no configurado">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </button>
-                                @endif
+                             @if ($hasAnySocial)
+                                 <div class="mt-4 flex items-center justify-center gap-3 select-none">
+                                     <!-- Facebook -->
+                                     @if ($hasFacebook)
+                                         <a href="{{ $company['facebook'] }}" target="_blank"
+                                             class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-[#1877F2]/10 border-[#1877F2]/20 text-[#1877F2] hover:bg-[#1877F2] hover:text-white hover:scale-110 active:scale-95"
+                                             title="Visítanos en Facebook">
+                                             <i class="fab fa-facebook-f"></i>
+                                         </a>
+                                     @endif
 
-                                <!-- TikTok -->
-                                @if ($hasTiktok)
-                                    <a href="{{ $company['tiktok'] }}" target="_blank"
-                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-black/10 border-black/20 text-black hover:bg-black hover:text-white hover:scale-110 active:scale-95 group"
-                                        title="Síguenos en TikTok">
-                                        <i
-                                            class="fab fa-tiktok text-black group-hover:text-white transition-colors"></i>
-                                    </a>
-                                @else
-                                    <button type="button"
-                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs border border-slate-200 bg-slate-100 text-slate-300 cursor-not-allowed opacity-60"
-                                        disabled title="TikTok no configurado">
-                                        <i class="fab fa-tiktok"></i>
-                                    </button>
-                                @endif
+                                     <!-- TikTok -->
+                                     @if ($hasTiktok)
+                                         <a href="{{ $company['tiktok'] }}" target="_blank"
+                                             class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-black/10 border-black/20 text-black hover:bg-black hover:text-white hover:scale-110 active:scale-95 group"
+                                             title="Síguenos en TikTok">
+                                             <i class="fab fa-tiktok text-black group-hover:text-white transition-colors"></i>
+                                         </a>
+                                     @endif
 
-                                <!-- Instagram -->
-                                @if ($hasInstagram)
-                                    <a href="{{ $company['instagram'] }}" target="_blank"
-                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-gradient-to-tr from-[#FFB703]/10 to-[#E60067]/10 border-[#E60067]/20 text-[#E60067] hover:from-[#FFB703] hover:to-[#E60067] hover:text-white hover:scale-110 active:scale-95"
-                                        title="Síguenos en Instagram">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                @else
-                                    <button type="button"
-                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs border border-slate-200 bg-slate-100 text-slate-300 cursor-not-allowed opacity-60"
-                                        disabled title="Instagram no configurado">
-                                        <i class="fab fa-instagram"></i>
-                                    </button>
-                                @endif
+                                     <!-- Instagram -->
+                                     @if ($hasInstagram)
+                                         <a href="{{ $company['instagram'] }}" target="_blank"
+                                             class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-gradient-to-tr from-[#FFB703]/10 to-[#E60067]/10 border-[#E60067]/20 text-[#E60067] hover:from-[#FFB703] hover:to-[#E60067] hover:text-white hover:scale-110 active:scale-95"
+                                             title="Síguenos en Instagram">
+                                             <i class="fab fa-instagram"></i>
+                                         </a>
+                                     @endif
 
-                                <!-- X (Twitter) -->
-                                @if ($hasX)
-                                    <a href="{{ $company['x_twitter'] }}" target="_blank"
-                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-black/10 border-black/20 text-black hover:bg-black hover:text-white hover:scale-110 active:scale-95 group"
-                                        title="Síguenos en X (Twitter)">
-                                        <svg class="w-3 h-3 text-black group-hover:text-white transition-colors"
-                                            fill="currentColor" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                        </svg>
-                                    </a>
-                                @else
-                                    <button type="button"
-                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs border border-slate-200 bg-slate-100 text-slate-300 cursor-not-allowed opacity-60"
-                                        disabled title="X no configurado">
-                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                        </svg>
-                                    </button>
-                                @endif
-                            </div>
+                                     <!-- X (Twitter) -->
+                                     @if ($hasX)
+                                         <a href="{{ $company['x_twitter'] }}" target="_blank"
+                                             class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-black/10 border-black/20 text-black hover:bg-black hover:text-white hover:scale-110 active:scale-95 group"
+                                             title="Síguenos en X (Twitter)">
+                                             <svg class="w-3 h-3 text-black group-hover:text-white transition-colors"
+                                                 fill="currentColor" viewBox="0 0 24 24"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                 <path
+                                                     d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                             </svg>
+                                         </a>
+                                     @endif
+                                 </div>
+                             @endif
 
-                            <!-- CANALES DE CONTACTO -->
-                            @php
-                                $hasTelegram = !empty($company['telegram']);
-                                $hasTelegramUrl = $hasTelegram
-                                    ? (str_contains($company['telegram'], 't.me')
-                                        ? $company['telegram']
-                                        : 'https://t.me/' . ltrim($company['telegram'], '@'))
-                                    : '';
-                                $hasWhatsApp = !empty($company['whatsapp']);
-                            @endphp
+                             <!-- CANALES DE CONTACTO -->
+                             @php
+                                 $hasTelegram = !empty($company['telegram']);
+                                 $hasTelegramUrl = $hasTelegram
+                                     ? (str_contains($company['telegram'], 't.me')
+                                         ? $company['telegram']
+                                         : 'https://t.me/' . ltrim($company['telegram'], '@'))
+                                     : '';
+                                 $hasWhatsApp = !empty($company['whatsapp']);
+                             @endphp
 
-                            <div
-                                class="mt-3.5 flex flex-wrap justify-center gap-1.5 text-[9px] md:text-[10px] font-bold select-none">
-                                <!-- WhatsApp -->
-                                @if ($hasWhatsApp)
-                                    @if (count($whatsapps) > 1)
-                                        <button @click="showWhatsappModal = true"
-                                            class="flex items-center gap-1 bg-emerald-50 hover:bg-emerald-500 hover:text-white border border-emerald-100 text-emerald-600 px-2.5 py-1 rounded-xl transition duration-300 active:scale-95 shadow-sm cursor-pointer">
-                                            <i class="fab fa-whatsapp text-xs"></i> WhatsApp
-                                        </button>
-                                    @else
-                                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $whatsapps[0]['number'] ?? $company['whatsapp']) }}"
-                                            target="_blank"
-                                            class="flex items-center gap-1 bg-emerald-50 hover:bg-emerald-500 hover:text-white border border-emerald-100 text-emerald-600 px-2.5 py-1 rounded-xl transition duration-300 active:scale-95 shadow-sm">
-                                            <i class="fab fa-whatsapp text-xs"></i> WhatsApp
-                                        </a>
-                                    @endif
-                                @else
-                                    <button type="button"
-                                        class="flex items-center gap-1 bg-slate-100 text-slate-300 border border-slate-200 px-2.5 py-1 rounded-xl cursor-not-allowed opacity-60"
-                                        disabled title="WhatsApp no configurado">
-                                        <i class="fab fa-whatsapp text-xs"></i> WhatsApp
-                                    </button>
-                                @endif
+                             @if ($hasWhatsApp || $hasTelegram)
+                                 <div class="mt-3.5 flex flex-wrap justify-center gap-2 text-[10px] md:text-[11px] font-bold select-none">
+                                     <!-- WhatsApp -->
+                                     @if ($hasWhatsApp)
+                                         @if (count($whatsapps) > 1)
+                                             <button @click="showWhatsappModal = true"
+                                                 class="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-500 hover:text-white border border-emerald-100 text-emerald-600 px-3 py-1.5 rounded-xl transition duration-300 active:scale-95 shadow-sm cursor-pointer">
+                                                 <i class="fab fa-whatsapp text-[13px]"></i> WhatsApp
+                                             </button>
+                                         @else
+                                             <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $whatsapps[0]['number'] ?? $company['whatsapp']) }}"
+                                                 target="_blank"
+                                                 class="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-500 hover:text-white border border-emerald-100 text-emerald-600 px-3 py-1.5 rounded-xl transition duration-300 active:scale-95 shadow-sm">
+                                                 <i class="fab fa-whatsapp text-[13px]"></i> WhatsApp
+                                             </a>
+                                         @endif
+                                     @endif
 
-                                <!-- Telegram Contacto -->
-                                @if ($hasTelegram)
-                                    <a href="{{ $hasTelegramUrl }}" target="_blank"
-                                        class="flex items-center gap-1 bg-sky-50 hover:bg-[#0088cc] hover:text-white border border-[#0088cc]/20 text-[#0088cc] px-2.5 py-1 rounded-xl transition duration-300 active:scale-95 shadow-sm">
-                                        <i class="fab fa-telegram-plane text-xs"></i> Telegram
-                                    </a>
-                                @else
-                                    <button type="button"
-                                        class="flex items-center gap-1 bg-slate-100 text-slate-300 border border-slate-200 px-2.5 py-1 rounded-xl cursor-not-allowed opacity-60"
-                                        disabled title="Telegram no configurado">
-                                        <i class="fab fa-telegram-plane text-xs"></i> Telegram
-                                    </button>
-                                @endif
-                            </div>
+                                     <!-- Telegram Contacto -->
+                                     @if ($hasTelegram)
+                                         <a href="{{ $hasTelegramUrl }}" target="_blank"
+                                             class="flex items-center gap-1.5 bg-sky-50 hover:bg-[#0088cc] hover:text-white border border-[#0088cc]/20 text-[#0088cc] px-3 py-1.5 rounded-xl transition duration-300 active:scale-95 shadow-sm">
+                                             <i class="fab fa-telegram-plane text-[13px]"></i> Telegram
+                                         </a>
+                                     @endif
+                                 </div>
+                             @endif
 
                             <!-- MÉTODOS DE PAGO -->
                             @php
@@ -1050,7 +1088,7 @@
     <!-- FLOATING CART BUTTON -->
     <div class="fixed bottom-6 right-6 z-40" x-transition>
         <button @click="isCartOpen = true"
-            class="relative w-16 h-16 rounded-full flex items-center justify-center text-white shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:scale-105 active:scale-95 transition-transform"
+            class="relative w-16 h-16 rounded-full flex items-center justify-center text-white {{ $isPremiumPlan ? 'premium-border-glow border-4 border-yellow-400 shadow-[0_0_20px_rgba(251,191,36,0.6)]' : 'shadow-[0_8px_30px_rgba(0,0,0,0.3)]' }} hover:scale-105 active:scale-95 transition-all duration-300"
             style="background-color: var(--color-primary);">
             <i class="fas fa-shopping-bag text-2xl"></i>
             <span
@@ -2832,6 +2870,7 @@
                         units: [],
                         flavors: []
                     };
+                    const defaultImage = '{{ asset('img1.jpg') }}';
                     if (product.features && typeof product.features === 'object') {
                         const rawImages = product.features.images || product.features.imagenes || [];
                         const rawColors = product.features.colors || product.features.colores || [];
@@ -2839,7 +2878,12 @@
                         const rawUnits = product.features.units || product.features.medidas || [];
                         const rawFlavors = product.features.flavors || product.features.sabores || [];
 
-                        const images = Array.isArray(rawImages) && rawImages.length ? rawImages : [product.image_path];
+                        let images = Array.isArray(rawImages) && rawImages.length ? rawImages : [product.image_path];
+                        images = images.map(img => {
+                            if (!img) return defaultImage;
+                            return img.startsWith('http') ? img : '/storage/' + img;
+                        });
+
                         const colors = Array.isArray(rawColors) ? rawColors.map(color => ({
                             name: color.name || color.nombre || (typeof color === 'string' ? color : ''),
                             hex: color.hex || color.color || '#000000'
@@ -2861,7 +2905,6 @@
                     }
 
                     const name = (product.name || '').toLowerCase();
-                    const defaultImage = '{{ asset('img1.jpg') }}';
                     const image = product.image_path ? (product.image_path.startsWith('http') ? product.image_path :
                         '/storage/' + product.image_path) : defaultImage;
 
