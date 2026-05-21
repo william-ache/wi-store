@@ -237,11 +237,14 @@
                         </div>
 
                         <!-- WhatsApp de Pedidos -->
-                        <div class="space-y-0.5">
-                            <label for="whatsapp_number" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">WhatsApp (Formato Internacional)</label>
+                        <div class="space-y-0.5 col-span-1 sm:col-span-2">
+                            <label for="whatsapp_number" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">WhatsApp de Pedidos (Soporta Múltiples Números)</label>
                             <input type="text" id="whatsapp_number" name="whatsapp_number" 
                                    class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
-                                   value="{{ old('whatsapp_number', $shop->whatsapp_number) }}" required placeholder="e.g. 584120000000">
+                                   value="{{ old('whatsapp_number', $shop->whatsapp_number) }}" required placeholder="e.g. 584120000000 o Pedidos:584121111111, Soporte:584122222222">
+                            <p class="text-[9px] text-slate-450 dark:text-slate-500 font-medium leading-normal mt-0.5">
+                                Si tienes un solo número, colócalo directamente (ej: <code>584120000000</code>). Para múltiples números, colócalos separados por comas y con etiquetas opcionales (ej: <code>Ventas:584121111111, Soporte:584122222222</code>).
+                            </p>
                         </div>
                     </div>
 
@@ -271,14 +274,105 @@
                                     Resolviendo...
                                 </span>
                             </div>
-                            <input type="url" id="google_maps_link" name="google_maps_link" 
-                                   x-model="googleMapsLink"
-                                   @input.debounce.500ms="extractCoords()"
+                            <input type="text" id="google_maps_link" name="google_maps_link" x-model="googleMapsLink" @change="extractCoords()"
                                    class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-medium" 
-                                   placeholder="https://maps.google.com/...">
+                                   placeholder="https://maps.app.goo.gl/...">
+                        </div>
+                    </div>
+
+                    <!-- Redes Sociales y Contacto -->
+                    <div class="border-t border-slate-200 dark:border-slate-800/80 pt-3.5 mt-3.5 space-y-3">
+                        <h5 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-primary/80"></span>Redes Sociales
+                        </h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <!-- Facebook -->
+                            <div class="space-y-0.5">
+                                <label for="facebook" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Facebook URL</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-3 text-slate-400 text-xs"><i class="fab fa-facebook-f"></i></span>
+                                    <input type="text" id="facebook" name="facebook" 
+                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           value="{{ old('facebook', $shop->facebook) }}" placeholder="https://facebook.com/pagina">
+                                </div>
+                            </div>
+                            <!-- Instagram -->
+                            <div class="space-y-0.5">
+                                <label for="instagram" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Instagram URL</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-3 text-slate-400 text-xs"><i class="fab fa-instagram"></i></span>
+                                    <input type="text" id="instagram" name="instagram" 
+                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           value="{{ old('instagram', $shop->instagram) }}" placeholder="https://instagram.com/usuario">
+                                </div>
+                            </div>
+                            <!-- TikTok -->
+                            <div class="space-y-0.5">
+                                <label for="tiktok" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">TikTok URL</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-3 text-slate-400 text-xs"><i class="fab fa-tiktok"></i></span>
+                                    <input type="text" id="tiktok" name="tiktok" 
+                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           value="{{ old('tiktok', $shop->tiktok) }}" placeholder="https://tiktok.com/@usuario">
+                                </div>
+                            </div>
+                            <!-- X / Twitter -->
+                            <div class="space-y-0.5">
+                                <label for="x_twitter" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">X (Twitter) URL</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-3 text-slate-400 w-4 h-4 flex items-center justify-center pointer-events-none">
+                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                        </svg>
+                                    </span>
+                                    <input type="text" id="x_twitter" name="x_twitter" 
+                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           value="{{ old('x_twitter', $shop->x_twitter) }}" placeholder="https://x.com/usuario">
+                                </div>
+                            </div>
+                            <!-- Telegram -->
+                            <div class="space-y-0.5">
+                                <label for="telegram" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Telegram URL / Usuario</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-3 text-slate-400 text-xs"><i class="fab fa-telegram-plane"></i></span>
+                                    <input type="text" id="telegram" name="telegram" 
+                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           value="{{ old('telegram', $shop->telegram) }}" placeholder="https://t.me/usuario o @usuario">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contacto Adicional -->
+                    <div class="border-t border-slate-200 dark:border-slate-800/80 pt-3.5 mt-3.5 space-y-3">
+                        <h5 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-primary/80"></span>Canales de Contacto Alternativos
+                        </h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <!-- Teléfono para llamadas -->
+                            <div class="space-y-0.5">
+                                <label for="contact_phone" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Teléfono (Llamadas)</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-3 text-slate-400 text-xs"><i class="fas fa-phone-alt"></i></span>
+                                    <input type="text" id="contact_phone" name="contact_phone" 
+                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           value="{{ old('contact_phone', $shop->contact_phone) }}" placeholder="e.g. +584120000000">
+                                </div>
+                            </div>
+                            <!-- Teléfono para SMS -->
+                            <div class="space-y-0.5">
+                                <label for="contact_sms" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Teléfono (SMS / Mensajes)</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-3 text-slate-400 text-xs"><i class="fas fa-comment-sms"></i></span>
+                                    <input type="text" id="contact_sms" name="contact_sms" 
+                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           value="{{ old('contact_sms', $shop->contact_sms) }}" placeholder="e.g. +584120000000">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Columna Derecha: Configuración Operativa, Delivery e Impuestos -->
                 <div class="space-y-3 bg-slate-50/50 dark:bg-slate-950/40 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800/80">
@@ -293,7 +387,6 @@
                                    placeholder="0.00" value="{{ old('delivery_rate_per_km', $shop->delivery_rate_per_km) }}">
                         </div>
 
-                        <!-- Tasa Monetaria -->
                         <div class="space-y-0.5" x-data="{
                             baseCurrency: '{{ old('base_currency', $shop->base_currency) }}',
                             exchangeRate: '{{ old('exchange_rate', $shop->exchange_rate) }}',
@@ -322,26 +415,27 @@
                                 } else if (this.baseCurrency !== 'VES') {
                                     this.exchangeRate = '';
                                 }
+                            },
+                            initSelect2() {
+                                this.$nextTick(() => {
+                                    let select = $('#base_currency');
+                                    select.select2({
+                                        minimumResultsForSearch: -1,
+                                        width: '100%'
+                                    });
+                                    select.on('change', (e) => {
+                                        this.baseCurrency = e.target.value;
+                                        this.fetchRate();
+                                    });
+                                    this.$watch('baseCurrency', value => {
+                                        select.val(value).trigger('change.select2');
+                                    });
+                                });
                             }
                         }" x-init="if(!exchangeRate && (baseCurrency === 'USD' || baseCurrency === 'EUR')) fetchRate()">
                             <label for="base_currency" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Tasa monetaria</label>
                             <div class="flex gap-2 items-center">
-                                <div class="w-[45%]" x-init="
-                                    $nextTick(() => {
-                                        let select = $('#base_currency');
-                                        select.select2({
-                                            minimumResultsForSearch: -1,
-                                            width: '100%'
-                                        });
-                                        select.on('change', (e) => {
-                                            baseCurrency = e.target.value;
-                                            fetchRate();
-                                        });
-                                        $watch('baseCurrency', value => {
-                                            select.val(value).trigger('change.select2');
-                                        });
-                                    });
-                                }">
+                                <div class="w-[45%]" x-init="initSelect2()">
                                     <select id="base_currency" name="base_currency" x-model="baseCurrency"
                                             class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1.5 text-[11px] text-slate-800 dark:text-slate-250 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold select2-enable">
                                         <option value="" disabled>Moneda</option>
@@ -457,10 +551,6 @@
                                             <input type="time" x-model="schedule[day].open" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
                                             <span class="text-slate-400 text-[9px] font-bold">-</span>
                                             <input type="time" x-model="schedule[day].close" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
                         </div>
                         <input type="hidden" name="work_hours" :value="JSON.stringify({ type: type, text: text, schedule: schedule })">
                     </div>
@@ -468,39 +558,103 @@
                     <!-- Métodos de Pago -->
                     <div class="space-y-1" 
                          x-data="{ 
-                              methods: '{{ old('payment_methods', $shop->payment_methods ?? '') }}'.split(',').map(i => i.trim()).filter(i => i),
-                              availableMethods: [
-                                  {name: 'Transferencia', color: 'bg-slate-600 text-white border-slate-600 shadow-sm'},
-                                  {name: 'Pago Móvil', color: 'bg-teal-500 text-white border-teal-500 shadow-sm'},
-                                  {name: 'Efectivo', color: 'bg-emerald-600 text-white border-emerald-600 shadow-sm'},
-                                  {name: 'Zelle', color: 'bg-purple-600 text-white border-purple-600 shadow-sm'},
-                                  {name: 'Binance', color: 'bg-yellow-500 text-white border-yellow-500 shadow-sm'},
-                                  {name: 'PayPal', color: 'bg-blue-600 text-white border-blue-600 shadow-sm'},
-                                  {name: 'Punto de Venta', color: 'bg-indigo-500 text-white border-indigo-500 shadow-sm'}
-                              ],
-                              toggle(methodName) {
-                                  if (this.methods.includes(methodName)) {
-                                      this.methods = this.methods.filter(m => m !== methodName);
-                                  } else {
-                                      this.methods.push(methodName);
-                                  }
-                              }
-                          }">
+                               methodsObj: {},
+                               availableMethods: [
+                                   {name: 'Transferencia', color: 'bg-slate-600 text-white border-slate-600 shadow-sm', placeholder: 'Banco, Número de Cuenta, Titular, RIF...'},
+                                   {name: 'Pago Móvil', color: 'bg-teal-500 text-white border-teal-500 shadow-sm', placeholder: 'Banco, Teléfono, Cédula...'},
+                                   {name: 'Efectivo', color: 'bg-emerald-600 text-white border-emerald-600 shadow-sm', placeholder: 'Detalles (ej: Traer sencillo, Se acepta cambio...)'},
+                                   {name: 'Zelle', color: 'bg-purple-600 text-white border-purple-600 shadow-sm', placeholder: 'Correo de Zelle, Nombre...'},
+                                   {name: 'Binance', color: 'bg-yellow-500 text-white border-yellow-500 shadow-sm', placeholder: 'Pay ID, Correo, USDT...'},
+                                   {name: 'PayPal', color: 'bg-blue-600 text-white border-blue-600 shadow-sm', placeholder: 'Correo de cuenta...'},
+                                   {name: 'Punto de Venta', color: 'bg-indigo-500 text-white border-indigo-500 shadow-sm', placeholder: 'Detalles (ej: Pago directo al retirar/recibir...)'}
+                               ],
+                               initMethods() {
+                                   let raw = @json($shop->payment_methods ?? '');
+                                   let parsed = {};
+                                   try {
+                                       if (raw.trim().startsWith('{')) {
+                                           parsed = JSON.parse(raw);
+                                       }
+                                   } catch(e) {
+                                       parsed = {};
+                                   }
+                                   
+                                   if (Object.keys(parsed).length === 0 && raw.trim() !== '') {
+                                       raw.split(',').forEach(m => {
+                                           let name = m.trim();
+                                           if (name) {
+                                               parsed[name] = { active: true, details: '' };
+                                           }
+                                       });
+                                   }
+                                   
+                                   if (Object.keys(parsed).length === 0) {
+                                       parsed = {
+                                           'Efectivo': { active: true, details: '' },
+                                           'Pago Móvil': { active: true, details: '' }
+                                       };
+                                   }
+
+                                   // Asegurar que todos los métodos disponibles existan en el objeto
+                                   this.availableMethods.forEach(item => {
+                                       if (!parsed[item.name]) {
+                                           parsed[item.name] = { active: false, details: '' };
+                                       }
+                                   });
+                                   
+                                   this.methodsObj = parsed;
+                               },
+                               toggle(name) {
+                                   if (!this.methodsObj[name]) {
+                                       this.methodsObj[name] = { active: true, details: '' };
+                                   } else {
+                                       this.methodsObj[name].active = !this.methodsObj[name].active;
+                                   }
+                               },
+                               isActive(name) {
+                                   return this.methodsObj[name] && this.methodsObj[name].active;
+                               },
+                               get serialized() {
+                                   return JSON.stringify(this.methodsObj);
+                               }
+                           }"
+                           x-init="initMethods()">
                         <label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 block mb-0.5">Métodos de Pago</label>
                         <div class="flex flex-wrap gap-1">
                             <template x-for="item in availableMethods" :key="item.name">
                                 <button type="button" 
                                         @click="toggle(item.name)"
-                                        :class="methods.includes(item.name) ? item.color : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm'"
+                                        :class="isActive(item.name) ? item.color : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm'"
                                         class="px-2 py-0.5 rounded-lg border text-[9px] font-bold transition-all duration-300 select-none flex items-center gap-1 focus:outline-none">
-                                    <svg x-show="methods.includes(item.name)" class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <svg x-show="isActive(item.name)" class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     <span x-text="item.name"></span>
                                 </button>
                             </template>
                         </div>
-                        <input type="hidden" name="payment_methods" :value="methods.join(', ')">
+
+                        <!-- Detalle de Datos de Pago -->
+                        <div class="mt-3.5 space-y-2" x-show="Object.values(methodsObj).some(m => m.active)">
+                            <label class="text-[10px] font-black text-primary uppercase tracking-widest block">Instrucciones / Datos de Pago</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[180px] overflow-y-auto custom-scrollbar p-0.5">
+                                <template x-for="item in availableMethods" :key="item.name">
+                                    <div x-show="isActive(item.name)" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2.5 rounded-xl space-y-1 shadow-sm transition hover:shadow-md">
+                                        <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 block" x-text="item.name"></span>
+                                        <textarea 
+                                            x-model="methodsObj[item.name].details"
+                                            :placeholder="item.placeholder"
+                                            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg px-2 py-1 text-[10px] text-slate-800 dark:text-slate-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold"
+                                            rows="2"
+                                        ></textarea>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="payment_methods" :value="serialized">
                     </div>
                 </div>
+            </div>
+        </div></div>
             </div>
         </div>
 

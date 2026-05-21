@@ -10,7 +10,7 @@ class Category extends Model
 {
     use HasFactory, BelongsToTenant;
 
-    protected $fillable = ['shop_id', 'name', 'slug', 'status'];
+    protected $fillable = ['shop_id', 'name', 'slug', 'status', 'icon', 'color'];
 
     public function products()
     {

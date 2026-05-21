@@ -13,7 +13,9 @@ class Shop extends Model
         'name', 'slug', 'whatsapp_number', 'description', 'address',
         'payment_methods', 'logo_path', 'cover_path', 'color_primary',
         'google_maps_link', 'work_hours', 'base_currency',
-        'delivery_rate_per_km', 'latitude', 'longitude'
+        'delivery_rate_per_km', 'latitude', 'longitude',
+        'facebook', 'instagram', 'tiktok', 'x_twitter',
+        'contact_phone', 'contact_sms', 'telegram'
     ];
 
     protected $casts = [

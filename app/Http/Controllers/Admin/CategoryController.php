@@ -33,6 +33,8 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'icon' => 'nullable|string|max:255',
+            'color' => 'nullable|string|max:7',
         ]);
 
         $slug = Str::slug($request->name);
@@ -47,6 +49,8 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => $slug,
             'status' => $request->status,
+            'icon' => $request->icon,
+            'color' => $request->color,
         ]);
 
         return response()->json([
@@ -75,6 +79,8 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'icon' => 'nullable|string|max:255',
+            'color' => 'nullable|string|max:7',
         ]);
 
         $slug = Str::slug($request->name);
@@ -88,6 +94,8 @@ class CategoryController extends Controller
 
         $category->name = $request->name;
         $category->status = $request->status;
+        $category->icon = $request->icon;
+        $category->color = $request->color;
         $category->save();
 
         return response()->json([

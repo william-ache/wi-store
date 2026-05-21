@@ -22,7 +22,7 @@ class ShopSettingsController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'whatsapp_number' => 'required|string|max:20',
+            'whatsapp_number' => 'required|string|max:255',
             'description' => 'nullable|string',
             'address' => 'nullable|string',
             'google_maps_link' => 'nullable|url|max:500',
@@ -39,12 +39,20 @@ class ShopSettingsController extends Controller
             'logo' => 'nullable|image|max:2048',
             'cover' => 'nullable|image|max:2048',
             'password' => 'nullable|string|min:8|confirmed',
+            'facebook' => 'nullable|string|max:255',
+            'instagram' => 'nullable|string|max:255',
+            'tiktok' => 'nullable|string|max:255',
+            'x_twitter' => 'nullable|string|max:255',
+            'contact_phone' => 'nullable|string|max:30',
+            'contact_sms' => 'nullable|string|max:30',
+            'telegram' => 'nullable|string|max:255',
         ]);
 
         $data = $request->only([
             'name', 'whatsapp_number', 'description', 'address', 'google_maps_link', 'base_currency', 'exchange_rate',
             'payment_methods', 'color_primary', 'color_secondary', 'color_background',
-            'delivery_rate_per_km', 'latitude', 'longitude'
+            'delivery_rate_per_km', 'latitude', 'longitude',
+            'facebook', 'instagram', 'tiktok', 'x_twitter', 'contact_phone', 'contact_sms', 'telegram'
         ]);
 
         if ($request->filled('work_hours')) {
