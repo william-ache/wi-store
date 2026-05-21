@@ -10,19 +10,54 @@ class StoreController extends Controller
 {
     public function index()
     {
-        // Las consultas a continuación aplican automáticamente el TenantScope 
+        // Las consultas a continuación aplican automáticamente el TenantScope
         // gracias al Trait 'BelongsToTenant', por lo que ya están aisladas por tienda
+        $shop = \App\Models\Shop::first();
         $categories = Category::where('status', true)
             ->with(['products' => function ($query) {
                 $query->where('is_available', true);
             }])
             ->get();
-            
+
         $reviews = Review::where('is_approved', true)->latest()->get();
         $averageRating = $reviews->count() > 0 ? $reviews->avg('rating') : 5.0;
         $branches = \App\Models\Shop::select('name', 'slug', 'address', 'google_maps_link')->get();
 
-        return view('store.index', compact('categories', 'reviews', 'averageRating', 'branches'));
+        // Preparar datos de la tienda para la vista
+        $company = [
+            'name' => $shop->name,
+            'slug' => $shop->slug,
+            'whatsapp' => $shop->whatsapp_number,
+            'whatsapp_number' => $shop->whatsapp_number,
+            'description' => $shop->description,
+            'address' => $shop->address,
+            'google_maps_link' => $shop->google_maps_link,
+            'latitude' => $shop->latitude,
+            'longitude' => $shop->longitude,
+            'delivery_rate_per_km' => $shop->delivery_rate_per_km,
+            'work_hours' => $shop->work_hours,
+            'base_currency' => $shop->base_currency,
+            'exchange_rate' => $shop->exchange_rate,
+            'colors' => [
+                'primary' => $shop->color_primary ?? '#E60067',
+                'secondary' => $shop->color_secondary ?? '#0B132B',
+                'bg_light' => $shop->color_background ?? '#FFFFFF',
+            ],
+            'logo' => $shop->logo_path ? (filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : asset('storage/'.$shop->logo_path)) : null,
+            'cover' => $shop->cover_path ? (filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path)) : null,
+            'facebook' => $shop->facebook,
+            'instagram' => $shop->instagram,
+            'tiktok' => $shop->tiktok,
+            'x_twitter' => $shop->x_twitter,
+            'contact_phone' => $shop->contact_phone,
+            'contact_sms' => $shop->contact_sms,
+            'telegram' => $shop->telegram,
+            'payment_methods' => $shop->payment_methods,
+            'plan' => $shop->plan ?? 'standard',
+            'subscription_plan' => $shop->plan ?? 'standard',
+        ];
+
+        return view('store.index', compact('categories', 'reviews', 'averageRating', 'branches', 'company'));
     }
 
     public function storeReview(Request $request)

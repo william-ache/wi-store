@@ -430,6 +430,13 @@
                     <!-- Horario de Trabajo -->
                     @php
                         $currentHours = old('work_hours', $shop->work_hours);
+                        // Decodificar si es string JSON
+                        if (is_string($currentHours)) {
+                            $decoded = json_decode($currentHours, true);
+                            if ($decoded !== null) {
+                                $currentHours = $decoded;
+                            }
+                        }
                         $defaultSchedule = [
                             'Lunes' => ['closed' => false, 'open' => '08:00', 'close' => '18:00'],
                             'Martes' => ['closed' => false, 'open' => '08:00', 'close' => '18:00'],
@@ -440,10 +447,10 @@
                             'Domingo' => ['closed' => true, 'open' => '08:00', 'close' => '18:00'],
                         ];
                         $isCustom = is_array($currentHours) && isset($currentHours['type']) && $currentHours['type'] === 'custom';
-                        $simpleText = is_array($currentHours) && isset($currentHours['type']) && $currentHours['type'] === 'simple' 
-                                        ? $currentHours['text'] 
+                        $simpleText = is_array($currentHours) && isset($currentHours['type']) && $currentHours['type'] === 'simple'
+                                        ? $currentHours['text']
                                         : (!is_array($currentHours) ? $currentHours : '');
-                        $scheduleData = $isCustom ? $currentHours['schedule'] : $defaultSchedule;
+                        $scheduleData = $isCustom && isset($currentHours['schedule']) ? $currentHours['schedule'] : $defaultSchedule;
                     @endphp
 
                     <div class="space-y-1">

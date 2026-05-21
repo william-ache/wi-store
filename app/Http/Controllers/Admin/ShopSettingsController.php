@@ -26,7 +26,10 @@ class ShopSettingsController extends Controller
             'description' => 'nullable|string',
             'address' => 'nullable|string',
             'google_maps_link' => 'nullable|url|max:500',
-            'work_hours' => 'nullable|string', // Viene como JSON string desde Alpine
+            'work_hours' => 'nullable|string',
+            'work_hours_type' => 'nullable|string|in:simple,custom',
+            'work_hours_simple' => 'nullable|string',
+            'schedule' => 'nullable|array',
             'base_currency' => 'nullable|string|max:10',
             'exchange_rate' => 'nullable|string|max:50',
             'payment_methods' => 'nullable|string',
@@ -60,9 +63,24 @@ class ShopSettingsController extends Controller
             $data['exchange_updated_at'] = date('d/m/Y h:i A');
         }
 
-        if ($request->filled('work_hours')) {
+        // Manejar horarios de trabajo con la nueva estructura
+        if ($request->filled('work_hours_type')) {
+            $workHoursType = $request->work_hours_type;
+            $workHoursData = [
+                'type' => $workHoursType
+            ];
+
+            if ($workHoursType === 'simple') {
+                $workHoursData['text'] = $request->work_hours_simple ?? '';
+            } elseif ($workHoursType === 'custom') {
+                $workHoursData['schedule'] = $request->schedule ?? [];
+            }
+
+            $data['work_hours'] = json_encode($workHoursData);
+        } elseif ($request->filled('work_hours')) {
+            // Mantener compatibilidad con el formato antiguo
             $decoded = json_decode($request->work_hours, true);
-            $data['work_hours'] = is_array($decoded) ? $decoded : $request->work_hours;
+            $data['work_hours'] = is_array($decoded) ? json_encode($decoded) : $request->work_hours;
         } else {
             $data['work_hours'] = null;
         }
