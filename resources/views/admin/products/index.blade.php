@@ -15,6 +15,7 @@
     productDescription: '',
     productIsAvailable: 1,
     productImagePreview: null,
+    productPreparationTime: '',
     errors: {},
     
     // Dynamic Product Features State
@@ -308,6 +309,7 @@
         this.productDescription = '';
         this.productIsAvailable = 1;
         this.productImagePreview = null;
+        this.productPreparationTime = '';
         document.getElementById('image').value = '';
         this.errors = {};
         
@@ -341,7 +343,7 @@
 
         this.showModal = true;
     },
-    openEdit(id, name, categoryId, price, description, isAvailable, imagePath, features) {
+    openEdit(id, name, categoryId, price, description, isAvailable, imagePath, features, preparationTime) {
         this.isEdit = true;
         this.productId = id;
         this.productName = name;
@@ -350,6 +352,7 @@
         this.productDescription = description || '';
         this.productIsAvailable = isAvailable ? 1 : 0;
         this.productImagePreview = imagePath ? (imagePath.startsWith('http') ? imagePath : '/storage/' + imagePath) : null;
+        this.productPreparationTime = preparationTime || '';
         document.getElementById('image').value = '';
         this.errors = {};
 
@@ -513,6 +516,14 @@
                     <label for="description" class="block text-[10px] font-black text-primary uppercase tracking-widest mb-1.5">Descripción o Detalles</label>
                     <textarea id="description" x-model="productDescription" rows="3" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition resize-none" placeholder="Ingresa los detalles del producto..."></textarea>
                     <p x-show="errors.description" class="text-[10px] text-rose-500 font-bold mt-1" x-text="errors.description"></p>
+                </div>
+
+                <!-- Tiempo de Preparación -->
+                <div>
+                    <label for="preparation_time" class="block text-[10px] font-black text-primary uppercase tracking-widest mb-1.5">Tiempo Estimado de Preparación</label>
+                    <input type="text" id="preparation_time" x-model="productPreparationTime" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition" placeholder="Ej: 20-30 min">
+                    <p class="text-[9px] text-slate-400 mt-1">Tiempo estimado para preparar este producto (opcional)</p>
+                    <p x-show="errors.preparation_time" class="text-[10px] text-rose-500 font-bold mt-1" x-text="errors.preparation_time"></p>
                 </div>
 
                 <!-- CONFIGURACIÓN DE CARACTERÍSTICAS DINÁMICAS (SaaS Premium Style) -->
@@ -869,9 +880,10 @@
                         const descriptionEscaped = row.description ? row.description.replace(/'/g, "\\'") : '';
                         const nameEscaped = row.name.replace(/'/g, "\\'");
                         const featuresEscaped = encodeURIComponent(JSON.stringify(row.features || null));
+                        const preparationTimeEscaped = row.preparation_time ? row.preparation_time.replace(/'/g, "\\'") : '';
                         return `
                             <div class="flex items-center gap-2">
-                                <button onclick="editProduct(${row.id}, '${nameEscaped}', ${row.category_id}, ${row.price}, '${descriptionEscaped}', ${row.is_available}, '${row.image_path || ''}', '${featuresEscaped}')" class="p-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:border-primary rounded-xl text-slate-600 dark:text-slate-400 hover:text-primary transition-all shadow-sm cursor-pointer" title="Editar">
+                                <button onclick="editProduct(${row.id}, '${nameEscaped}', ${row.category_id}, ${row.price}, '${descriptionEscaped}', ${row.is_available}, '${row.image_path || ''}', '${featuresEscaped}', '${preparationTimeEscaped}')" class="p-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:border-primary rounded-xl text-slate-600 dark:text-slate-400 hover:text-primary transition-all shadow-sm cursor-pointer" title="Editar">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                 </button>
                                 <button onclick="deleteProduct(${row.id})" class="p-2 bg-rose-50 dark:bg-rose-950/30 border border-rose-100/40 hover:border-rose-500 rounded-xl text-rose-600 dark:text-rose-400 hover:text-white hover:bg-rose-500 transition-all shadow-sm cursor-pointer" title="Eliminar">
@@ -938,7 +950,7 @@
     });
 
     // Delegación de Alpine a Javascript
-    function editProduct(id, name, categoryId, price, description, isAvailable, imagePath, featuresUrlEncoded) {
+    function editProduct(id, name, categoryId, price, description, isAvailable, imagePath, featuresUrlEncoded, preparationTime) {
         let features = null;
         try {
             if (featuresUrlEncoded && featuresUrlEncoded !== 'undefined' && featuresUrlEncoded !== 'null') {
@@ -947,7 +959,7 @@
         } catch(e) {
             console.error('Error decoding features:', e);
         }
-        Alpine.$data(document.getElementById('products-page')).openEdit(id, name, categoryId, price, description, isAvailable, imagePath, features);
+        Alpine.$data(document.getElementById('products-page')).openEdit(id, name, categoryId, price, description, isAvailable, imagePath, features, preparationTime);
     }
 
     // Toast de SweetAlert2 con colores de la tienda
@@ -975,6 +987,7 @@
         formData.append('price', alpineData.productPrice);
         formData.append('description', alpineData.productDescription);
         formData.append('is_available', alpineData.productIsAvailable);
+        formData.append('preparation_time', alpineData.productPreparationTime);
 
         // Filter and stringify features config
         let activeFeatures = {

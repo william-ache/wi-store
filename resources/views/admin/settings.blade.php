@@ -22,40 +22,59 @@
         font-weight: 600 !important;
         padding-left: 0.25rem !important;
     }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .tab-btn.active { background-color: var(--color-primary); color: white; }
 </style>
-<div x-data="{ activeTab: 'comercio', colorPrimary: '{{ old('color_primary', $shop->color_primary ?? '#E60067') }}', colorSecondary: '{{ old('color_secondary', $shop->color_secondary ?? '#0B132B') }}', colorBackground: '{{ old('color_background', $shop->color_background ?? '#FFFFFF') }}' }" class="space-y-6">
+<div class="space-y-6">
 
     <!-- Tabs de Navegación -->
     <div class="flex overflow-x-auto gap-2 pb-2 hide-scrollbar">
-        <button type="button" @click="activeTab = 'comercio'" 
-                :class="activeTab === 'comercio' ? 'bg-primary text-white font-black shadow-md shadow-primary/20 border-primary' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm'" 
-                class="px-4 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap border flex items-center gap-2">
+        <button type="button" onclick="showTab('comercio')" id="tab-comercio"
+                class="tab-btn active px-4 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap border flex items-center gap-2 bg-primary text-white font-black shadow-md shadow-primary/20 border-primary">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
             Datos Comerciales
         </button>
-        <button type="button" @click="activeTab = 'colores'" 
-                :class="activeTab === 'colores' ? 'bg-primary text-white font-black shadow-md shadow-primary/20 border-primary' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm'" 
-                class="px-4 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap border flex items-center gap-2">
+        <button type="button" onclick="showTab('colores')" id="tab-colores"
+                class="tab-btn px-4 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap border flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
             Apariencia & Activos
         </button>
-        <button type="button" @click="activeTab = 'seguridad'" 
-                :class="activeTab === 'seguridad' ? 'bg-primary text-white font-black shadow-md shadow-primary/20 border-primary' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm'" 
-                class="px-4 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap border flex items-center gap-2">
+        <button type="button" onclick="showTab('seguridad')" id="tab-seguridad"
+                class="tab-btn px-4 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap border flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             Seguridad
         </button>
     </div>
 
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Show selected tab content
+            document.getElementById('content-' + tabName).classList.add('active');
+            
+            // Update button styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-primary', 'text-white', 'font-black', 'shadow-md', 'shadow-primary/20', 'border-primary');
+                btn.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-850', 'hover:bg-slate-50', 'dark:hover:bg-slate-800/50', 'shadow-sm');
+            });
+            
+            // Activate selected button
+            const activeBtn = document.getElementById('tab-' + tabName);
+            activeBtn.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-850', 'hover:bg-slate-50', 'dark:hover:bg-slate-800/50', 'shadow-sm');
+            activeBtn.classList.add('active', 'bg-primary', 'text-white', 'font-black', 'shadow-md', 'shadow-primary/20', 'border-primary');
+        }
+    </script>
+
     <!-- Formulario de Configuración Principal -->
-    <form action="/{{ $shop->slug }}/admin/settings" method="POST" enctype="multipart/form-data" 
-          class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-4 md:p-5 shadow-sm space-y-3.5 transition-colors duration-300" 
-          x-cloak>
+    <form action="/{{ $shop->slug }}/admin/settings" method="POST" enctype="multipart/form-data"
+          class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-4 md:p-5 shadow-sm space-y-3.5 transition-colors duration-300">
         @csrf
         @method('PUT')
 
         <!-- TAB 1: IDENTIDAD COMERCIAL -->
-        <div x-show="activeTab === 'comercio'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-3.5 pt-0.5">
+        <div id="content-comercio" class="tab-content active space-y-3.5 pt-0.5">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-3 mb-1">
                 <div>
                     <h3 class="text-sm md:text-base font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -70,159 +89,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" x-data="{
-                googleMapsLink: '{{ old('google_maps_link', $shop->google_maps_link ?? '') }}',
-                latitude: '{{ old('latitude', $shop->latitude ?? '') }}',
-                longitude: '{{ old('longitude', $shop->longitude ?? '') }}',
-                gpsLoading: false,
-                mapsResolving: false,
-
-                // Parse/Extract coordinates from Google Maps Link
-                async extractCoords() {
-                    if (!this.googleMapsLink) return;
-                    
-                    let urlToParse = this.googleMapsLink.trim();
-                    
-                    // If it is a shortened google link, resolve it via our server
-                    if (urlToParse.includes('maps.app.goo.gl') || urlToParse.includes('goo.gl/maps')) {
-                        this.mapsResolving = true;
-                        try {
-                            let response = await fetch('/{{ $shop->slug }}/admin/settings/resolve-url', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name=\'csrf-token\']').getAttribute('content')
-                                },
-                                body: JSON.stringify({ url: urlToParse })
-                            });
-                            let data = await response.json();
-                            if (data.url) {
-                                urlToParse = data.url;
-                            }
-                        } catch (e) {
-                            console.error('Error resolving map url', e);
-                        } finally {
-                            this.mapsResolving = false;
-                        }
-                    }
-
-                    // Extract coordinates patterns:
-                    // 1. @10.4806,-66.9036
-                    let atMatch = urlToParse.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
-                    let lat = null, lng = null;
-
-                    if (atMatch) {
-                        lat = atMatch[1];
-                        lng = atMatch[2];
-                    } else {
-                        // 2. !3d10.4806!4d-66.9036
-                        let dMatch = urlToParse.match(/!3d(-?\d+\.\d+).*?!4d(-?\d+\.\d+)/);
-                        if (dMatch) {
-                            lat = dMatch[1];
-                            lng = dMatch[2];
-                        } else {
-                            // 3. q=10.4806,-66.9036 or ll=10.4806,-66.9036
-                            let qMatch = urlToParse.match(/[?&](q|ll)=(-?\d+\.\d+),(-?\d+\.\d+)/);
-                            if (qMatch) {
-                                lat = qMatch[2];
-                                lng = qMatch[3];
-                            }
-                        }
-                    }
-
-                    if (lat && lng) {
-                        this.latitude = parseFloat(lat).toFixed(6);
-                        this.longitude = parseFloat(lng).toFixed(6);
-                        
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true
-                        });
-                        
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Coordenadas Extraídas',
-                            text: 'Se han obtenido latitud y longitud desde el enlace.'
-                        });
-                    } else {
-                        // If no coordinates could be parsed and we resolved, show a warning toast
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 4000,
-                            timerProgressBar: true
-                        });
-                        
-                        Toast.fire({
-                            icon: 'info',
-                            title: 'Enlace Registrado',
-                            text: 'Para sincronizar geolocalización, asegúrate de que el enlace incluya coordenadas o usa el botón GPS.'
-                        });
-                    }
-                },
-
-                // Get browser GPS coordinates
-                getGPSLocation() {
-                    if (!navigator.geolocation) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'GPS no soportado',
-                            text: 'Tu navegador o dispositivo no soporta la geolocalización.'
-                        });
-                        return;
-                    }
-
-                    this.gpsLoading = true;
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            this.latitude = position.coords.latitude.toFixed(6);
-                            this.longitude = position.coords.longitude.toFixed(6);
-                            this.gpsLoading = false;
-
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true
-                            });
-                            
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'GPS Sincronizado',
-                                text: 'Se han establecido las coordenadas actuales.'
-                            });
-
-                            // Generate google maps link if empty
-                            if (!this.googleMapsLink) {
-                                this.googleMapsLink = `https://www.google.com/maps?q=${this.latitude},${this.longitude}`;
-                            }
-                        },
-                        (error) => {
-                            this.gpsLoading = false;
-                            let msg = 'No se pudo obtener la ubicación.';
-                            if (error.code === error.PERMISSION_DENIED) {
-                                msg = 'Permiso denegado. Por favor, concede acceso al GPS en tu navegador.';
-                            } else if (error.code === error.POSITION_UNAVAILABLE) {
-                                msg = 'La ubicación física no está disponible en este momento.';
-                            } else if (error.code === error.TIMEOUT) {
-                                msg = 'Tiempo de espera agotado al intentar conectar con el satélite GPS.';
-                            }
-
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Ubicación no obtenida',
-                                text: msg
-                            });
-                        },
-                        { enableHighAccuracy: true, timeout: 8000 }
-                    );
-                }
-            }">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Columna Izquierda: Información Básica del Comercio -->
                 <div class="space-y-3 bg-slate-50/50 dark:bg-slate-950/40 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800/80">
                     <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-primary/80"></span>Información Básica</h4>
@@ -269,13 +136,14 @@
                         <div class="space-y-0.5">
                             <div class="flex items-center justify-between">
                                 <label for="google_maps_link" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Enlace de Google Maps</label>
-                                <span x-show="mapsResolving" class="text-[9px] text-primary font-bold flex items-center gap-1" style="display: none;">
+                                <span id="maps-resolving" class="text-[9px] text-primary font-bold flex items-center gap-1" style="display: none;">
                                     <svg class="animate-spin w-2.5 h-2.5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                                     Resolviendo...
                                 </span>
                             </div>
-                            <input type="text" id="google_maps_link" name="google_maps_link" x-model="googleMapsLink" @change="extractCoords()"
-                                   class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-medium" 
+                            <input type="text" id="google_maps_link" name="google_maps_link"
+                                   class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-medium"
+                                   value="{{ old('google_maps_link', $shop->google_maps_link ?? '') }}"
                                    placeholder="https://maps.app.goo.gl/...">
                         </div>
                     </div>
@@ -387,89 +255,87 @@
                                    placeholder="0.00" value="{{ old('delivery_rate_per_km', $shop->delivery_rate_per_km) }}">
                         </div>
 
-                        <div class="space-y-0.5" x-data="{
-                            baseCurrency: '{{ old('base_currency', $shop->base_currency) }}',
-                            exchangeRate: '{{ old('exchange_rate', $shop->exchange_rate) }}',
-                            isLoading: false,
-                            async fetchRate() {
-                                if (this.baseCurrency === 'USD') {
-                                    this.isLoading = true;
-                                    try {
-                                        let res = await fetch('https://dolarapi.com/v1/dolares/oficial');
-                                        let data = await res.json();
-                                        this.exchangeRate = '$' + data.venta + ' ARS';
-                                    } catch (e) {
-                                        console.error('Error fetching rate', e);
-                                    }
-                                    this.isLoading = false;
-                                } else if (this.baseCurrency === 'EUR') {
-                                    this.isLoading = true;
-                                    try {
-                                        let res = await fetch('https://dolarapi.com/v1/cotizaciones/eur');
-                                        let data = await res.json();
-                                        this.exchangeRate = '€' + data.venta + ' ARS';
-                                    } catch (e) {
-                                        console.error('Error fetching rate', e);
-                                    }
-                                    this.isLoading = false;
-                                } else if (this.baseCurrency !== 'VES') {
-                                    this.exchangeRate = '';
-                                }
-                            },
-                            initSelect2() {
-                                this.$nextTick(() => {
-                                    let select = $('#base_currency');
-                                    select.select2({
-                                        minimumResultsForSearch: -1,
-                                        width: '100%'
-                                    });
-                                    select.on('change', (e) => {
-                                        this.baseCurrency = e.target.value;
-                                        this.fetchRate();
-                                    });
-                                    this.$watch('baseCurrency', value => {
-                                        select.val(value).trigger('change.select2');
-                                    });
-                                });
-                            }
-                        }" x-init="if(!exchangeRate && (baseCurrency === 'USD' || baseCurrency === 'EUR')) fetchRate()">
+                        <div class="space-y-0.5">
                             <label for="base_currency" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Tasa monetaria</label>
                             <div class="flex gap-2 items-center">
-                                <div class="w-[45%]" x-init="initSelect2()">
-                                    <select id="base_currency" name="base_currency" x-model="baseCurrency"
-                                            class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1.5 text-[11px] text-slate-800 dark:text-slate-250 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold select2-enable">
+                                <div class="w-[45%]">
+                                    <select id="base_currency" name="base_currency"
+                                            class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1.5 text-[11px] text-slate-800 dark:text-slate-250 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold select2-enable"
+                                            onchange="fetchExchangeRate()">
                                         <option value="" disabled>Moneda</option>
-                                        <option value="USD">USD</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="VES">VES</option>
-                                        <option value="COP">COP</option>
+                                        <option value="USD" {{ old('base_currency', $shop->base_currency) === 'USD' ? 'selected' : '' }}>USD</option>
+                                        <option value="EUR" {{ old('base_currency', $shop->base_currency) === 'EUR' ? 'selected' : '' }}>EUR</option>
+                                        <option value="VES" {{ old('base_currency', $shop->base_currency) === 'VES' ? 'selected' : '' }}>VES</option>
+                                        <option value="COP" {{ old('base_currency', $shop->base_currency) === 'COP' ? 'selected' : '' }}>COP</option>
                                     </select>
                                 </div>
                                 <div class="relative w-[55%] flex items-center">
-                                    <input type="text" name="exchange_rate" x-model="exchangeRate" 
-                                           :readonly="baseCurrency === 'USD' || baseCurrency === 'EUR'" 
-                                           :class="(baseCurrency === 'USD' || baseCurrency === 'EUR') ? 'bg-slate-100 dark:bg-slate-800/80 text-slate-500 cursor-not-allowed' : 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:border-primary focus:ring-primary focus:ring-1 focus:outline-none'" 
-                                           class="w-full border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] transition-all shadow-sm font-bold h-[32px]" 
+                                    <input type="text" name="exchange_rate" id="exchange_rate"
+                                           value="{{ old('exchange_rate', $shop->exchange_rate) }}"
+                                           class="w-full border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] transition-all shadow-sm font-bold h-[32px] bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:border-primary focus:ring-primary focus:ring-1 focus:outline-none"
                                            placeholder="Ej: Bs. 39.50">
-                                    <div x-show="isLoading" class="absolute right-2 top-2" style="display: none;">
+                                    <div id="exchange-loading" class="absolute right-2 top-2" style="display: none;">
                                         <svg class="animate-spin h-3.5 w-3.5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <script>
+                            async function fetchExchangeRate() {
+                                const select = document.getElementById('base_currency');
+                                const exchangeInput = document.getElementById('exchange_rate');
+                                const loadingDiv = document.getElementById('exchange-loading');
+                                const currency = select.value;
+
+                                if (currency === 'USD') {
+                                    loadingDiv.style.display = 'block';
+                                    try {
+                                        let res = await fetch('https://dolarapi.com/v1/dolares/oficial');
+                                        let data = await res.json();
+                                        exchangeInput.value = '$' + data.venta + ' ARS';
+                                    } catch (e) {
+                                        console.error('Error fetching rate', e);
+                                    }
+                                    loadingDiv.style.display = 'none';
+                                } else if (currency === 'EUR') {
+                                    loadingDiv.style.display = 'block';
+                                    try {
+                                        let res = await fetch('https://dolarapi.com/v1/cotizaciones/eur');
+                                        let data = await res.json();
+                                        exchangeInput.value = '€' + data.venta + ' ARS';
+                                    } catch (e) {
+                                        console.error('Error fetching rate', e);
+                                    }
+                                    loadingDiv.style.display = 'none';
+                                } else if (currency !== 'VES') {
+                                    exchangeInput.value = '';
+                                }
+                            }
+
+                            // Initialize Select2
+                            document.addEventListener('DOMContentLoaded', function() {
+                                if (typeof $ !== 'undefined' && $.fn.select2) {
+                                    $('#base_currency').select2({
+                                        minimumResultsForSearch: -1,
+                                        width: '100%'
+                                    });
+                                }
+                            });
+                        </script>
                     </div>
 
                     <!-- Coordenadas del Local (Lat / Lng) para cálculo de distancia -->
                     <div class="bg-white dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-150 dark:border-slate-800 space-y-1.5 shadow-sm">
                         <div class="flex items-center justify-between">
                             <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Geolocalización (Distancia Delivery)</span>
-                            <button type="button" @click="getGPSLocation()" 
+                            <button type="button" onclick="getGPSLocation()"
                                     class="text-[9px] font-bold text-primary hover:brightness-105 flex items-center gap-1 transition-all active:scale-95 duration-200">
-                                <span x-show="!gpsLoading" class="flex items-center gap-0.5">
+                                <span id="gps-icon" class="flex items-center gap-0.5">
                                     <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2v4M12 18v4M4 12H2M22 12h-4"></path></svg>
                                     Usar GPS
                                 </span>
-                                <span x-show="gpsLoading" x-cloak class="flex items-center gap-0.5">
+                                <span id="gps-loading" x-cloak class="flex items-center gap-0.5" style="display: none;">
                                     <svg class="animate-spin w-2.5 h-2.5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                                     Localizando...
                                 </span>
@@ -478,18 +344,88 @@
                         <div class="grid grid-cols-2 gap-2.5">
                             <div class="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-850 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-750">
                                 <span class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase shrink-0">LAT</span>
-                                <input type="text" id="latitude" name="latitude" x-model="latitude"
-                                       class="w-full bg-transparent border-0 p-0 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-0 font-medium" 
+                                <input type="text" id="latitude" name="latitude"
+                                       value="{{ old('latitude', $shop->latitude ?? '') }}"
+                                       class="w-full bg-transparent border-0 p-0 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-0 font-medium"
                                        placeholder="10.4806">
                             </div>
                             <div class="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-850 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-750">
                                 <span class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase shrink-0">LNG</span>
-                                <input type="text" id="longitude" name="longitude" x-model="longitude"
-                                       class="w-full bg-transparent border-0 p-0 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-0 font-medium" 
+                                <input type="text" id="longitude" name="longitude"
+                                       value="{{ old('longitude', $shop->longitude ?? '') }}"
+                                       class="w-full bg-transparent border-0 p-0 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-0 font-medium"
                                        placeholder="-66.9036">
                             </div>
                         </div>
                     </div>
+
+                    <script>
+                        let gpsLoading = false;
+
+                        async function getGPSLocation() {
+                            if (!navigator.geolocation) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'GPS no soportado',
+                                    text: 'Tu navegador o dispositivo no soporta la geolocalización.'
+                                });
+                                return;
+                            }
+
+                            gpsLoading = true;
+                            document.getElementById('gps-icon').style.display = 'none';
+                            document.getElementById('gps-loading').style.display = 'flex';
+
+                            navigator.geolocation.getCurrentPosition(
+                                (position) => {
+                                    document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
+                                    document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
+                                    gpsLoading = false;
+                                    document.getElementById('gps-icon').style.display = 'flex';
+                                    document.getElementById('gps-loading').style.display = 'none';
+
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                        timerProgressBar: true
+                                    });
+
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: 'GPS Sincronizado',
+                                        text: 'Se han establecido las coordenadas actuales.'
+                                    });
+
+                                    const googleMapsLink = document.getElementById('google_maps_link');
+                                    if (!googleMapsLink.value) {
+                                        googleMapsLink.value = `https://www.google.com/maps?q=${position.coords.latitude.toFixed(6)},${position.coords.longitude.toFixed(6)}`;
+                                    }
+                                },
+                                (error) => {
+                                    gpsLoading = false;
+                                    document.getElementById('gps-icon').style.display = 'flex';
+                                    document.getElementById('gps-loading').style.display = 'none';
+                                    let msg = 'No se pudo obtener la ubicación.';
+                                    if (error.code === error.PERMISSION_DENIED) {
+                                        msg = 'Permiso denegado. Por favor, concede acceso al GPS en tu navegador.';
+                                    } else if (error.code === error.POSITION_UNAVAILABLE) {
+                                        msg = 'La ubicación física no está disponible en este momento.';
+                                    } else if (error.code === error.TIMEOUT) {
+                                        msg = 'Tiempo de espera agotado al intentar conectar con el satélite GPS.';
+                                    }
+
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Ubicación no obtenida',
+                                        text: msg
+                                    });
+                                },
+                                { enableHighAccuracy: true, timeout: 8000 }
+                            );
+                        }
+                    </script>
 
                     <!-- Horario de Trabajo -->
                     @php
@@ -509,157 +445,189 @@
                                         : (!is_array($currentHours) ? $currentHours : '');
                         $scheduleData = $isCustom ? $currentHours['schedule'] : $defaultSchedule;
                     @endphp
-                    
-                    <div class="space-y-1" 
-                         x-data="{ 
-                              type: '{{ $isCustom ? 'custom' : 'simple' }}',
-                              text: '{{ addslashes($simpleText ?? '') }}',
-                              schedule: {{ json_encode($scheduleData) }},
-                              days: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
-                          }">
+
+                    <div class="space-y-1">
                         <div class="flex items-center justify-between">
                             <label class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Horario de Trabajo</label>
-                            <button type="button" 
-                                    @click="type = type === 'simple' ? 'custom' : 'simple'"
+                            <button type="button"
+                                    onclick="toggleWorkHoursType()"
                                     class="text-[8px] font-bold px-1.5 py-0.5 rounded transition-all border bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700">
-                                <span x-show="type === 'simple'">Avanzado</span>
-                                <span x-show="type === 'custom'" x-cloak>Texto Simple</span>
+                                <span id="work-hours-toggle-text">Avanzado</span>
                             </button>
                         </div>
-                        
+
                         <!-- Input Simple -->
-                        <div x-show="type === 'simple'" x-collapse>
-                            <input type="text" x-model="text" 
-                                   class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-medium" 
+                        <div id="work-hours-simple" style="display: {{ $isCustom ? 'none' : 'block' }};">
+                            <input type="text" name="work_hours_simple"
+                                   value="{{ $simpleText }}"
+                                   class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-medium"
                                    placeholder="Ej: Lun - Sab, 8am a 6pm">
                         </div>
 
                         <!-- Constructor Custom -->
-                        <div x-show="type === 'custom'" x-collapse x-cloak 
+                        <div id="work-hours-custom" style="display: {{ $isCustom ? 'block' : 'none' }};"
                              class="bg-slate-50 dark:bg-slate-950 rounded-xl p-2.5 shadow-inner border border-slate-200 dark:border-slate-850 mt-1 transition-colors max-h-[140px] overflow-y-auto custom-scrollbar">
                             <div class="space-y-1.5">
-                                <template x-for="day in days" :key="day">
+                                @foreach(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] as $day)
+                                    @php
+                                        $daySchedule = $scheduleData[$day] ?? ['closed' => false, 'open' => '08:00', 'close' => '18:00'];
+                                    @endphp
                                     <div class="flex items-center gap-1.5 pb-1.5 border-b border-slate-200 dark:border-slate-800/80 last:border-0 last:pb-0">
                                         <div class="w-14 shrink-0">
-                                            <span class="text-[10px] font-bold text-slate-800 dark:text-slate-250" x-text="day"></span>
+                                            <span class="text-[10px] font-bold text-slate-800 dark:text-slate-250">{{ $day }}</span>
                                         </div>
                                         <label class="flex items-center gap-1 cursor-pointer shrink-0">
-                                            <input type="checkbox" x-model="schedule[day].closed" class="w-3 h-3 rounded border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 cursor-pointer">
+                                            <input type="checkbox" name="schedule[{{ $day }}][closed]" value="1" {{ $daySchedule['closed'] ? 'checked' : '' }} class="w-3 h-3 rounded border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 cursor-pointer">
                                             <span class="text-[9px] font-semibold text-slate-400 dark:text-slate-500">Cerrado</span>
                                         </label>
-                                        <div class="flex items-center gap-1 flex-grow" :class="schedule[day].closed ? 'opacity-30 pointer-events-none' : ''">
-                                            <input type="time" x-model="schedule[day].open" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
+                                        <div class="flex items-center gap-1 flex-grow {{ $daySchedule['closed'] ? 'opacity-30 pointer-events-none' : '' }}">
+                                            <input type="time" name="schedule[{{ $day }}][open]" value="{{ $daySchedule['open'] }}" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
                                             <span class="text-slate-400 text-[9px] font-bold">-</span>
-                                            <input type="time" x-model="schedule[day].close" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
+                                            <input type="time" name="schedule[{{ $day }}][close]" value="{{ $daySchedule['close'] }}" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
-                        <input type="hidden" name="work_hours" :value="JSON.stringify({ type: type, text: text, schedule: schedule })">
+                        <input type="hidden" name="work_hours_type" id="work_hours_type" value="{{ $isCustom ? 'custom' : 'simple' }}">
                     </div>
 
-                    <!-- Métodos de Pago -->
-                    <div class="space-y-1" 
-                         x-data="{ 
-                               methodsObj: {},
-                               availableMethods: [
-                                   {name: 'Transferencia', color: 'bg-slate-600 text-white border-slate-600 shadow-sm', placeholder: 'Banco, Número de Cuenta, Titular, RIF...'},
-                                   {name: 'Pago Móvil', color: 'bg-teal-500 text-white border-teal-500 shadow-sm', placeholder: 'Banco, Teléfono, Cédula...'},
-                                   {name: 'Efectivo', color: 'bg-emerald-600 text-white border-emerald-600 shadow-sm', placeholder: 'Detalles (ej: Traer sencillo, Se acepta cambio...)'},
-                                   {name: 'Zelle', color: 'bg-purple-600 text-white border-purple-600 shadow-sm', placeholder: 'Correo de Zelle, Nombre...'},
-                                   {name: 'Binance', color: 'bg-yellow-500 text-white border-yellow-500 shadow-sm', placeholder: 'Pay ID, Correo, USDT...'},
-                                   {name: 'PayPal', color: 'bg-blue-600 text-white border-blue-600 shadow-sm', placeholder: 'Correo de cuenta...'},
-                                   {name: 'Punto de Venta', color: 'bg-indigo-500 text-white border-indigo-500 shadow-sm', placeholder: 'Detalles (ej: Pago directo al retirar/recibir...)'}
-                               ],
-                               initMethods() {
-                                   let raw = @json($shop->payment_methods ?? '');
-                                   let parsed = {};
-                                   try {
-                                       if (raw.trim().startsWith('{')) {
-                                           parsed = JSON.parse(raw);
-                                       }
-                                   } catch(e) {
-                                       parsed = {};
-                                   }
-                                   
-                                   if (Object.keys(parsed).length === 0 && raw.trim() !== '') {
-                                       raw.split(',').forEach(m => {
-                                           let name = m.trim();
-                                           if (name) {
-                                               parsed[name] = { active: true, details: '' };
-                                           }
-                                       });
-                                   }
-                                   
-                                   if (Object.keys(parsed).length === 0) {
-                                       parsed = {
-                                           'Efectivo': { active: true, details: '' },
-                                           'Pago Móvil': { active: true, details: '' }
-                                       };
-                                   }
+                    <script>
+                        let workHoursType = '{{ $isCustom ? 'custom' : 'simple' }}';
 
-                                   // Asegurar que todos los métodos disponibles existan en el objeto
-                                   this.availableMethods.forEach(item => {
-                                       if (!parsed[item.name]) {
-                                           parsed[item.name] = { active: false, details: '' };
-                                       }
-                                   });
-                                   
-                                   this.methodsObj = parsed;
-                               },
-                               toggle(name) {
-                                   if (!this.methodsObj[name]) {
-                                       this.methodsObj[name] = { active: true, details: '' };
-                                   } else {
-                                       this.methodsObj[name].active = !this.methodsObj[name].active;
-                                   }
-                               },
-                               isActive(name) {
-                                   return this.methodsObj[name] && this.methodsObj[name].active;
-                               },
-                               get serialized() {
-                                   return JSON.stringify(this.methodsObj);
-                               }
-                           }"
-                           x-init="initMethods()">
+                        function toggleWorkHoursType() {
+                            workHoursType = workHoursType === 'simple' ? 'custom' : 'simple';
+                            document.getElementById('work_hours_type').value = workHoursType;
+                            document.getElementById('work-hours-toggle-text').textContent = workHoursType === 'simple' ? 'Avanzado' : 'Texto Simple';
+                            document.getElementById('work-hours-simple').style.display = workHoursType === 'simple' ? 'block' : 'none';
+                            document.getElementById('work-hours-custom').style.display = workHoursType === 'custom' ? 'block' : 'none';
+                        }
+                    </script>
+
+                    <!-- Métodos de Pago -->
+                    <div class="space-y-1">
+                        @php
+                            $paymentMethods = $shop->payment_methods ? json_decode($shop->payment_methods, true) : [];
+                            if (empty($paymentMethods)) {
+                                $paymentMethods = [
+                                    'Efectivo' => ['active' => true, 'details' => ''],
+                                    'Pago Móvil' => ['active' => true, 'details' => '']
+                                ];
+                            }
+                            $availableMethods = [
+                                'Transferencia' => ['color' => 'bg-slate-600 text-white border-slate-600 shadow-sm', 'placeholder' => 'Banco, Número de Cuenta, Titular, RIF...'],
+                                'Pago Móvil' => ['color' => 'bg-teal-500 text-white border-teal-500 shadow-sm', 'placeholder' => 'Banco, Teléfono, Cédula...'],
+                                'Efectivo' => ['color' => 'bg-emerald-600 text-white border-emerald-600 shadow-sm', 'placeholder' => 'Detalles (ej: Traer sencillo, Se acepta cambio...)'],
+                                'Zelle' => ['color' => 'bg-purple-600 text-white border-purple-600 shadow-sm', 'placeholder' => 'Correo de Zelle, Nombre...'],
+                                'Binance' => ['color' => 'bg-yellow-500 text-white border-yellow-500 shadow-sm', 'placeholder' => 'Pay ID, Correo, USDT...'],
+                                'PayPal' => ['color' => 'bg-blue-600 text-white border-blue-600 shadow-sm', 'placeholder' => 'Correo de cuenta...'],
+                                'Punto de Venta' => ['color' => 'bg-indigo-500 text-white border-indigo-500 shadow-sm', 'placeholder' => 'Detalles (ej: Pago directo al retirar/recibir...)']
+                            ];
+                        @endphp
                         <label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 block mb-0.5">Métodos de Pago</label>
                         <div class="flex flex-wrap gap-1">
-                            <template x-for="item in availableMethods" :key="item.name">
-                                <button type="button" 
-                                        @click="toggle(item.name)"
-                                        :class="isActive(item.name) ? item.color : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm'"
-                                        class="px-2 py-0.5 rounded-lg border text-[9px] font-bold transition-all duration-300 select-none flex items-center gap-1 focus:outline-none">
-                                    <svg x-show="isActive(item.name)" class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    <span x-text="item.name"></span>
+                            @foreach($availableMethods as $name => $config)
+                                @php
+                                    $isActive = isset($paymentMethods[$name]) && $paymentMethods[$name]['active'];
+                                @endphp
+                                <button type="button"
+                                        onclick="togglePaymentMethod('{{ $name }}')"
+                                        class="{{ $isActive ? $config['color'] : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm' }} px-2 py-0.5 rounded-lg border text-[9px] font-bold transition-all duration-300 select-none flex items-center gap-1 focus:outline-none">
+                                    @if($isActive)
+                                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    @endif
+                                    <span>{{ $name }}</span>
                                 </button>
-                            </template>
+                            @endforeach
                         </div>
 
                         <!-- Detalle de Datos de Pago -->
-                        <div class="mt-3.5 space-y-2" x-show="Object.values(methodsObj).some(m => m.active)">
+                        <div class="mt-3.5 space-y-2" id="payment-details">
                             <label class="text-[10px] font-black text-primary uppercase tracking-widest block">Instrucciones / Datos de Pago</label>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[180px] overflow-y-auto custom-scrollbar p-0.5">
-                                <template x-for="item in availableMethods" :key="item.name">
-                                    <div x-show="isActive(item.name)" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2.5 rounded-xl space-y-1 shadow-sm transition hover:shadow-md">
-                                        <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 block" x-text="item.name"></span>
-                                        <textarea 
-                                            x-model="methodsObj[item.name].details"
-                                            :placeholder="item.placeholder"
+                                @foreach($availableMethods as $name => $config)
+                                    @php
+                                        $isActive = isset($paymentMethods[$name]) && $paymentMethods[$name]['active'];
+                                        $details = isset($paymentMethods[$name]) ? ($paymentMethods[$name]['details'] ?? '') : '';
+                                    @endphp
+                                    <div id="payment-{{ $name }}" class="{{ $isActive ? '' : 'hidden' }} bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2.5 rounded-xl space-y-1 shadow-sm transition hover:shadow-md">
+                                        <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 block">{{ $name }}</span>
+                                        <textarea
+                                            name="payment_details[{{ $name }}]"
+                                            placeholder="{{ $config['placeholder'] }}"
                                             class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg px-2 py-1 text-[10px] text-slate-800 dark:text-slate-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold"
                                             rows="2"
-                                        ></textarea>
+                                        >{{ $details }}</textarea>
                                     </div>
-                                </template>
+                                @endforeach
                             </div>
                         </div>
 
-                        <input type="hidden" name="payment_methods" :value="serialized">
+                        <input type="hidden" name="payment_methods" id="payment_methods_json" value="{!! json_encode($paymentMethods) !!}">
                     </div>
+
+                    <script>
+                        let paymentMethods = {!! json_encode($paymentMethods) !!};
+
+                        function togglePaymentMethod(name) {
+                            if (!paymentMethods[name]) {
+                                paymentMethods[name] = { active: true, details: '' };
+                            } else {
+                                paymentMethods[name].active = !paymentMethods[name].active;
+                            }
+                            updatePaymentUI();
+                        }
+
+                        function updatePaymentUI() {
+                            // Update buttons
+                            document.querySelectorAll('.flex.flex-wrap.gap-1 button').forEach(btn => {
+                                const name = btn.querySelector('span').textContent;
+                                const isActive = paymentMethods[name] && paymentMethods[name].active;
+                                const config = {!! json_encode($availableMethods) !!};
+                                if (isActive) {
+                                    btn.className = config[name].color + ' px-2 py-0.5 rounded-lg border text-[9px] font-bold transition-all duration-300 select-none flex items-center gap-1 focus:outline-none';
+                                    if (!btn.querySelector('svg')) {
+                                        btn.insertAdjacentHTML('afterbegin', '<svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>');
+                                    }
+                                } else {
+                                    btn.className = 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm px-2 py-0.5 rounded-lg border text-[9px] font-bold transition-all duration-300 select-none flex items-center gap-1 focus:outline-none';
+                                    const svg = btn.querySelector('svg');
+                                    if (svg) svg.remove();
+                                }
+                            });
+
+                            // Update details sections
+                            Object.keys(paymentMethods).forEach(name => {
+                                const detailDiv = document.getElementById('payment-' + name);
+                                if (detailDiv) {
+                                    if (paymentMethods[name].active) {
+                                        detailDiv.classList.remove('hidden');
+                                    } else {
+                                        detailDiv.classList.add('hidden');
+                                    }
+                                }
+                            });
+
+                            // Update hidden input
+                            document.getElementById('payment_methods_json').value = JSON.stringify(paymentMethods);
+                        }
+
+                        // Sync textarea values with paymentMethods
+                        document.querySelectorAll('#payment-details textarea').forEach(textarea => {
+                            textarea.addEventListener('input', function() {
+                                const name = this.name.replace('payment_details[', '').replace(']', '');
+                                if (paymentMethods[name]) {
+                                    paymentMethods[name].details = this.value;
+                                }
+                            });
+                        });
+                    </script>
                 </div>
-            </div>
-        </div></div>
             </div>
         </div>
 
         <!-- TAB 2: APARIENCIA Y ACTIVOS VISUALES -->
-        <div x-show="activeTab === 'colores'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-4 pt-1">
+        <div id="content-colores" class="tab-content space-y-4 pt-1">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-3 mb-1">
                 <div>
                     <h3 class="text-sm md:text-base font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -688,10 +656,14 @@
                             <!-- Color Primario -->
                             <div class="flex items-center justify-between bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3 rounded-2xl shadow-sm hover:border-primary/20 transition-all duration-300">
                                 <div class="flex items-center gap-3">
-                                    <div class="relative shrink-0 w-11 h-11 rounded-full border-2 border-white dark:border-slate-850 shadow cursor-pointer transition active:scale-95 duration-200" 
-                                         :style="'background-color: ' + colorPrimary"
+                                    <div class="relative shrink-0 w-11 h-11 rounded-full border-2 border-white dark:border-slate-850 shadow cursor-pointer transition active:scale-95 duration-200"
+                                         id="color-primary-preview"
+                                         style="background-color: {{ old('color_primary', $shop->color_primary ?? '#E60067') }}"
                                          onclick="document.getElementById('color_primary').click()">
-                                        <input type="color" id="color_primary" name="color_primary" x-model="colorPrimary" class="absolute inset-0 opacity-0 w-full h-full cursor-pointer">
+                                        <input type="color" id="color_primary" name="color_primary"
+                                               value="{{ old('color_primary', $shop->color_primary ?? '#E60067') }}"
+                                               class="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                                               onchange="updateColorPreview('color_primary', 'color-primary-preview')">
                                     </div>
                                     <div class="text-left">
                                         <span class="text-xs font-bold text-slate-800 dark:text-slate-100 block">Color Principal</span>
@@ -700,17 +672,24 @@
                                 </div>
                                 <div class="flex items-center gap-1.5">
                                     <span class="text-[10px] text-slate-400 font-bold uppercase shrink-0">HEX</span>
-                                    <input type="text" x-model="colorPrimary" class="w-20 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1 text-[10px] font-black text-slate-800 dark:text-slate-250 focus:outline-none uppercase text-center h-[28px] focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all">
+                                    <input type="text" id="color-primary-text"
+                                           value="{{ old('color_primary', $shop->color_primary ?? '#E60067') }}"
+                                           class="w-20 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1 text-[10px] font-black text-slate-800 dark:text-slate-250 focus:outline-none uppercase text-center h-[28px] focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all"
+                                           onchange="updateColorFromText('color-primary-text', 'color_primary', 'color-primary-preview')">
                                 </div>
                             </div>
 
                             <!-- Color Secundario -->
                             <div class="flex items-center justify-between bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3 rounded-2xl shadow-sm hover:border-secondary/20 transition-all duration-300">
                                 <div class="flex items-center gap-3">
-                                    <div class="relative shrink-0 w-11 h-11 rounded-full border-2 border-white dark:border-slate-850 shadow cursor-pointer transition active:scale-95 duration-200" 
-                                         :style="'background-color: ' + colorSecondary"
+                                    <div class="relative shrink-0 w-11 h-11 rounded-full border-2 border-white dark:border-slate-850 shadow cursor-pointer transition active:scale-95 duration-200"
+                                         id="color-secondary-preview"
+                                         style="background-color: {{ old('color_secondary', $shop->color_secondary ?? '#0B132B') }}"
                                          onclick="document.getElementById('color_secondary').click()">
-                                        <input type="color" id="color_secondary" name="color_secondary" x-model="colorSecondary" class="absolute inset-0 opacity-0 w-full h-full cursor-pointer">
+                                        <input type="color" id="color_secondary" name="color_secondary"
+                                               value="{{ old('color_secondary', $shop->color_secondary ?? '#0B132B') }}"
+                                               class="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                                               onchange="updateColorPreview('color_secondary', 'color-secondary-preview')">
                                     </div>
                                     <div class="text-left">
                                         <span class="text-xs font-bold text-slate-800 dark:text-slate-100 block">Color Secundario</span>
@@ -719,17 +698,24 @@
                                 </div>
                                 <div class="flex items-center gap-1.5">
                                     <span class="text-[10px] text-slate-400 font-bold uppercase shrink-0">HEX</span>
-                                    <input type="text" x-model="colorSecondary" class="w-20 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1 text-[10px] font-black text-slate-800 dark:text-slate-250 focus:outline-none uppercase text-center h-[28px] focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all">
+                                    <input type="text" id="color-secondary-text"
+                                           value="{{ old('color_secondary', $shop->color_secondary ?? '#0B132B') }}"
+                                           class="w-20 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1 text-[10px] font-black text-slate-800 dark:text-slate-250 focus:outline-none uppercase text-center h-[28px] focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all"
+                                           onchange="updateColorFromText('color-secondary-text', 'color_secondary', 'color-secondary-preview')">
                                 </div>
                             </div>
 
                             <!-- Color de Fondo -->
                             <div class="flex items-center justify-between bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3 rounded-2xl shadow-sm hover:border-slate-350 dark:hover:border-slate-700 transition-all duration-300">
                                 <div class="flex items-center gap-3">
-                                    <div class="relative shrink-0 w-11 h-11 rounded-full border-2 border-white dark:border-slate-850 shadow cursor-pointer transition active:scale-95 duration-200" 
-                                         :style="'background-color: ' + colorBackground"
+                                    <div class="relative shrink-0 w-11 h-11 rounded-full border-2 border-white dark:border-slate-850 shadow cursor-pointer transition active:scale-95 duration-200"
+                                         id="color-background-preview"
+                                         style="background-color: {{ old('color_background', $shop->color_background ?? '#FFFFFF') }}"
                                          onclick="document.getElementById('color_background').click()">
-                                        <input type="color" id="color_background" name="color_background" x-model="colorBackground" class="absolute inset-0 opacity-0 w-full h-full cursor-pointer">
+                                        <input type="color" id="color_background" name="color_background"
+                                               value="{{ old('color_background', $shop->color_background ?? '#FFFFFF') }}"
+                                               class="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                                               onchange="updateColorPreview('color_background', 'color-background-preview')">
                                     </div>
                                     <div class="text-left">
                                         <span class="text-xs font-bold text-slate-800 dark:text-slate-100 block">Fondo del Menú</span>
@@ -738,7 +724,10 @@
                                 </div>
                                 <div class="flex items-center gap-1.5">
                                     <span class="text-[10px] text-slate-400 font-bold uppercase shrink-0">HEX</span>
-                                    <input type="text" x-model="colorBackground" class="w-20 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1 text-[10px] font-black text-slate-800 dark:text-slate-250 focus:outline-none uppercase text-center h-[28px] focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all">
+                                    <input type="text" id="color-background-text"
+                                           value="{{ old('color_background', $shop->color_background ?? '#FFFFFF') }}"
+                                           class="w-20 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1 text-[10px] font-black text-slate-800 dark:text-slate-250 focus:outline-none uppercase text-center h-[28px] focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all"
+                                           onchange="updateColorFromText('color-background-text', 'color_background', 'color-background-preview')">
                                 </div>
                             </div>
                         </div>
@@ -800,7 +789,7 @@
                     <!-- Smartphone Mockup Container -->
                     <div class="w-[215px] bg-slate-900 dark:bg-slate-950 p-2 rounded-[2.2rem] shadow-xl border-4 border-slate-800/90 select-none transform scale-95 origin-center">
                         <div class="bg-white dark:bg-slate-900 rounded-[1.8rem] overflow-hidden relative min-h-[340px] flex flex-col justify-between transition-colors duration-300"
-                             :style="'background-color: ' + colorBackground">
+                             style="background-color: {{ old('color_background', $shop->color_background ?? '#FFFFFF') }}">
                             
                             <!-- Cover Banner inside mockup -->
                             <div class="relative h-18 bg-slate-800 overflow-hidden shrink-0 shadow-inner">
@@ -827,7 +816,8 @@
                             
                             <!-- Store Information in mockup -->
                             <div class="pt-5 px-3 text-center shrink-0">
-                                <h5 class="text-[10px] font-black tracking-tight leading-none truncate" :style="'color: ' + colorSecondary">
+                                <h5 class="text-[10px] font-black tracking-tight leading-none truncate"
+                                    style="color: {{ old('color_secondary', $shop->color_secondary ?? '#0B132B') }}">
                                     {{ $shop->name }}
                                 </h5>
                                 <p class="text-[7.5px] text-slate-400 mt-0.5 flex items-center justify-center gap-0.5">
@@ -835,11 +825,11 @@
                                     <span class="truncate">{{ Str::limit($shop->address ?? 'Ubicación Física', 20) }}</span>
                                 </p>
                             </div>
-                            
+
                             <!-- Horizontal category chips in mockup -->
                             <div class="flex gap-1 overflow-x-auto px-3 py-1.5 scrollbar-none shrink-0 mt-1 select-none">
                                 <span class="px-2 py-0.5 rounded-full text-[7.5px] font-black text-white shrink-0 shadow-sm transition-colors duration-300"
-                                      :style="'background-color: ' + colorPrimary">
+                                      style="background-color: {{ old('color_primary', $shop->color_primary ?? '#E60067') }}">
                                     Todas
                                 </span>
                                 <span class="px-2 py-0.5 rounded-full text-[7.5px] font-bold bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-100 dark:border-slate-750 shrink-0 select-none shadow-sm">
@@ -849,7 +839,7 @@
                                     Platos
                                 </span>
                             </div>
-                            
+
                             <!-- Sample Product Card in mockup -->
                             <div class="px-3 pb-3.5 flex-grow flex flex-col justify-end mt-1">
                                 <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 p-2 rounded-2xl shadow-sm flex items-center justify-between gap-1.5 w-full">
@@ -863,7 +853,7 @@
                                         </div>
                                     </div>
                                     <button type="button" class="w-4.5 h-4.5 rounded-full text-white flex items-center justify-center shadow transition-all duration-300 shrink-0 cursor-default"
-                                            :style="'background-color: ' + colorPrimary">
+                                            style="background-color: {{ old('color_primary', $shop->color_primary ?? '#E60067') }}">
                                         <span class="text-[9px] font-black leading-none">+</span>
                                     </button>
                                 </div>
@@ -876,7 +866,7 @@
         </div>
 
         <!-- TAB 5: SEGURIDAD -->
-        <div x-show="activeTab === 'seguridad'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-4 pt-1">
+        <div id="content-seguridad" class="tab-content space-y-4 pt-1">
             <div>
                 <span class="bg-primary/10 text-primary text-[10px] uppercase font-extrabold tracking-wider px-3 py-1 rounded-full border border-primary/20">
                     Seguridad de la Cuenta
@@ -920,9 +910,7 @@
     </form>
 
     <!-- TAB 4: COMPONENTE GESTIÓN DE ENLACE CORTO -->
-    <div x-show="activeTab === 'comercio'" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" 
-         class="mt-6 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-sm relative overflow-hidden transition-colors duration-300" 
-         x-data="{ showToast: false }">
+    <div id="content-comercio-shortlink" class="mt-6 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-sm relative overflow-hidden transition-colors duration-300">
         <div class="absolute -right-12 -top-12 w-28 h-28 bg-primary/5 rounded-full blur-xl"></div>
 
         <!-- Encabezado del Módulo -->
@@ -944,15 +932,15 @@
         @if($shortLink = $shop->shortLinks()->first())
             <div class="bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-850 rounded-2xl p-4 md:p-6 mb-6 shadow-inner">
                 <span class="text-[10px] uppercase font-extrabold text-slate-400 dark:text-slate-500 tracking-wider block mb-2">Enlace Corto Activo</span>
-                
+
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     <div class="flex-grow bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 flex items-center justify-between text-xs md:text-sm text-slate-800 dark:text-slate-200 font-bold select-all overflow-x-auto shadow-sm">
                         <span>{{ str_replace(['http://', 'https://'], '', url('/l/' . $shortLink->code)) }}</span>
                         <span class="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2 py-0.5 rounded font-normal shrink-0 ml-2">Activo</span>
                     </div>
-                    
-                    <button type="button" 
-                            @click="navigator.clipboard.writeText('{{ url('/l/' . $shortLink->code) }}'); showToast = true; setTimeout(() => { showToast = false }, 2500);"
+
+                    <button type="button"
+                            onclick="copyShortLink('{{ url('/l/' . $shortLink->code) }}')"
                             class="bg-primary hover:brightness-105 text-white font-extrabold px-6 py-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition text-xs shrink-0 shadow-md shadow-primary/10">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         Copiar Enlace
@@ -1003,14 +991,7 @@
         </form>
 
         <!-- TOAST NOTIFICATION FLOTANTE -->
-        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:-translate-x-0 z-50 pointer-events-none"
-             x-show="showToast"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 translate-y-4 md:translate-y-0 md:translate-x-4"
-             x-transition:enter-end="opacity-100 translate-y-0 md:translate-x-0"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 translate-y-0 md:translate-x-0"
-             x-transition:leave-end="opacity-0 translate-y-4 md:translate-y-0 md:translate-x-4"
+        <div id="toast-notification" class="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:-translate-x-0 z-50 pointer-events-none"
              style="display: none;">
             <div class="bg-slate-900 text-white text-xs md:text-sm font-semibold py-3.5 px-6 rounded-2xl shadow-xl flex items-center gap-2 border border-slate-800">
                 <span class="text-emerald-400">✨</span>
@@ -1031,7 +1012,7 @@
                     previewImg.src = e.target.result;
                     previewImg.classList.remove('hidden');
                 }
-                
+
                 // Hide standard placeholder svg if it exists
                 var placeholder = document.getElementById(previewId + '-placeholder');
                 if (placeholder) {
@@ -1053,6 +1034,34 @@
                 }
             }
             reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function copyShortLink(url) {
+        navigator.clipboard.writeText(url).then(function() {
+            var toast = document.getElementById('toast-notification');
+            toast.style.display = 'block';
+            setTimeout(function() {
+                toast.style.display = 'none';
+            }, 2500);
+        });
+    }
+
+    function updateColorPreview(inputId, previewId) {
+        var input = document.getElementById(inputId);
+        var preview = document.getElementById(previewId);
+        if (input && preview) {
+            preview.style.backgroundColor = input.value;
+        }
+    }
+
+    function updateColorFromText(textInputId, colorInputId, previewId) {
+        var textInput = document.getElementById(textInputId);
+        var colorInput = document.getElementById(colorInputId);
+        var preview = document.getElementById(previewId);
+        if (textInput && colorInput && preview) {
+            colorInput.value = textInput.value;
+            preview.style.backgroundColor = textInput.value;
         }
     }
 </script>

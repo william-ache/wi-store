@@ -259,11 +259,6 @@
                                 <span x-text="storeStatus.label"></span>
                             </span>
 
-                            <!-- PREPARATION TIME BADGE -->
-                            <span class="bg-slate-50 text-slate-600 px-3 py-1 rounded-full border border-slate-100 flex items-center gap-1 shadow-sm hover:bg-slate-100 transition cursor-pointer" style="color: var(--color-secondary);">
-                                <span class="text-[10px]">⏱️</span> 20-30 min
-                            </span>
-
                             <!-- RATING BADGE -->
                             <span class="bg-amber-50 text-amber-600 px-3 py-1 rounded-full border border-amber-100 flex items-center gap-1 shadow-sm hover:bg-amber-100 transition cursor-pointer" @click="showReviewsModal = true">
                                 <i class="fas fa-star text-amber-400 text-[10px]"></i> <span x-text="averageRating.toFixed(1)">{{ number_format($averageRating, 1) }}</span>
@@ -632,7 +627,13 @@
                                         @endif
                                         <div>
                                             <h3 class="text-base md:text-lg font-bold text-slate-900 mb-1.5 leading-tight">{{ $product->name }}</h3>
-                                            <p class="text-xs md:text-sm text-slate-500 line-clamp-2 leading-relaxed mb-4">{{ $product->description }}</p>
+                                            <p class="text-xs md:text-sm text-slate-500 line-clamp-2 leading-relaxed mb-2">{{ $product->description }}</p>
+                                            @if($product->preparation_time)
+                                            <div class="flex items-center gap-1 mb-3">
+                                                <span class="text-[10px]">⏱️</span>
+                                                <span class="text-[10px] font-semibold" style="color: var(--color-secondary);">{{ $product->preparation_time }}</span>
+                                            </div>
+                                            @endif
                                         </div>
                                         
                                         <div class="flex flex-col gap-3 mt-auto">

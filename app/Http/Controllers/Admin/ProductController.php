@@ -40,6 +40,7 @@ class ProductController extends Controller
             'image' => 'nullable|image|max:2048', // max 2MB
             'is_available' => 'required|boolean',
             'features' => 'nullable|string',
+            'preparation_time' => 'nullable|string|max:50',
         ]);
 
         $imagePath = null;
@@ -60,6 +61,7 @@ class ProductController extends Controller
             'image_path' => $imagePath,
             'is_available' => $request->is_available,
             'features' => $features,
+            'preparation_time' => $request->preparation_time,
         ]);
 
         // Load relation for response
@@ -96,6 +98,7 @@ class ProductController extends Controller
             'image' => 'nullable|image|max:2048',
             'is_available' => 'required|boolean',
             'features' => 'nullable|string',
+            'preparation_time' => 'nullable|string|max:50',
         ]);
 
         $imagePath = $product->image_path;
@@ -120,6 +123,7 @@ class ProductController extends Controller
             'image_path' => $imagePath,
             'is_available' => $request->is_available,
             'features' => $features,
+            'preparation_time' => $request->preparation_time,
         ]);
 
         $product->load('category');

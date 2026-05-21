@@ -55,6 +55,11 @@ class ShopSettingsController extends Controller
             'facebook', 'instagram', 'tiktok', 'x_twitter', 'contact_phone', 'contact_sms', 'telegram'
         ]);
 
+        // Actualizar fecha de actualización de tasa de cambio si se modificó
+        if ($request->filled('exchange_rate')) {
+            $data['exchange_updated_at'] = date('d/m/Y h:i A');
+        }
+
         if ($request->filled('work_hours')) {
             $decoded = json_decode($request->work_hours, true);
             $data['work_hours'] = is_array($decoded) ? $decoded : $request->work_hours;

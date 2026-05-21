@@ -11,7 +11,7 @@ class Product extends Model
     use HasFactory, BelongsToTenant;
 
     protected $fillable = [
-        'shop_id', 'category_id', 'name', 'description', 'price', 'image_path', 'is_available', 'features'
+        'shop_id', 'category_id', 'name', 'description', 'price', 'image_path', 'is_available', 'features', 'preparation_time'
     ];
 
     protected $casts = [
