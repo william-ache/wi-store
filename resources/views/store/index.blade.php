@@ -1588,6 +1588,7 @@
                     class="text-white/80 hover:text-white hover:bg-white/10 w-9 h-9 flex items-center justify-center rounded-full transition active:scale-95"><i
                         class="fas fa-times text-lg"></i></button>
             </div>
+        </div>
         <div class="p-5 flex-grow overflow-y-auto scrollbar-none bg-slate-50 space-y-4">
             <!-- AVISO DINÁMICO DE ENVÍO GRATIS -->
             <template x-if="enableFreeShipping && cart.length > 0">
