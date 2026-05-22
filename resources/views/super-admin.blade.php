@@ -359,6 +359,18 @@
                                                 <div>
                                                     <h3 class="text-sm font-bold text-white">{{ $pendingShop->name }}</h3>
                                                     <span class="text-[10px] text-slate-400 font-semibold">/{{ $pendingShop->slug }}</span>
+                                                    @if($pendingShop->payment_company_name)
+                                                        <div class="text-[10px] text-purple-300 mt-1 flex items-center gap-1.5">
+                                                            <i class="fas fa-building text-[8px] opacity-75"></i>
+                                                            <span>Empresa: <strong class="text-white font-extrabold">{{ $pendingShop->payment_company_name }}</strong></span>
+                                                        </div>
+                                                    @endif
+                                                    @if($pendingShop->payment_company_email)
+                                                        <div class="text-[10px] text-slate-350 flex items-center gap-1.5 mt-0.5">
+                                                            <i class="fas fa-envelope text-[8px] opacity-75"></i>
+                                                            <span>Correo: <strong class="text-slate-200 font-extrabold">{{ $pendingShop->payment_company_email }}</strong></span>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </td>

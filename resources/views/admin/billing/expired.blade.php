@@ -341,6 +341,42 @@
                                     @enderror
                                 </div>
 
+                                <!-- NOMBRE DE LA EMPRESA INPUT -->
+                                <div class="space-y-1.5">
+                                    <label for="payment_company_name" class="text-[10px] font-extrabold uppercase tracking-wider text-slate-350 block pl-1">
+                                        Nombre de la Empresa o Comercio
+                                    </label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none w-4 flex justify-center">
+                                            <i class="fas fa-building text-xs"></i>
+                                        </span>
+                                        <input type="text" id="payment_company_name" name="payment_company_name" required 
+                                               placeholder="Ej: Mi Comercio C.A." value="{{ old('payment_company_name', $shop->name) }}"
+                                               class="w-full bg-slate-800/80 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                                    </div>
+                                    @error('payment_company_name')
+                                        <span class="text-[10px] text-rose-450 font-bold block pl-1 mt-1">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <!-- CORREO DE LA EMPRESA INPUT -->
+                                <div class="space-y-1.5">
+                                    <label for="payment_company_email" class="text-[10px] font-extrabold uppercase tracking-wider text-slate-350 block pl-1">
+                                        Correo de la Empresa
+                                    </label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none w-4 flex justify-center">
+                                            <i class="fas fa-envelope text-xs"></i>
+                                        </span>
+                                        <input type="email" id="payment_company_email" name="payment_company_email" required 
+                                               placeholder="Ej: contacto@empresa.com" value="{{ old('payment_company_email', Auth::user()->email ?? '') }}"
+                                               class="w-full bg-slate-800/80 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                                    </div>
+                                    @error('payment_company_email')
+                                        <span class="text-[10px] text-rose-450 font-bold block pl-1 mt-1">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
                                 <!-- COMPROBANTE IMAGE UPLOAD -->
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-extrabold uppercase tracking-wider text-slate-350 block pl-1">
@@ -425,6 +461,18 @@
                             </strong>
                         </div>
                         <div class="flex justify-between items-center">
+                            <span class="text-slate-500 font-bold">Empresa:</span>
+                            <span class="text-slate-300 font-bold">
+                                {{ $shop->payment_company_name }}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-500 font-bold">Correo:</span>
+                            <span class="text-slate-300 font-bold">
+                                {{ $shop->payment_company_email }}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center">
                             <span class="text-slate-500 font-bold">Referencia:</span>
                             <span class="font-mono text-emerald-300 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                                 {{ $shop->payment_reference }}
@@ -457,8 +505,9 @@
                         @php
                             $planLabel = $shop->pending_plan === 'premium' ? 'Premium ($' . ($shop->pending_billing_cycle === 'anual' ? '224.90' : '24.99') . ')' : 'Standard ($' . ($shop->pending_billing_cycle === 'anual' ? '152.90' : '14.99') . ')';
                             $messageText = "Hola! He realizado el pago para activar mi tienda en WIStore.\n\n"
-                                         . "• Tienda: " . $shop->name . "\n"
-                                         . "• Slug: " . $shop->slug . "\n"
+                                         . "• Empresa: " . ($shop->payment_company_name ?: $shop->name) . "\n"
+                                         . "• Correo: " . ($shop->payment_company_email ?: (Auth::user()->email ?? '')) . "\n"
+                                         . "• Tienda (Slug): " . $shop->slug . "\n"
                                          . "• Plan seleccionado: " . $planLabel . " - " . ucfirst($shop->pending_billing_cycle) . "\n"
                                          . "• Referencia de Pago Móvil: " . $shop->payment_reference . "\n\n"
                                          . "Por favor validar mi comprobante para agilizar la activación de mi panel. ¡Muchas gracias!";

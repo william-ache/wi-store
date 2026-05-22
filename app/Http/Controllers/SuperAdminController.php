@@ -308,6 +308,8 @@ class SuperAdminController extends Controller
             'pending_billing_cycle' => null,
             'payment_reference' => null,
             'payment_receipt_path' => null,
+            'payment_company_name' => null,
+            'payment_company_email' => null,
             'is_active' => true, // Reactivate shop if it was deactivated
         ]);
         

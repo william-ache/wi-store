@@ -45,6 +45,8 @@ class BillingController extends Controller
             'billing_cycle' => 'required|string|in:mensual,anual',
             'payment_reference' => 'required|string|max:255',
             'payment_receipt' => 'required|image|max:4096', // Max 4MB receipt image
+            'payment_company_name' => 'required|string|max:255',
+            'payment_company_email' => 'required|email|max:255',
         ], [
             'plan.required' => 'Debes seleccionar un plan.',
             'billing_cycle.required' => 'Debes seleccionar el ciclo de facturación.',
@@ -52,6 +54,9 @@ class BillingController extends Controller
             'payment_receipt.required' => 'Debes subir una captura o imagen de tu comprobante de pago.',
             'payment_receipt.image' => 'El comprobante debe ser una imagen válida.',
             'payment_receipt.max' => 'La imagen del comprobante no debe superar los 4MB.',
+            'payment_company_name.required' => 'Debes ingresar el nombre de la empresa.',
+            'payment_company_email.required' => 'Debes ingresar el correo electrónico de la empresa.',
+            'payment_company_email.email' => 'El correo electrónico debe tener un formato válido.',
         ]);
 
         // Upload receipt to public storage disk
@@ -67,6 +72,8 @@ class BillingController extends Controller
             'payment_status' => 'pending',
             'payment_reference' => $request->payment_reference,
             'payment_receipt_path' => $receiptPath,
+            'payment_company_name' => $request->payment_company_name,
+            'payment_company_email' => $request->payment_company_email,
             'payment_submitted_at' => now(),
         ]);
 
@@ -74,7 +81,7 @@ class BillingController extends Controller
         Notification::create([
             'shop_id' => $shop->id,
             'title' => 'Pago Móvil Recibido',
-            'content' => 'Tu reporte de pago por Pago Móvil con referencia ' . $request->payment_reference . ' ha sido recibido. El Súper Administrador validará la información pronto.',
+            'content' => 'Tu reporte de pago por Pago Móvil con referencia ' . $request->payment_reference . ' para la empresa ' . $request->payment_company_name . ' ha sido recibido. El Súper Administrador validará la información pronto.',
             'type' => 'billing',
             'is_read' => false,
         ]);

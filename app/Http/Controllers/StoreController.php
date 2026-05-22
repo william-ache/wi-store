@@ -12,7 +12,7 @@ class StoreController extends Controller
     {
         // Las consultas a continuación aplican automáticamente el TenantScope
         // gracias al Trait 'BelongsToTenant', por lo que ya están aisladas por tienda
-        $shop = \App\Models\Shop::first();
+        $shop = config('current_shop') ?: \App\Models\Shop::first();
         $categories = Category::where('status', true)
             ->with(['products' => function ($query) {
                 $query->where('is_available', true);

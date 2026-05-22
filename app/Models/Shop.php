@@ -16,7 +16,7 @@ class Shop extends Model
         'google_maps_link', 'work_hours', 'base_currency', 'plan', 'billing_cycle',
         'plan_expires_at', 'last_payment_date', 'last_payment_amount', 'active_session_id',
         'pending_plan', 'pending_billing_cycle', 'payment_status', 'payment_reference',
-        'payment_receipt_path', 'payment_submitted_at',
+        'payment_receipt_path', 'payment_submitted_at', 'payment_company_name', 'payment_company_email',
         'delivery_rate_per_km', 'latitude', 'longitude',
         'facebook', 'instagram', 'tiktok', 'x_twitter',
         'contact_phone', 'contact_sms', 'telegram', 'is_active',

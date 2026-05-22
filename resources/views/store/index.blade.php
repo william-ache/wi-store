@@ -2847,11 +2847,18 @@
                     // Apply accessibility settings on load
                     this.applyAccessibilitySettings();
 
-                    // Inicializar el modal de anuncios emergentes apenas entra al menú (retardo de 800ms)
+                    // Mostrar el anuncio apenas entra al menú — forzar cierre del carrito y modales primero
                     if (this.announcements && this.announcements.length > 0 && !sessionStorage.getItem('announcements_closed')) {
-                        setTimeout(() => {
-                            this.showAnnouncementModal = true;
-                        }, 800);
+                        // Forzar cierre del carrito y cualquier modal para que el anuncio sea lo primero que ve el usuario
+                        this.isCartOpen = false;
+                        this.showWhatsappModal = false;
+                        this.showReviewsModal = false;
+                        this.showSchedulesModal = false;
+                        this.showServicesModal = false;
+                        this.showServiceTypesModal = false;
+                        this.showBranchesModal = false;
+                        // Mostrar el anuncio inmediatamente al entrar
+                        this.showAnnouncementModal = true;
                     }
                 },
 
