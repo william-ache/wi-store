@@ -15,8 +15,8 @@ class CategoryMockSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Obtener la tienda demo o la primera existente
-        $shop = Shop::where('slug', 'demo')->first() ?: Shop::first();
+        // 1. Obtener la primera tienda existente
+        $shop = Shop::first();
 
         if (!$shop) {
             $this->command->error('No se encontró ninguna tienda en la base de datos para seedear.');

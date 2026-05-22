@@ -76,21 +76,7 @@ class IdentifyTenant
                 }
             }
 
-            // Auto-login de desarrollo para poder probar el panel de administración localmente de la tienda demo
-            if (app()->environment('local') && !app()->runningInConsole() && !\Illuminate\Support\Facades\Auth::check()) {
-                if ($shop->slug === 'demo' && ($request->is('*/admin*') || $request->routeIs('admin.*'))) {
-                    try {
-                        if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
-                            $user = \App\Models\User::where('email', 'admin@wistore.com')->first();
-                            if ($user) {
-                                \Illuminate\Support\Facades\Auth::login($user);
-                            }
-                        }
-                    } catch (\Throwable $e) {
-                        // Ignorar silenciosamente
-                    }
-                }
-            }
+
 
             // Control de acceso multi-tenant para el panel administrativo
             if (\Illuminate\Support\Facades\Auth::check() && ($request->is('*/admin*') || $request->routeIs('admin.*'))) {
@@ -113,7 +99,6 @@ class IdentifyTenant
             // Compartir de forma global para las vistas Blade
             View::share('currentShop', $shop);
 
-            // Valores de prueba para la demo si están vacíos
             $facebook = $shop->facebook;
             $instagram = $shop->instagram;
             $tiktok = $shop->tiktok;
@@ -122,17 +107,6 @@ class IdentifyTenant
             $whatsapp = $shop->whatsapp_number;
             $contactPhone = $shop->contact_phone;
             $contactSms = $shop->contact_sms;
-
-            if ($shop->slug === 'demo') {
-                if (empty($facebook)) $facebook = 'https://facebook.com';
-                if (empty($instagram)) $instagram = 'https://instagram.com';
-                if (empty($tiktok)) $tiktok = 'https://tiktok.com';
-                if (empty($x_twitter)) $x_twitter = 'https://x.com';
-                if (empty($telegram)) $telegram = 'https://t.me/wydex_demo';
-                if (empty($whatsapp)) $whatsapp = 'Ventas:+584120000000,Soporte:+584121111111';
-                if (empty($contactPhone)) $contactPhone = '+584120000000';
-                if (empty($contactSms)) $contactSms = '+584120000000';
-            }
 
             // Mantener compatibilidad con las vistas existentes que usan el array $company
             View::share('company', [

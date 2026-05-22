@@ -365,13 +365,14 @@
 
         // Pre-calculate subscription plan details
         $companyPlanKey = strtolower(trim($company['plan'] ?? ($company['subscription_plan'] ?? '')));
-        if ($companyPlanKey === 'standar') {
+        if (in_array($companyPlanKey, ['standar', 'standard'])) {
             $companyPlanKey = 'standard';
+        } elseif (in_array($companyPlanKey, ['premium', 'premiun', 'gold'])) {
+            $companyPlanKey = 'premium';
+        } elseif (in_array($companyPlanKey, ['free_trial', 'prueba gratuita']) || empty($companyPlanKey)) {
+            $companyPlanKey = 'free_trial';
         }
-        if (empty($companyPlanKey)) {
-            $companyPlanKey = 'prueba gratuita';
-        }
-        $isPremiumPlan = in_array($companyPlanKey, ['premium', 'premiun', 'gold']);
+        $isPremiumPlan = $companyPlanKey === 'premium';
 
         /**
          * Extrae y valida la configuración de badge desde el campo features del producto.
@@ -483,12 +484,12 @@
                                     urlencode($company['address'] ?? '');
                             
                             $planOptions = [
-                                'prueba gratuita' => [
+                                'free_trial' => [
                                     'label' => 'Prueba 7 días',
-                                    'bg' => 'bg-amber-50',
-                                    'text' => 'text-amber-700',
-                                    'border' => 'border-amber-100',
-                                    'icon' => 'fas fa-gift',
+                                    'bg' => 'bg-indigo-50',
+                                    'text' => 'text-indigo-700',
+                                    'border' => 'border-indigo-100',
+                                    'icon' => 'fas fa-clock',
                                 ],
                                 'standard' => [
                                     'label' => 'Plan Standard',
@@ -505,14 +506,14 @@
                                     'icon' => 'fas fa-crown',
                                 ],
                             ];
-                            $displayPlanKey = in_array($companyPlanKey, ['premium', 'premiun', 'gold']) ? 'premium' : $companyPlanKey;
+                            $displayPlanKey = $companyPlanKey;
                             $planInfo = $planOptions[$displayPlanKey] ?? [
                                 'label' => ucfirst($companyPlanKey),
                                 'bg' => 'bg-slate-100',
                                 'text' => 'text-slate-700',
                                 'border' => 'border-slate-200',
                                 'icon' => 'fas fa-award',
-                            ];
+                             ];
                         @endphp
                         <div class="pt-10">
                             <button type="button" @click="shareMenu()"

@@ -114,7 +114,7 @@
             </span>
             <h1 class="text-3xl md:text-5xl font-black text-white mt-5 tracking-tight">Ponte en Contacto</h1>
             <p class="text-sm md:text-base text-slate-400 mt-3 max-w-2xl mx-auto leading-relaxed">
-                ¿Tienes dudas sobre nuestros planes, necesitas una demo personalizada o deseas cotizar el plan WICustom? Escríbenos y te responderemos en tiempo récord.
+                ¿Tienes dudas sobre nuestros planes, necesitas una demo personalizada o deseas cotizar el Plan Personalizado? Escríbenos y te responderemos en tiempo récord.
             </p>
         </div>
 
@@ -150,9 +150,9 @@
                     <div>
                         <label for="plan" class="block text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Plan de Interés</label>
                         <select id="plan" name="plan" class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors">
-                            <option value="wilink" class="bg-[#0b0d19]">WI-Link ($8.99/mes)</option>
-                            <option value="wimenu" class="bg-[#0b0d19]" selected>WI-Menu ($24.99/mes)</option>
-                            <option value="wiadmin" class="bg-[#0b0d19]">WI-Admin/Custom (A medida)</option>
+                            <option value="standard" class="bg-[#0b0d19]">Plan Standard (7 Días Gratis • $14.99/mes)</option>
+                            <option value="premium" class="bg-[#0b0d19]" selected>Plan Premium ($24.99/mes)</option>
+                            <option value="custom" class="bg-[#0b0d19]">Plan Personalizado (A medida)</option>
                             <option value="general" class="bg-[#0b0d19]">Consulta General / Soporte</option>
                         </select>
                     </div>
@@ -212,7 +212,7 @@
                                 <i class="fas" :class="activeFaq === 1 ? 'fa-minus text-purple-400' : 'fa-plus text-slate-500'"></i>
                             </button>
                             <div x-show="activeFaq === 1" x-transition.opacity class="text-[11px] text-slate-400 mt-2 leading-relaxed">
-                                No, el registro y la habilitación de tu tienda en WILink o WIMenu es inmediato. Configuras tu catálogo interactivo y comienzas a vender el mismo día.
+                                No, el registro y la habilitación de tu tienda en cualquiera de nuestros planes es inmediato. Configuras tu catálogo interactivo y comienzas a vender el mismo día.
                             </div>
                         </div>
 

@@ -12,7 +12,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable, BelongsToTenant;
 
     protected $fillable = [
-        'shop_id', 'name', 'email', 'password',
+        'shop_id', 'name', 'email', 'password', 'temp_password',
     ];
 
     protected $hidden = [

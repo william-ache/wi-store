@@ -241,60 +241,6 @@
                 <a href="#como-funciona" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">¿Cómo funciona?</a>
                 
                 <a href="#precios" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Planes</a>
-                
-                <!-- Dropdown de Demos -->
-                <div class="relative">
-                    <button @click="openDropdown = !openDropdown" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200 flex items-center gap-1.5 focus:outline-none select-none">
-                        <span>Demos</span>
-                        <svg class="w-3 h-3 transition-transform duration-300" :class="{'rotate-180 text-cyan-400': openDropdown}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <!-- Menú Desplegable Premium Glassmorphism -->
-                    <div x-show="openDropdown"
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 translate-y-2 scale-95"
-                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave-end="opacity-0 translate-y-2 scale-95"
-                         class="absolute left-1/2 -translate-x-1/2 mt-3 w-64 rounded-2xl bg-[#0c0e22]/95 border border-white/10 backdrop-blur-xl p-2 shadow-[0_10px_40px_rgba(0,0,0,0.6)] z-50 space-y-1"
-                         style="display: none;">
-                        
-                        <!-- Opción 1: WI-Link -->
-                        <a href="/demo-wilink" @click="openDropdown = false" class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-white/5 transition-all duration-200 group">
-                            <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all duration-300 shadow-[0_0_15px_rgba(6,182,212,0.1)]">
-                                <i class="fas fa-link text-xs"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-black text-white group-hover:text-cyan-400 transition-colors">WI-Link</p>
-                                <p class="text-[9.5px] text-slate-400 mt-0.5">Árbol de enlaces biográficos</p>
-                            </div>
-                        </a>
-
-                        <!-- Opción 2: WI-Menu -->
-                        <a href="/ys-detallitos" @click="openDropdown = false" class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-white/5 transition-all duration-200 group">
-                            <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
-                                <i class="fas fa-store text-xs"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-black text-white group-hover:text-purple-400 transition-colors">WI-Menu</p>
-                                <p class="text-[9.5px] text-slate-400 mt-0.5">Catálogo Digital + Pedidos</p>
-                            </div>
-                        </a>
-
-                        <!-- Opción 3: WI-Custom -->
-                        <a href="/demo-custom" @click="openDropdown = false" class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-white/5 transition-all duration-200 group">
-                            <div class="w-9 h-9 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 group-hover:scale-110 group-hover:bg-pink-500/20 transition-all duration-300 shadow-[0_0_15px_rgba(236,72,153,0.1)]">
-                                <i class="fas fa-cogs text-xs"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-black text-white group-hover:text-pink-400 transition-colors">WI-Custom</p>
-                                <p class="text-[9.5px] text-slate-400 mt-0.5">Desarrollo a medida B2B</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
 
                 <a href="/login" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Iniciar Sesión</a>
                 <a href="#precios" class="bg-brand-600 hover:bg-brand-555 hover:scale-[1.03] text-white text-sm font-black px-5 py-2.5 rounded-xl shadow-md shadow-brand-600/30 transition-all duration-300">
@@ -303,59 +249,8 @@
             </nav>
 
             <!-- EN MÓVIL: Botones Rápidos iOS-style con Dropdown de Planes -->
-            <div class="flex items-center gap-2 md:hidden" x-data="{ openMobileDropdown: false }" @click.away="openMobileDropdown = false">
+            <div class="flex items-center gap-2 md:hidden">
                 <a href="/login" class="text-xs font-bold text-slate-200 hover:text-white px-2.5 py-1.5 rounded-lg">Log In</a>
-                
-                <div class="relative">
-                    <button @click="openMobileDropdown = !openMobileDropdown" class="text-xs font-bold text-slate-200 hover:text-white px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-all select-none">
-                        <span>Demos</span>
-                        <svg class="w-3 h-3 transition-transform duration-300" :class="{'rotate-180': openMobileDropdown}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    
-                    <!-- Menú Desplegable Móvil -->
-                    <div x-show="openMobileDropdown"
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 translate-y-2 scale-95"
-                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave-end="opacity-0 translate-y-2 scale-95"
-                         class="absolute right-0 mt-2.5 w-48 rounded-xl bg-[#0c0e22]/98 border border-white/10 backdrop-blur-xl p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.6)] z-50 space-y-0.5"
-                         style="display: none;">
-                        
-                        <a href="/demo-wilink" @click="openMobileDropdown = false" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-all duration-200">
-                            <div class="w-7 h-7 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
-                                <i class="fas fa-link text-[10px]"></i>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-black text-white">WI-Link</p>
-                                <p class="text-[8px] text-slate-400">Enlaces Bio</p>
-                            </div>
-                        </a>
-
-                        <a href="/ys-detallitos" @click="openMobileDropdown = false" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-all duration-200">
-                            <div class="w-7 h-7 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
-                                <i class="fas fa-store text-[10px]"></i>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-black text-white">WI-Menu</p>
-                                <p class="text-[8px] text-slate-400">Catálogo Digital</p>
-                            </div>
-                        </a>
-
-                        <a href="/demo-custom" @click="openMobileDropdown = false" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-all duration-200">
-                            <div class="w-7 h-7 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400">
-                                <i class="fas fa-cogs text-[10px]"></i>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-black text-white">WI-Custom</p>
-                                <p class="text-[8px] text-slate-400">A Medida</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
 
                 <a href="#precios" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-black px-3.5 py-2 rounded-xl shadow-md transition whitespace-nowrap">
                     Planes
@@ -889,7 +784,27 @@
     </section>
 
     <!-- PRECIOS (Glassmorphic Dark Premium) -->
-    <section id="precios" class="py-20 md:py-28 border-t border-white/5 relative overflow-hidden z-10" x-data="{ openModal: false, selectedPlan: null }">
+    <section id="precios" class="py-20 md:py-28 border-t border-white/5 relative overflow-hidden" 
+             :class="openModal ? 'z-50' : 'z-10'"
+             x-data="{ 
+                 openModal: false, 
+                 selectedPlan: null, 
+                 billingPeriod: 'monthly',
+                 exchangeRate: null,
+                 loadingRate: true,
+                 init() {
+                     fetch('https://ve.dolarapi.com/v1/dolares/oficial')
+                         .then(r => r.json())
+                         .then(data => {
+                             this.exchangeRate = data.promedio;
+                             this.loadingRate = false;
+                         })
+                         .catch(err => {
+                             console.error('Error fetching BCV rate:', err);
+                             this.loadingRate = false;
+                         });
+                 }
+             }">
         
         <!-- Orbes de luz de fondo para el fondo oscuro -->
         <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none blur-accelerated"></div>
@@ -902,12 +817,34 @@
                 <span class="bg-purple-600/20 text-purple-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                     Planes Flexibles
                 </span>
-                <span class="inline-flex items-center gap-1 bg-emerald-600/20 text-emerald-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)] mt-2 sm:mt-0 sm:ml-2">
-                    Tasa Oficial BCV 🇻🇪
+                <span class="inline-flex items-center gap-1.5 bg-emerald-600/20 text-emerald-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)] mt-2 sm:mt-0 sm:ml-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" x-show="!loadingRate"></span>
+                    <span x-text="exchangeRate ? 'Tasa BCV: ' + Number(exchangeRate).toFixed(2) + ' Bs. 🇻🇪' : (loadingRate ? 'Cargando Tasa... 🇻🇪' : 'Tasa Oficial BCV 🇻🇪')">Tasa Oficial BCV 🇻🇪</span>
                 </span>
                 <h2 class="text-3xl md:text-5xl font-black text-white mt-5 tracking-tight">Precios que impulsan tu negocio</h2>
                 <p class="text-sm md:text-base text-slate-400 mt-3 max-w-xl mx-auto leading-relaxed">Selecciona la solución ideal para digitalizar tu marca, aumentar tus ventas y conectar de forma directa con tus clientes.</p>
                 
+                <!-- Billing Cycle Toggle Switch -->
+                <div class="mt-8 flex justify-center items-center gap-4 relative z-10">
+                    <button @click="billingPeriod = 'monthly'" 
+                            class="text-xs font-black tracking-wider uppercase transition-all duration-350 cursor-pointer focus:outline-none" 
+                            :class="billingPeriod === 'monthly' ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'">
+                        Pago Mensual
+                    </button>
+                    <button @click="billingPeriod = billingPeriod === 'monthly' ? 'yearly' : 'monthly'" 
+                            class="w-14 h-7 rounded-full bg-purple-950/80 border border-purple-500/40 p-1 flex items-center transition-all duration-300 relative focus:outline-none shadow-[0_0_15px_rgba(139,92,246,0.15)] hover:border-purple-400/60"
+                            aria-label="Alternar ciclo de facturación">
+                        <div class="w-5 h-5 rounded-full bg-gradient-to-r from-purple-400 to-cyan-400 shadow-[0_2px_5px_rgba(0,0,0,0.3)] transition-all duration-300 transform" 
+                             :class="billingPeriod === 'yearly' ? 'translate-x-7' : 'translate-x-0'"></div>
+                    </button>
+                    <button @click="billingPeriod = 'yearly'" 
+                            class="text-xs font-black tracking-wider uppercase flex items-center gap-2 transition-all duration-350 cursor-pointer focus:outline-none" 
+                            :class="billingPeriod === 'yearly' ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'">
+                        <span>Pago Anual</span>
+                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-black uppercase px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.1)]">Ahorra hasta 30% 🎉</span>
+                    </button>
+                </div>
+
                 <!-- Botón Único de Comparativa Técnica -->
                 <div class="mt-8 relative z-10">
                     <a href="{{ route('planes.comparativa') }}" class="inline-flex items-center gap-2 bg-[#0d1127]/60 hover:bg-slate-800/80 text-cyan-400 hover:text-cyan-300 font-extrabold px-8 py-4 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 text-xs md:text-sm shadow-xl group">
@@ -918,176 +855,217 @@
             </div>
             
             <!-- Grid de 3 Columnas -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch justify-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch justify-center">
 
-                <!-- PLAN 1: WILink Pro -->
-                <div id="plan-wilink" class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
+                <!-- PLAN 2: Plan Standard -->
+                <div id="plan-standard" class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
                     <div>
-                        <h3 class="text-xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Link</span></h3>
-                        <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Tu árbol de enlaces biográficos personalizado.</p>
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-lg font-black text-white uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">Standard</span></h3>
+                            <span class="bg-gradient-to-r from-sky-500 to-cyan-400 text-slate-950 text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-[0_0_14px_rgba(14,165,233,0.5)] animate-pulse shrink-0">⚡ 7 Días</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Ideal para pequeños negocios y emprendedores que desean digitalizarse.</p>
                         
-                        <!-- Precio Unificado -->
+                        <!-- Banner prueba gratis -->
+                        <div class="mt-3 rounded-2xl bg-gradient-to-r from-sky-500/15 via-cyan-500/10 to-sky-500/15 border border-sky-500/30 p-3 shadow-[0_0_18px_rgba(14,165,233,0.12)] flex items-center gap-2.5">
+                            <div class="w-7 h-7 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center shrink-0">
+                                <span class="text-sm">🎁</span>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-sky-300 uppercase tracking-wider leading-tight">¡Incluye 7 Días de Prueba Gratis!</p>
+                                <p class="text-[9px] text-slate-500 mt-0.5">Sin tarjeta. Sin compromisos. Cancela cuando quieras.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Precio Dinámico -->
                         <div class="my-6">
-                            <div class="text-4xl font-black text-white flex items-baseline gap-1">$8.99 <span class="text-xs font-bold text-slate-400">/ mes</span></div>
+                            <!-- Monthly Price -->
+                            <div x-show="billingPeriod === 'monthly'" x-transition class="space-y-1">
+                                <div class="text-3xl font-black text-white flex items-baseline gap-1">
+                                    $14.99 <span class="text-[10px] font-bold text-slate-500">/ mes</span>
+                                </div>
+                                <span x-show="exchangeRate" class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
+                                    <span x-text="(14.99 * exchangeRate).toFixed(2)"></span> Bs. <span class="text-[9px] text-slate-500">/ mes</span>
+                                </span>
+                                <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/25 text-[8px] font-extrabold uppercase px-2.5 py-0.5 rounded-full inline-block mt-1 hover:scale-105 transition-all duration-200 cursor-pointer" @click="billingPeriod = 'yearly'">
+                                    Ahorra 20% con Pago Anual 🎉
+                                </span>
+                            </div>
+                            <!-- Yearly Price -->
+                            <div x-show="billingPeriod === 'yearly'" x-transition class="space-y-1">
+                                <div class="text-3xl font-black text-white flex items-baseline gap-1">
+                                    $11.99 <span class="text-[10px] font-bold text-cyan-400">/ mes equivalent</span>
+                                </div>
+                                <span x-show="exchangeRate" class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
+                                    <span x-text="(11.99 * exchangeRate).toFixed(2)"></span> Bs. <span class="text-[9px] text-slate-500">/ mes</span>
+                                </span>
+                                <span class="text-[9px] text-slate-400 block font-semibold">
+                                    Facturado anualmente ($143.90/año<span x-show="exchangeRate" class="text-emerald-400/90"> / <span x-text="(143.90 * exchangeRate).toFixed(2)"></span> Bs.</span>)
+                                </span>
+                                <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/25 text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full inline-block">Ahorra 20%</span>
+                            </div>
                         </div>
 
                         <!-- Beneficios -->
-                        <ul class="space-y-4 text-xs text-slate-300 border-t border-white/10 pt-6">
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Enlace corto único (wistore.com/l/tu-marca).</span>
+                        <ul class="space-y-3.5 text-[11px] text-slate-300 border-t border-white/10 pt-5">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-sky-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Productos y categorías <strong>ilimitados</strong>.</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Botones personalizados ilimitados a Redes Sociales.</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-sky-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Pedidos ilimitados a WhatsApp o Telegram.</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Botón directo a WhatsApp/Telegram y Google Maps.</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-sky-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Personalización visual completa de tu marca.</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Personalización visual básica.</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-sky-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Soporte prioritario por WhatsApp.</span>
                             </li>
                         </ul>
                     </div>
 
                     <!-- CTA -->
-                    <div class="mt-8 flex flex-col gap-3">
-                        <a href="/register" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-sm">
-                            Adquirir WI-Link
+                    <div class="mt-8 flex flex-col gap-2.5">
+                        <a href="/register" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-sm">
+                            Comenzar Standard (7 Días Gratis)
                         </a>
-                        <a href="/demo-wilink" class="block w-full text-center border-b border-white/10 hover:border-white/30 text-slate-400 hover:text-white font-bold py-2 transition-all duration-300 text-xs">
-                            Ver DEMO
-                        </a>
-                        <button @click="selectedPlan = 'wilink'; openModal = true" class="mt-2 text-center text-cyan-400 hover:text-cyan-300 font-bold text-[10px] uppercase tracking-wide flex items-center justify-center gap-1.5 transition-colors focus:outline-none">
-                            Ver más información <i class="fas fa-info-circle"></i>
+                        <button @click="selectedPlan = 'standard'; openModal = true" class="mt-1 text-center text-sky-400 hover:text-sky-300 font-bold text-[9px] uppercase tracking-wide flex items-center justify-center gap-1 transition-colors focus:outline-none">
+                            Detalles Técnicos <i class="fas fa-info-circle"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- PLAN 2: WIMenu Premium (EL DESTACADO con Badge Aireado) -->
-                <div id="plan-wimenu" class="relative rounded-3xl p-[2px] bg-gradient-to-b from-purple-500 via-cyan-500 to-purple-600 shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-transform duration-300 hover:-translate-y-2">
-                    <!-- Badge Flotante "✨ RECOMENDADO" - Posicionamiento Aireado sin Colapso -->
+                <!-- PLAN 3: Plan Premium (EL DESTACADO con Corona y Aura) -->
+                <div id="plan-premium" class="relative rounded-3xl p-[2px] bg-gradient-to-b from-purple-500 via-cyan-500 to-purple-600 shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-transform duration-300 hover:-translate-y-2 flex flex-col">
+                    <!-- Badge Flotante "✨ RECOMENDADO" -->
                     <span class="absolute -top-4 right-6 bg-purple-600 text-white text-[9px] uppercase font-black tracking-widest px-4.5 py-1.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.6)] select-none z-10">
                         ✨ RECOMENDADO
                     </span>
 
-                    <div class="bg-[#0d1127] rounded-[1.4rem] p-6 md:p-8 flex flex-col justify-between h-full relative overflow-hidden">
+                    <div class="bg-[#0d1127] rounded-[1.4rem] p-6 flex flex-col justify-between h-full relative overflow-hidden flex-grow">
                         <!-- Destello interno -->
                         <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl"></div>
 
                         <div class="relative z-10">
-                            <h3 class="text-xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Menu</span></h3>
-                            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Menú digital interactivo con pedidos directos a WhatsApp o Telegram + WI-Link incluido.</p>
+                            <h3 class="text-lg font-black text-white uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Premium</span></h3>
+                            <p class="text-[11px] text-slate-300 mt-2 leading-relaxed">Nuestra solución corporativa con insignia VIP y marca blanca completa.</p>
                             
-                            <!-- Precio Unificado -->
+                            <!-- Precio Dinámico -->
                             <div class="my-6">
-                                <div class="text-4xl font-black text-white flex items-baseline gap-1">$24.99 <span class="text-xs font-bold text-purple-300">/ mes</span></div>
+                                <!-- Monthly Price -->
+                                <div x-show="billingPeriod === 'monthly'" x-transition class="space-y-1">
+                                    <div class="text-3xl font-black text-white flex items-baseline gap-1">
+                                        $24.99 <span class="text-[10px] font-bold text-purple-300">/ mes</span>
+                                    </div>
+                                    <span x-show="exchangeRate" class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
+                                        <span x-text="(24.99 * exchangeRate).toFixed(2)"></span> Bs. <span class="text-[9px] text-slate-500">/ mes</span>
+                                    </span>
+                                    <span class="bg-purple-500/20 text-purple-400 border border-purple-500/25 text-[8px] font-extrabold uppercase px-2.5 py-0.5 rounded-full inline-block mt-1 hover:scale-105 transition-all duration-200 cursor-pointer" @click="billingPeriod = 'yearly'">
+                                        Ahorra 30% con Pago Anual 🎉
+                                    </span>
+                                </div>
+                                <!-- Yearly Price -->
+                                <div x-show="billingPeriod === 'yearly'" x-transition class="space-y-1">
+                                    <div class="text-3xl font-black text-white flex items-baseline gap-1">
+                                        $17.49 <span class="text-[10px] font-bold text-cyan-400">/ mes equivalent</span>
+                                    </div>
+                                    <span x-show="exchangeRate" class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
+                                        <span x-text="(17.49 * exchangeRate).toFixed(2)"></span> Bs. <span class="text-[9px] text-slate-500">/ mes</span>
+                                    </span>
+                                    <span class="text-[9px] text-slate-400 block font-semibold">
+                                        Facturado anualmente ($209.92/año<span x-show="exchangeRate" class="text-emerald-400/90"> / <span x-text="(209.92 * exchangeRate).toFixed(2)"></span> Bs.</span>)
+                                    </span>
+                                    <span class="bg-purple-500/20 text-purple-400 border border-purple-500/25 text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full inline-block">Ahorra 30%</span>
+                                </div>
                             </div>
 
                             <!-- Beneficios -->
-                            <ul class="space-y-4 text-xs text-slate-200 border-t border-purple-500/20 pt-6">
-                                <li class="flex items-start gap-3">
-                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                    <span>Catálogo con <strong>productos ilimitados</strong>.</span>
+                            <ul class="space-y-3.5 text-[11px] text-slate-200 border-t border-purple-500/20 pt-5">
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                    <span>Todo lo incluido en el Plan Standard.</span>
                                 </li>
-                                <li class="flex items-start gap-3">
-                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                    <span><strong>Interfaz Híbrida Inteligente</strong> (Web/App).</span>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                    <span><strong>Insignia VIP Corona Premium</strong> en tienda.</span>
                                 </li>
-                                <li class="flex items-start gap-3">
-                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                    <span>Personalización total de marca (colores/logo).</span>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                    <span><strong>Métodos de Pago Inteligentes</strong> (Pago Móvil / Zelle).</span>
                                 </li>
-                                <li class="flex items-start gap-3">
-                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                    <span><strong>Pedidos directo a tu WhatsApp o Telegram</strong> (0% comisiones).</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                    <span><span class="text-cyan-400 font-bold">INCLUYE WI-Link</span> (Ahorras 8.99$).</span>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                    <span><strong>Soporte VIP corporativo 24/7</strong> dedicado.</span>
                                 </li>
                             </ul>
                         </div>
 
                         <!-- CTA -->
-                        <div class="mt-8 flex flex-col gap-3 relative z-10">
-                            <a href="/register" class="block w-full text-center bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-                                Comenzar WI-Menu
+                        <div class="mt-8 flex flex-col gap-2.5 relative z-10">
+                            <a href="/register" class="block w-full text-center bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+                                Comenzar Premium
                             </a>
-                            <a href="/ys-detallitos" class="block w-full text-center border-b border-white/10 hover:border-white/30 text-slate-300 hover:text-white font-bold py-2 transition-all duration-300 text-xs">
-                                Ver DEMO
-                            </a>
-                            <button @click="selectedPlan = 'wimenu'; openModal = true" class="mt-2 text-center text-cyan-400 hover:text-cyan-300 font-bold text-[10px] uppercase tracking-wide flex items-center justify-center gap-1.5 transition-colors focus:outline-none">
-                                Ver más información <i class="fas fa-info-circle"></i>
+                            <button @click="selectedPlan = 'premium'; openModal = true" class="mt-1 text-center text-cyan-400 hover:text-cyan-300 font-bold text-[9px] uppercase tracking-wide flex items-center justify-center gap-1 transition-colors focus:outline-none">
+                                Detalles Técnicos <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- PLAN 3: WIAdmin / Custom (Ajustado Espaciado y Altura de Líneas) -->
-                <div id="plan-wiadmin" class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
+                <!-- PLAN 4: Plan Custom / Personalizado -->
+                <div id="plan-custom" class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
                     <div>
-                        <h3 class="text-xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Admin/Custom</span></h3>
-                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Gestión integral corporativa o software independiente a medida.</p>
+                        <h3 class="text-lg font-black text-white uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">Custom</span></h3>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Desarrollo a medida, integración de dominios y bases de datos dedicadas.</p>
                         
                         <!-- Precio -->
                         <div class="my-6">
-                            <div class="text-3xl font-black text-white tracking-tight">Personalizado</div>
-                            <span class="text-[10px] text-slate-400 block mt-1.5 font-semibold">Precio a Convenir</span>
+                            <div class="text-2xl font-black text-white tracking-tight">A Medida</div>
+                            <span class="text-[9px] text-slate-450 block mt-2 font-semibold">Cotización bajo requerimientos</span>
                         </div>
 
-                        <!-- Beneficios - Espaciados y con Mayor Legibilidad -->
-                        <ul class="space-y-5 text-xs text-slate-300 border-t border-white/10 pt-6 leading-relaxed">
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span><strong>Módulos de Clientes y Empleados</strong> (Roles, Permisos y Fidelización).</span>
+                        <!-- Beneficios -->
+                        <ul class="space-y-3.5 text-[11px] text-slate-300 border-t border-white/10 pt-5 leading-relaxed">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-pink-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Código independiente exclusivo y BD dedicada.</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Panel Avanzado de Órdenes y Estadísticas en tiempo real.</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-pink-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Módulos de Clientes y Empleados (Roles/CRM).</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Posibilidad de <strong>Código independiente exclusivo</strong> y BD dedicada MySQL.</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-pink-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Integración con dominios web propios (`.com`).</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                                <span>Integración con dominios/pasarelas propias.</span>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-pink-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Ingeniería de software a la medida.</span>
                             </li>
                         </ul>
                     </div>
 
                     <!-- CTA -->
-                    <div class="mt-8 flex flex-col gap-3">
-                        <a href="https://wa.me/584121305420?text=Hola,%20deseo%20una%20asesoría%20sobre%20los%20planes%20de%20WIStore" target="_blank" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-sm">
+                    <div class="mt-8 flex flex-col gap-2.5">
+                        <a href="https://wa.me/584121305420?text=Hola,%20deseo%20una%2520asesoría%20sobre%20el%20Plan%20Custom%20de%20WIStore" target="_blank" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-sm">
                             Cotizar Proyecto
                         </a>
-                        <a href="/demo-custom" class="block w-full text-center border-b border-white/10 hover:border-white/30 text-slate-400 hover:text-white font-bold py-2 transition-all duration-300 text-xs">
-                            Ver DEMO
-                        </a>
-                        <button @click="selectedPlan = 'wiadmin'; openModal = true" class="mt-2 text-center text-cyan-400 hover:text-cyan-300 font-bold text-[10px] uppercase tracking-wide flex items-center justify-center gap-1.5 transition-colors focus:outline-none">
-                            Ver más información <i class="fas fa-info-circle"></i>
+                        <button @click="selectedPlan = 'custom'; openModal = true" class="mt-1 text-center text-pink-400 hover:text-pink-300 font-bold text-[9px] uppercase tracking-wide flex items-center justify-center gap-1 transition-colors focus:outline-none">
+                            Detalles Técnicos <i class="fas fa-info-circle"></i>
                         </button>
                     </div>
                 </div>
 
             </div>
 
-
-
-            <!-- Cláusula de Limitación y Cintillo Informativo -->
-            <div class="mt-16 text-center max-w-4xl mx-auto space-y-6">
+            <!-- Cláusula de Limitación -->
+            <div class="mt-16 text-center max-w-4xl mx-auto">
                 <p class="text-[10px] md:text-xs text-slate-500 leading-relaxed font-semibold px-4">
-                    ⚠️ Los planes WI-Link, WI-Menu y WI-Admin cubren soporte operativo del sistema base y no incluyen funciones personalizadas. El desarrollo a medida se gestiona exclusivamente bajo el plan WI-Custom previo acuerdo comercial.
+                    ⚠️ Los planes Standard y Premium incluyen 7 días de prueba gratuita. Estos planes cubren soporte operativo del sistema base y no incluyen funciones personalizadas. El desarrollo a medida se gestiona exclusivamente bajo el plan Custom previo acuerdo comercial.
                 </p>
-                <!-- Cintillo Informativo de Restauración de Demos -->
-                <div class="inline-flex justify-center bg-[#1e1136]/80 backdrop-blur-md border border-purple-500/30 px-6 py-4 rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.15)] mx-auto">
-                    <p class="text-[10px] md:text-xs text-purple-300 flex items-center justify-center gap-2 font-black tracking-[0.1em] uppercase">
-                        🔄 LOS DATOS DE LAS DEMOS SE RESTAURAN AUTOMÁTICAMENTE CADA 12 HORAS PARA MANTENER EL SISTEMA LIMPIO.
-                    </p>
-                </div>
             </div>
 
             <!-- MODAL DETALLES DEL PLAN (Alpine.js) -->
@@ -1118,77 +1096,126 @@
                         <i class="fas fa-times text-sm"></i>
                     </button>
 
-                    <!-- CONTENIDO WILINK PRO -->
-                    <div x-show="selectedPlan === 'wilink'" class="p-6 md:p-10 space-y-6">
+                    <!-- CONTENIDO PRUEBA GRATIS -->
+                    <div x-show="selectedPlan === 'free_trial'" class="p-6 md:p-10 space-y-6">
                         <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-                                <i class="fas fa-link text-xl"></i>
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                <i class="fas fa-clock text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Link</span></h3>
-                                <p class="text-xs text-cyan-400 font-bold uppercase tracking-wider">Plan Biografía e Identidad • 8.99$ / mes</p>
+                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Prueba <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Gratis</span></h3>
+                                <p class="text-xs text-indigo-400 font-bold uppercase tracking-wider">Plan Inicial • 7 Días de Prueba</p>
                             </div>
                         </div>
 
                         <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
-                            Diseñado especialmente para emprendedores, creadores y profesionales independientes que necesitan centralizar su ecosistema digital en un solo enlace estético y cargado en tiempo récord. Ideal para usar en biografías de Instagram, TikTok o perfiles de WhatsApp.
+                            Una excelente manera de experimentar las capacidades base de la plataforma. Crea tu catálogo, añade productos clave y prueba el flujo de pedidos hacia tu WhatsApp de forma totalmente gratuita por 7 días.
                         </p>
 
                         <div class="border-t border-white/5 pt-6 space-y-4">
                             <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">¿Qué incluye este plan?</h4>
                             <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
-                                    <span>Enlace único ultracorto (ej: <strong class="text-white">wistore.com/l/tu-marca</strong>)</span>
+                                    <i class="fas fa-check text-indigo-400 mt-0.5"></i>
+                                    <span>Enlace único corto (wistore.com/tu-marca)</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
-                                    <span>Botones ilimitados con redirección inteligente</span>
+                                    <i class="fas fa-check text-indigo-400 mt-0.5"></i>
+                                    <span>Hasta 15 productos activos en catálogo</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
-                                    <span>Botón flotante directo a tu WhatsApp o Telegram</span>
+                                    <i class="fas fa-check text-indigo-400 mt-0.5"></i>
+                                    <span>Pedidos ilimitados estructurados a WhatsApp</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
-                                    <span>Personalización de colores e íconos de redes sociales</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
-                                    <span>Estadísticas en tiempo real de visitas y clicks</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-cyan-400 mt-0.5"></i>
-                                    <span>Velocidad de carga instantánea de nivel mundial</span>
+                                    <i class="fas fa-check text-indigo-400 mt-0.5"></i>
+                                    <span>Personalización de marca básica</span>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="bg-white/[0.02] border border-white/5 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-slate-400 font-semibold">Precio mensual a tasa BCV</p>
-                                <p class="text-lg font-black text-white">8.99$ USD / mes</p>
+                                <p class="text-xs text-slate-400 font-semibold">Acceso inmediato sin tarjeta</p>
+                                <p class="text-lg font-black text-white">$0.00 USD / 7 días</p>
                             </div>
-                            <a href="/register" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
-                                Adquirir Ahora
+                            <a href="/register" class="bg-indigo-500 hover:bg-indigo-400 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                Probar Gratis
                             </a>
                         </div>
                     </div>
 
-                    <!-- CONTENIDO WIMENU PREMIUM -->
-                    <div x-show="selectedPlan === 'wimenu'" class="p-6 md:p-10 space-y-6">
+                    <!-- CONTENIDO PLAN STANDARD -->
+                    <div x-show="selectedPlan === 'standard'" class="p-6 md:p-10 space-y-6">
                         <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-                                <i class="fas fa-store text-xl"></i>
+                            <div class="w-12 h-12 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+                                <i class="fas fa-award text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Menu</span></h3>
-                                <p class="text-xs text-purple-400 font-bold uppercase tracking-wider">Plan Tienda e interactivo • 24.99$ / mes</p>
+                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">Standard</span></h3>
+                                <p class="text-xs text-sky-400 font-bold uppercase tracking-wider">Plan Emprendedor • $14.99/mes o $11.99/mes anual</p>
                             </div>
                         </div>
 
                         <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
-                            Nuestra solución estrella. Habilita una experiencia de compra interactiva impecable tipo Web-App donde tus clientes exploran tus productos en alta definición, arman su carrito de compras y generan una orden perfectamente estructurada enviada directo a tu WhatsApp o Telegram, sin intermediarios ni comisiones.
+                            Perfecto para marcas en expansión que necesitan un catálogo profesional interactivo y con capacidad de carga ilimitada de productos. Recibe pedidos perfectamente estructurados directo en WhatsApp o Telegram sin pagar comisiones por ventas.
+                        </p>
+
+                        <div class="border-t border-white/5 pt-6 space-y-4">
+                            <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">¿Qué incluye este plan?</h4>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Productos y categorías <strong>ilimitados</strong></span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Pedidos estructurados directos a WhatsApp o Telegram</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Código QR dinámico autogenerado</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Soporte prioritario por WhatsApp</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Personalización completa de colores y logos</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Panel administrativo básico de órdenes</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-[#0c152b] border border-sky-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            <div>
+                                <p class="text-xs text-sky-300 font-semibold" x-text="billingPeriod === 'yearly' ? 'Frecuencia de pago anual (Ahorra 20%)' : 'Frecuencia de pago mensual'"></p>
+                                <p class="text-lg font-black text-white" x-text="billingPeriod === 'yearly' ? '$143.90 USD / año ($11.99/mes)' : '$14.99 USD / mes'"></p>
+                            </div>
+                            <a href="/register" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                Adquirir Standard
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CONTENIDO PLAN PREMIUM -->
+                    <div x-show="selectedPlan === 'premium'" class="p-6 md:p-10 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                                <i class="fas fa-crown text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Premium</span></h3>
+                                <p class="text-xs text-purple-400 font-bold uppercase tracking-wider">Plan VIP • $24.99/mes o $17.49/mes anual</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            Nuestra solución VIP definitiva. Oculta las marcas de WIStore con una experiencia completamente limpia e integra métodos de pago inteligentes venezolanos y extranjeros (Pago Móvil, Zelle). Cuenta con un canal exclusivo de soporte técnico corporativo 24/7 y la prestigiosa Insignia Corona VIP.
                         </p>
 
                         <div class="border-t border-white/5 pt-6 space-y-4">
@@ -1196,64 +1223,56 @@
                             <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span><strong class="text-white">Catálogo interactivo</strong> con productos ilimitados</span>
+                                    <span>Todo lo incluido en el Plan Standard</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Carrito de compras con cálculo automático</span>
+                                    <span><strong>Insignia VIP Corona Premium</strong> en tienda</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Envío de pedido estructurado a tu WhatsApp o Telegram</span>
+                                    <span><strong>Métodos de Pago Inteligentes</strong> (Pago Móvil / Zelle)</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span><span class="text-cyan-400 font-bold">INCLUYE WI-Link</span> totalmente gratis</span>
+                                    <span><strong>Soporte VIP corporativo 24/7</strong> dedicado</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Personalización total de tu marca (colores y logo)</span>
+                                    <span>Carga ultra rápida e infraestructura optimizada</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Código QR dinámico autogenerado para tu local</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Habilitación de métodos de pago venezolanos (Pago Móvil, Zelle)</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Gestión ágil de stock e inventario en tiempo real</span>
+                                    <span>Experiencia limpia sin anuncios de plataforma</span>
                                 </li>
                             </ul>
                         </div>
 
-                        <div class="bg-purple-900/10 border border-purple-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                        <div class="bg-purple-900/15 border border-purple-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-purple-300 font-semibold">Precio mensual a tasa BCV</p>
-                                <p class="text-lg font-black text-white">24.99$ USD / mes</p>
+                                <p class="text-xs text-purple-300 font-semibold" x-text="billingPeriod === 'yearly' ? 'Frecuencia de pago anual (Ahorra 30%)' : 'Frecuencia de pago mensual'"></p>
+                                <p class="text-lg font-black text-white" x-text="billingPeriod === 'yearly' ? '$209.92 USD / año ($17.49/mes)' : '$24.99 USD / mes'"></p>
                             </div>
                             <a href="/register" class="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
-                                Comenzar Ahora
+                                Adquirir Premium
                             </a>
                         </div>
                     </div>
 
-                    <!-- CONTENIDO WIADMIN CUSTOM -->
-                    <div x-show="selectedPlan === 'wiadmin'" class="p-6 md:p-10 space-y-6">
+                    <!-- CONTENIDO PLAN CUSTOM -->
+                    <div x-show="selectedPlan === 'custom'" class="p-6 md:p-10 space-y-6">
                         <div class="flex items-center gap-3">
                             <div class="w-12 h-12 rounded-2xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400">
                                 <i class="fas fa-cogs text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Admin/Custom</span></h3>
-                                <p class="text-xs text-pink-400 font-bold uppercase tracking-wider">Plan Corporativo y a Medida</p>
+                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">Custom</span></h3>
+                                <p class="text-xs text-pink-400 font-bold uppercase tracking-wider">Desarrollo a Medida e Infraestructura dedicada</p>
                             </div>
                         </div>
 
                         <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
-                            Pensado para franquicias, locales gastronómicos consolidados o marcas que necesitan un desarrollo tecnológico robusto y un ecosistema completamente dedicado. Integramos herramientas avanzadas para la gestión diaria de órdenes, empleados, analíticas avanzadas y bases de datos exclusivas.
+                            Pensado para corporaciones, franquicias consolidadas y marcas que necesitan un desarrollo tecnológico robusto, bases de datos aisladas MySQL para el máximo rendimiento y control de datos, y módulos avanzados a la medida del negocio.
                         </p>
 
                         <div class="border-t border-white/5 pt-6 space-y-4">
@@ -1261,35 +1280,19 @@
                             <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-pink-400 mt-0.5"></i>
-                                    <span><strong class="text-white">Módulo de Empleados</strong> con control de accesos y roles</span>
+                                    <span>Código independiente exclusivo y BD dedicada</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-pink-400 mt-0.5"></i>
-                                    <span>Módulo de fidelización de clientes (Historial y CRM)</span>
+                                    <span>Módulo de Clientes y Empleados (roles y CRM)</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-pink-400 mt-0.5"></i>
-                                    <span>Panel administrativo avanzado para monitorear órdenes en local</span>
+                                    <span>Integración con dominios web propios (`.com`)</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-pink-400 mt-0.5"></i>
-                                    <span>Migración a servidor con <strong class="text-white">código y base de datos dedicados</strong></span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
-                                    <span>Integración de tu dominio web propio (`tu-marca.com`)</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
-                                    <span>Pasarelas de pagos online automatizadas</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
-                                    <span>Reportes avanzados de ventas y productos</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
-                                    <span>Soporte VIP corporativo asignado 24/7</span>
+                                    <span>Ingeniería de software a medida y soporte de infraestructura</span>
                                 </li>
                             </ul>
                         </div>
@@ -1299,8 +1302,8 @@
                                 <p class="text-xs text-slate-400 font-semibold">Presupuesto adaptado a requerimientos</p>
                                 <p class="text-lg font-black text-white">Precio a convenir</p>
                             </div>
-                            <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20cotizar%20el%20plan%20WI-Admin/Custom%20para%20mi%20negocio" target="_blank" class="bg-pink-600 hover:bg-pink-500 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
-                                Cotizar en WhatsApp
+                            <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20cotizar%20el%20plan%20Custom%20de%20WIStore%20para%20mi%20negocio" target="_blank" class="bg-pink-600 hover:bg-pink-500 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                Cotizar por WhatsApp
                             </a>
                         </div>
                     </div>
@@ -1330,11 +1333,11 @@
             <!-- Grid de Comparativas -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-stretch justify-center">
 
-                <!-- COMPARATIVA 1: WILink Pro vs Linktree -->
+                <!-- COMPARATIVA 1: Plan Standard vs Linktree -->
                 <div class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl relative transition duration-300 hover:border-white/20">
                     <div class="p-6 md:p-8 bg-gradient-to-b from-cyan-900/20 to-transparent border-b border-white/5">
                         <h3 class="text-xl font-black text-white text-center flex items-center justify-center gap-3">
-                            <span class="uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Link</span></span> 
+                            <span class="uppercase">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Standard</span></span> 
                             <span class="text-slate-500 text-sm">vs</span> 
                             <span class="text-slate-300">Linktree</span>
                         </h3>
@@ -1345,7 +1348,7 @@
                             <thead>
                                 <tr>
                                     <th class="p-4 border-b border-white/5 w-1/3 text-slate-400 font-semibold bg-white/[0.02]">Característica</th>
-                                    <th class="p-4 border-b border-white/5 w-1/3 text-center font-black text-cyan-400 bg-cyan-900/10">WI-Link</th>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center font-black text-cyan-400 bg-cyan-900/10">Plan Standard</th>
                                     <th class="p-4 border-b border-white/5 w-1/3 text-center text-slate-400 font-semibold bg-white/[0.02]">Linktree (Pro)</th>
                                 </tr>
                             </thead>
@@ -1355,7 +1358,7 @@
                                     <td class="p-4 text-center bg-cyan-900/10">
                                         <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
                                             <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
-                                            $8.99 / mes
+                                            $14.99 / mes
                                         </span>
                                     </td>
                                     <td class="p-4 text-center">
@@ -1430,14 +1433,14 @@
                     </div>
                 </div>
 
-                <!-- COMPARATIVA 2: WIMenu Premium vs PideFacil -->
+                <!-- COMPARATIVA 2: Plan Premium vs PideFacil -->
                 <div class="bg-[#0d1127]/60 backdrop-blur-md border border-purple-500/20 rounded-[2rem] overflow-hidden shadow-[0_0_30px_rgba(168,85,247,0.15)] relative transition duration-300 hover:border-purple-500/40">
                     <!-- Destello -->
                     <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl pointer-events-none"></div>
 
                     <div class="p-6 md:p-8 bg-gradient-to-b from-purple-900/20 to-transparent border-b border-white/5 relative z-10">
                         <h3 class="text-xl font-black text-white text-center flex items-center justify-center gap-3">
-                            <span class="uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Menu</span></span> 
+                            <span class="uppercase">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Premium</span></span> 
                             <span class="text-slate-500 text-sm">vs</span> 
                             <span class="text-slate-300">PideFacil</span>
                         </h3>
@@ -1448,7 +1451,7 @@
                             <thead>
                                 <tr>
                                     <th class="p-4 border-b border-white/5 w-1/3 text-slate-400 font-semibold bg-white/[0.02]">Característica</th>
-                                    <th class="p-4 border-b border-white/5 w-1/3 text-center font-black text-purple-400 bg-purple-900/10">WI-Menu</th>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center font-black text-purple-400 bg-purple-900/10">Plan Premium</th>
                                     <th class="p-4 border-b border-white/5 w-1/3 text-center text-slate-400 font-semibold bg-white/[0.02]">PideFacil</th>
                                 </tr>
                             </thead>
@@ -1503,7 +1506,7 @@
                                     <td class="p-4 text-center bg-purple-900/10">
                                         <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
                                             <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
-                                            Incluye WI-Link gratis
+                                            Incluye Plan Standard
                                         </span>
                                     </td>
                                     <td class="p-4 text-center">

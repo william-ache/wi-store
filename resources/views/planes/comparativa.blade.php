@@ -88,26 +88,6 @@
         <div class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-600/20 to-indigo-600/20 blur-[120px] blur-accelerated"></div>
         <div class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-600/10 blur-[160px] blur-accelerated"></div>
         <div class="absolute -bottom-[10%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-pink-600/10 via-purple-600/10 to-transparent blur-[160px] blur-accelerated"></div>
-
-        <svg class="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none" viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="neonGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.8" />
-                    <stop offset="50%" stop-color="#a855f7" stop-opacity="0.4" />
-                    <stop offset="100%" stop-color="#a855f7" stop-opacity="0" />
-                </linearGradient>
-                <linearGradient id="neonGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#a855f7" stop-opacity="0.6" />
-                    <stop offset="50%" stop-color="#ec4899" stop-opacity="0.3" />
-                    <stop offset="100%" stop-color="#ec4899" stop-opacity="0" />
-                </linearGradient>
-            </defs>
-            <path d="M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800" stroke="url(#neonGradient1)" stroke-width="1.5" stroke-linecap="round" fill="none" />
-            <path d="M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
-            <path d="M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000" stroke="url(#neonGradient2)" stroke-width="1.5" stroke-linecap="round" fill="none" />
-            <path d="M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100" stroke="url(#neonGradient2)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
-            <path d="M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.4" />
-        </svg>
     </div>
 
     <!-- Botón Flotante Volver -->
@@ -133,121 +113,154 @@
 
         <!-- Tabla Comparativa Glassmorphism -->
         <div class="overflow-x-auto pb-8 scrollbar-none rounded-[2rem] shadow-2xl border border-white/5 bg-[#0d1127]/40 backdrop-blur-xl">
-            <table class="w-full text-left border-collapse min-w-[800px]">
+            <table class="w-full text-left border-collapse min-w-[900px]">
                 <thead>
                     <tr>
-                        <th class="p-6 border-b border-white/10 w-1/4">
-                            <h3 class="text-xl font-bold text-white">Características</h3>
+                        <th class="p-6 border-b border-white/10 w-1/5">
+                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Características</h3>
                         </th>
-                        <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/4 text-center">
-                            <h3 class="text-lg font-black text-white uppercase">WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">-Link</span></h3>
-                            <p class="text-xs text-slate-400 mt-1">8.99$ / mes</p>
-                            <span class="text-[9px] text-slate-500 block mt-0.5 font-semibold">(Tasa BCV)</span>
+                        <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/5 text-center">
+                            <h3 class="text-sm font-black text-white uppercase tracking-wider">Prueba <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Gratis</span></h3>
+                            <p class="text-xs text-slate-350 mt-1">$0.00 <span class="text-[9px] text-slate-500">/ 7 días</span></p>
+                            <span class="text-[8px] bg-indigo-500/15 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded-full inline-block mt-1.5 font-extrabold uppercase">Prueba 7d</span>
                         </th>
-                        <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/4 text-center bg-purple-900/10 relative">
+                        <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/5 text-center">
+                            <h3 class="text-sm font-black text-white uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">Standard</span></h3>
+                            <p class="text-xs text-slate-350 mt-1">$14.99 <span class="text-[9px] text-slate-500">/ mes</span></p>
+                            <span class="text-[8px] bg-sky-500/15 text-sky-400 border border-sky-500/20 px-2 py-0.5 rounded-full inline-block mt-1.5 font-extrabold uppercase">Ahorra 20% anual</span>
+                        </th>
+                        <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/5 text-center bg-purple-900/10 relative">
                             <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-purple-500 to-cyan-500"></div>
-                            <h3 class="text-lg font-black text-white flex items-center justify-center gap-1.5 uppercase">WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">-Menu</span> <i class="fas fa-star text-yellow-400 text-xs"></i></h3>
-                            <p class="text-xs text-purple-300 mt-1">24.99$ / mes</p>
-                            <span class="text-[9px] text-purple-400/80 block mt-0.5 font-semibold">(Tasa BCV)</span>
+                            <h3 class="text-sm font-black text-white flex items-center justify-center gap-1 uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Premium</span> <i class="fas fa-crown text-yellow-400 text-[10px]"></i></h3>
+                            <p class="text-xs text-purple-300 mt-1">$24.99 <span class="text-[9px] text-purple-450">/ mes</span></p>
+                            <span class="text-[8px] bg-purple-500/15 text-purple-400 border border-purple-500/20 px-2 py-0.5 rounded-full inline-block mt-1.5 font-extrabold uppercase">Ahorra 30% anual</span>
                         </th>
-                        <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/4 text-center">
-                            <h3 class="text-lg font-black text-white uppercase">WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">-Admin/Custom</span></h3>
-                            <p class="text-xs text-slate-400 mt-1">A convenir</p>
+                        <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/5 text-center">
+                            <h3 class="text-sm font-black text-white uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">Custom</span></h3>
+                            <p class="text-xs text-slate-350 mt-1">A Medida</p>
+                            <span class="text-[8px] bg-pink-500/15 text-pink-400 border border-pink-500/20 px-2 py-0.5 rounded-full inline-block mt-1.5 font-extrabold uppercase">Personalizado</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody class="text-sm text-slate-300 divide-y divide-white/5">
                     <!-- Categoría: Tienda y Catálogo -->
                     <tr class="bg-white/[0.02]">
-                        <td colspan="4" class="p-4 font-black text-xs uppercase tracking-widest text-cyan-400">Tienda y Catálogo</td>
+                        <td colspan="5" class="p-4 font-black text-xs uppercase tracking-widest text-cyan-400">Tienda y Catálogo</td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Árbol de Enlaces Biográficos</td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-lg"></i></td>
+                        <td class="p-4 pl-6 font-semibold">Enlace Único Corto</td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Catálogo Interactivo Híbrido</td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-lg"></i></td>
+                        <td class="p-4 pl-6 font-semibold">Catálogo Interactivo</td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Productos y Categorías</td>
-                        <td class="p-4 border-l border-white/5 text-center text-slate-500">-</td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 font-bold text-white">Ilimitados</td>
-                        <td class="p-4 border-l border-white/5 text-center font-bold text-white">Ilimitados</td>
+                        <td class="p-4 pl-6 font-semibold">Productos Activos</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-indigo-400">Hasta 15</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-white">Ilimitados</td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs font-bold text-white">Ilimitados</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-white">Ilimitados</td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Carrito y Pedidos a WhatsApp/Telegram</td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-lg"></i></td>
+                        <td class="p-4 pl-6 font-semibold">Categorías de Productos</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-indigo-400">Hasta 3</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-white">Ilimitados</td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs font-bold text-white">Ilimitados</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-white">Ilimitados</td>
+                    </tr>
+                    <tr class="hover:bg-white/[0.02] transition-colors">
+                        <td class="p-4 pl-6 font-semibold">Pedidos Directos a WhatsApp/Telegram</td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
                         <td class="p-4 pl-6 font-semibold">Comisiones por Venta</td>
-                        <td class="p-4 border-l border-white/5 text-center text-slate-500">-</td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 font-black text-emerald-400">0%</td>
-                        <td class="p-4 border-l border-white/5 text-center font-black text-emerald-400">0%</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-indigo-400">0%</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-white">0%</td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs font-black text-emerald-400">0%</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-white">0%</td>
                     </tr>
 
                     <!-- Categoría: Personalización -->
                     <tr class="bg-white/[0.02]">
-                        <td colspan="4" class="p-4 font-black text-xs uppercase tracking-widest text-pink-400">Personalización e Identidad</td>
+                        <td colspan="5" class="p-4 font-black text-xs uppercase tracking-widest text-pink-400">Personalización e Identidad</td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Enlace Corto Único</td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-lg"></i></td>
+                        <td class="p-4 pl-6 font-semibold">Carga de Logo y Portada</td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Edición de Colores / Logo</td>
-                        <td class="p-4 border-l border-white/5 text-center text-xs">Básica</td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs font-bold text-white">Completa (3 Tokens)</td>
-                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-white">100% A medida</td>
+                        <td class="p-4 pl-6 font-semibold">Colores de Marca Personalizados</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-indigo-450">Paleta estándar</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-white font-bold">Completa (3 Tokens)</td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs text-purple-300 font-bold">Completa (3 Tokens)</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-pink-400 font-black">A la Medida</td>
+                    </tr>
+                    <tr class="hover:bg-white/[0.02] transition-colors">
+                        <td class="p-4 pl-6 font-semibold">Insignia de Tienda Verificada VIP</td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-slate-500">Opcional</td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
                         <td class="p-4 pl-6 font-semibold">Dominio Propio (ej: mitienda.com)</td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-times text-rose-500/50 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-lg"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
                     </tr>
 
-                    <!-- Categoría: Gestión y Administración -->
+                    <!-- Categoría: Finanzas y Gestión -->
                     <tr class="bg-white/[0.02]">
-                        <td colspan="4" class="p-4 font-black text-xs uppercase tracking-widest text-purple-400">Gestión y Arquitectura</td>
+                        <td colspan="5" class="p-4 font-black text-xs uppercase tracking-widest text-purple-400">Finanzas y Funciones Pro</td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Base de Datos de Clientes</td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-times text-rose-500/50 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-lg"></i></td>
+                        <td class="p-4 pl-6 font-semibold">Métodos de Pago Inteligentes</td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Roles y Permisos de Empleados</td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-times text-rose-500/50 text-lg"></i></td>
-                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-lg"></i></td>
+                        <td class="p-4 pl-6 font-semibold">Carga Automática de Tasa del Día BCV</td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-check text-purple-400 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-check text-cyan-400 text-base"></i></td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Panel de Estadísticas y Analítica</td>
-                        <td class="p-4 border-l border-white/5 text-center text-xs">Visitas</td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs">Visitas</td>
-                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-white">Avanzado (Ventas/Pedidos)</td>
-                    </tr>
-                    <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="p-4 pl-6 font-semibold">Infraestructura Independiente</td>
-                        <td class="p-4 border-l border-white/5 text-center text-xs">SaaS Compartido</td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs">SaaS Compartido</td>
+                        <td class="p-4 pl-6 font-semibold">Infraestructura y Servidor</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-slate-400">SaaS Compartido</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-slate-350">SaaS Compartido</td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs text-purple-300">SaaS Compartido</td>
                         <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-emerald-400">Servidor y BD Dedicada</td>
                     </tr>
                     <tr class="hover:bg-white/[0.02] transition-colors">
+                        <td class="p-4 pl-6 font-semibold">Acceso a Panel Super Admin</td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10"><i class="fas fa-times text-rose-500/50 text-base"></i></td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-white">Opcional</td>
+                    </tr>
+                    <tr class="hover:bg-white/[0.02] transition-colors">
                         <td class="p-4 pl-6 font-semibold">Soporte Técnico</td>
-                        <td class="p-4 border-l border-white/5 text-center text-xs">Tickets (24h)</td>
-                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs">Prioritario (12h)</td>
-                        <td class="p-4 border-l border-white/5 text-center text-xs font-bold text-white">Directo y Dedicado (24/7)</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-slate-500">Tickets (48h)</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-slate-300">Prioritario (24h)</td>
+                        <td class="p-4 border-l border-white/5 text-center bg-purple-900/10 text-xs text-purple-300 font-bold">VIP Dedicado (12h)</td>
+                        <td class="p-4 border-l border-white/5 text-center text-xs text-pink-400 font-bold">Dedicado 24/7</td>
                     </tr>
                 </tbody>
             </table>
@@ -258,7 +271,7 @@
             <h2 class="text-2xl font-black text-white mb-6">¿Listo para impulsar tus ventas con el mejor ecosistema digital?</h2>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="/register" class="bg-purple-600 hover:bg-purple-500 text-white font-extrabold px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-300 hover:-translate-y-1">
-                    Comenzar con WIMenu
+                    Comenzar Gratis (7 días)
                 </a>
                 <a href="https://wa.me/584121305420?text=Hola,%20deseo%20una%20asesoría%20sobre%20los%20planes%20de%20WIStore" target="_blank" class="bg-transparent border border-white/20 hover:bg-white/10 text-white font-bold px-8 py-4 rounded-xl transition-all duration-300">
                     Contactar a un Asesor

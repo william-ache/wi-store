@@ -55,16 +55,9 @@ Route::any('/logout', function (Illuminate\Http\Request $request) {
 })->name('logout');
 
 Route::get('/register', function () {
-    return '<div style="font-family:sans-serif; text-align:center; padding: 4rem;"><h2>Módulo de Registro de Tiendas</h2><p>El portal donde los emprendedores se registran y crean su tienda en segundos.</p><a href="/">Volver al Inicio</a></div>';
+    return view('auth.register');
 })->name('register');
 
-Route::get('/demo-custom', function () {
-    return '<div style="font-family:sans-serif; text-align:center; padding: 4rem; background-color: #0b0f19; color: #f3f4f6; min-h-screen: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;"><h2 style="font-size: 2.25rem; font-weight: 900; color: #f59e0b; margin-bottom: 1rem;">Ecosistema WICustom Independiente</h2><p style="color: #9ca3af; max-width: 28rem; line-height: 1.625; margin-bottom: 2rem;">Esta demostración simula un entorno totalmente dedicado e independiente de software a la medida, alojado fuera del servidor compartido de WIStore.</p><a href="/" style="background-color: #f59e0b; color: #0b0f19; font-weight: 800; padding: 0.875rem 2rem; border-radius: 0.75rem; text-decoration: none; font-size: 0.875rem; transition: background-color 0.2s;">Volver al Inicio</a></div>';
-})->name('demo.custom');
-
-Route::get('/demo-wilink', function () {
-    return view('demo.wilink');
-})->name('demo.wilink');
 
 // Ruta de Comparativa Técnica de Planes
 Route::get('/comparativa', function () {
@@ -88,9 +81,18 @@ Route::get('/l/{code}', [ShortLinkController::class, 'redirect'])->name('short.l
 
 // Rutas de Super Administrador (Oculto)
 Route::prefix('/wydex-super-admin')->name('super-admin.')->group(function () {
-    Route::get('/', [App\Http\Controllers\SuperAdminController::class, 'index'])->name('index');
-    Route::post('/shops', [App\Http\Controllers\SuperAdminController::class, 'store'])->name('shops.store');
-    Route::post('/shops/{id}/toggle', [App\Http\Controllers\SuperAdminController::class, 'toggleStatus'])->name('shops.toggle');
+    // Rutas públicas de Login
+    Route::get('/login', [App\Http\Controllers\SuperAdminController::class, 'showLoginForm'])->name('login-form');
+    Route::post('/login', [App\Http\Controllers\SuperAdminController::class, 'login'])->name('login');
+
+    // Rutas protegidas bajo autenticación
+    Route::middleware(['super_admin_auth'])->group(function () {
+        Route::get('/', [App\Http\Controllers\SuperAdminController::class, 'index'])->name('index');
+        Route::post('/shops', [App\Http\Controllers\SuperAdminController::class, 'store'])->name('shops.store');
+        Route::post('/shops/{id}/toggle', [App\Http\Controllers\SuperAdminController::class, 'toggleStatus'])->name('shops.toggle');
+        Route::put('/shops/{id}', [App\Http\Controllers\SuperAdminController::class, 'update'])->name('shops.update');
+        Route::post('/logout', [App\Http\Controllers\SuperAdminController::class, 'logout'])->name('logout');
+    });
 });
 
 // 2. RUTAS DINÁMICAS MULTI-TENANT (Tiendas Individuales)

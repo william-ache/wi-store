@@ -1,0 +1,1039 @@
+# Walkthrough: Remoción Completa de Funcionalidades de Demos
+
+Hemos removido por completo toda la funcionalidad de demostraciones (demos) de la plataforma **Wydex WIStore**, asegurando una interfaz más limpia para producción, eliminando vulnerabilidades potenciales de auto-login y liberando espacio redundante en el sistema de archivos.
+
+---
+
+## Cambios Realizados
+
+### 1. Vistas e Interfaz de Usuario (Front-end)
+* **Landing Page ([home.blade.php](file:///c:/Users/willi/Documentos/GitHub/Wydex/wi-store/resources/views/home.blade.php))**:
+  * **Navegación Desktop**: Eliminamos por completo el bloque del desplegable/dropdown `<!-- Dropdown de Demos -->` y su botón del menú de cabecera.
+  * **Navegación Móvil**: Removimos el selector de `Demos` y su panel móvil asociado para simplificar el flujo en teléfonos inteligentes.
+  * **Tarjetas de Planes**: Eliminamos los enlaces `Ver DEMO` que estaban presentes debajo de los botones principales en las tarjetas de **Prueba Gratis**, **Standard**, **Premium** y **Custom**.
+  * **Cintillo Informativo**: Eliminamos el bloque visual del cintillo que anunciaba el reinicio automático de la base de datos de demos cada 12 horas.
+* **Tabla Comparativa de Planes ([comparativa.blade.php](file:///c:/Users/willi/Documentos/GitHub/Wydex/wi-store/resources/views/planes/comparativa.blade.php))**:
+  * Actualizamos el badge del plan de prueba de `Demo 7d` a `Prueba 7d` para alinearse con la nueva estructura de nombres sin referencias de demo.
+* **Sto
+    - Plan Premium (líneas 1155-1157)
+    - Plan Custom (líneas 1203-1205)
+- **Cintillo Informativo**: Remover el bloque `<!-- Cintillo Informativo de Restauración de Demos -->` y su contenedor en la parte inferior de la sección de precios (líneas 1219-1225).
+
+---
+
+### 2. Lógica del Sistema y Middleware
+  * **Limpieza de Datos Dummy**: Eliminamos la asignación de enlaces de redes sociales y teléfonos de prueba que se inyectaban dinámicamente al slug `'demo'`.
+* **Seeder de Categorías de Prueba ([CategoryMockSeeder.php](file:///c:/Users/willi/Documentos/GitHub/Wydex/wi-store/database/seeders/CategoryMockSeeder.php))**:
+  * Modificamos la asignación de tienda de pruebas. En lugar de buscar específicamente el slug `'demo'` por defecto, ahora obtiene e inyecta la información en la primera tienda (`Shop::first()`) que exista en el sistema.
+* **Rutas y Tareas de Consola ([web.php](file:///c:/Users/willi/Documentos/GitHub/Wydex/wi-store/routes/web.php) y [console.php](file:///c:/Users/willi/Documentos/GitHub/Wydex/wi-store/routes/console.php))**:
+  * Eliminamos las rutas `/demo-custom` y `/demo-wilink`.
+  * Eliminamos la programación del cron job en el Scheduler que ejecutaba `migrate:fresh --seed` cada 12 horas.
+
+---
+
+### 3. Limpieza del Sistema de Archivos
+* **Eliminación de Vistas**: Eliminamos la carpeta `/resources/views/demo` y su archivo `wilink.blade.php`.
+* **Script Temporal Eliminado**: Eliminamos el script de comprobación `check_admin.php` de la raíz del proyecto.
+
+---
+
+## Verificación Realizada
+
+1. **Limpieza e Indexación de Caché**:
+   * Ejecutamos comandos de purga para recompilar el motor de vistas de Blade y limpiar rutas del framework:
+     * `php artisan view:clear`
+     * `php artisan route:clear`
+     * `php artisan config:clear`
+2. **Validación Sintáctica**:
+   * Todos los archivos modificados fueron analizados y cargados sin fallas sintácticas ni interrupciones del ciclo de vida de Laravel.
+
+   - Ya no aparezca el dropdown "Demos" ni en el menú de navegación de escritorio ni en el de móviles.
+   - Las tarjetas de precios no muestren el enlace "Ver DEMO".
+   - El cintillo de restauración de base de datos de demos al final de los precios haya desaparecido por completo.
+2. Confirmar que no queden remanentes ni referencias activas al slug `'demo'` que puedan comprometer la seguridad o la lógica del middleware multi-tenant.
+
+## Verificación de Calidad
+
+1. **Limpieza de Cachés de Compilación**:
+   - Ejecutamos con éxito los comandos del motor Artisan para asegurar la visualización inmediata de los cambios:
+     - `php artisan view:clear` -> *Compiled views cleared successfully*
+     - `php artisan cache:clear` -> *Application cache cleared successfully*
+     - `php artisan route:clear` -> *Route cache cleared successfully*
+     - `php artisan config:clear` -> *Configuration cache cleared successfully*
+2. **Coherencia Visual**:
+   - Validamos que todas las referencias de textos y precios legados de `$8.99` y nombres anteriores hayan sido purgados del entorno de cara al usuario final en todas las vistas (`home`, `store`, `super-admin`, `contacto`).
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #a855f7 #070913;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 10%, rgba(99, 102, 241, 0.18) 0%, rgba(0, 0, 0, 0) 50%),
+                        radial-gradient(circle at 10% 80%, rgba(79, 70, 229, 0.08) 0%, rgba(0, 0, 0, 0) 40%);
+        }
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070913;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #a855f7 0%, #22d3ee 100%);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #c084fc 0%, #67e8f9 100%);
+        }
+
+        /* GPU hardware acceleration for ultra smooth scrolling on heavy blurs */
+        .gpu-accelerated {
+            transform: translate3d(0, 0, 0);
+
+    <!-- ============================================== -->
+    <!-- CAPA DE FONDO GLOBAL (Base Canvas & Neón)      -->
+    <!-- ============================================== -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#070913] gpu-accelerated">
+        
+        <!-- 1. Destellos de Luz (Auras/Glows) -->
+        <!-- Glow Top Right (Hero Area) -->
+        <div class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-600/20 to-indigo-600/20 blur-[120px] blur-accelerated"></div>
+        
+        <!-- Glow Middle Left (Tiendas Area) -->
+        <div class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-600/10 blur-[160px] blur-accelerated"></div>
+
+        <!-- Glow Bottom Center (Precios Area) -->
+        <div class="absolute -bottom-[10%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-pink-600/10 via-purple-600/10 to-transparent blur-[160px] blur-accelerated"></div>
+
+        <!-- 2. Ondas Fluidas de Neón (SVG Abstract Mesh) - Atenuado para Legibilidad -->
+        <svg class="absolute inset-0 w-full h-full opacity-20 pointer-events-none z-0" preserveAspectRatio="none" viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Gradiente Cian a Morado -->
+                <linearGradient id="neonGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <!-- El contenedor se ensancha en escritorio y se achica en móvil -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 group transition-transform duration-300 active:scale-95">
+                <span class="text-xl md:text-2xl font-black tracking-tight text-white uppercase">
+                    WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span>
+                </span>
+            </a>
+            
+            <!-- EN ESCRITORIO: Links de Navegación con Alto Contraste (WCAG Compliant) -->
+            <nav class="hidden md:flex items-center gap-8" x-data="{ openDropdown: false }" @click.away="openDropdown = false">
+                <a href="#explorar" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Explorar Tiendas</a>
+                <a href="#como-funciona" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">¿Cómo funciona?</a>
+                
+                <a href="#precios" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Planes</a>
+                
+                <!-- Dropdown de Demos -->
+                <div class="relative">
+                    <button @click="openDropdown = !openDropdown" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200 flex items-center gap-1.5 focus:outline-none select-none">
+                        <span>Demos</span>
+                        <svg class="w-3 h-3 transition-transform duration-300" :class="{'rotate-180 text-cyan-400': openDropdown}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <!-- Menú Desplegable Premium Glassmorphism -->
+                    <div x-show="openDropdown"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                   
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave-end="opacity-0 transla
+                         class="absolute left-1/2 -translate-x-1/2 mt-3 w-64 rounded-2xl bg-[#0c0e22]/95 border border-white/10 backdrop-blur-xl p-2 shadow-[0_10px_40px_rgba(0,0,0,0.6)] z-50 space-y-1"
+                         style="display: none;">
+                        
+                        <!-- - **Cálculo de Conversión Reactivo**:
+  - En las tarjetas del **Plan Standard** y **Plan Premium**, añadimos la conversión exacta a bolívares en base al precio activo en dólares.
+  - La visualización es fluida y reactiva: se adapta al instante cuando el usuario alterna el toggle entre facturación **Mensual** y **Anual**, calculando la tasa equivalente al mes y el monto facturado anual en Bs.
+                                <i class="fas fa-link text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white group-hover:text-cyan-400 transition-colors">Plan Standard</p>
+                                <p class="text-[9.5px] text-slate-400 mt-0.5">Árbol de enlaces biográficos</p>
+                            </div>
+                        </a>
+
+                        <!-- Opción 2: WI-Menu -->
+                        <a href="/ys-detallitos" @click="openDropdown = false" class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-white/5 transition-all duration-200 group">
+                            <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                                <i class="fas fa-store text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white group-hover:text-purple-400 transition-colors">Plan Premium</p>
+                                <p class="text-[9.5px] text-slate-400 mt-0.5">Catálogo Digital + Pedidos</p>
+                            </div>
+                        </a>
+
+                        <!-- Opción 3: Plan Custom -->
+                        <a href="/demo-custom" @click="openDropdown = false" class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-white/5 transition-all duration-200 group">
+                            <div class="w-9 h-9 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 group-hover:scale-110 group-hover:bg-pink-500/20 transition-all duration-300 shadow-[0_0_15px_rgba(236,72,153,0.1)]">
+                                <i class="fas fa-cogs text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white group-hover:text-pink-400 transition-colors">Plan Custom</p>
+                                <p class="text-[9.5px] text-slate-400 mt-0.5">Desarrollo a medida B2B</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <a href="/login" class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Iniciar Sesión</a>
+                <a href="#precios" class="bg-brand-600 hover:bg-brand-555 hover:scale-[1.03] text-white text-sm font-black px-5 py-2.5 rounded-xl shadow-md shadow-brand-600/30 transition-all duration-300">
+                    Crear mi Menú
+                </a>
+            </nav>
+
+            <!-- EN MÓVIL: Botones Rápidos iOS-style con Dropdown de Planes -->
+            <div class="flex items-center gap-2 md:hidden" x-data="{ openMobileDropdown: false }" @click.away="openMobileDropdown = false">
+                <a href="/login" class="text-xs font-bold text-slate-200 hover:text-white px-2.5 py-1.5 rounded-lg">Log In</a>
+                
+                <div class="relative">
+                    <button @click="openMobileDropdown = !openMobileDropdown" class="text-xs font-bold text-slate-200 hover:text-white px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-all select-none">
+                        <span>Demos</span>
+                        <svg class="w-3 h-3 transition-transform duration-300" :class="{'rotate-180': openMobileDropdown}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Menú Desplegable Móvil -->
+                    <div x-show="openMobileDropdown"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                         class="absolute right-0 mt-2.5 w-48 rounded-xl bg-[#0c0e22]/98 border border-white/10 backdrop-blur-xl p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.6)] z-50 space-y-0.5"
+                         style="display: none;">
+                        
+                        <a href="/demo-wilink" @click="openMobileDropdown = false" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-all duration-200">
+                            <div class="w-7 h-7 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-link text-[10px]"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-white">Plan Standard</p>
+                                <p class="text-[8px] text-slate-400">Enlaces Bio</p>
+                            </div>
+                        </a>
+
+                        <a href="/ys-detallitos" @click="openMobileDropdown = false" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-all duration-200">
+                            <div class="w-7 h-7 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
+                                <i class="fas fa-store text-[10px]"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-white">Plan Premium</p>
+                                <p class="text-[8px] text-slate-400">Catálogo Digital</p>
+                            </div>
+                        </a>
+
+                        <a href="/demo-custom" @click="openMobileDropdown = false" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-all duration-200">
+                            <div class="w-7 h-7 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400">
+                                <i class="fas fa-cogs text-[10px]"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-white">Plan Custom</p>
+                                <p class="text-[8px] text-slate-400">A Medida</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <a href="#precios" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-black px-3.5 py-2 rounded-xl shadow-md transition whitespace-nowrap">
+                    Planes
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (Premium 3D Asymmetric Layout) -->
+    <section class="relative pt-16 md:pt-24 pb-20 md:pb-36 px-4 max-w-7xl mx-auto overflow-hidden z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
+            
+            <!-- COLUMNA IZQUIERDA: Propuesta de Valor y CTAs -->
+            <div class="lg:col-span-6 text-center lg:text-left space-y-8">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-slate-900/60 border border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.2)] backdrop-blur-md">
+                    <span class="text-[11px] md:text-xs font-bold text-white tracking-wide">⚡ 0% Comisiones por Venta</span>
+                </div>
+                
+                <!-- Título Principal -->
+                <h1 class="text-4xl md:text-6xl lg:text-[4.5rem] font-extrabold tracking-tight text-white leading-[1.1]">
+                    Vende en automático con tu <br class="hidden lg:block" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN EXPLORADOR DE TIENDAS (Premium Grid/Carrusel) -->
+    @php
+        $shopsWithCategories = $shops->map(function($shop) {
+            $desc = strtolower($shop->name . ' ' . $shop->description);
+            $category = 'Gastronomía'; // default
+            if (str_contains($desc, 'detallito') || str_contains($desc, 'regalo') || str_contains($desc, 'detalle') || str_contains($desc, 'sorpresa') || str_contains($desc, 'taza') || str_contains($desc, 'globo') || str_contains($desc, 'flores')) {
+                $category = 'Detalles y Regalos';
+            } elseif (str_contains($desc, 'moda') || str_contains($desc, 'ropa') || str_contains($desc, 'estilo') || str_contains($desc, 'calzado') || str_contains($desc, 'boutique') || str_contains($desc, 'wear') || str_contains($desc, 'shoes')) {
+                $category = 'Moda y Estilo';
+            } elseif (str_contains($desc, 'comida') || str_contains($desc, 'restaurante') || str_contains($desc, 'gastronomia') || str_contains($desc, 'burger') || str_contains($desc, 'dulce') || str_contains($desc, 'bocado') || str_contains($desc, 'pizza') || str_contains($desc, 'cafe') || str_contains($desc, 'sushi')) {
+                $category = 'Gastronomía';
+            }
+            $shop->category = $category;
+            return $shop;
+        });
+
+                                            @if($shop->cover_path)
+                                                <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
+                                            @else
+                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                            @endif
+                                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
+
+                                            <div class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
+                                                <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/'.$shop->logo_path) : 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=a855f7&color=fff') }}" alt="Logo" class="w-full h-full object-cover">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-start justi
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-start justify-between gap-2">
+                                                <h3 class="text-base font-black text-white leading-tight line-clamp-1">{{ $shop->name }}</h3>
+                                                <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
+                                                    @for($star = 1; $star <= 5; $star++)
+                                                        <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <a href="/{{ $shop->slug }}" class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
+                                                Entrar a la Tienda
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODO FILTRADO (ESTÁTICO EN RECIPIENTE GRID) -->
+            <div x-show="isFiltering" class="py-6" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" style="display: none;">
+                
+                <!-- Mensaje de No Resultados -->
+                <div x-show="!hasResults" class="w-full text-center py-20 bg-slate-900/30 border border-slate-800/50 rounded-[2rem] backdrop-blur-sm px-6 max-w-lg mx-auto" x-transition>
+                    <div class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="curren
+                                        <h3 class="text-base font-black text-white leading-tight line-clamp-1">{{ $shop->name }}</h3>
+                                        <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
+                                            @for($star = 1; $star <= 5; $star++)
+                                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                </div>
+
+                                <div class="mt-4">
+                                    <a href="/{{ $shop->slug }}" class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
+                                        Entrar a la Tienda
+        
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="w-full lg:col-span-4 text-center py-16">
+                            <p class="text-slate-500 text-sm">No se encontraron tiendas registradas de momento.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN CÓMO FUNCIONA (Estilo Bloques Neón) -->
+    <section id="como-funciona" class="py-20 md:py-28 relative overflow-hidden z-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                            class="w-14 h-7 rounded-full bg-purple-950/80 border border-purple-500/40 p-1 flex items-center transition-all duration-300 relative focus:outline-none shadow-[0_0_15px_rgba(139,92,246,0.15)] hover:border-purple-400/60"
+                            aria-label="Alternar ciclo de facturación">
+                        <div class="w-5 h-5 rounded-full bg-gradient-to-r from-purple-400 to-cyan-400 shadow-[0_2px_5px_rgba(0,0,0,0.3)] transition-all duration-300 transform" 
+                             :class="billingPeriod === 'yearly' ? 'translate-x-7' : 'translate-x-0'"></div>
+                    </button>
+                    <button @click="billingPeriod = 'yearly'" 
+                            class="text-xs font-black tracking-wider uppercase flex items-center gap-2 transition-all duration-350 cursor-pointer focus:outline-none" 
+                            :class="billingPeriod === 'yearly' ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'">
+                        <span>Pago Anual</span>
+                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-black uppercase px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.1)]">Ahorra hasta 30% 🎉</span>
+                    </button>
+                </div>
+
+                <!-- Botón Único de Comparativa Técnica -->
+                <div class="mt-8 relative z-10">
+                    </div>
+                    
+                    <h4 class="text-lg font-black text-white mb-3">Registra tus Productos</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Ingresa tus categorías, sube imágenes, agrega descripciones atractivas y define tus precios de venta.</p>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="bg-slate-900/15 border border-white/5 p-10 md:p-12 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-cyan-500/40 hover:bg-cyan-950/5 transition-all duration-300 group">
+                    <span class="absolute top-4 right-6 text-6xl font-black text-white/[0.015] group-hover:text-cyan-500/5 transition-colors select-none">2</span>
+                    
+                    <!-- Icono Neón -->
+                    <div class="w-20 h-20 rounded-full bg-slate-950 border border-slate-800 shadow-[0_0_30px_rgba(34,211,238,0.15)] group-hover:shadow-[0_0_40px_rgba(34,211,238,0.35)] flex items-center justify-center mb-6 relative transition-all duration-300">
+                        <div class="absolute inset-0 bg-cyan-500/20 rounded-full blur-md"></div>
+                        <svg class="w-8 h-8 text-cyan-400 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a
+                            <span class="bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[8px] font-black uppercase trackin
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Prueba todas las funcionalidades del sistema base sin compromisos.</p>
+                        
+                        <!-- Precio Unificado -->
+                        <div class="my-6">
+                            <div class="text-3xl font-black text-white flex items-baseline gap-1">$0.00 <span class="text-[10px] font-bold text-slate-500">/ 7 días</span></div>
+                            <span class="text-
+                        </div>
+
+                        <!-- Beneficios -->
+                        <ul class="space-y-3.5 text-[11px] text-slate-300 border-t border-white/10 pt-5">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-indigo-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Enlace corto único (wistore.com/tu-marca).</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-indigo-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Hasta <strong>15 productos</strong> en catálogo.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-indigo-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Pedidos directos a tu WhatsApp o Telegram.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="text-indigo-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Personalización visual básica.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="mt-8 flex flex-col gap-2.5">
+                        <a href="/register" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-sm">
+                            Comenzar Prueba
+                        </div>
+
+                <span class="bg-purple-600/20 text-purple-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                    Planes Flexibles
+                </span>
+                <span class="inline-flex items-center gap-1 bg-emerald-600/20 text-emerald-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)] mt-2 sm:mt-0 sm:ml-2">
+                    Tasa Oficial BCV 🇻🇪
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black text-white mt-5 tracking-tight">Precios que impulsan tu negocio</h2>
+                <p class="text-sm md:text-base text-slate-400 mt-3 max-w-xl mx-auto leading-relaxed">Selecciona la solución ideal para digitalizar tu marca, aumentar tus ventas y conectar de forma directa con tus clientes.</p>
+                
+                <!-- Botón Único de Comparativa Técnica -->
+                <div class="mt-8 relative z-10">
+                    <a href="{{ route('planes.comparativa') }}" class="inline-flex items-center gap-2 bg-[#0d1127]/60 hover:bg-slate-800/80 text-cyan-400 hover:text-cyan-300 font-extrabold px-8 py-4 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 text-xs md:text-sm shadow-xl group">
+                        <span>Ver Tabla Comparativa Técnica Completa</span>
+                        <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Grid de 3 Columnas -->
+            <div class="grid grid-cols-1
+
+                    <!-- CTA -->
+                    <div class="mt-8 flex flex-col gap-2.5">
+                        <a href="/register" class="block w-full text-center bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-[0_0_15px_rgba(56,189,248,0.25)] hover:-translate-y-0.5 transform">
+                            Probar Gratis 7 Días
+                        <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Tu árbol de enlaces biográficos personalizado.</p>
+                        
+                        <!-- Precio Unificado -->
+                        <div class="my-6">
+                            <div class="text-4xl font-black text-white flex items-baseline gap-1">$8.99 <span class="text-xs font-bold text-slate-400">/ mes</span></div>
+                        </div>
+
+                        <!-- Beneficios -->
+                        <ul class="space-y-4 text-xs text-slate-300 border-t border-white/10 pt-6">
+                            <li class="flex items-start gap-3">
+                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Enlace corto único (wistore.com/l/tu-marca).</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Botones personalizados ilimitados a Redes Sociales.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Botón directo a WhatsApp/Telegram y Google Maps.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Personalización visual básica.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="mt-8 flex flex-col gap-3">
+                        <a href="/register" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3.5 rounded-xl transition-all duration-300 text-xs shadow-sm">
+                            Adquirir WI-Link
+                        </a>
+                        <a href="/demo-wilink" class="block w-full text-center border-b border-white/10 hover:border-white/30 text-slate-400 hover:text-white font-bold py-2 transition-all duration-300 text-xs">
+                            Ver DEMO
+                        </a>
+                        <button @click="selectedPlan = 'wilink'; openModal = true" class="mt-2 text-center text-cyan-400 hover:text-cyan-300 font-bold text-[10px] uppercase tracking-wide flex items-center justify-center gap-1.5 transition-c
+                                    </span>
+                                </div>
+                                <!-- Yearly Price -->
+                                <div x-show="billingPeriod === 'yearly'" x-transition class="space-y-1">
+                                    <div class="text-3xl font-black text-white flex items-baseline gap-1">
+                                        $17.49 <span class="text-[10px] font-bold text-cyan-400">/ mes equivalent</span>
+                                    </div>
+                                    <span x-show="exchangeRate" class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
+                                        <span x-text="(17.49 * exchangeRate).toFixed(2)"></span> Bs. <span class="text-[9px] text-slate-500">/ mes</span>
+                                    </span>
+                                    <span class="text-[9px] text-slate-400 block font-semibold">
+                                        Facturado anualmente ($209.92/año<span x-show="exchangeRate" class="text-emerald-400/90"> / <span x-text="(209.92 * exchangeRate).toFixed(2)"></span> Bs.</span>)
+                                    </span>
+                                    <span class="bg-purple-500/20 text-purple-400 border border-purple-500/25 text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full inline-block">Ahorra 30%</span>
+                                </div>
+                            </div>
+
+                            <!-- Beneficios -->
+                            <ul class="space-y-3.5 text-[11px] text-slate-200 border-t border-purple-500/20 pt-5">
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                    <span>Todo lo incluido en el Plan Standard.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                    <span><strong>Insignia VIP Corona Premium</strong> en tienda.</span>
+                                </li>
+                    </div>
+                </div>
+
+                <!-- PLAN 2: Plan Standard -->
+                <div id="plan-standard" class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
+                    <div>
+                        <h3 class="text-lg font-black text-white uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">Standard</span></h3>
+                        <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Ideal para pequeños negocios y emprendedores que desean digitalizarse.</p>
+                        
+
+                                    </span>
+                                </div>
+                                <!-- Yearly Price -->
+                                <div x-show="billingPeriod === 'yearly'" x-transition class="space-y-1">
+                                    <div class="text-3xl font-black text-white flex items-baseline gap-1">
+                                        $17.49 <span class="text-[10px] font-bold text-cyan-400">/ mes equivalent</span>
+                                    </div>
+                                    <span x-show="exchangeRate" class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
+                                        <span x-text="(17.49 * exchangeRate).toFixed(2)"></span> Bs. <span class="text-[9px] text-slate-500">/ mes</span>
+                                    </span>
+                                    <span class="text-[9px] text-slate-400 block font-semibold">
+                                        Facturado anualmente ($209.92/año<span x-show="exchangeRate" class="text-emerald-400/90"> / <span x-text="(209.92 * exchangeRate).toFixed(2)"></span> Bs.</span>)
+                                    </span>
+                                    <span class="bg-purple-500/20 text-purple-400 border border-purple-500/25 text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full inline-block">Ahorra 30%</span>
+                                </div>
+                            </div>
+
+                            <!-- Beneficios -->
+                            <ul class="space-y-3.5 text-[11px] text-slate-200 border-t border-purple-500/20 pt-5">
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                    <span>Todo lo incluido en el Plan Standard.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                </div>
+                                <span x-show="exchangeRate" class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
+                                    ~ <span x-text="(14.99 * exchangeRate).toFixed(2)"></span> Bs. <span class="text-[9px] text-slate-500">/ mes</span>
+                                </span>
+                                    <span><strong>Métodos de Pago Inteligentes</strong> (Pago Móvil / Zelle).</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Gestión integral corporativa o software independiente a medida.</p>
+                        
+                        <!-- Precio -->
+                        <div class="my-6">
+                            <div class="text-3xl font-black text-white tracking-tight">Personalizado</div>
+                            <span class="text-[10px] text-slate-400 block mt-1.5 font-semibold">Precio a Convenir</span>
+                        </div>
+
+                        <!-- Beneficios - Espaciados y con Mayor Legibilidad -->
+                        <ul class="space-y-5 text-xs text-slate-300 border-t border-white/10 pt-6 leading-relaxed">
+                            <li class="flex items-start gap-3">
+                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span><strong>Módulos de Clientes y Empleados</strong> (Roles, Permisos y Fidelización).</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="text-cyan-400 shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Panel Avanzado de Órdenes y Estadísticas en tiempo real.</span>
+                            </li>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cláusula de Limitación -->
+            <div class="mt-16 text-center max-w-4xl mx-auto">
+                <p class="text-[10px] md:text-xs text-slate-500 leading-relaxed font-semibold px-4">
+                    ⚠️ Los planes Prueba Gratis, Standard y Premium cubren soporte operativo del sistema base y no incluyen funciones personalizadas. El desarrollo a medida se gestiona exclusivamente bajo el plan Custom previo acuerdo comercial.
+                </p>
+            </div>
+
+            <!-- MODAL DETALLES DEL PLAN (Alpine.js) -->
+            <div x-show="openModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6" x-cloak>
+                <!-- Backdrop con Blur -->
+                <div x-show="openModal" 
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     @click="openModal = false" 
+                     class="fixed inset-0 b
+                            Detalles Técnicos <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                                <span>Ingeniería de software a la medida.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="mt-8 flex flex-col gap-2.5">
+                        <a href="https://wa.me/584121305420?text=Hola,%20deseo%20una%20asesoría%20sobre%20el%20Plan%20Custom%20de%20WIStore" target="_blank" class="block w-full text-center bg-slate-800/60 hover:bg-slate-700 text-white font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-sm">
+                            Cotizar Proyecto
+                        </a>
+                        <button @click="selectedPlan = 'custom'; openModal = true" class="mt-1 text-center text-pink-400 hover:text-pink-300 font-bold text-[9px] uppercase tracking-wide flex items-center justify-center gap-1 transition-colors focus:outline-none">
+                            Detalles Técnicos <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cláusula de Limitación -->
+            <div class="mt-16 text-center max-w-4xl mx-auto">
+                <p class="text-[10px] md:text-xs text-slate-500 leading-relaxed font-semibold px-4">
+                    ⚠️ Los planes Prueba Gratis, Standard y Premium cubren soporte operativo del sistema base y no incluyen funciones personalizadas. El desarrollo a medida se gestiona exclusivamente bajo el plan Custom previo acuerdo comercial.
+                </p>
+            </div>
+
+            <!-- MODAL DETALLES DEL PLAN (Alpine.js) -->
+            <div x-show="openModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6" x-cloak>
+                <!-- Backdrop con Blur -->
+                <div x-show="openModal" 
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     @click="openModal = false" 
+                     class="fixed inset-0 bg-[#070913]/90 backdrop-blur-md"></div>
+
+                <!-- Contenedor del Modal -->
+                <div x-show="openModal"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+                     x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave-end="opacity-0 translate-y-4 scale-95"
+                     class="bg-[#0d1127] border bo
+                            Ver DEMO
+                        </a>
+                        <button @click="selectedPlan = 'custom'; openModal = true" class="mt-1 text-center text-pink-400 hover:text-pink-300 font-bold text-[9px] uppercase tracking-wide flex items-center justify-center gap-1 transition-colors focus:outline-none">
+                            Detalles Técnicos <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cláusula de Limitación y Cintillo Informativo -->
+            <div class="mt-16 text-center max-w-4xl mx-auto space-y-6">
+                <p class="text-[10px] md:text-xs text-slate-500 leading-relaxed font-semibold px-4">
+                    ⚠️ Los planes Prueba Gratis, Standard y Premium cubren soporte operativo del sistema base y no incluyen funciones personalizadas. El desarrollo a medida se gestiona exclusivamente bajo el plan Custom previo acuerdo comercial.
+                </p>
+                <!-- Cintillo Informativo de Restauración de Demos -->
+                <div class="inline-flex justify-center bg-[#1e1136]/80 backdrop-blur-md border border-purple-500/30 px-6 py-4 rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.15)] mx-auto">
+                    <p class="text-[10px] md:text-xs text-purple-300 flex items-center justify-center gap-2 font-black tracking-[0.1em] uppercase">
+                        🔄 LOS DATOS DE LAS DEMOS SE RESTAURAN AUTOMÁTICAMENTE CADA 12 HORAS PARA MANTENER EL SISTEMA LIMPIO.
+                    </p>
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Personalización completa de colores y logos</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Panel administrativo básico de órdenes</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-[#0c152b] border border-sky-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            <div>
+                                <p class="text-xs text-sky-300 font-semibold" x-text="billingPeriod === 'yearly' ? 'Frecuencia de pago anual (Ahorra 20%)' : 'Frecuencia de pago mensual'"></p>
+                                <p class="text-lg font-black text-white" x-text="billingPeriod === 'yearly' ? '$143.90 USD / año ($11.99/mes)' : '$14.99 USD / mes'"></p>
+                            </div>
+                            <a href="/register" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                Adquirir Standard
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CONTENIDO PLAN PREMIUM -->
+                    <div x-show="selectedPlan === 'premium'" class="p-6 md:p-10 space-y-6">
+                        <div class="flex items-center gap-3">
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+                            Detalles Técnicos <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cláusula de Limitación y Cintillo Informativo -->
+            <div class="mt-16 text-center max-w-4xl mx-auto space-y-6">
+                <p class="text-[10px] md:text-xs text-slate-500 leading-relaxed font-semibold px-4">
+                    ⚠️ Los planes Prueba Gratis, Standard y Premium cubren soporte operativo del sistema base y no incluyen funciones personalizadas. El desarrollo a medida se gestiona exclusivamente bajo el plan Custom previo acuerdo comercial.
+                </p>
+                <!-- Cintillo Informativo de Restauración de Demos -->
+                <div class="inline-flex justify-center bg-[#1e1136]/80 backdrop-blur-md border border-purple-500/30 px-6 py-4 rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.15)] mx-auto">
+                    <p class="text-[10px] md:text-xs text-purple-300 flex items-center justify-center gap-2 font-black tracking-[0.1em] uppercase">
+                        🔄 LOS DATOS DE LAS DEMOS SE RESTAURAN AUTOMÁTICAMENTE CADA 12 HORAS PARA MANTENER EL SISTEMA LIMPIO.
+                    </p>
+                </div>
+            </div>
+
+            <!-- MODAL DETALLES DEL PLAN (Alpine.js) -->
+            <div x-show="openModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6" x-cloak>
+                <!-- Backdrop con Blur -->
+                <div x-show="openModal" 
+                     class="bg-[#0d1127] border border-white/10 rounded-[2rem] w-full max-w-2xl max-h-[85vh] overflow-y-auto relative z-10 shadow-[0_0_50px_rgba(168,85,247,0.15)] scrollbar-thin">
+                    
+                    <!-- Botón de Cerrar -->
+                    <button @click="openModal = false" class="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-rose-500/50 hover:bg-rose-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors focus:outline-none z-20">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+
+                    <!-- CONTENIDO PRUEBA GRATIS -->
+                    <div x-show="selectedPlan === 'free_trial'" class="p-6 md:p-10 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                <i class="fas fa-clock text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Prueba <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Gratis</span></h3>
+                                <p class="text-xs text-indigo-400 font-bold uppercase tracking-wider">Plan Inicial • 7 Días de Prueba</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Productos y categorías <strong>ilimitados</strong></span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Pedidos estructurados directos a WhatsApp o Telegram</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Código QR dinámico autogenerado</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Soporte prioritario por WhatsApp</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Personalización completa de colores y logos</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <span>Panel administrativo básico de órdenes</span>
+                                </li>
+                            </ul>
+                            </div>
+                            <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20cotizar%20el%20plan%20WI-Admin/Custom%20para%20mi%20negocio" target="_blank" class="bg-pink-600 hover:bg-pink-500 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                Cotizar en WhatsApp
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VS COMPETENCIA (WIStore vs El Resto) -->
+    <section id="vs-competencia" class="py-20 md:py-28 border-t border-white/5 relative overflow-hidden z-10">
+        
+        <!-- Orbe de luz de fondo -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[150px] pointer-events-none blur-accelerated"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Cabecera de Competencia -->
+            <div class="text-center mb-16 md:mb-20">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span>Integración con dominios web propios (`.com`)</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <span>Ingeniería de software a medida y soporte de infraestructura</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white/[0.02] border border-white/5 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold">Presupuesto adaptado a requerimientos</p>
+                                <p class="text-lg font-black text-white">Precio a convenir</p>
+                            </div>
+                            <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20cotizar%20el%20plan%20Custom%20de%20WIStore%20para%20mi%20negocio" target="_blank" class="bg-pink-600 hover:bg-pink-500 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                Cotizar por WhatsApp
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VS COMPETENCIA (WIStore vs El Resto) -->
+    <section id="vs-competencia" class="py-20 md:py-28 border-t border-white/5 relative overflow-hidden z-10">
+                            </thead>
+                            <tbody class="divide-y divide-white/5 text-slate-300">
+                                <tr>
+                                    <td class="p-4 font-medium">Precio Mensual</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            $8.99 / mes
+                                        </span>
+                                    </td>
+            </div>
+
+            <!-- Grid de Comparativas -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-stretch justify-center">
+
+                <!-- COMPARATIVA 1: WILink Pro vs Linktree -->
+                <div class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl relative transition duration-300 hover:border-white/20">
+                    <div class="p-6 md:p-8 bg-gradient-to-b from-cyan-900/20 to-transparent border-b border-white/5">
+                        <h3 class="text-xl font-black text-white text-center flex items-center justify-center gap-3">
+                            <span class="uppercase">WI-<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Link</span></span> 
+                            <span class="text-slate-500 text-sm">vs</span> 
+                            <span class="text-slate-300">Linktree</span>
+                        </h3>
+                    </div>
+                    
+                    <div class="p-0">
+                        <table class="w-full text-left border-collapse text-xs md:text-sm">
+                            <thead>
+                                <tr>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-slate-400 font-semibold bg-white/[0.02]">Característica</th>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center font-black text-cyan-400 bg-cyan-900/10">WI-Link</th>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center text-slate-400 font-semibold bg-white/[0.02]">Linktree (Pro)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5 text-slate-300">
+                                <tr>
+                                    <td class="p-4 font-medium">Precio Mensual</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            $8.99 / mes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-xs font-bold">—</span>
+                                            $24 / mes
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Personalización Visual</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Total (Tu Marca)
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            Limitada
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                     <td class="p-4 font-medium">Integración WhatsApp</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-
+                                            Nativo + Flotante
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            Solo básico
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Atención y Soporte</td>
+                                    <td class="p-4 text-center bg-cyan-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Local Prioritario
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+             
+                        La plataforma B2B premium líder en digitalización de comercios en Venezuela. Crea tu catálogo inteligente interactivo con pedidos directos a WhatsApp o Telegram, libre de comisiones por venta.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="javascript:void(0)" class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300" title="Facebook">
+                            <i class="fab fa-facebook-f text-xs"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300" title="Instagram">
+                            <i class="fab fa-instagram text-xs"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300" title="TikTok">
+                            <i class="fab fa-tiktok text-xs"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="w-9 h-9 rounded-f
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center font-black text-purple-400 bg-purple-900/10">WI-Menu</th>
+                                    <th class="p-4 border-b border-white/5 w-1/3 text-center text-slate-400 font-semibold bg-white/[0.02]">PideFacil</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5 text-slate-300">
+                                <tr>
+                                    <td class="p-4 font-medium">Comisiones por Venta</td>
+                                    <td class="p-4 text-center bg-purple-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            0% Comisiones
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            2% - 5% por transacción
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Precio Mensual</td>
+                                    <td class="p-4 text-center bg-purple-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            $24.99 / mes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-xs font-bold">—</span>
+                                            Desde $35 / mes
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Límite de Productos</td>
+                                 
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fas fa-map-marker-alt text-pink-400 w-4"></i>
+                            <span>Aragua, Venezuela</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+                                            Limitado por Plan
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">Enlace Biográfico</td>
+                                    <td class="p-4 text-center bg-purple-900/10">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
+                                            Incluye WI-Link gratis
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="inline-flex items-center gap-1.5 text-slate-400 justify-center">
+                                            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 text-slate-500 text-[10px] font-black">—</span>
+                                            No incluye
+                                        </span>
+                                    </td>
+                <div class="space-y-4">
+                    <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Contacto Directo</h4>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li class="flex items-center gap-2.5">
+                            <i class="fas fa-envelope text-cyan-400 w-4"></i>
+                            <span>(Próximamente)</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fas fa-phone-alt text-purple-400 w-4"></i>
+                            <span>+58 (412) 130-5420</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fas fa-map-marker-alt text-pink-400 w-4"></i>
+                            <span>Aragua, Venezuela</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Area -->
+            <div class="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>© 2026 WIStore. Todos los derechos reservados.</p>
+                <div class="flex items-center gap-6">
+                    <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
+                    <span>•</span>
+                    <a href="{{ route('contacto') }}" class="hover:text-white transition-colors">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
