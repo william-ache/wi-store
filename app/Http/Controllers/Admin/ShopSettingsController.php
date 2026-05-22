@@ -22,6 +22,8 @@ class ShopSettingsController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'shop_category' => 'nullable|string|max:255',
+            'shop_category_icon' => 'nullable|string|max:255',
             'whatsapp_number' => 'required|string|max:255',
             'description' => 'nullable|string',
             'address' => 'nullable|string',
@@ -39,6 +41,8 @@ class ShopSettingsController extends Controller
             'delivery_rate_per_km' => 'nullable|numeric|min:0',
             'latitude' => 'nullable|string|max:50',
             'longitude' => 'nullable|string|max:50',
+            'enable_free_shipping' => 'nullable|boolean',
+            'free_shipping_min_amount' => 'nullable|numeric|min:0',
             'logo' => 'nullable|image|max:2048',
             'cover' => 'nullable|image|max:2048',
             'password' => 'nullable|string|min:8|confirmed',
@@ -56,11 +60,12 @@ class ShopSettingsController extends Controller
         ]);
 
         $data = $request->only([
-            'name', 'whatsapp_number', 'description', 'address', 'google_maps_link', 'base_currency', 'exchange_rate',
+            'name', 'shop_category', 'shop_category_icon', 'whatsapp_number', 'description', 'address', 'google_maps_link', 'base_currency', 'exchange_rate',
             'payment_methods', 'color_primary', 'color_secondary', 'color_background',
             'delivery_rate_per_km', 'latitude', 'longitude',
             'facebook', 'instagram', 'tiktok', 'x_twitter', 'contact_phone', 'contact_sms', 'telegram',
-            'has_dine_in', 'has_pickup', 'has_delivery', 'amenities'
+            'has_dine_in', 'has_pickup', 'has_delivery', 'amenities',
+            'enable_free_shipping', 'free_shipping_min_amount'
         ]);
 
         // Actualizar fecha de actualización de tasa de cambio si se modificó

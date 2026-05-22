@@ -35,6 +35,8 @@ class StoreController extends Controller
             'latitude' => $shop->latitude,
             'longitude' => $shop->longitude,
             'delivery_rate_per_km' => $shop->delivery_rate_per_km,
+            'enable_free_shipping' => $shop->enable_free_shipping,
+            'free_shipping_min_amount' => $shop->free_shipping_min_amount,
             'work_hours' => $shop->work_hours,
             'base_currency' => $shop->base_currency,
             'exchange_rate' => $shop->exchange_rate,

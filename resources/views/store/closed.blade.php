@@ -608,7 +608,6 @@
                         <li><a href="#como-funciona" class="text-slate-400 hover:text-cyan-400 transition-colors">¿Cómo funciona?</a></li>
                         <li><a href="#precios" class="text-slate-400 hover:text-cyan-400 transition-colors">Planes de Precios</a></li>
                         <li><a href="{{ route('planes.comparativa') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Comparativa de Planes</a></li>
-                        <li><a href="#vs-competencia" class="text-slate-400 hover:text-cyan-400 transition-colors font-semibold">Comparativa con la Competencia</a></li>
                     </ul>
                 </div>
 

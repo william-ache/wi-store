@@ -215,7 +215,7 @@
 </head>
 
 <body
-    class="min-h-screen text-slate-100 flex flex-col justify-between relative overflow-x-hidden selection:bg-sky-500 selection:text-white"
+    class="min-h-screen text-slate-100 flex flex-col justify-between relative overflow-x-hidden selection:bg-purple-500 selection:text-white"
     x-data="{
         /* ── Campos ──────────────────────────────── */
         shopName: '',
@@ -227,6 +227,7 @@
         showPassword: false,
         showConfirm: false,
         showTrialModal: false,
+        isSubmitting: false,
     
         /* ── Colores ─────────────────────────────── */
         primaryColor: '#6366f1',
@@ -356,10 +357,10 @@
     <!-- FONDO -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#070913] gpu-accelerated">
         <div
-            class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-sky-600/20 to-indigo-600/20 blur-[120px] blur-accelerated">
+            class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-600/20 to-indigo-600/20 blur-[120px] blur-accelerated">
         </div>
         <div
-            class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-600/10 blur-[160px] blur-accelerated">
+            class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-r from-purple-500/10 to-cyan-600/10 blur-[160px] blur-accelerated">
         </div>
         <div
             class="absolute -bottom-[10%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-pink-600/10 via-purple-600/10 to-transparent blur-[160px] blur-accelerated">
@@ -412,9 +413,9 @@
             <!-- Badge trial -->
             <div class="flex justify-center mb-5">
                 <div
-                    class="inline-flex items-center gap-2 bg-sky-500/10 border border-sky-500/30 rounded-full px-5 py-2 shadow-[0_0_25px_rgba(56,189,248,0.18)]">
-                    <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
-                    <span class="text-sky-300 text-[11px] font-black uppercase tracking-widest">🎁 7 Días de Prueba
+                    class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 rounded-full px-5 py-2 shadow-[0_0_25px_rgba(168,85,247,0.18)]">
+                    <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                    <span class="text-purple-300 text-[11px] font-black uppercase tracking-widest">🎁 7 Días de Prueba
                         Gratuita — Sin Tarjeta</span>
                 </div>
             </div>
@@ -423,7 +424,7 @@
             <div
                 class="w-full bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-2xl relative group overflow-hidden">
                 <div
-                    class="absolute -top-20 -right-20 w-48 h-48 bg-sky-500/15 rounded-full blur-2xl pointer-events-none group-hover:bg-cyan-500/15 transition-all duration-700">
+                    class="absolute -top-20 -right-20 w-48 h-48 bg-purple-500/15 rounded-full blur-2xl pointer-events-none group-hover:bg-cyan-500/15 transition-all duration-700">
                 </div>
                 <div
                     class="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl pointer-events-none">
@@ -431,22 +432,21 @@
 
                 <div class="text-center mb-8 relative z-10">
                     <span
-                        class="inline-block bg-sky-500/15 text-sky-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-sky-500/30 shadow-[0_0_15px_rgba(56,189,248,0.2)] mb-4">
-                        Plan Gratuito
+                        class="inline-block bg-gradient-to-r from-purple-500 to-cyan-400 text-slate-950 text-[10px] uppercase font-black tracking-widest px-5 py-1.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.35)] mb-4">
+                        Plan Premium
                     </span>
                     <h1 class="text-2xl md:text-3xl font-black text-white tracking-tight">Crea tu Catálogo Digital</h1>
                     <p class="text-xs text-slate-400 mt-2 max-w-xs mx-auto leading-relaxed">
-                        Configura tu marca y comienza a vender en segundos. <span class="text-sky-400 font-bold">Gratis
-                            por 7 días.</span>
+                        Configura tu marca y comienza a vender en segundos. <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 font-black">Gratis por 7 días.</span>
                     </p>
                 </div>
 
                 <!-- FORMULARIO -->
-                <form @submit.prevent="submitForm()" class="space-y-5 relative z-10">
+                <form id="registerForm" action="{{ route('register.submit') }}" method="POST" @submit.prevent="submitForm()" class="space-y-5 relative z-10">
                     @csrf
                     <div
-                        class="rounded-3xl border border-cyan-400/15 bg-cyan-400/5 px-4 py-3 text-slate-100 text-sm font-bold tracking-wide shadow-sm shadow-cyan-500/10">
-                        <i class="fas fa-info-circle mr-2 text-cyan-300"></i>
+                        class="rounded-3xl border border-purple-400/15 bg-purple-400/5 px-4 py-3 text-slate-100 text-sm font-bold tracking-wide shadow-sm shadow-purple-500/10">
+                        <i class="fas fa-info-circle mr-2 text-purple-300"></i>
                         Completa los datos del formulario para iniciar tu prueba gratis de 7 días.
                     </div>
 
@@ -464,11 +464,14 @@
                             <input type="text" id="shop_name" name="shop_name" required x-model="shopName"
                                 @input="checkName()" placeholder="Ej: Tienda Click, Sabores Y&B..."
                                 :class="nameBorderClass"
-                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-sky-500/40 transition-all shadow-inner">
+                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                            @error('shop_name')
+                                <p class="text-[10px] text-rose-500 font-bold mt-1 pl-1">{{ $message }}</p>
+                            @enderror
                             <!-- Indicador derecho -->
                             <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs">
                                 <template x-if="nameStatus === 'checking'">
-                                    <i class="fas fa-circle-notch text-sky-400 animate-spin-slow"></i>
+                                    <i class="fas fa-circle-notch text-purple-400 animate-spin-slow"></i>
                                 </template>
                                 <template x-if="nameStatus === 'available'">
                                     <i class="fas fa-circle-check text-emerald-400"></i>
@@ -481,7 +484,7 @@
                         <!-- Mensajes -->
                         <div class="pl-1 text-[10px] font-bold flex items-center gap-1.5 transition-all" x-cloak>
                             <template x-if="nameStatus === 'checking'">
-                                <span class="text-sky-400"><i class="fas fa-circle-notch animate-spin-slow mr-1"></i>
+                                <span class="text-purple-400"><i class="fas fa-circle-notch animate-spin-slow mr-1"></i>
                                     Verificando disponibilidad...</span>
                             </template>
                             <template x-if="nameStatus === 'available'">
@@ -511,7 +514,10 @@
                             </span>
                             <input type="email" id="email" name="email" required x-model="email"
                                 @input="emailTouched = true" placeholder="tu@correo.com" :class="emailBorderClass"
-                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-sky-500/40 transition-all shadow-inner">
+                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                            @error('email')
+                                <p class="text-[10px] text-rose-500 font-bold mt-1 pl-1">{{ $message }}</p>
+                            @enderror
                             <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs"
                                 x-show="emailTouched && email.length > 0" x-cloak>
                                 <i
@@ -541,7 +547,10 @@
                             </span>
                             <input :type="showPassword ? 'text' : 'password'" id="password" name="password" required
                                 x-model="password" placeholder="Mínimo 8 caracteres" :class="pwBorderClass"
-                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-sky-500/40 transition-all shadow-inner">
+                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                            @error('password')
+                                <p class="text-[10px] text-rose-500 font-bold mt-1 pl-1">{{ $message }}</p>
+                            @enderror
                             <button type="button" @click="showPassword = !showPassword"
                                 class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors focus:outline-none">
                                 <i :class="showPassword ? 'fas fa-eye-slash text-xs' : 'fas fa-eye text-xs'"></i>
@@ -606,7 +615,7 @@
                                 name="password_confirmation" required x-model="confirm"
                                 @input="confirmTouched = true" placeholder="Repite tu contraseña"
                                 :class="confirmBorderClass"
-                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-sky-500/40 transition-all shadow-inner">
+                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
                             <button type="button" @click="showConfirm = !showConfirm"
                                 class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors focus:outline-none">
                                 <i :class="showConfirm ? 'fas fa-eye-slash text-xs' : 'fas fa-eye text-xs'"></i>
@@ -623,7 +632,7 @@
                     <!-- ── COLORES DE MARCA ── -->
                     <div class="border-t border-white/5 pt-5">
                         <label class="text-[11px] font-black uppercase tracking-wider text-slate-300 block pl-1 mb-3">
-                            <i class="fas fa-palette mr-1.5 text-sky-400"></i> Colores de tu Marca
+                            <i class="fas fa-palette mr-1.5 text-purple-400"></i> Colores de tu Marca
                         </label>
                         <p class="text-[10px] text-slate-400 mb-3 pl-1 leading-snug">
                             Personalízalo tú mismo: ajusta los colores rápidos o edita cada tono manualmente usando el
@@ -637,7 +646,7 @@
                                 <button type="button" @click="applyPreset(idx)" :title="preset.name"
                                     class="w-full h-12 rounded-2xl border transition-all duration-200 flex items-center justify-center gap-2 px-2"
                                     :class="selectedPreset === idx ?
-                                        'border-sky-400/60 bg-white/5 shadow-[0_0_10px_rgba(56,189,248,0.22)]' :
+                                        'border-purple-400/60 bg-white/5 shadow-[0_0_10px_rgba(168,85,247,0.22)]' :
                                         'border-white/10 hover:border-white/20 bg-slate-950/30'">
                                     <span class="w-3 h-3 rounded-full shadow-inner"
                                         :style="`background:${preset.primary}`"></span>
@@ -720,7 +729,7 @@
                         <button type="submit" :disabled="!formValid"
                             :class="formValid
                                 ?
-                                'bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-slate-950 shadow-[0_0_25px_rgba(14,165,233,0.35)] cursor-pointer active:scale-[0.98]' :
+                                'bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.35)] cursor-pointer active:scale-[0.98]' :
                                 'bg-slate-800 text-slate-500 cursor-not-allowed'"
                             class="block w-full text-center font-extrabold py-4 rounded-2xl transition-all duration-300 text-sm tracking-wide">
                             <i class="fas fa-rocket mr-2"></i>
@@ -730,7 +739,7 @@
                         <!-- Indicador de progreso -->
                         <div class="mt-3 flex items-center gap-2">
                             <div class="flex-1 h-1 bg-slate-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-sky-500 to-cyan-400 rounded-full transition-all duration-500"
+                                <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full transition-all duration-500"
                                     :style="`width:${
                                                                              ((nameStatus==='available'?1:0)
                                                                              +(emailValid?1:0)
@@ -747,7 +756,7 @@
 
                     <p class="text-center text-[10px] text-slate-500 leading-relaxed">
                         ¿Ya tienes cuenta?
-                        <a href="/login" class="text-cyan-400 font-bold hover:text-cyan-300 transition-colors">Inicia
+                        <a href="/login" class="text-purple-400 font-bold hover:text-purple-300 transition-colors">Inicia
                             Sesión aquí</a>
                     </p>
                 </form>
@@ -784,36 +793,36 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
             x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-            class="relative z-10 w-full max-w-md bg-[#0d1127] border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(14,165,233,0.2)]">
+            class="relative z-10 w-full max-w-md bg-[#0d1127] border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(168,85,247,0.2)]">
 
-            <div class="h-1.5 w-full bg-gradient-to-r from-sky-500 via-cyan-400 to-purple-500"></div>
+            <div class="h-1.5 w-full bg-gradient-to-r from-purple-600 via-indigo-500 to-cyan-400"></div>
 
             <div class="px-8 pt-7 pb-0 text-center">
                 <div
-                    class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-500/20 to-cyan-500/10 border border-sky-500/30 flex items-center justify-center mx-auto mb-3 shadow-[0_0_20px_rgba(14,165,233,0.2)]">
-                    <i class="fas fa-rocket text-2xl text-sky-400"></i>
+                    class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-cyan-500/10 border border-purple-500/30 flex items-center justify-center mx-auto mb-3 shadow-[0_0_20px_rgba(168,85,247,0.2)]">
+                    <i class="fas fa-rocket text-2xl text-purple-400"></i>
                 </div>
                 <h2 class="text-xl md:text-2xl font-black text-white tracking-tight">¡Tu Prueba Comienza Ahora!</h2>
                 <p class="text-xs text-slate-400 mt-1.5 leading-relaxed max-w-xs mx-auto">
-                    <span class="text-sky-400 font-black">7 días</span> sin pagos, sin comisiones. <span
+                    <span class="text-purple-400 font-black">7 días</span> sin pagos, sin comisiones. <span
                         class="text-white font-bold">Totalmente gratis</span> para que pruebes.
                 </p>
             </div>
 
             <div
-                class="mx-8 mt-6 bg-gradient-to-r from-sky-500/10 to-cyan-500/10 border border-sky-500/20 rounded-2xl p-4 flex items-center justify-between gap-3">
+                class="mx-8 mt-6 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 border border-purple-500/20 rounded-2xl p-4 flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
                     <div
-                        class="flex flex-col items-center justify-center w-14 h-14 rounded-xl bg-sky-500/15 border border-sky-500/25 shrink-0">
-                        <span class="text-2xl font-black text-sky-300">7</span>
-                        <span class="text-[8px] text-sky-400 font-bold uppercase tracking-wider">días</span>
+                        class="flex flex-col items-center justify-center w-14 h-14 rounded-xl bg-purple-500/15 border border-purple-500/25 shrink-0">
+                        <span class="text-2xl font-black text-purple-300">7</span>
+                        <span class="text-[8px] text-purple-400 font-bold uppercase tracking-wider">días</span>
                     </div>
                     <div>
                         <p class="text-xs font-black text-white">Prueba Gratuita</p>
                         <p class="text-[10px] text-slate-400 mt-0.5">Sin tarjeta requerida</p>
                     </div>
                 </div>
-                <i class="fas fa-gift text-2xl text-sky-400/50 shrink-0"></i>
+                <i class="fas fa-gift text-2xl text-purple-400/50 shrink-0"></i>
             </div>
 
             <div
@@ -828,7 +837,7 @@
                         Al finalizar los 7 días tu cuenta será
                         <span class="text-amber-300 font-bold">suspendida automáticamente</span>
                         si no activas la suscripción al
-                        <span class="text-white font-bold">Plan Standard ($14.99/mes)</span>.
+                        <span class="text-white font-bold">Plan Premium ($24.99/mes)</span>.
                         Tus datos se conservan por 30 días adicionales.
                     </p>
                 </div>
@@ -840,14 +849,14 @@
                     7 días:</p>
                 <div class="grid grid-cols-2 gap-1.5">
                     <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fas fa-box text-sky-400 text-[10px] w-3 shrink-0"></i>
+                        <i class="fas fa-box text-purple-400 text-[10px] w-3 shrink-0"></i>
                         <div>
                             <p class="text-[10px] font-black text-white leading-tight">50 Productos</p>
                             <p class="text-[8px] text-slate-500">máximo en prueba</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fas fa-tags text-sky-400 text-[10px] w-3 shrink-0"></i>
+                        <i class="fas fa-tags text-purple-400 text-[10px] w-3 shrink-0"></i>
                         <div>
                             <p class="text-[10px] font-black text-white leading-tight">10 Categorías</p>
                             <p class="text-[8px] text-slate-500">personalizadas</p>
@@ -868,14 +877,14 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fas fa-chart-line text-cyan-400 text-[10px] w-3 shrink-0"></i>
+                        <i class="fas fa-chart-line text-purple-400 text-[10px] w-3 shrink-0"></i>
                         <div>
                             <p class="text-[10px] font-black text-white leading-tight">Panel de Órdenes</p>
                             <p class="text-[8px] text-slate-500">gestiona tus pedidos</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fas fa-percent text-sky-400 text-[10px] w-3 shrink-0"></i>
+                        <i class="fas fa-percent text-purple-400 text-[10px] w-3 shrink-0"></i>
                         <div>
                             <p class="text-[10px] font-black text-white leading-tight">0% Comisiones</p>
                             <p class="text-[8px] text-slate-500">todo es tuyo</p>
@@ -885,9 +894,15 @@
             </div>
 
             <div class="px-6 py-5">
-                <button @click="showTrialModal = false"
-                    class="w-full bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-slate-950 font-extrabold py-3.5 rounded-2xl transition-all duration-300 text-xs shadow-[0_0_15px_rgba(14,165,233,0.3)] tracking-widest uppercase active:scale-[0.98]">
-                    <i class="fas fa-rocket mr-2"></i> ¡Comenzar Ahora!
+                <button @click="isSubmitting = true; document.getElementById('registerForm').submit()"
+                    :disabled="isSubmitting"
+                    class="w-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-extrabold py-3.5 rounded-2xl transition-all duration-300 text-xs shadow-[0_0_15px_rgba(168,85,247,0.3)] tracking-widest uppercase active:scale-[0.98] flex items-center justify-center disabled:opacity-75 disabled:cursor-not-allowed">
+                    <template x-if="!isSubmitting">
+                        <span><i class="fas fa-rocket mr-2"></i> ¡Comenzar Ahora!</span>
+                    </template>
+                    <template x-if="isSubmitting">
+                        <span><i class="fas fa-circle-notch animate-spin mr-2"></i> Registrando...</span>
+                    </template>
                 </button>
             </div>
         </div>

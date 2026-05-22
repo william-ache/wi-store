@@ -71,6 +71,67 @@ Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
+Route::post('/register', function (Illuminate\Http\Request $request) {
+    $request->validate([
+        'shop_name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:8|confirmed',
+        'color_primary' => 'required|string|max:20',
+        'color_accent' => 'required|string|max:20',
+        'color_bg' => 'required|string|max:20',
+    ]);
+
+    // Generar slug único
+    $slug = Illuminate\Support\Str::slug($request->shop_name);
+    $originalSlug = $slug;
+    $count = 1;
+    while (\App\Models\Shop::where('slug', $slug)->exists()) {
+        $slug = $originalSlug . '-' . $count++;
+    }
+
+    // Crear la tienda
+    $shop = \App\Models\Shop::create([
+        'name' => $request->shop_name,
+        'slug' => $slug,
+        'whatsapp_number' => '0000000000', // Default placeholder
+        'color_primary' => $request->color_primary,
+        'color_secondary' => $request->color_accent, // Map HTML color_accent to database color_secondary
+        'color_background' => $request->color_bg, // Map HTML color_bg to database color_background
+        'plan' => 'premium', // Trial starts on Plan Premium
+        'billing_cycle' => 'mensual',
+        'plan_expires_at' => now()->addDays(7)->format('Y-m-d'),
+        'last_payment_date' => now()->format('Y-m-d'),
+        'last_payment_amount' => 0.00,
+        'is_active' => true,
+        'shop_category' => 'otros',
+        'shop_category_icon' => '📦',
+    ]);
+
+    // Crear el usuario administrador
+    $user = \App\Models\User::create([
+        'shop_id' => $shop->id,
+        'name' => 'Administrador de ' . $shop->name,
+        'email' => $request->email,
+        'password' => Illuminate\Support\Facades\Hash::make($request->password),
+        'temp_password' => $request->password, // Save raw password as a reference
+    ]);
+
+    // Crear una notificación interna de bienvenida
+    \App\Models\Notification::create([
+        'shop_id' => $shop->id,
+        'title' => '¡Bienvenido a WIStore!',
+        'content' => 'Tu tienda ha sido creada con éxito. Estás disfrutando de 7 días de prueba gratis del Plan Premium. Puedes personalizar tu tienda en Configuración.',
+        'type' => 'billing',
+        'is_read' => false,
+    ]);
+
+    // Autenticar automáticamente al usuario
+    Illuminate\Support\Facades\Auth::login($user);
+
+    // Redirigir al panel de administración
+    return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug]);
+})->name('register.submit');
+
 
 // Ruta de Comparativa Técnica de Planes
 Route::get('/comparativa', function () {
@@ -105,6 +166,10 @@ Route::prefix('/wydex-super-admin')->name('super-admin.')->group(function () {
         Route::post('/shops/{id}/toggle', [App\Http\Controllers\SuperAdminController::class, 'toggleStatus'])->name('shops.toggle');
         Route::put('/shops/{id}', [App\Http\Controllers\SuperAdminController::class, 'update'])->name('shops.update');
         Route::post('/logout', [App\Http\Controllers\SuperAdminController::class, 'logout'])->name('logout');
+        
+        // Rutas de administración de pagos
+        Route::post('/payments/{id}/approve', [App\Http\Controllers\SuperAdminController::class, 'approvePayment'])->name('payments.approve');
+        Route::post('/payments/{id}/reject', [App\Http\Controllers\SuperAdminController::class, 'rejectPayment'])->name('payments.reject');
     });
 });
 
@@ -122,6 +187,10 @@ Route::middleware(['tenant'])->group(function () {
     Route::middleware(['auth'])->prefix('/{shop_slug}/admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/search', [App\Http\Controllers\Admin\DashboardController::class, 'search'])->name('search');
+        
+        // Rutas de Facturación y Suscripción Expirada
+        Route::get('/billing/expired', [App\Http\Controllers\Admin\BillingController::class, 'expired'])->name('billing.expired');
+        Route::post('/billing/pay', [App\Http\Controllers\Admin\BillingController::class, 'submitPayment'])->name('billing.pay');
         
         // Perfil de Tienda y Configuración Visual
         Route::get('/settings', [ShopSettingsController::class, 'edit'])->name('settings.edit');

@@ -104,6 +104,19 @@ class IdentifyTenant
                         'email' => 'Tu sesión fue cerrada porque se inició una nueva sesión en este plan estándar.',
                     ]);
                 }
+
+                // --- CONTROL DE VENCIMIENTO DE PLAN / PRUEBA GRATIS ---
+                $isExpired = $shop->plan_expires_at && $shop->plan_expires_at->isPast();
+                $isPendingPayment = $shop->payment_status === 'pending';
+                $isRejectedPayment = $shop->payment_status === 'rejected';
+
+                if ($isExpired || $isPendingPayment || $isRejectedPayment) {
+                    // Excluir rutas de facturación para evitar redirección infinita
+                    $isBillingRoute = $request->is('*/admin/billing*') || $request->routeIs('admin.billing.*') || $request->is('*/logout');
+                    if (!$isBillingRoute) {
+                        return redirect()->route('admin.billing.expired', ['shop_slug' => $shop->slug]);
+                    }
+                }
             }
 
             // Compartir de forma global para las vistas Blade
@@ -122,6 +135,8 @@ class IdentifyTenant
             View::share('company', [
                 'name' => $shop->name,
                 'slug' => $shop->slug,
+                'shop_category' => $shop->shop_category,
+                'shop_category_icon' => $shop->shop_category_icon,
                 'whatsapp' => $whatsapp,
                 'logo' => $shop->logo_path ? (filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : asset('storage/'.$shop->logo_path)) : 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=1A1A1A&color=fff',
                 'cover' => $shop->cover_path ? (filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path)) : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200',
@@ -136,6 +151,8 @@ class IdentifyTenant
                 'has_dine_in' => $shop->has_dine_in,
                 'has_pickup' => $shop->has_pickup,
                 'has_delivery' => $shop->has_delivery,
+                'enable_free_shipping' => $shop->enable_free_shipping,
+                'free_shipping_min_amount' => $shop->free_shipping_min_amount,
                 'amenities' => $shop->amenities ?? [],
                 'delivery_rate_per_km' => $shop->delivery_rate_per_km,
                 'latitude' => $shop->latitude,

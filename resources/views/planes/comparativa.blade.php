@@ -127,13 +127,13 @@
                         <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/5 text-center">
                             <h3 class="text-sm font-black text-white uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">Standard</span></h3>
                             <p class="text-xs text-slate-350 mt-1">$14.99 <span class="text-[9px] text-slate-500">/ mes</span></p>
-                            <span class="text-[8px] bg-sky-500/15 text-sky-400 border border-sky-500/20 px-2 py-0.5 rounded-full inline-block mt-1.5 font-extrabold uppercase">Ahorra 20% anual</span>
+                            <span class="text-[8px] bg-sky-500/15 text-sky-400 border border-sky-500/20 px-2 py-0.5 rounded-full inline-block mt-1.5 font-extrabold uppercase">Ahorra 15% anual</span>
                         </th>
                         <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/5 text-center bg-purple-900/10 relative">
                             <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-purple-500 to-cyan-500"></div>
                             <h3 class="text-sm font-black text-white flex items-center justify-center gap-1 uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Premium</span> <i class="fas fa-crown text-yellow-400 text-[10px]"></i></h3>
                             <p class="text-xs text-purple-300 mt-1">$24.99 <span class="text-[9px] text-purple-450">/ mes</span></p>
-                            <span class="text-[8px] bg-purple-500/15 text-purple-400 border border-purple-500/20 px-2 py-0.5 rounded-full inline-block mt-1.5 font-extrabold uppercase">Ahorra 30% anual</span>
+                            <span class="text-[8px] bg-purple-500/15 text-purple-400 border border-purple-500/20 px-2 py-0.5 rounded-full inline-block mt-1.5 font-extrabold uppercase">Ahorra 25% anual</span>
                         </th>
                         <th class="p-6 border-b border-white/10 border-l border-white/5 w-1/5 text-center">
                             <h3 class="text-sm font-black text-white uppercase tracking-wider">Plan <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">Custom</span></h3>

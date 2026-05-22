@@ -103,6 +103,22 @@
                                    value="{{ old('name', $shop->name) }}" required>
                         </div>
 
+                        <!-- Categoría de la Tienda -->
+                        <div class="space-y-0.5">
+                            <label for="shop_category" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Categoría de la Tienda</label>
+                            <select id="shop_category" name="shop_category" 
+                                    class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold"
+                                    onchange="updateShopCategoryIcon(this.value)">
+                                <option value="">Selecciona una categoría</option>
+                                <option value="gastronomia" {{ old('shop_category', $shop->shop_category) == 'gastronomia' ? 'selected' : '' }}>🍽️ Gastronomía</option>
+                                <option value="moda_estilo" {{ old('shop_category', $shop->shop_category) == 'moda_estilo' ? 'selected' : '' }}>👗 Moda y Estilo</option>
+                                <option value="detalles_regalos" {{ old('shop_category', $shop->shop_category) == 'detalles_regalos' ? 'selected' : '' }}>🎁 Detalles y Regalos</option>
+                                <option value="servicios" {{ old('shop_category', $shop->shop_category) == 'servicios' ? 'selected' : '' }}>🔧 Servicios</option>
+                                <option value="otros" {{ old('shop_category', $shop->shop_category) == 'otros' ? 'selected' : '' }}>📦 Otros</option>
+                            </select>
+                            <input type="hidden" id="shop_category_icon" name="shop_category_icon" value="{{ old('shop_category_icon', $shop->shop_category_icon) }}">
+                        </div>
+
                         <!-- WhatsApp de Pedidos -->
                         <div class="space-y-0.5 col-span-1 sm:col-span-2">
                             <label for="whatsapp_number" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">WhatsApp de Pedidos (Soporta Múltiples Números)</label>
@@ -418,6 +434,36 @@
                                     <input type="checkbox" name="has_delivery" value="1" class="sr-only peer" {{ old('has_delivery', $shop->has_delivery) ? 'checked' : '' }}>
                                     <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-500"></div>
                                 </label>
+                            </div>
+
+                            <!-- Envío gratis -->
+                            <div class="flex flex-col p-2.5 rounded-xl bg-violet-50/40 dark:bg-violet-950/5 border border-violet-100/50 dark:border-violet-900/20 space-y-2.5" x-data="{ enableFreeShipping: {{ old('enable_free_shipping', $shop->enable_free_shipping ?? 0) ? 'true' : 'false' }} }">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-7 h-7 rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 flex items-center justify-center text-xs">
+                                            <i class="fas fa-gift"></i>
+                                        </span>
+                                        <div>
+                                            <div class="text-[11px] font-bold text-slate-800 dark:text-slate-200">Envío Gratis</div>
+                                            <div class="text-[9px] text-slate-400 dark:text-slate-500">Ofrecer delivery gratuito a partir de un subtotal</div>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer select-none">
+                                        <input type="hidden" name="enable_free_shipping" value="0">
+                                        <input type="checkbox" name="enable_free_shipping" value="1" class="sr-only peer" @change="enableFreeShipping = $event.target.checked" :checked="enableFreeShipping" {{ old('enable_free_shipping', $shop->enable_free_shipping ?? 0) ? 'checked' : '' }}>
+                                        <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-violet-500"></div>
+                                    </label>
+                                </div>
+                                
+                                <div x-show="enableFreeShipping" x-transition:enter="transition ease-out duration-200" x-transition:leave="transition ease-in duration-150" class="pl-9 pr-2 space-y-1">
+                                    <label for="free_shipping_min_amount" class="text-[9px] font-bold text-slate-600 dark:text-slate-400 block uppercase tracking-wider">Monto Mínimo de Compra</label>
+                                    <div class="relative flex items-center">
+                                        <span class="absolute left-2.5 text-slate-450 text-[10px] font-black">$</span>
+                                        <input type="number" step="0.01" id="free_shipping_min_amount" name="free_shipping_min_amount" 
+                                               class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-lg pl-6 pr-2 py-1 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all font-semibold" 
+                                               placeholder="10.00" value="{{ old('free_shipping_min_amount', $shop->free_shipping_min_amount) }}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1237,5 +1283,31 @@
             preview.style.backgroundColor = textInput.value;
         }
     }
+
+    // Función para actualizar el icono de la categoría de tienda
+    function updateShopCategoryIcon(category) {
+        const iconInput = document.getElementById('shop_category_icon');
+        const categoryIcons = {
+            'gastronomia': 'fas fa-utensils',
+            'moda_estilo': 'fas fa-tshirt',
+            'detalles_regalos': 'fas fa-gift',
+            'servicios': 'fas fa-tools',
+            'otros': 'fas fa-box'
+        };
+        
+        if (iconInput && categoryIcons[category]) {
+            iconInput.value = categoryIcons[category];
+        } else if (iconInput) {
+            iconInput.value = '';
+        }
+    }
+
+    // Inicializar el icono de categoría si ya existe un valor seleccionado
+    document.addEventListener('DOMContentLoaded', function() {
+        const categorySelect = document.getElementById('shop_category');
+        if (categorySelect && categorySelect.value) {
+            updateShopCategoryIcon(categorySelect.value);
+        }
+    });
 </script>
 @endsection

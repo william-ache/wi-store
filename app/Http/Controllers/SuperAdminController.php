@@ -14,13 +14,16 @@ class SuperAdminController extends Controller
     public function index()
     {
         $shops = Shop::with('users')->latest()->get();
-        return view('super-admin', compact('shops'));
+        $pendingShops = Shop::with('users')->where('payment_status', 'pending')->latest()->get();
+        return view('super-admin', compact('shops', 'pendingShops'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'shop_category' => 'nullable|string|in:gastronomia,moda_estilo,detalles_regalos,servicios,otros',
+            'shop_category_icon' => 'nullable|string|max:255',
             'whatsapp_number' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
@@ -81,10 +84,22 @@ class SuperAdminController extends Controller
             }
         }
 
+        $categoryIcons = [
+            'gastronomia' => '🍽️',
+            'moda_estilo' => '👗',
+            'detalles_regalos' => '🎁',
+            'servicios' => '🔧',
+            'otros' => '📦',
+        ];
+        $shopCategory = $request->shop_category ?: 'otros';
+        $shopCategoryIcon = $request->filled('shop_category_icon') ? $request->shop_category_icon : ($categoryIcons[$shopCategory] ?? '📦');
+
         // Crear la tienda (Shop)
         $shop = Shop::create([
             'name' => $request->name,
             'slug' => $slug,
+            'shop_category' => $shopCategory,
+            'shop_category_icon' => $shopCategoryIcon,
             'whatsapp_number' => $request->whatsapp_number,
             'description' => $request->description,
             'address' => $request->address,
@@ -120,6 +135,8 @@ class SuperAdminController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'shop_category' => 'nullable|string|in:gastronomia,moda_estilo,detalles_regalos,servicios,otros',
+            'shop_category_icon' => 'nullable|string|max:255',
             'whatsapp_number' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:6',
@@ -150,6 +167,16 @@ class SuperAdminController extends Controller
             }
         }
 
+        $categoryIcons = [
+            'gastronomia' => '🍽️',
+            'moda_estilo' => '👗',
+            'detalles_regalos' => '🎁',
+            'servicios' => '🔧',
+            'otros' => '📦',
+        ];
+        $shopCategory = $request->shop_category ?: ($shop->shop_category ?: 'otros');
+        $shopCategoryIcon = $request->filled('shop_category_icon') ? $request->shop_category_icon : ($categoryIcons[$shopCategory] ?? '📦');
+
         // Manejar logo
         $logoPath = $shop->logo_path;
         if ($request->hasFile('logo')) {
@@ -176,6 +203,8 @@ class SuperAdminController extends Controller
         $shop->update([
             'name' => $request->name,
             'slug' => $slug,
+            'shop_category' => $shopCategory,
+            'shop_category_icon' => $shopCategoryIcon,
             'whatsapp_number' => $request->whatsapp_number,
             'description' => $request->description,
             'address' => $request->address,
@@ -243,5 +272,78 @@ class SuperAdminController extends Controller
     {
         session()->forget('super_admin_authenticated');
         return redirect()->route('super-admin.login-form')->with('success', 'Sesión cerrada correctamente.');
+    }
+
+    /**
+     * Approve manual payment and extend subscription.
+     */
+    public function approvePayment($id)
+    {
+        $shop = Shop::findOrFail($id);
+        
+        $plan = $shop->pending_plan ?: 'standard';
+        $cycle = $shop->pending_billing_cycle ?: 'mensual';
+        
+        // Calculate new plan expiration date
+        $days = ($cycle === 'anual') ? 365 : 30;
+        $newExpiresAt = now()->addDays($days)->format('Y-m-d');
+        
+        // Determine billing amounts
+        $amount = 0.00;
+        if ($plan === 'premium') {
+            $amount = ($cycle === 'anual') ? 224.90 : 24.99;
+        } elseif ($plan === 'standard') {
+            $amount = ($cycle === 'anual') ? 152.90 : 14.99;
+        }
+        
+        // Update subscription data
+        $shop->update([
+            'plan' => $plan,
+            'billing_cycle' => $cycle,
+            'plan_expires_at' => $newExpiresAt,
+            'last_payment_date' => now()->format('Y-m-d'),
+            'last_payment_amount' => $amount,
+            'payment_status' => 'none',
+            'pending_plan' => null,
+            'pending_billing_cycle' => null,
+            'payment_reference' => null,
+            'payment_receipt_path' => null,
+            'is_active' => true, // Reactivate shop if it was deactivated
+        ]);
+        
+        // Create an internal shop notification of approval
+        \App\Models\Notification::create([
+            'shop_id' => $shop->id,
+            'title' => '¡Suscripción Activada con Éxito!',
+            'content' => 'Tu pago de $' . $amount . ' USD por el plan ' . ucfirst($plan) . ' (' . $cycle . ') ha sido verificado y aprobado. Tu tienda ha sido reactivada hasta el ' . now()->addDays($days)->format('d/m/Y') . '.',
+            'type' => 'billing',
+            'is_read' => false,
+        ]);
+        
+        return redirect()->back()->with('success', '¡El pago de la tienda "' . $shop->name . '" por el Plan ' . ucfirst($plan) . ' (' . $cycle . ') ha sido aprobado y la tienda ha sido reactivada con éxito!');
+    }
+
+    /**
+     * Reject manual payment.
+     */
+    public function rejectPayment(Request $request, $id)
+    {
+        $shop = Shop::findOrFail($id);
+        
+        // Update payment status to rejected
+        $shop->update([
+            'payment_status' => 'rejected',
+        ]);
+        
+        // Create an internal shop notification of rejection
+        \App\Models\Notification::create([
+            'shop_id' => $shop->id,
+            'title' => 'Pago Reportado Rechazado',
+            'content' => 'Tu reporte de pago ha sido rechazado por inconsistencia en los datos de referencia o captura de comprobante. Por favor verifica tus datos e inténtalo nuevamente.',
+            'type' => 'billing',
+            'is_read' => false,
+        ]);
+        
+        return redirect()->back()->with('success', 'El pago de la tienda "' . $shop->name . '" ha sido rechazado. El cliente recibirá una alerta en su panel para reportarlo nuevamente.');
     }
 }

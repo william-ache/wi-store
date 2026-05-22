@@ -1588,8 +1588,46 @@
                     class="text-white/80 hover:text-white hover:bg-white/10 w-9 h-9 flex items-center justify-center rounded-full transition active:scale-95"><i
                         class="fas fa-times text-lg"></i></button>
             </div>
-        </div>
         <div class="p-5 flex-grow overflow-y-auto scrollbar-none bg-slate-50 space-y-4">
+            <!-- AVISO DINÁMICO DE ENVÍO GRATIS -->
+            <template x-if="enableFreeShipping && cart.length > 0">
+                <div class="rounded-2xl p-3.5 border transition-all duration-300 flex items-center gap-3 shadow-sm select-none"
+                     :class="total < freeShippingMinAmount 
+                        ? 'bg-amber-50 border-amber-200 text-amber-800' 
+                        : 'bg-emerald-50 border-emerald-200 text-emerald-800'">
+                    
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 shadow-sm"
+                         :class="total < freeShippingMinAmount ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'">
+                        <template x-if="total < freeShippingMinAmount">
+                            <i class="fas fa-info-circle text-base animate-pulse"></i>
+                        </template>
+                        <template x-if="total >= freeShippingMinAmount">
+                            <i class="fas fa-gift text-base"></i>
+                        </template>
+                    </div>
+
+                    <div class="flex-grow min-w-0">
+                        <template x-if="total < freeShippingMinAmount">
+                            <div class="text-[11px] font-semibold">
+                                Faltan <span class="font-extrabold text-xs" x-text="currencySymbol + (freeShippingMinAmount - total).toFixed(2)"></span> para <span class="font-bold">envío gratis</span>
+                            </div>
+                        </template>
+                        <template x-if="total >= freeShippingMinAmount">
+                            <div class="text-[11px] font-black tracking-wide flex items-center gap-1 uppercase">
+                                ¡Tienes envío gratis! <i class="fas fa-check-circle text-emerald-500 animate-bounce"></i>
+                            </div>
+                        </template>
+                        
+                        <div class="w-full bg-slate-200 rounded-full h-1.5 mt-1.5 overflow-hidden">
+                            <div class="h-full rounded-full transition-all duration-500 ease-out"
+                                 :class="total < freeShippingMinAmount ? 'bg-amber-500' : 'bg-emerald-500'"
+                                 :style="{ width: Math.min((total / freeShippingMinAmount) * 100, 100) + '%' }">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
             <!-- CART ITEMS -->
             <div class="space-y-3">
                 <template x-for="item in cart" :key="item.id">
@@ -1725,7 +1763,7 @@
                             <span>Distancia calculada: <span class="text-slate-900"
                                     x-text="deliveryDistance.toFixed(2)"></span> km</span>
                             <span class="text-emerald-600 text-sm">Costo de Envío: <span class="font-extrabold"
-                                    x-text="currencySymbol + deliveryCost.toFixed(2)"></span></span>
+                                    x-text="actualDeliveryCost === 0 ? 'Gratis' : (currencySymbol + actualDeliveryCost.toFixed(2))"></span></span>
                         </p>
                     </div>
                 </div>
@@ -1839,9 +1877,9 @@
                 <span class="text-base font-black text-slate-800">Total:</span>
                 <div class="text-right">
                     <span class="text-lg font-black text-slate-900 block"
-                        x-text="currencySymbol + (total + deliveryCost).toFixed(2)"></span>
+                        x-text="currencySymbol + (total + actualDeliveryCost).toFixed(2)"></span>
                     <span x-show="exchangeRate > 0" class="text-xs font-bold text-slate-400 block mt-0.5"
-                        x-text="'Bs. ' + ((total + deliveryCost) * exchangeRate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })"></span>
+                        x-text="'Bs. ' + ((total + actualDeliveryCost) * exchangeRate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })"></span>
                 </div>
             </div>
             <button x-show="cart.length > 0" @click="sendWhatsApp()"
@@ -2692,8 +2730,9 @@
                 deliveryMode: 'map',
                 isGpsLoading: false,
                 gpsSuccess: false,
-                deliveryDistance: 0,
                 deliveryCost: 0,
+                enableFreeShipping: {{ $company['enable_free_shipping'] ? 'true' : 'false' }},
+                freeShippingMinAmount: {{ (float) ($company['free_shipping_min_amount'] ?? 0) }},
                 mapInitialized: false,
                 map: null,
                 marker: null,
@@ -3066,6 +3105,13 @@
                 },
                 get totalItems() {
                     return this.cart.reduce((sum, item) => sum + item.quantity, 0);
+                },
+                get actualDeliveryCost() {
+                    if (this.deliveryType !== 'delivery') return 0;
+                    if (this.enableFreeShipping && this.total >= this.freeShippingMinAmount && this.total > 0) {
+                        return 0;
+                    }
+                    return this.deliveryCost;
                 },
 
                 // Reactive getters for real-time calculation in modal/storefront
@@ -3735,7 +3781,7 @@
                     }
 
                     // Notificar orden al backend para generar alerta y registrar en el sistema
-                    const orderTotal = this.total + this.deliveryCost;
+                    const orderTotal = this.total + this.actualDeliveryCost;
                     try {
                         await fetch('/{{ $company['slug'] }}/orders/notify', {
                             method: 'POST',
@@ -3770,7 +3816,8 @@
                     });
 
                     if (this.deliveryType === 'delivery' && this.marker) {
-                        text += `%0A*Costo de Envío:* ${this.currencySymbol}${this.deliveryCost.toFixed(2)}`;
+                        const shippingText = this.actualDeliveryCost === 0 ? '¡Gratis! 🎁' : `${this.currencySymbol}${this.actualDeliveryCost.toFixed(2)}`;
+                        text += `%0A*Costo de Envío:* ${shippingText}`;
                         text +=
                             `%0A*Ubicación:* https://www.google.com/maps?q=${this.marker.getLatLng().lat},${this.marker.getLatLng().lng}`;
                     }

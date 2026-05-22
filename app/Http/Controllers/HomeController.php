@@ -10,7 +10,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         // Obtener todas las tiendas activas para el filtrado en tiempo real
-        $shops = Shop::latest()->get();
+        $shops = Shop::where('is_active', true)->latest()->get();
 
         return view('home', compact('shops'));
     }

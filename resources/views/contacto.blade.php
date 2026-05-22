@@ -150,8 +150,8 @@
                     <div>
                         <label for="plan" class="block text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Plan de Interés</label>
                         <select id="plan" name="plan" class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors">
-                            <option value="standard" class="bg-[#0b0d19]">Plan Standard (7 Días Gratis • $14.99/mes)</option>
-                            <option value="premium" class="bg-[#0b0d19]" selected>Plan Premium ($24.99/mes)</option>
+                            <option value="standard" class="bg-[#0b0d19]">Plan Standard ($14.99/mes)</option>
+                            <option value="premium" class="bg-[#0b0d19]" selected>Plan Premium (7 Días Gratis • $24.99/mes)</option>
                             <option value="custom" class="bg-[#0b0d19]">Plan Personalizado (A medida)</option>
                             <option value="general" class="bg-[#0b0d19]">Consulta General / Soporte</option>
                         </select>
