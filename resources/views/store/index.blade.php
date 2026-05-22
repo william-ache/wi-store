@@ -2719,6 +2719,12 @@
                 showOrderWhatsappModal: false,
                 pendingOrderMessage: '',
                 showPaymentError: false,
+
+                // Propiedades de Anuncios
+                announcements: @json($announcements ?? []),
+                showAnnouncementModal: false,
+                activeAnnouncementSlide: 0,
+
                 // Accessibility properties
                 showAccessibilityModal: false,
                 accessibility: {
@@ -2840,6 +2846,13 @@
 
                     // Apply accessibility settings on load
                     this.applyAccessibilitySettings();
+
+                    // Inicializar el modal de anuncios emergentes apenas entra al menú (retardo de 800ms)
+                    if (this.announcements && this.announcements.length > 0 && !sessionStorage.getItem('announcements_closed')) {
+                        setTimeout(() => {
+                            this.showAnnouncementModal = true;
+                        }, 800);
+                    }
                 },
 
                 getScheduleDay(day) {
@@ -3939,6 +3952,111 @@
             </filter>
         </defs>
     </svg>
+
+    @if(isset($announcements) && count($announcements) > 0)
+        <!-- COMPONENTE: AnnouncementBanner (ANUNCIOS DESTACADOS) -->
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[2000]" 
+             x-show="showAnnouncementModal"
+             @click="showAnnouncementModal = false; sessionStorage.setItem('announcements_closed', 'true')" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0" 
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200" 
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0" 
+             style="display: none;"></div>
+             
+        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-sm bg-white/95 backdrop-blur-xl rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] z-[2001] flex flex-col overflow-hidden origin-center border border-white/50"
+             x-show="showAnnouncementModal" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-90" 
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200" 
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-90" 
+             style="display: none;">
+             
+             <!-- Botón de Cerrar (X) -->
+             <button @click="showAnnouncementModal = false; sessionStorage.setItem('announcements_closed', 'true')"
+                     class="absolute top-4 right-4 z-50 text-slate-400 hover:text-slate-700 bg-slate-100/80 hover:bg-slate-200 w-8 h-8 flex items-center justify-center rounded-full transition active:scale-95 shadow-sm border border-slate-200/30">
+                 <i class="fas fa-times text-sm"></i>
+             </button>
+             
+             <div class="relative w-full overflow-hidden flex-grow flex flex-col pt-6 pb-2">
+                 <!-- Cabecera del Anuncio -->
+                 <div class="flex items-center gap-2.5 px-6 mb-2 select-none">
+                     <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs shadow-inner"
+                          style="background-color: rgba(230, 0, 103, 0.1); color: var(--color-primary);">
+                          <i class="fas fa-bullhorn animate-bounce text-xs"></i>
+                     </div>
+                     <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider block">Anuncio Importante</span>
+                 </div>
+                 
+                 <!-- Carrusel de Anuncios -->
+                 <div class="relative flex-grow flex items-center justify-center min-h-[300px]">
+                     <template x-for="(ann, idx) in announcements" :key="ann.id">
+                         <div x-show="activeAnnouncementSlide === idx" 
+                              x-transition:enter="transition ease-out duration-300" 
+                              x-transition:enter-start="opacity-0 translate-x-8" 
+                              x-transition:enter-end="opacity-100 translate-x-0" 
+                              x-transition:leave="transition ease-in duration-200 absolute" 
+                              x-transition:leave-start="opacity-100 translate-x-0" 
+                              x-transition:leave-end="opacity-0 -translate-x-8" 
+                              class="w-full flex flex-col px-6 pb-4 pt-2 items-center text-center space-y-4">
+                             
+                             <!-- Imagen (si existe) -->
+                             <template x-if="ann.image_path">
+                                 <div class="w-full h-40 rounded-2xl overflow-hidden shadow-inner border border-slate-100 bg-slate-50 shrink-0">
+                                     <img :src="ann.image_path" class="w-full h-full object-cover" alt="Anuncio">
+                                 </div>
+                             </template>
+                             
+                             <!-- Texto -->
+                             <div class="space-y-2 flex-grow">
+                                 <h3 class="text-md font-black text-slate-800 tracking-tight leading-snug" x-text="ann.title"></h3>
+                                 <p class="text-xs text-slate-550 leading-relaxed font-semibold max-h-[120px] overflow-y-auto scrollbar-none" x-text="ann.content" x-show="ann.content"></p>
+                             </div>
+                             
+                             <!-- Botón de Acción (si existe) -->
+                             <template x-if="ann.button_text && ann.button_link">
+                                 <a :href="ann.button_link" 
+                                    class="w-full inline-flex items-center justify-center py-3 px-6 rounded-2xl text-white font-extrabold text-xs shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-95 cursor-pointer mt-2"
+                                    style="background-color: var(--color-primary);"
+                                    x-text="ann.button_text"></a>
+                             </template>
+                         </div>
+                     </template>
+                 </div>
+                 
+                 <!-- Controles y Puntos del Carrusel -->
+                 <div class="px-6 py-2 flex items-center justify-between border-t border-slate-100 select-none shrink-0" x-show="announcements.length > 1">
+                     <!-- Anterior -->
+                     <button type="button" 
+                             @click="activeAnnouncementSlide = (activeAnnouncementSlide - 1 + announcements.length) % announcements.length" 
+                             class="w-8 h-8 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-550 flex items-center justify-center font-bold text-xs transition active:scale-75 shadow-sm border border-slate-200/30">
+                         <i class="fas fa-chevron-left text-[9px]"></i>
+                     </button>
+                     
+                     <!-- Puntos Indicadores -->
+                     <div class="flex gap-1.5 py-1">
+                         <template x-for="(ann, idx) in announcements" :key="idx">
+                             <button type="button" @click="activeAnnouncementSlide = idx"
+                                     class="w-1.5 h-1.5 rounded-full transition-all duration-300"
+                                     :class="activeAnnouncementSlide === idx ? 'w-4' : 'bg-slate-350'"
+                                     :style="activeAnnouncementSlide === idx ? 'background-color: var(--color-primary);' : ''"></button>
+                         </template>
+                     </div>
+                     
+                     <!-- Siguiente -->
+                     <button type="button" 
+                             @click="activeAnnouncementSlide = (activeAnnouncementSlide + 1) % announcements.length" 
+                             class="w-8 h-8 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-550 flex items-center justify-center font-bold text-xs transition active:scale-75 shadow-sm border border-slate-200/30">
+                         <i class="fas fa-chevron-right text-[9px]"></i>
+                     </button>
+                 </div>
+             </div>
+        </div>
+    @endif
 </body>
 
 </html>

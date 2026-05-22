@@ -209,5 +209,6 @@ Route::middleware(['tenant'])->group(function () {
         Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
         Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
         Route::resource('clients', App\Http\Controllers\Admin\ClientController::class);
+        Route::resource('announcements', App\Http\Controllers\Admin\AnnouncementController::class);
     });
 });

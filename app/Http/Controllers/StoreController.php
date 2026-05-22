@@ -23,6 +23,25 @@ class StoreController extends Controller
         $averageRating = $reviews->count() > 0 ? $reviews->avg('rating') : 5.0;
         $branches = \App\Models\Shop::select('name', 'slug', 'address', 'google_maps_link')->get();
 
+        // Obtener anuncios activos y vigentes para esta tienda
+        $announcements = \App\Models\Announcement::where('is_active', true)
+            ->where(function ($query) {
+                $query->whereNull('expires_at')
+                    ->orWhere('expires_at', '>=', now()->startOfDay());
+            })
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($announcement) {
+                return [
+                    'id' => $announcement->id,
+                    'title' => $announcement->title,
+                    'content' => $announcement->content,
+                    'image_path' => $announcement->image_path ? asset('storage/' . $announcement->image_path) : null,
+                    'button_text' => $announcement->button_text,
+                    'button_link' => $announcement->button_link,
+                ];
+            });
+
         // Preparar datos de la tienda para la vista
         $company = [
             'name' => $shop->name,
@@ -61,7 +80,7 @@ class StoreController extends Controller
             'subscription_plan' => $shop->plan ?? 'standard',
         ];
 
-        return view('store.index', compact('categories', 'reviews', 'averageRating', 'branches', 'company'));
+        return view('store.index', compact('categories', 'reviews', 'averageRating', 'branches', 'company', 'announcements'));
     }
 
     public function storeReview(Request $request)
