@@ -33,6 +33,10 @@ Route::post('/login', function (Illuminate\Http\Request $request) {
         $user = Illuminate\Support\Facades\Auth::user();
         $shop = \App\Models\Shop::find($user->shop_id);
         if ($shop) {
+            if ($shop->plan === 'standard') {
+                $shop->active_session_id = $request->session()->getId();
+                $shop->save();
+            }
             return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug]);
         }
         
@@ -48,6 +52,15 @@ Route::post('/login', function (Illuminate\Http\Request $request) {
 });
 
 Route::any('/logout', function (Illuminate\Http\Request $request) {
+    $user = Illuminate\Support\Facades\Auth::user();
+    if ($user && $user->shop_id) {
+        $shop = \App\Models\Shop::find($user->shop_id);
+        if ($shop && $shop->plan === 'standard' && $shop->active_session_id === $request->session()->getId()) {
+            $shop->active_session_id = null;
+            $shop->save();
+        }
+    }
+
     Illuminate\Support\Facades\Auth::logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();

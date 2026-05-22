@@ -94,6 +94,16 @@ class IdentifyTenant
                         ]);
                     }
                 }
+
+                if ($shop->plan === 'standard' && $shop->active_session_id && $shop->active_session_id !== $request->session()->getId()) {
+                    \Illuminate\Support\Facades\Auth::logout();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+
+                    return redirect()->route('login')->withErrors([
+                        'email' => 'Tu sesión fue cerrada porque se inició una nueva sesión en este plan estándar.',
+                    ]);
+                }
             }
 
             // Compartir de forma global para las vistas Blade
