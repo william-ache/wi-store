@@ -86,6 +86,13 @@ Route::get('/contacto', function () {
 // Ruta del Acortador Dinámico Interno (Ubicado antes del slug dinámico)
 Route::get('/l/{code}', [ShortLinkController::class, 'redirect'])->name('short.link');
 
+// Rutas de Super Administrador (Oculto)
+Route::prefix('/wydex-super-admin')->name('super-admin.')->group(function () {
+    Route::get('/', [App\Http\Controllers\SuperAdminController::class, 'index'])->name('index');
+    Route::post('/shops', [App\Http\Controllers\SuperAdminController::class, 'store'])->name('shops.store');
+    Route::post('/shops/{id}/toggle', [App\Http\Controllers\SuperAdminController::class, 'toggleStatus'])->name('shops.toggle');
+});
+
 // 2. RUTAS DINÁMICAS MULTI-TENANT (Tiendas Individuales)
 // Colocadas al final del archivo. La detección y el aislamiento ocurren mediante el Middleware 'tenant'.
 Route::middleware(['tenant'])->group(function () {

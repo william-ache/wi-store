@@ -38,6 +38,8 @@ class StoreController extends Controller
             'work_hours' => $shop->work_hours,
             'base_currency' => $shop->base_currency,
             'exchange_rate' => $shop->exchange_rate,
+            'exchange_updated_at' => $shop->exchange_updated_at ?: date('d/m/Y h:i A'),
+            'amenities' => $shop->amenities,
             'colors' => [
                 'primary' => $shop->color_primary ?? '#E60067',
                 'secondary' => $shop->color_secondary ?? '#0B132B',

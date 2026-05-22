@@ -262,18 +262,15 @@
                                     <select id="base_currency" name="base_currency"
                                             class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1.5 text-[11px] text-slate-800 dark:text-slate-250 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold select2-enable"
                                             onchange="fetchExchangeRate()">
-                                        <option value="" disabled>Moneda</option>
                                         <option value="USD" {{ old('base_currency', $shop->base_currency) === 'USD' ? 'selected' : '' }}>USD</option>
                                         <option value="EUR" {{ old('base_currency', $shop->base_currency) === 'EUR' ? 'selected' : '' }}>EUR</option>
-                                        <option value="VES" {{ old('base_currency', $shop->base_currency) === 'VES' ? 'selected' : '' }}>VES</option>
-                                        <option value="COP" {{ old('base_currency', $shop->base_currency) === 'COP' ? 'selected' : '' }}>COP</option>
                                     </select>
                                 </div>
                                 <div class="relative w-[55%] flex items-center">
                                     <input type="text" name="exchange_rate" id="exchange_rate"
                                            value="{{ old('exchange_rate', $shop->exchange_rate) }}"
-                                           class="w-full border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] transition-all shadow-sm font-bold h-[32px] bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:border-primary focus:ring-primary focus:ring-1 focus:outline-none"
-                                           placeholder="Ej: Bs. 39.50">
+                                           class="w-full border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] transition-all shadow-sm font-bold h-[32px] bg-slate-50 dark:bg-slate-850/80 text-slate-500 dark:text-slate-400 cursor-not-allowed select-none focus:outline-none"
+                                           placeholder="Tasa oficial" readonly>
                                     <div id="exchange-loading" class="absolute right-2 top-2" style="display: none;">
                                         <svg class="animate-spin h-3.5 w-3.5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                                     </div>
@@ -288,28 +285,23 @@
                                 const loadingDiv = document.getElementById('exchange-loading');
                                 const currency = select.value;
 
-                                if (currency === 'USD') {
+                                if (currency === 'USD' || currency === 'EUR') {
                                     loadingDiv.style.display = 'block';
                                     try {
-                                        let res = await fetch('https://dolarapi.com/v1/dolares/oficial');
-                                        let data = await res.json();
-                                        exchangeInput.value = '$' + data.venta + ' ARS';
+                                        const endpoint = currency === 'USD' 
+                                            ? 'https://ve.dolarapi.com/v1/dolares/oficial' 
+                                            : 'https://ve.dolarapi.com/v1/euros/oficial';
+                                        let res = await fetch(endpoint);
+                                        if (res.ok) {
+                                            let data = await res.json();
+                                            if (data && data.promedio) {
+                                                exchangeInput.value = 'Bs. ' + parseFloat(data.promedio).toFixed(2);
+                                            }
+                                        }
                                     } catch (e) {
-                                        console.error('Error fetching rate', e);
+                                        console.error('Error fetching rate from DolarAPI', e);
                                     }
                                     loadingDiv.style.display = 'none';
-                                } else if (currency === 'EUR') {
-                                    loadingDiv.style.display = 'block';
-                                    try {
-                                        let res = await fetch('https://dolarapi.com/v1/cotizaciones/eur');
-                                        let data = await res.json();
-                                        exchangeInput.value = '€' + data.venta + ' ARS';
-                                    } catch (e) {
-                                        console.error('Error fetching rate', e);
-                                    }
-                                    loadingDiv.style.display = 'none';
-                                } else if (currency !== 'VES') {
-                                    exchangeInput.value = '';
                                 }
                             }
 
@@ -320,6 +312,16 @@
                                         minimumResultsForSearch: -1,
                                         width: '100%'
                                     });
+                                    // Trigger rate fetch on select2 change
+                                    $('#base_currency').on('change', function() {
+                                        fetchExchangeRate();
+                                    });
+                                }
+
+                                // Fetch rate on page load if exchange rate is empty
+                                const exchangeInput = document.getElementById('exchange_rate');
+                                if (!exchangeInput.value) {
+                                    fetchExchangeRate();
                                 }
                             });
                         </script>
@@ -356,6 +358,170 @@
                                        class="w-full bg-transparent border-0 p-0 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-0 font-medium"
                                        placeholder="-66.9036">
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Opciones de Servicio -->
+                    <div class="bg-white dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-150 dark:border-slate-800 space-y-2.5 shadow-sm mt-3">
+                        <span class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">Opciones de Servicio Disponibles</span>
+                        
+                        <div class="grid grid-cols-1 gap-2">
+                            <!-- Comer aquí -->
+                            <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-50/40 dark:bg-emerald-950/5 border border-emerald-100/50 dark:border-emerald-900/20">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs">
+                                        <i class="fas fa-utensils"></i>
+                                    </span>
+                                    <div>
+                                        <div class="text-[11px] font-bold text-slate-800 dark:text-slate-200">Comer aquí</div>
+                                        <div class="text-[9px] text-slate-400 dark:text-slate-500">Permitir pedidos para mesa</div>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer select-none">
+                                    <input type="hidden" name="has_dine_in" value="0">
+                                    <input type="checkbox" name="has_dine_in" value="1" class="sr-only peer" {{ old('has_dine_in', $shop->has_dine_in) ? 'checked' : '' }}>
+                                    <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                                </label>
+                            </div>
+
+                            <!-- Recoger -->
+                            <div class="flex items-center justify-between p-2 rounded-xl bg-amber-50/40 dark:bg-amber-950/5 border border-amber-100/50 dark:border-amber-900/20">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-7 h-7 rounded-full bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs">
+                                        <i class="fas fa-shopping-bag"></i>
+                                    </span>
+                                    <div>
+                                        <div class="text-[11px] font-bold text-slate-800 dark:text-slate-200">Recoger</div>
+                                        <div class="text-[9px] text-slate-400 dark:text-slate-500">Permitir pedidos para llevar</div>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer select-none">
+                                    <input type="hidden" name="has_pickup" value="0">
+                                    <input type="checkbox" name="has_pickup" value="1" class="sr-only peer" {{ old('has_pickup', $shop->has_pickup) ? 'checked' : '' }}>
+                                    <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
+                                </label>
+                            </div>
+
+                            <!-- Entrega a domicilio -->
+                            <div class="flex items-center justify-between p-2 rounded-xl bg-blue-50/40 dark:bg-blue-950/5 border border-blue-100/50 dark:border-blue-900/20">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs">
+                                        <i class="fas fa-motorcycle"></i>
+                                    </span>
+                                    <div>
+                                        <div class="text-[11px] font-bold text-slate-800 dark:text-slate-200">Entrega a domicilio</div>
+                                        <div class="text-[9px] text-slate-400 dark:text-slate-500">Permitir envíos delivery</div>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer select-none">
+                                    <input type="hidden" name="has_delivery" value="0">
+                                    <input type="checkbox" name="has_delivery" value="1" class="sr-only peer" {{ old('has_delivery', $shop->has_delivery) ? 'checked' : '' }}>
+                                    <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-500"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Servicios y Comodidades (Amenities) -->
+                    <div class="bg-white dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-150 dark:border-slate-800 space-y-2.5 shadow-sm mt-3">
+                        <span class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">Servicios & Comodidades del Local</span>
+                        
+                        <div class="grid grid-cols-1 gap-2.5">
+                            @php
+                                $dbAmenities = $shop->amenities ?? [];
+                                $amenitiesList = [
+                                    'wifi' => [
+                                        'label' => 'Wi-Fi',
+                                        'desc' => 'Internet inalámbrico para clientes',
+                                        'icon' => 'fas fa-wifi',
+                                        'color' => 'blue',
+                                        'default' => 'Gratuito'
+                                    ],
+                                    'parking' => [
+                                        'label' => 'Estacionamiento',
+                                        'desc' => 'Parqueo para vehículos',
+                                        'icon' => 'fas fa-parking',
+                                        'color' => 'emerald',
+                                        'default' => 'Gratuito'
+                                    ],
+                                    'restrooms' => [
+                                        'label' => 'Baños públicos',
+                                        'desc' => 'Sanitarios disponibles',
+                                        'icon' => 'fas fa-restroom',
+                                        'color' => 'teal',
+                                        'default' => 'Gratuito'
+                                    ],
+                                    'pet_friendly' => [
+                                        'label' => 'Pet Friendly',
+                                        'desc' => 'Se permiten mascotas',
+                                        'icon' => 'fas fa-paw',
+                                        'color' => 'indigo',
+                                        'default' => 'Sí'
+                                    ],
+                                    'kids_menu' => [
+                                        'label' => 'Menú para Niños',
+                                        'desc' => 'Opciones especiales infantiles',
+                                        'icon' => 'fas fa-child',
+                                        'color' => 'rose',
+                                        'default' => 'Disponible'
+                                    ],
+                                    'reservations' => [
+                                        'label' => 'Reservas / Bajo Pedido',
+                                        'desc' => 'Platos bajo pedido o mesa reservada',
+                                        'icon' => 'fas fa-calendar-alt',
+                                        'color' => 'amber',
+                                        'default' => 'Bajo pedido'
+                                    ],
+                                ];
+                            @endphp
+
+                            @foreach($amenitiesList as $key => $item)
+                                @php
+                                    $isEnabled = isset($dbAmenities[$key]['enabled']) ? (bool)$dbAmenities[$key]['enabled'] : false;
+                                    $value = isset($dbAmenities[$key]['value']) ? $dbAmenities[$key]['value'] : $item['default'];
+                                    
+                                    $colorClasses = [
+                                        'blue' => 'bg-blue-50/80 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 border-blue-100/60 dark:border-blue-900/30 peer-checked:bg-blue-500',
+                                        'emerald' => 'bg-emerald-50/80 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 border-emerald-100/60 dark:border-emerald-900/30 peer-checked:bg-emerald-500',
+                                        'teal' => 'bg-teal-50/80 dark:bg-teal-950/20 text-teal-600 dark:text-teal-400 border-teal-100/60 dark:border-teal-900/30 peer-checked:bg-teal-500',
+                                        'indigo' => 'bg-indigo-50/80 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 border-indigo-100/60 dark:border-indigo-900/30 peer-checked:bg-indigo-500',
+                                        'rose' => 'bg-rose-50/80 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 border-rose-100/60 dark:border-rose-900/30 peer-checked:bg-rose-500',
+                                        'amber' => 'bg-amber-50/80 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border-amber-100/60 dark:border-amber-900/30 peer-checked:bg-amber-500',
+                                    ][$item['color']];
+
+                                    $btnColor = [
+                                        'blue' => 'peer-checked:bg-blue-500',
+                                        'emerald' => 'peer-checked:bg-emerald-500',
+                                        'teal' => 'peer-checked:bg-teal-500',
+                                        'indigo' => 'peer-checked:bg-indigo-500',
+                                        'rose' => 'peer-checked:bg-rose-500',
+                                        'amber' => 'peer-checked:bg-amber-500',
+                                    ][$item['color']];
+                                @endphp
+                                <div class="flex flex-col p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-900/20 space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs {{ explode(' ', $colorClasses)[0] }} {{ explode(' ', $colorClasses)[2] }}">
+                                                <i class="{{ $item['icon'] }}"></i>
+                                            </span>
+                                            <div>
+                                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-200">{{ $item['label'] }}</div>
+                                                <div class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">{{ $item['desc'] }}</div>
+                                            </div>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                                            <input type="hidden" name="amenities[{{ $key }}][enabled]" value="0">
+                                            <input type="checkbox" name="amenities[{{ $key }}][enabled]" value="1" class="sr-only peer" {{ $isEnabled ? 'checked' : '' }}>
+                                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all {{ $btnColor }}"></div>
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center gap-2 pl-9">
+                                        <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 shrink-0">Etiqueta:</span>
+                                        <input type="text" name="amenities[{{ $key }}][value]" value="{{ $value }}" placeholder="Ej: {{ $item['default'] }}"
+                                               class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-lg px-2 py-0.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold shadow-inner">
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
 

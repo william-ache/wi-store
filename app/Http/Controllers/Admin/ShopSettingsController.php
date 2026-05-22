@@ -49,13 +49,18 @@ class ShopSettingsController extends Controller
             'contact_phone' => 'nullable|string|max:30',
             'contact_sms' => 'nullable|string|max:30',
             'telegram' => 'nullable|string|max:255',
+            'has_dine_in' => 'nullable|boolean',
+            'has_pickup' => 'nullable|boolean',
+            'has_delivery' => 'nullable|boolean',
+            'amenities' => 'nullable|array',
         ]);
 
         $data = $request->only([
             'name', 'whatsapp_number', 'description', 'address', 'google_maps_link', 'base_currency', 'exchange_rate',
             'payment_methods', 'color_primary', 'color_secondary', 'color_background',
             'delivery_rate_per_km', 'latitude', 'longitude',
-            'facebook', 'instagram', 'tiktok', 'x_twitter', 'contact_phone', 'contact_sms', 'telegram'
+            'facebook', 'instagram', 'tiktok', 'x_twitter', 'contact_phone', 'contact_sms', 'telegram',
+            'has_dine_in', 'has_pickup', 'has_delivery', 'amenities'
         ]);
 
         // Actualizar fecha de actualización de tasa de cambio si se modificó

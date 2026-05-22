@@ -1142,6 +1142,29 @@
                 </div>
             </header>
 
+            @if(isset($shopIsInactive) && $shopIsInactive)
+            <div class="max-w-7xl mx-auto w-full px-4 md:px-8 pt-4">
+                <div class="bg-gradient-to-r from-red-600/90 to-rose-600/90 dark:from-red-950/80 dark:to-rose-950/80 backdrop-blur-md text-white px-6 py-4 rounded-2xl border border-red-500/30 dark:border-red-500/20 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4 animate-pulse">
+                    <div class="flex items-center gap-3.5 text-center md:text-left">
+                        <div class="w-10 h-10 rounded-full bg-white/10 dark:bg-red-500/20 flex items-center justify-center text-xl animate-bounce shrink-0">
+                            ⚠️
+                        </div>
+                        <div>
+                            <h4 class="font-extrabold text-sm tracking-wide uppercase">Tienda Temporalmente Desactivada</h4>
+                            <p class="text-xs text-red-100 dark:text-red-300 font-medium mt-0.5">
+                                El menú digital público se encuentra fuera de servicio y todos los accesos de escritura (crear, editar o eliminar productos, categorías u órdenes) han sido suspendidos.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="shrink-0">
+                        <span class="bg-white/10 dark:bg-white/5 border border-white/20 text-white text-[10px] uppercase font-black px-3.5 py-1.5 rounded-full tracking-wider shadow-inner">
+                            Modo de Lectura
+                        </span>
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <!-- CORE DASHBOARD BODY -->
             <main class="max-w-7xl mx-auto w-full px-4 md:px-8 py-6 space-y-6 flex-grow">
                 @yield('content')

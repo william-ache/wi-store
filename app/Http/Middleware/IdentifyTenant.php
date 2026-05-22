@@ -25,6 +25,57 @@ class IdentifyTenant
             config(['current_shop' => $shop]);
             config(['current_shop_id' => $shop->id]);
 
+            // Si la tienda está inactiva
+            if (!$shop->is_active) {
+                // Determinar si es una ruta administrativa
+                $isAdminRoute = $request->is('*/admin*') || $request->routeIs('admin.*');
+
+                if (!$isAdminRoute) {
+                    // Es una ruta pública del menú
+                    if ($request->ajax() || $request->wantsJson()) {
+                        return response()->json([
+                            'error' => 'Esta tienda se encuentra temporalmente desactivada.'
+                        ], 403);
+                    }
+
+                    // Compartir las variables de la tienda básicas necesarias para la vista de tienda cerrada
+                    $facebook = $shop->facebook;
+                    $instagram = $shop->instagram;
+                    $tiktok = $shop->tiktok;
+                    $x_twitter = $shop->x_twitter;
+                    $telegram = $shop->telegram;
+                    $whatsapp = $shop->whatsapp_number;
+
+                    $companyData = [
+                        'name' => $shop->name,
+                        'slug' => $shop->slug,
+                        'whatsapp' => $whatsapp,
+                        'logo' => $shop->logo_path ? (filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : asset('storage/'.$shop->logo_path)) : 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=1A1A1A&color=fff',
+                        'facebook' => $facebook,
+                        'instagram' => $instagram,
+                        'tiktok' => $tiktok,
+                        'x_twitter' => $x_twitter,
+                        'telegram' => $telegram,
+                        'colors' => [
+                            'primary' => $shop->color_primary ?? '#8B5CF6',
+                            'secondary' => $shop->color_secondary ?? '#0a051d',
+                            'bg_light' => $shop->color_background ?? '#0b0f19',
+                        ]
+                    ];
+
+                    return response()->view('store.closed', ['company' => $companyData]);
+                } else {
+                    // Es una ruta del panel administrativo
+                    // Compartir la variable global de desactivación
+                    \Illuminate\Support\Facades\View::share('shopIsInactive', true);
+
+                    // Si es una petición de modificación (POST, PUT, DELETE, PATCH), bloquearla!
+                    if (in_array($request->method(), ['POST', 'PUT', 'PATCH', 'DELETE'])) {
+                        return redirect()->back()->with('error', 'Esta tienda está temporalmente desactivada. No se permite realizar modificaciones en el sistema.');
+                    }
+                }
+            }
+
             // Auto-login de desarrollo para poder probar el panel de administración localmente de la tienda demo
             if (app()->environment('local') && !app()->runningInConsole() && !\Illuminate\Support\Facades\Auth::check()) {
                 if ($shop->slug === 'demo' && ($request->is('*/admin*') || $request->routeIs('admin.*'))) {
@@ -98,6 +149,10 @@ class IdentifyTenant
                 'google_maps_link' => $shop->google_maps_link,
                 'work_hours' => $shop->work_hours,
                 'base_currency' => $shop->base_currency,
+                'has_dine_in' => $shop->has_dine_in,
+                'has_pickup' => $shop->has_pickup,
+                'has_delivery' => $shop->has_delivery,
+                'amenities' => $shop->amenities ?? [],
                 'delivery_rate_per_km' => $shop->delivery_rate_per_km,
                 'latitude' => $shop->latitude,
                 'longitude' => $shop->longitude,

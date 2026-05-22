@@ -16,11 +16,17 @@ class Shop extends Model
         'google_maps_link', 'work_hours', 'base_currency', 'plan',
         'delivery_rate_per_km', 'latitude', 'longitude',
         'facebook', 'instagram', 'tiktok', 'x_twitter',
-        'contact_phone', 'contact_sms', 'telegram'
+        'contact_phone', 'contact_sms', 'telegram', 'is_active',
+        'has_dine_in', 'has_pickup', 'has_delivery', 'amenities'
     ];
 
     protected $casts = [
         'work_hours' => 'array',
+        'is_active' => 'boolean',
+        'has_dine_in' => 'boolean',
+        'has_pickup' => 'boolean',
+        'has_delivery' => 'boolean',
+        'amenities' => 'array',
     ];
 
     public function categories()

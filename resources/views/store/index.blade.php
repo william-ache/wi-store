@@ -102,6 +102,19 @@
             animation: shine 0.8s ease-in-out;
         }
 
+        @keyframes bcv-shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .animate-bcv-shimmer {
+            animation: bcv-shimmer 3.5s infinite;
+        }
+
         /* Daltonism Filter Classes */
         .daltonism-protanopia {
             filter: url(#protanopia);
@@ -340,6 +353,26 @@
         $cleanExchangeRate = str_replace(',', '.', $cleanExchangeRate);
         $exchangeRateFloat = (float) preg_replace('/[^0-9.]/', '', $cleanExchangeRate);
 
+        // Pre-calculate company initials for avatar fallbacks
+        $words = explode(' ', trim($company['name'] ?? ''));
+        $initials = '';
+        if (count($words) >= 2) {
+            $initials = mb_substr($words[0], 0, 1) . mb_substr($words[1], 0, 1);
+        } elseif (count($words) == 1 && !empty($words[0])) {
+            $initials = mb_substr($words[0], 0, 2);
+        }
+        $initials = mb_strtoupper($initials ?: 'WD');
+
+        // Pre-calculate subscription plan details
+        $companyPlanKey = strtolower(trim($company['plan'] ?? ($company['subscription_plan'] ?? '')));
+        if ($companyPlanKey === 'standar') {
+            $companyPlanKey = 'standard';
+        }
+        if (empty($companyPlanKey)) {
+            $companyPlanKey = 'prueba gratuita';
+        }
+        $isPremiumPlan = in_array($companyPlanKey, ['premium', 'premiun', 'gold']);
+
         /**
          * Extrae y valida la configuración de badge desde el campo features del producto.
          * Estructura: features.badge = { text, bgColor, icon, position }
@@ -366,10 +399,29 @@
     <div id="app-loader"
         class="fixed inset-0 bg-white flex flex-col justify-center items-center z-[9999] transition-opacity duration-500">
         <div class="relative w-24 h-24 flex justify-center items-center mb-2">
-            <div class="absolute inset-0 border-4 border-slate-100 rounded-full animate-spin"
-                style="border-top-color: var(--color-primary);"></div>
-            <div class="w-20 h-20 rounded-full bg-slate-200 flex items-center justify-center text-slate-400 text-xs font-bold shadow-sm animate-pulse">
-                Logo
+            @if ($isPremiumPlan)
+                <div class="absolute -top-7 left-1/2 z-40 pointer-events-none float-crown-animation flex items-center justify-center">
+                    <i class="fas fa-crown text-[22px] text-gold-gradient filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"></i>
+                    <span class="absolute w-1.5 h-1.5 rounded-full bg-white animate-ping opacity-75" style="top: 1px;"></span>
+                </div>
+            @endif
+            <div class="absolute inset-0 border-4 {{ $isPremiumPlan ? 'border-yellow-100/50' : 'border-slate-100' }} rounded-full animate-spin"
+                style="border-top-color: {{ $isPremiumPlan ? '#F59E0B' : 'var(--color-primary)' }};"></div>
+            <div class="w-20 h-20 rounded-full {{ $isPremiumPlan ? 'premium-border-glow border-2 border-yellow-400 shadow-[0_0_15px_rgba(251,191,36,0.5)] bg-white' : 'bg-slate-200 text-slate-400 shadow-sm' }} overflow-hidden flex items-center justify-center text-xs font-bold relative z-10">
+                @if (!empty($company['logo']))
+                    <img src="{{ $company['logo'] }}" alt="Logo" class="w-full h-full object-cover" 
+                         id="loader-logo-img"
+                         onerror="this.style.display='none'; document.getElementById('loader-logo-fallback').classList.remove('hidden');">
+                    <div id="loader-logo-fallback" class="hidden w-full h-full text-white flex items-center justify-center text-lg font-black tracking-wider"
+                         style="background-color: var(--color-primary);">
+                        {{ $initials }}
+                    </div>
+                @else
+                    <div class="w-full h-full text-white flex items-center justify-center text-lg font-black tracking-wider"
+                         style="background-color: var(--color-primary);">
+                        {{ $initials }}
+                    </div>
+                @endif
             </div>
         </div>
         <span class="mt-4 text-xs font-semibold tracking-wider text-slate-400 uppercase">Cargando Menú...</span>
@@ -397,25 +449,7 @@
                     <!-- Se redujo el border-radius, se quitó el shadow gigante y backdrop-blur para hacerlo más sutil -->
                     <div
                         class="relative bg-white/95 backdrop-blur-xl border border-white/40 rounded-2xl p-6 shadow-lg text-center mt-0">
-                        @php
-                            $words = explode(' ', trim($company['name'] ?? ''));
-                            $initials = '';
-                            if (count($words) >= 2) {
-                                $initials = mb_substr($words[0], 0, 1) . mb_substr($words[1], 0, 1);
-                            } elseif (count($words) == 1 && !empty($words[0])) {
-                                $initials = mb_substr($words[0], 0, 2);
-                            }
-                            $initials = mb_strtoupper($initials ?: 'WD');
 
-                            $companyPlanKey = strtolower(trim($company['plan'] ?? ($company['subscription_plan'] ?? '')));
-                            if ($companyPlanKey === 'standar') {
-                                $companyPlanKey = 'standard';
-                            }
-                            if (empty($companyPlanKey)) {
-                                $companyPlanKey = 'prueba gratuita';
-                            }
-                            $isPremiumPlan = in_array($companyPlanKey, ['premium', 'premiun', 'gold']);
-                        @endphp
                         
                         @if ($isPremiumPlan)
                             <div class="absolute -top-20 left-1/2 z-40 pointer-events-none float-crown-animation flex items-center justify-center">
@@ -537,21 +571,67 @@
                                 </button>
 
                                 <!-- CURRENT BRANCH BADGE -->
-                                @if (!empty($company['google_maps_link']))
-                                    <a href="{{ $company['google_maps_link'] }}" target="_blank"
-                                        rel="noreferrer noopener"
-                                        class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100 flex items-center gap-1 hover:bg-blue-100 transition shadow-sm">
-                                        <i class="fas fa-store text-blue-500 text-[10px]"></i> Sede:
-                                        {{ $company['name'] }}
-                                    </a>
-                                @else
-                                    <span
-                                        class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100 flex items-center gap-1 transition shadow-sm opacity-80">
-                                        <i class="fas fa-store text-blue-500 text-[10px]"></i> Sede:
-                                        {{ $company['name'] }}
-                                    </span>
-                                @endif
+                                <button @click="showBranchesModal = true"
+                                    class="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1 rounded-full border border-blue-100 flex items-center gap-1 hover:scale-105 active:scale-95 transition-all duration-200 shadow-sm select-none">
+                                    <i class="fas fa-store text-blue-500 text-[10px]"></i> Sede:
+                                    {{ $company['name'] }}
+                                </button>
                             </div>
+
+                            <!-- DYNAMIC AMENITIES BADGES -->
+                            @if (!empty($company['amenities']))
+                                @php
+                                    $activeAmenities = [];
+                                    $allPossibleAmenities = [
+                                        'wifi' => [
+                                            'label' => 'Wi-Fi',
+                                            'icon' => 'fas fa-wifi',
+                                            'bg' => 'bg-blue-50/90 text-blue-700 border-blue-100/60 shadow-[0_1px_2px_rgba(59,130,246,0.05)] dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900/30',
+                                            'iconColor' => 'text-blue-500 dark:text-blue-400'
+                                        ],
+                                        'parking' => [
+                                            'label' => 'Estacionamiento',
+                                            'icon' => 'fas fa-parking',
+                                            'bg' => 'bg-emerald-50/90 text-emerald-700 border-emerald-100/60 shadow-[0_1px_2px_rgba(16,185,129,0.05)] dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30',
+                                            'iconColor' => 'text-emerald-500 dark:text-emerald-400'
+                                        ],
+                                        'restrooms' => [
+                                            'label' => 'Baños públicos',
+                                            'icon' => 'fas fa-restroom',
+                                            'bg' => 'bg-teal-50/90 text-teal-700 border-teal-100/60 shadow-[0_1px_2px_rgba(20,184,166,0.05)] dark:bg-teal-950/20 dark:text-teal-400 dark:border-teal-900/30',
+                                            'iconColor' => 'text-teal-500 dark:text-teal-400'
+                                        ],
+                                        'pet_friendly' => [
+                                            'label' => 'Pet Friendly',
+                                            'icon' => 'fas fa-paw',
+                                            'bg' => 'bg-indigo-50/90 text-indigo-700 border-indigo-100/60 shadow-[0_1px_2px_rgba(99,102,241,0.05)] dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-900/30',
+                                            'iconColor' => 'text-indigo-500 dark:text-indigo-400'
+                                        ],
+                                        'kids_menu' => [
+                                            'label' => 'Menú Niños',
+                                            'icon' => 'fas fa-child',
+                                            'bg' => 'bg-rose-50/90 text-rose-700 border-rose-100/60 shadow-[0_1px_2px_rgba(244,63,94,0.05)] dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900/30',
+                                            'iconColor' => 'text-rose-500 dark:text-rose-400'
+                                        ],
+                                        'reservations' => [
+                                            'label' => 'Reservas',
+                                            'icon' => 'fas fa-calendar-alt',
+                                            'bg' => 'bg-amber-50/90 text-amber-700 border-amber-100/60 shadow-[0_1px_2px_rgba(245,158,11,0.05)] dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/30',
+                                            'iconColor' => 'text-amber-500 dark:text-amber-400'
+                                        ],
+                                    ];
+
+                                    foreach ($company['amenities'] as $key => $amenityData) {
+                                        if (isset($amenityData['enabled']) && ($amenityData['enabled'] === '1' || $amenityData['enabled'] === 1 || $amenityData['enabled'] === true || $amenityData['enabled'] === 'true')) {
+                                            if (isset($allPossibleAmenities[$key])) {
+                                                $activeAmenities[$key] = array_merge($allPossibleAmenities[$key], [
+                                                    'val' => $amenityData['value'] ?? ''
+                                                ]);
+                                            }
+                                        }
+                                    }
+                                @endphp
+                            @endif
 
                             <p class="text-sm text-slate-600 mt-4 leading-relaxed">
                                 {{ $company['description'] ?: '¡Haz tu pedido en línea de forma rápida y sencilla!' }}
@@ -706,7 +786,6 @@
                                      @endif
                                  </div>
                              @endif
-
                             <!-- MÉTODOS DE PAGO -->
                             @php
                                 $methodColors = [
@@ -720,18 +799,82 @@
                                         'bg-indigo-500 hover:bg-indigo-600 text-white border-indigo-500',
                                 ];
                             @endphp
+
                             <!-- TASA MONETARIA -->
                             @if (!empty($company['exchange_rate']))
-                                <div
-                                    class="mt-6 w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 flex flex-col items-center">
-                                    <span
-                                        class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-0.5">Tasa
-                                        Monetaria</span>
-                                    <span
-                                        class="text-lg font-black text-slate-800">{{ $company['exchange_rate'] }}</span>
+                                @php
+                                    $currencyLabel = (isset($company['base_currency']) && strtoupper($company['base_currency']) === 'EUR') ? 'EUR' : 'USD';
+                                @endphp
+                                <div class="mt-4 w-full max-w-[280px] mx-auto bg-gradient-to-br from-[#5A6370] to-[#3B424D] text-white border border-[#374151]/55 rounded-2xl px-4 py-3 flex flex-col items-center relative overflow-hidden transition-all duration-300 hover:shadow-lg select-none"
+                                     style="box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 8px 20px -6px rgba(0, 0, 0, 0.2);">
+                                    <!-- Decorative light reflection shimmer effect -->
+                                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-bcv-shimmer pointer-events-none"></div>
+                                    
+                                    <!-- Large subtle background watermark -->
+                                    <div class="absolute -left-4 -bottom-4 w-24 h-24 opacity-[0.05] text-white pointer-events-none select-none transform rotate-12">
+                                        <svg viewBox="0 0 100 100" class="w-full h-full" fill="currentColor">
+                                            <!-- Concentric outer circles -->
+                                            <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                                            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="0.8"/>
+                                            
+                                            <!-- 32 detailed segments rotated -->
+                                            @for ($i = 0; $i < 32; $i++)
+                                                <use href="#bcv-seal-segment" transform="rotate({{ $i * 11.25 }} 50 50)" />
+                                            @endfor
+                                            
+                                            <!-- Solid central circle -->
+                                            <circle cx="50" cy="50" r="25.5" fill="currentColor" stroke="white" stroke-width="0.8"/>
+                                            
+                                            <!-- Inner banner box for BCV letters -->
+                                            <rect x="23" y="38" width="54" height="24" fill="currentColor" stroke="white" stroke-width="1.5" rx="1.5"/>
+                                            <text x="50" y="55.5" font-family="'Georgia', 'Times New Roman', serif" font-weight="900" font-size="16" fill="white" text-anchor="middle" letter-spacing="1">BCV</text>
+                                        </svg>
+                                    </div>
+
+                                    <!-- Official Seal Stamp (Esquina Superior Derecha) -->
+                                    <div class="absolute top-2 right-2 w-[38px] h-[38px] bg-white/90 backdrop-blur-md rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.15)] border border-slate-200/40 flex items-center justify-center transform -rotate-12 hover:rotate-0 hover:scale-105 active:scale-95 transition-all duration-300 pointer-events-auto cursor-pointer"
+                                         title="Tasa Oficial del Banco Central de Venezuela">
+                                         <svg viewBox="0 0 100 100" class="w-[30px] h-[30px] text-slate-800" fill="currentColor">
+                                             <defs>
+                                                 <g id="bcv-seal-segment">
+                                                     <path d="M 50,5.5 L 47.8,10.2 L 52.2,10.2 Z" fill="currentColor"/>
+                                                     <path d="M 50,11.5 L 44,17.2 L 46.2,19.2 L 50,15.6 L 53.8,19.2 L 56,17.2 Z" fill="currentColor"/>
+                                                     <path d="M 49.3,10 L 50.7,10 L 50.7,24.5 L 49.3,24.5 Z" fill="currentColor"/>
+                                                     <path d="M 50,16.5 L 45.2,21.3 L 47,23.1 L 50,20.1 L 53,23.1 L 54.8,21.3 Z" fill="currentColor"/>
+                                                     <path d="M 50,21.5 L 48.2,24.2 L 51.8,24.2 Z" fill="currentColor"/>
+                                                 </g>
+                                             </defs>
+                                             <!-- Concentric outer circles -->
+                                             <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                                             <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="0.8"/>
+                                             
+                                             <!-- 32 detailed segments rotated -->
+                                             @for ($i = 0; $i < 32; $i++)
+                                                 <use href="#bcv-seal-segment" transform="rotate({{ $i * 11.25 }} 50 50)" />
+                                             @endfor
+                                             
+                                             <!-- Solid central circle -->
+                                             <circle cx="50" cy="50" r="25.5" fill="currentColor" stroke="white" stroke-width="0.8"/>
+                                             
+                                             <!-- Inner banner box for BCV letters -->
+                                             <rect x="23" y="38" width="54" height="24" fill="currentColor" stroke="white" stroke-width="1.5" rx="1.5"/>
+                                             <text x="50" y="55.5" font-family="'Georgia', 'Times New Roman', serif" font-weight="900" font-size="16" fill="white" text-anchor="middle" letter-spacing="1">BCV</text>
+                                         </svg>
+                                    </div>
+                                    
+                                    <span class="text-[#A2ACBC] text-[9.5px] font-black uppercase tracking-[0.15em] mb-1 select-none pr-8">
+                                        Tasa Oficial BCV ({{ $currencyLabel }})
+                                    </span>
+                                    
+                                    <span class="text-xl md:text-2xl font-black text-white tracking-tight mb-1 select-none pr-8">
+                                        {{ $company['exchange_rate'] }}
+                                    </span>
+
                                     @if (!empty($company['exchange_updated_at']))
-                                        <span class="text-[9px] text-slate-400 font-semibold mt-0.5">Actualizado:
-                                            {{ $company['exchange_updated_at'] }}</span>
+                                        <div class="text-[#96A4B6] text-[9.5px] font-semibold flex items-center justify-center gap-1 mt-0.5 select-none w-full border-t border-white/5 pt-1.5">
+                                            <i class="far fa-clock text-[9px] text-[#8A95A5]"></i>
+                                            <span>Actualizado: {{ $company['exchange_updated_at'] }}</span>
+                                        </div>
                                     @endif
                                 </div>
                             @endif
@@ -746,7 +889,7 @@
                                     :disabled="!hasPaymentMethodsConfigured"
                                     class="font-extrabold py-3 px-4 rounded-2xl text-[11px] flex items-center justify-center gap-2 transition shadow-md active:scale-95 select-none border border-slate-700/30">
                                     <i class="fas fa-wallet text-xs"></i>
-                                    <span>Ver Métodos de Pago</span>
+                                    <span>Métodos de Pago</span>
                                     <span
                                         class="bg-white/20 text-white text-[9px] px-2 py-0.5 rounded-full font-black ml-1 shadow-sm">{{ count($activePaymentMethods) }}</span>
                                 </button>
@@ -757,20 +900,40 @@
                                 <button @click="showSchedulesModal = true"
                                     class="w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm">
                                     <i class="far fa-clock"></i> <span>Horarios</span>
+                                    <span x-show="hasScheduleInfo"
+                                        class="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm">
+                                        <span x-text="getOpenDaysCount()"></span>
+                                    </span>
                                 </button>
                                 <button @click="showBranchesModal = true"
                                     class="w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm">
                                     <i class="fas fa-store"></i> <span>Sucursales</span>
+                                    <span class="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm">
+                                        {{ count($branches) }}
+                                    </span>
                                 </button>
                             </div>
-                            <button @click="showReviewsModal = true"
-                                class="mt-2 w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition active:scale-95 shadow-sm">
-                                <i class="fas fa-comment-dots"></i>
-                                <span>Ver Opiniones</span>
-                                <span
-                                    class="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm"
-                                    x-text="totalReviewsCount">{{ $reviews->count() }}</span>
-                            </button>
+                            <div class="mt-2 grid {{ (($company['has_dine_in'] ?? true) || ($company['has_pickup'] ?? true) || ($company['has_delivery'] ?? true)) ? 'grid-cols-2' : 'grid-cols-1' }} gap-2">
+                                @if (($company['has_dine_in'] ?? true) || ($company['has_pickup'] ?? true) || ($company['has_delivery'] ?? true))
+                                    <button @click="showServiceTypesModal = true"
+                                        class="w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition active:scale-95 shadow-sm">
+                                        <i class="fas fa-concierge-bell"></i>
+                                        <span>Servicios</span>
+                                        <span
+                                            class="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm">
+                                            {{ (($company['has_dine_in'] ?? true) ? 1 : 0) + (($company['has_pickup'] ?? true) ? 1 : 0) + (($company['has_delivery'] ?? true) ? 1 : 0) }}
+                                        </span>
+                                    </button>
+                                @endif
+                                <button @click="showReviewsModal = true"
+                                    class="w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition active:scale-95 shadow-sm">
+                                    <i class="fas fa-comment-dots"></i>
+                                    <span>Opiniones</span>
+                                    <span
+                                        class="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm"
+                                        x-text="totalReviewsCount">{{ $reviews->count() }}</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -806,7 +969,7 @@
                                             'text-slate-400 group-hover:text-slate-600'"></i>
 
                                     <span
-                                        class="absolute -top-1 -right-1 text-[8px] md:text-[9px] font-black text-white px-1 py-0.5 min-w-[16px] h-[16px] rounded-full border border-white shadow-sm flex items-center justify-center transition-all duration-300"
+                                        class="absolute -top-1 -right-1 text-[8px] md:text-[9px] font-black text-white px-1.5 py-0.5 min-w-[18px] h-[18px] rounded-full border border-white shadow-sm flex items-center justify-center transition-all duration-300"
                                         style="background-color: var(--color-primary);">
                                         {{ $categories->sum(fn($c) => $c->products->count()) }}
                                     </span>
@@ -842,7 +1005,7 @@
                                                     'text-slate-400 group-hover:text-slate-600'"></i>
 
                                             <span
-                                                class="absolute -top-1 -right-1 text-[8px] md:text-[9px] font-black text-white px-1 py-0.5 min-w-[16px] h-[16px] rounded-full border border-white shadow-sm flex items-center justify-center transition-all duration-300"
+                                                class="absolute -top-1 -right-1 text-[8px] md:text-[9px] font-black text-white px-1.5 py-0.5 min-w-[18px] h-[18px] rounded-full border border-white shadow-sm flex items-center justify-center transition-all duration-300"
                                                 style="background-color: {{ $color }};">
                                                 {{ $prodCount }}
                                             </span>
@@ -1699,34 +1862,38 @@
         x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-50" style="display: none;">
-        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-white">
-            <h2 class="text-xl font-black text-slate-800">Horarios de Atención</h2>
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center text-white shadow-sm shrink-0"
+            style="background-color: var(--color-primary);">
+            <div class="flex items-center gap-2.5">
+                <i class="far fa-clock text-lg"></i>
+                <h2 class="text-xl font-black tracking-tight">Horarios de Atención</h2>
+            </div>
             <button @click="showSchedulesModal = false"
-                class="text-slate-400 hover:text-rose-500 w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 transition"><i
-                    class="fas fa-times"></i></button>
+                class="text-white/80 hover:text-white hover:bg-white/10 w-9 h-9 flex items-center justify-center rounded-full transition active:scale-95"><i
+                    class="fas fa-times text-lg"></i></button>
         </div>
         <div class="p-6 overflow-y-auto bg-slate-50 space-y-2.5 scrollbar-none">
-            <!-- Si es tipo simple, mostrar una tarjeta elegante con el texto simple -->
-            <template x-if="workHours && workHours.type === 'simple'">
+            <!-- Si no tiene un horario configurado -->
+            <template x-if="!hasScheduleInfo">
                 <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center">
-                    <i class="far fa-clock text-[var(--color-primary)] text-3xl mb-3 block"></i>
-                    <p class="text-sm font-bold text-slate-700 leading-relaxed"
-                        x-text="workHours.text || 'Horario configurado'"></p>
-                </div>
-            </template>
-
-            <!-- Si es tipo custom, mostrar mensaje indicativo -->
-            <template x-if="workHours && workHours.type === 'custom'">
-                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center">
-                    <i class="far fa-clock text-[var(--color-primary)] text-3xl mb-3 block"></i>
+                    <i class="far fa-clock text-rose-500 text-3xl mb-3 block"></i>
                     <p class="text-sm font-bold text-slate-700 leading-relaxed">
-                        Horario personalizado configurado
+                        Horario no configurado
                     </p>
                 </div>
             </template>
 
-            <!-- Siempre mostrar la lista semanal de horarios -->
-            <div class="space-y-2.5">
+            <!-- Si es tipo simple y tiene un texto personalizado (que no sea genérico de "horario configurado"), mostrarlo -->
+            <template x-if="workHours && workHours.type === 'simple' && workHours.text && workHours.text !== 'Horario configurado' && workHours.text !== 'Horario personalizado configurado'">
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center">
+                    <i class="far fa-clock text-[var(--color-primary)] text-3xl mb-3 block"></i>
+                    <p class="text-sm font-bold text-slate-700 leading-relaxed"
+                        x-text="workHours.text"></p>
+                </div>
+            </template>
+
+            <!-- Mostrar la lista semanal de horarios solo si tiene un horario configurado -->
+            <div class="space-y-2.5" x-show="hasScheduleInfo">
                 <template x-for="day in ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']"
                     :key="day">
                     <div class="flex justify-between items-center px-4 py-3 rounded-xl border shadow-sm"
@@ -1754,6 +1921,93 @@
         </div>
     </div>
 
+    <!-- SERVICES MODAL -->
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[1000]" x-show="showServicesModal"
+        @click="showServicesModal = false" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" style="display: none;"></div>
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-3xl shadow-2xl z-[1001] max-h-[90vh] flex flex-col overflow-hidden origin-top md:origin-left"
+        x-show="showServicesModal" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-50" style="display: none;">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center text-white shadow-sm shrink-0"
+            style="background-color: var(--color-primary);">
+            <div class="flex items-center gap-2.5">
+                <i class="fas fa-concierge-bell text-lg"></i>
+                <h2 class="text-xl font-black tracking-tight">Servicios & Comodidades</h2>
+            </div>
+            <button @click="showServicesModal = false"
+                class="text-white/80 hover:text-white hover:bg-white/10 w-9 h-9 flex items-center justify-center rounded-full transition active:scale-95"><i
+                    class="fas fa-times text-lg"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto bg-slate-50 space-y-2.5 scrollbar-none">
+            <template x-if="services && services.length > 0">
+                <div class="grid grid-cols-2 gap-3">
+                    <template x-for="service in services" :key="service.label">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center gap-2 text-center transition-transform duration-300 hover:scale-[1.02]"
+                             :class="service.bg">
+                            <i :class="service.icon + ' ' + service.iconColor" class="text-2xl"></i>
+                            <span class="text-xs font-bold" x-text="service.label"></span>
+                            <template x-if="service.val">
+                                <span class="text-[10px] font-bold opacity-90" x-text="service.val"></span>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template x-if="!services || services.length === 0">
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center">
+                    <i class="fas fa-concierge-bell text-slate-300 text-3xl mb-3 block"></i>
+                    <p class="text-sm font-bold text-slate-500">No hay servicios disponibles</p>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- SERVICE TYPES MODAL -->
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[1000]" x-show="showServiceTypesModal"
+        @click="showServiceTypesModal = false" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" style="display: none;"></div>
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-3xl shadow-2xl z-[1001] max-h-[90vh] flex flex-col overflow-hidden origin-top md:origin-left"
+        x-show="showServiceTypesModal" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-50" style="display: none;">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center text-white shadow-sm shrink-0"
+            style="background-color: var(--color-primary);">
+            <div class="flex items-center gap-2.5">
+                <i class="fas fa-concierge-bell text-lg"></i>
+                <h2 class="text-xl font-black tracking-tight">Tipos de Servicio</h2>
+            </div>
+            <button @click="showServiceTypesModal = false"
+                class="text-white/80 hover:text-white hover:bg-white/10 w-9 h-9 flex items-center justify-center rounded-full transition active:scale-95"><i
+                    class="fas fa-times text-lg"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto bg-slate-50 space-y-2.5 scrollbar-none">
+            <template x-if="serviceTypes && serviceTypes.length > 0">
+                <div class="grid grid-cols-1 gap-3">
+                    <template x-for="serviceType in serviceTypes" :key="serviceType.key">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02]"
+                             :class="serviceType.bg">
+                            <i :class="serviceType.icon + ' ' + serviceType.iconColor" class="text-2xl"></i>
+                            <span class="text-sm font-bold" x-text="serviceType.label"></span>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template x-if="!serviceTypes || serviceTypes.length === 0">
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center">
+                    <i class="fas fa-concierge-bell text-slate-300 text-3xl mb-3 block"></i>
+                    <p class="text-sm font-bold text-slate-500">No hay servicios disponibles</p>
+                </div>
+            </template>
+        </div>
+    </div>
+
     <!-- BRANCHES MODAL -->
     <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[1000]" x-show="showBranchesModal"
         @click="showBranchesModal = false" x-transition:enter="transition ease-out duration-300"
@@ -1765,11 +2019,15 @@
         x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-50" style="display: none;">
-        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-white">
-            <h2 class="text-xl font-black text-slate-800">Nuestras Sucursales</h2>
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center text-white shadow-sm shrink-0"
+            style="background-color: var(--color-primary);">
+            <div class="flex items-center gap-2.5">
+                <i class="fas fa-store text-lg"></i>
+                <h2 class="text-xl font-black tracking-tight">Nuestras Sucursales</h2>
+            </div>
             <button @click="showBranchesModal = false"
-                class="text-slate-400 hover:text-rose-500 w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 transition"><i
-                    class="fas fa-times"></i></button>
+                class="text-white/80 hover:text-white hover:bg-white/10 w-9 h-9 flex items-center justify-center rounded-full transition active:scale-95"><i
+                    class="fas fa-times text-lg"></i></button>
         </div>
         <div class="p-6 overflow-y-auto bg-slate-50 space-y-4 scrollbar-none">
             @foreach ($branches as $branch)
@@ -2218,6 +2476,15 @@
                     x-text="modalProduct ? modalProduct.description : ''"></p>
             </div>
 
+            <!-- Preparation Time -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-2"
+                x-show="modalProduct">
+                <span class="text-base leading-none">⏱️</span>
+                <span class="text-xs font-black text-slate-800">Tiempo estimado de preparación:</span>
+                <span class="text-xs font-black text-slate-500 ml-auto"
+                    x-text="modalProduct && modalProduct.preparation_time ? modalProduct.preparation_time : '20-30 min'">20-30 min</span>
+            </div>
+
             <!-- Variants Selection Panels -->
             <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4" x-show="modalProduct">
                 <!-- COLORS SELECTOR -->
@@ -2391,6 +2658,8 @@
                 isCartOpen: false,
                 showReviewsModal: false,
                 showSchedulesModal: false,
+                showServicesModal: false,
+                showServiceTypesModal: false,
                 showBranchesModal: false,
                 showErrors: false,
                 activeCategory: 0,
@@ -2490,6 +2759,20 @@
                     }
                     return wh;
                 })(),
+
+                // Services data
+                services: (() => {
+                    return window.servicesData || [];
+                })(),
+
+                // Service types data
+                serviceTypes: (() => {
+                    return [
+                        { key: 'has_dine_in', label: 'Comer aquí', icon: 'fas fa-utensils', bg: 'bg-emerald-50/90 text-emerald-700 border-emerald-100/60', iconColor: 'text-emerald-500', enabled: @json($company['has_dine_in'] ?? true) },
+                        { key: 'has_pickup', label: 'Recoger', icon: 'fas fa-shopping-bag', bg: 'bg-amber-50/90 text-amber-700 border-amber-100/60', iconColor: 'text-amber-500', enabled: @json($company['has_pickup'] ?? true) },
+                        { key: 'has_delivery', label: 'Entrega a domicilio', icon: 'fas fa-motorcycle', bg: 'bg-blue-50/90 text-blue-700 border-blue-100/60', iconColor: 'text-blue-500', enabled: @json($company['has_delivery'] ?? true) }
+                    ].filter(s => s.enabled);
+                })(),
                 storeStatus: {
                     state: 'open',
                     label: 'Abierto',
@@ -2577,6 +2860,21 @@
 
                 formatTimeRange(open, close) {
                     return `${this.formatTime(open)} - ${this.formatTime(close)}`;
+                },
+
+                getOpenDaysCount() {
+                    if (!this.hasScheduleInfo) return 0;
+                    if (this.workHours && this.workHours.type === 'simple') {
+                        return 6;
+                    }
+                    const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+                    let count = 0;
+                    for (let day of days) {
+                        if (!this.getScheduleDay(day).closed) {
+                            count++;
+                        }
+                    }
+                    return count;
                 },
 
                 updateStoreStatus() {
