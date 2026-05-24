@@ -27,7 +27,66 @@ class BillingController extends Controller
             $rate = 40.00; // Sensible default fallback
         }
 
-        return view('admin.billing.expired', compact('shop', 'rate'));
+        // Read query parameter plan, fallback to pending_plan or premium
+        $defaultPlan = $request->query('plan', $shop->pending_plan ?: 'premium');
+
+        return view('admin.billing.expired', compact('shop', 'rate', 'defaultPlan'));
+    }
+
+    /**
+     * Show the active subscription status and usage panel.
+     */
+    public function subscription(Request $request)
+    {
+        $shop = config('current_shop');
+        if (!$shop) {
+            abort(404, 'Tienda no encontrada.');
+        }
+
+        // Count products and categories created in database
+        $productsCount = \App\Models\Product::where('shop_id', $shop->id)->count();
+        $categoriesCount = \App\Models\Category::where('shop_id', $shop->id)->count();
+
+        $plan = $shop->plan ?? 'free_trial';
+
+        // Plan details mapping
+        if ($plan === 'free_trial') {
+            $maxProducts = 25;
+            $maxCategories = 5;
+            $planName = 'Básico';
+            $planPrice = 'Bs 0/mes';
+        } elseif ($plan === 'standard') {
+            $maxProducts = 150;
+            $maxCategories = 15;
+            $planName = 'Pro';
+            $planPrice = 'Bs 220/mes';
+        } else {
+            $maxProducts = 'Ilimitados';
+            $maxCategories = 'Ilimitados';
+            $planName = 'Negocio';
+            $planPrice = 'Bs 400/mes';
+        }
+
+        // Expiration telemetry
+        $daysRemaining = 0;
+        if ($shop->plan_expires_at) {
+            $expiryDate = \Carbon\Carbon::parse($shop->plan_expires_at);
+            $now = \Carbon\Carbon::now();
+            if ($expiryDate->greaterThan($now)) {
+                $daysRemaining = (int) $now->diffInDays($expiryDate);
+            }
+        }
+
+        return view('admin.billing.subscription', compact(
+            'shop', 
+            'productsCount', 
+            'categoriesCount', 
+            'maxProducts', 
+            'maxCategories', 
+            'planName', 
+            'planPrice',
+            'daysRemaining'
+        ));
     }
 
     /**

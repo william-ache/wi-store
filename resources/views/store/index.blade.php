@@ -4065,6 +4065,7 @@
              </div>
         </div>
     @endif
+    @include('partials.public.chat')
 </body>
 
 </html>

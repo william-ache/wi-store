@@ -2417,6 +2417,7 @@
         </div>
     </footer>
 
+    @include('partials.public.chat')
 </body>
 
 </html>

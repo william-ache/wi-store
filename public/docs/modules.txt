@@ -1,0 +1,88 @@
+========================================================================
+             WISTORE - LISTADO COMPLETO DE MÓDULOS DEL SISTEMA
+========================================================================
+
+1. MÓDULOS DE OPERACIÓN COMERCIAL (ACTIVOS EN EL PANEL DE CONTROL)
+------------------------------------------------------------------------
+* Inicio (Dashboard):
+  - Métricas rápidas de facturación y volumen de ventas.
+  - Pedidos recientes y gráfico simplificado.
+  
+* Categorías:
+  - Creación y edición ilimitada de grupos de productos.
+  - Ordenamiento visual táctil y cambio rápido de estados.
+
+* Productos:
+  - Carga y actualización de productos con imágenes, precios base y alternativos.
+  - Gestión de variaciones complejas (color, talla, aditamentos).
+  - Banners destacados e insignias personalizadas.
+
+* Pedidos (Órdenes):
+  - Listado de ventas despachadas e inactivas.
+  - Control de estatus de despacho de pedidos.
+
+* Clientes:
+  - Directorio comercial e historial de compradores con enlace a WhatsApp.
+
+* Marketing (Anuncios):
+  - Creación de comunicados y noticias interactivos dentro de los catálogos.
+
+* Configuración:
+  - Datos del comercio (Logo, portada, dirección, redes sociales).
+  - Canales multi-contacto de WhatsApp y Telegram.
+  - Edición en tiempo real de los 3 tokens de colores principales de la marca.
+
+
+2. MÓDULOS DE ADMINISTRACIÓN Y SOPORTE (ACTIVOS EN LA RED PÚBLICA)
+------------------------------------------------------------------------
+* Suscripción:
+  - Información detallada del plan actual y facturas mensuales.
+  - Barras de progreso dinámicas con consumo de productos y categorías.
+
+* Feedback (Centro de Opinión):
+  - Envío estructurado de sugerencias, bugs o ideas.
+  - Contador dinámico de caracteres y selectores de prioridad.
+
+* Tutoriales del Sistema:
+  - Colección de videos explicativos integrados en la barra superior.
+  - Acordeón interactivo de Preguntas Frecuentes (FAQs) powered by AlpineJS.
+
+* Compartir QR:
+  - Generador de códigos QR dinámicos adaptados a los colores de tu marca.
+  - Botones rápidos para compartir en redes sociales o descargar en PNG.
+
+* Chat de Soporte Flotante:
+  - Botón flotante naranja con indicador "Online" en todas las vistas públicas.
+  - Chatbot interactivo integrado con respuestas a precios, registro y pagos.
+  - Enlaces de derivación inmediata a asesores de soporte en WhatsApp.
+
+
+3. MÓDULOS DE EXPANSION COMERCIAL (PRÓXIMAMENTE / COMING SOON)
+------------------------------------------------------------------------
+* Inventario:
+  - Control de stock físico en tiempo real, almacenes y avisos de stock crítico.
+
+* Empleados:
+  - Fichas de personal, perfiles, asignación de permisos de admin y turnos.
+
+* Proveedores:
+  - Listado de distribuidores de mercancía, órdenes de compra e importaciones.
+
+* Facturas (Invoices):
+  - Registro contable legal e historial detallado de facturación.
+
+* Finanzas:
+  - balances de flujo de caja, ingresos netos, egresos generales y balances.
+
+* Zonas & Delivery:
+  - Tarifas dinámicas por kilómetro (KM), rastreo y motorizados.
+
+* Analítica Comercial:
+  - Reporte diario de ventas avanzadas, tendencias y productos estrella.
+
+* Referidos:
+  - Red de promotores de tu marca, cupones compartidos y recompensas automáticas.
+
+========================================================================
+Creado por el equipo de ingeniería de Wydex (WIStore 2026)
+========================================================================

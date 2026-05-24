@@ -187,10 +187,12 @@ Route::middleware(['tenant'])->group(function () {
     Route::middleware(['auth'])->prefix('/{shop_slug}/admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/search', [App\Http\Controllers\Admin\DashboardController::class, 'search'])->name('search');
+        Route::get('/tutorials', [App\Http\Controllers\Admin\DashboardController::class, 'tutorials'])->name('tutorials');
         
         // Rutas de Facturación y Suscripción Expirada
         Route::get('/billing/expired', [App\Http\Controllers\Admin\BillingController::class, 'expired'])->name('billing.expired');
         Route::post('/billing/pay', [App\Http\Controllers\Admin\BillingController::class, 'submitPayment'])->name('billing.pay');
+        Route::get('/subscription', [App\Http\Controllers\Admin\BillingController::class, 'subscription'])->name('subscription');
         
         // Nuevo Wizard de Configuración de Módulos (Primer Ingreso)
         Route::get('/setup-modules', [ShopSettingsController::class, 'setupModulesForm'])->name('setup-modules');
@@ -214,5 +216,9 @@ Route::middleware(['tenant'])->group(function () {
         Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
         Route::resource('clients', App\Http\Controllers\Admin\ClientController::class);
         Route::resource('announcements', App\Http\Controllers\Admin\AnnouncementController::class);
+
+        // Rutas de Feedback de Usuario
+        Route::get('/feedback', [App\Http\Controllers\Admin\FeedbackController::class, 'index'])->name('feedback.index');
+        Route::post('/feedback', [App\Http\Controllers\Admin\FeedbackController::class, 'store'])->name('feedback.store');
     });
 });

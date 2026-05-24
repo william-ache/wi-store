@@ -58,7 +58,7 @@ class ShopSettingsController extends Controller
             'has_delivery' => 'nullable|boolean',
             'amenities' => 'nullable|array',
             'enabled_modules' => 'nullable|array',
-            'enabled_modules.*' => 'string|in:categories,products,orders,clients,announcements',
+            'enabled_modules.*' => 'string|in:categories,products,orders,clients,invoices,delivery,analytics,announcements,referrals',
         ]);
 
         $data = $request->only([
@@ -172,7 +172,7 @@ class ShopSettingsController extends Controller
 
         $request->validate([
             'enabled_modules' => 'nullable|array',
-            'enabled_modules.*' => 'string|in:categories,products,orders,clients,announcements',
+            'enabled_modules.*' => 'string|in:categories,products,orders,clients,invoices,delivery,analytics,announcements,referrals',
         ]);
 
         $modules = $request->input('enabled_modules', []);

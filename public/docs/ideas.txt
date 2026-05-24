@@ -1,0 +1,38 @@
+poner el progreso del consumo en productos y categorias, y el reduseño de KATALO
+
+en analiticca poner ventas y estadisticas 
+
+ceo de https://www.zenifi.app/
+
+poner varios estados en los pedidos, , pendiente, cobrado, entregado, en preparacion listo cancelado 
+
+cambiar analitica por reporte 
+
+integrar chat para soporte tecnico por parte nuestra hacia el usuario y que el usuario envie feedback y nosotros podamos responderle   
+
+incluird chat para poder hablar con el cliente desde el panel admin y ellos puedan responder desde su web en el footer hay un chat de widx para poder tener conversaciones con el cliente 
+
+poner un video en la ladgin que explique como inciar la prueba gratuita
+
+https://treinta.co/ muy  similar a lo que quiero y https://clarito.app/
+
+crear un mini bot guia 
+
+hacer un canal de whatsapp y telegran para mandar noticias y anuncios por ahi 
+
+Recordatorios de pago por SMS (EnvíaTuSMS) y correo electrónico (Resend, Postmark o SMTP)
+
+Escaneo inteligente de facturas de proveedores con Google Gemini: sube la factura y el sistema extrae los datos automáticamente
+
+Validador de pago móvil automático para Banco Venezolano de Crédito y Banco de Venezuela
+
+
+Cashea y Cashea Link: financiamiento en cuotas (QR en punto de venta o enlace de pago para el cliente)
+
+Importación y exportación Excel
+
+API REST con documentación completa
+Webhooks para eventos en tiempo real
+
+https://www.instagram.com/lovavzla/
+https://www.instagram.com/adsv.e/

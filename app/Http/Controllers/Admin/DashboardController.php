@@ -170,4 +170,17 @@ class DashboardController extends Controller
             ]
         ]);
     }
+
+    /**
+     * Display the system tutorials page.
+     */
+    public function tutorials()
+    {
+        $shop = config('current_shop');
+        if (!$shop) {
+            abort(404, 'Tienda no encontrada.');
+        }
+
+        return view('admin.tutorials', compact('shop'));
+    }
 }

@@ -251,5 +251,6 @@
         <p>© 2026 WIStore. Todos los derechos reservados.</p>
     </footer>
 
+    @include('partials.public.chat')
 </body>
 </html>

@@ -107,7 +107,7 @@
     <!-- MAIN BODY -->
     <main class="flex-grow flex items-center justify-center px-4 py-8 relative z-10" 
           x-data="{
-              plan: '{{ $shop->pending_plan ?: 'premium' }}',
+              plan: '{{ $defaultPlan }}',
               cycle: '{{ $shop->pending_billing_cycle ?: 'mensual' }}',
               exchangeRate: {{ $rate }},
               receiptPreview: null,
@@ -151,7 +151,8 @@
                 
                 <!-- SUSPENDED CARD -->
                 <div class="w-full bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
-                    <div class="absolute -top-20 -right-20 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="absolute -top-20 -right-20 w-48 h-48 rounded-full blur-2xl pointer-events-none transition-all duration-500"
+                         :class="plan === 'premium' ? 'bg-purple-500/10' : 'bg-sky-500/10'"></div>
                     
                     <div class="text-center mb-8 relative z-10">
                         <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 rounded-full px-5 py-2 mb-4 shadow-[0_0_25px_rgba(239,68,68,0.15)] animate-pulse">
@@ -264,7 +265,7 @@
                             <div class="bg-[#0f142e] border border-white/5 rounded-3xl p-5 shadow-inner">
                                 <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
                                     <h4 class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
-                                        <i class="fas fa-mobile-screen-button text-purple-400"></i>
+                                        <i class="fas fa-mobile-screen-button transition-colors duration-300" :class="plan === 'premium' ? 'text-purple-400' : 'text-sky-400'"></i>
                                         Pagar por Pago Móvil Banesco
                                     </h4>
                                     <span class="text-[10px] text-slate-450 font-bold uppercase tracking-wider">Monto Exacto</span>
@@ -295,9 +296,11 @@
                                     </div>
                                 </div>
 
-                                <div class="bg-purple-500/10 border border-purple-550/30 rounded-2xl p-4 flex justify-between items-center">
+                                <div class="rounded-2xl p-4 flex justify-between items-center border transition-all duration-300"
+                                     :class="plan === 'premium' ? 'bg-purple-500/10 border-purple-550/30' : 'bg-sky-500/10 border-sky-500/30'">
                                     <div>
-                                        <p class="text-[10px] text-purple-300 font-bold uppercase tracking-wider">Total a Pagar</p>
+                                        <p class="text-[10px] font-bold uppercase tracking-wider transition-colors duration-300"
+                                           :class="plan === 'premium' ? 'text-purple-300' : 'text-sky-300'">Total a Pagar</p>
                                         <p class="text-2xl font-black text-white mt-1">
                                             $<span x-text="planPrice.toFixed(2)"></span> <span class="text-[11px] font-normal text-slate-400">USD</span>
                                         </p>
@@ -334,7 +337,8 @@
                                         </span>
                                         <input type="text" id="payment_reference" name="payment_reference" required 
                                                placeholder="Ej: 58493022" value="{{ old('payment_reference') }}"
-                                               class="w-full bg-slate-800/80 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                                               class="w-full bg-slate-800/80 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 transition-all shadow-inner"
+                                               :class="plan === 'premium' ? 'focus:ring-purple-500/40' : 'focus:ring-sky-500/40'">
                                     </div>
                                     @error('payment_reference')
                                         <span class="text-[10px] text-rose-450 font-bold block pl-1 mt-1">{{ $message }}</span>
@@ -352,7 +356,8 @@
                                         </span>
                                         <input type="text" id="payment_company_name" name="payment_company_name" required 
                                                placeholder="Ej: Mi Comercio C.A." value="{{ old('payment_company_name', $shop->name) }}"
-                                               class="w-full bg-slate-800/80 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                                               class="w-full bg-slate-800/80 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 transition-all shadow-inner"
+                                               :class="plan === 'premium' ? 'focus:ring-purple-500/40' : 'focus:ring-sky-500/40'">
                                     </div>
                                     @error('payment_company_name')
                                         <span class="text-[10px] text-rose-450 font-bold block pl-1 mt-1">{{ $message }}</span>
@@ -370,7 +375,8 @@
                                         </span>
                                         <input type="email" id="payment_company_email" name="payment_company_email" required 
                                                placeholder="Ej: contacto@empresa.com" value="{{ old('payment_company_email', Auth::user()->email ?? '') }}"
-                                               class="w-full bg-slate-800/80 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                                               class="w-full bg-slate-800/80 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 transition-all shadow-inner"
+                                               :class="plan === 'premium' ? 'focus:ring-purple-500/40' : 'focus:ring-sky-500/40'">
                                     </div>
                                     @error('payment_company_email')
                                         <span class="text-[10px] text-rose-450 font-bold block pl-1 mt-1">{{ $message }}</span>
@@ -383,14 +389,16 @@
                                         Captura del Comprobante / Recibo
                                     </label>
                                     
-                                    <div class="relative border-2 border-dashed border-white/10 hover:border-purple-500/30 rounded-2xl p-6 transition-all bg-slate-900/10 flex flex-col items-center justify-center cursor-pointer group">
+                                    <div class="relative border-2 border-dashed border-white/10 rounded-2xl p-6 transition-all bg-slate-900/10 flex flex-col items-center justify-center cursor-pointer group"
+                                         :class="plan === 'premium' ? 'hover:border-purple-500/30' : 'hover:border-sky-500/30'">
                                         <input type="file" name="payment_receipt" id="payment_receipt" required accept="image/*"
                                                @change="previewImage"
                                                class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                         
                                         <!-- No preview -->
                                         <div x-show="!receiptPreview" class="text-center">
-                                            <i class="far fa-image text-2xl text-slate-500 group-hover:text-purple-400 transition-colors mb-2 block"></i>
+                                            <i class="far fa-image text-2xl text-slate-500 transition-colors mb-2 block group-hover:text-purple-400"
+                                               :class="plan === 'premium' ? 'group-hover:text-purple-400' : 'group-hover:text-sky-400'"></i>
                                             <span class="text-[11px] font-black text-slate-300 block mb-1">Cargar Comprobante</span>
                                             <span class="text-[9px] text-slate-500 block">Formatos: JPG, PNG • Máx 4MB</span>
                                         </div>
@@ -399,7 +407,8 @@
                                         <div x-show="receiptPreview" x-cloak class="w-full relative">
                                             <img :src="receiptPreview" class="max-h-[140px] w-auto mx-auto object-contain rounded-lg border border-white/10 shadow-lg">
                                             <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-lg transition-opacity duration-200">
-                                                <span class="text-[10px] font-black text-white uppercase tracking-wider bg-purple-600 px-3 py-1 rounded-full shadow-lg">
+                                                <span class="text-[10px] font-black text-white uppercase tracking-wider px-3 py-1 rounded-full shadow-lg"
+                                                      :class="plan === 'premium' ? 'bg-purple-600' : 'bg-sky-500'">
                                                     Cambiar Imagen
                                                 </span>
                                             </div>
@@ -418,7 +427,10 @@
                                 <input type="hidden" name="billing_cycle" :value="cycle">
 
                                 <button type="submit" 
-                                        class="block w-full text-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold py-4 rounded-2xl transition-all duration-300 text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(168,85,247,0.3)] active:scale-[0.98]">
+                                        class="block w-full text-center text-white font-extrabold py-4 rounded-2xl transition-all duration-300 text-xs uppercase tracking-widest active:scale-[0.98] border border-white/10"
+                                        :class="plan === 'premium' 
+                                            ? 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-[0_0_25px_rgba(168,85,247,0.3)]' 
+                                            : 'bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 shadow-[0_0_25px_rgba(14,165,233,0.3)]'">
                                     <i class="fas fa-file-invoice-dollar mr-2"></i> Reportar Pago Realizado
                                 </button>
                             </div>

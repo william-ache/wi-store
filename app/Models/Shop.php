@@ -26,7 +26,7 @@ class Shop extends Model
     ];
 
     protected $attributes = [
-        'enabled_modules' => '["categories", "products", "orders", "clients", "announcements"]',
+        'enabled_modules' => '["categories", "products", "orders", "clients", "invoices", "delivery", "analytics", "announcements", "referrals"]',
         'has_setup_modules' => false,
     ];
 

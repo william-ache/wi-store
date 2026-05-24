@@ -687,95 +687,161 @@
                         <span class="w-1.5 h-1.5 rounded-full bg-secondary/80"></span>Módulos del Menú Visibles
                     </h4>
                     
-                    <div class="space-y-2">
-                        @php
-                            $modules = $shop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'announcements'];
-                        @endphp
-                        
-                        <!-- Categorías -->
-                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
-                            <div class="flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
-                                    📦
-                                </span>
-                                <div>
-                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Categorías</div>
-                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Agrupador de productos</div>
-                                </div>
+                    @php
+                        $modules = $shop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'invoices', 'delivery', 'analytics', 'announcements', 'referrals'];
+                    @endphp
+                    
+                    <!-- Categorías -->
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                📦
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Categorías</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500">Agrupador de productos</div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer select-none">
-                                <input type="checkbox" name="enabled_modules[]" value="categories" class="sr-only peer" {{ in_array('categories', $modules) ? 'checked' : '' }}>
-                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
-                            </label>
                         </div>
+                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                            <input type="checkbox" name="enabled_modules[]" value="categories" class="sr-only peer" {{ in_array('categories', $modules) ? 'checked' : '' }}>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
 
-                        <!-- Productos -->
-                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
-                            <div class="flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
-                                    🍔
-                                </span>
-                                <div>
-                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Productos</div>
-                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Catálogo de productos</div>
-                                </div>
+                    <!-- Productos -->
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                🍔
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Productos</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500">Catálogo de productos</div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer select-none">
-                                <input type="checkbox" name="enabled_modules[]" value="products" class="sr-only peer" {{ in_array('products', $modules) ? 'checked' : '' }}>
-                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
-                            </label>
                         </div>
+                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                            <input type="checkbox" name="enabled_modules[]" value="products" class="sr-only peer" {{ in_array('products', $modules) ? 'checked' : '' }}>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
 
-                        <!-- Órdenes -->
-                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
-                            <div class="flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
-                                    📋
-                                </span>
-                                <div>
-                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Órdenes</div>
-                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Pedidos de clientes</div>
-                                </div>
+                    <!-- Pedidos -->
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                📋
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Pedidos</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500">Pedidos de clientes</div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer select-none">
-                                <input type="checkbox" name="enabled_modules[]" value="orders" class="sr-only peer" {{ in_array('orders', $modules) ? 'checked' : '' }}>
-                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
-                            </label>
                         </div>
+                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                            <input type="checkbox" name="enabled_modules[]" value="orders" class="sr-only peer" {{ in_array('orders', $modules) ? 'checked' : '' }}>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
 
-                        <!-- Clientes -->
-                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
-                            <div class="flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
-                                    👥
-                                </span>
-                                <div>
-                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Clientes</div>
-                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Base de datos de clientes</div>
-                                </div>
+                    <!-- Clientes -->
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                👥
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Clientes</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500">Base de datos de clientes</div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer select-none">
-                                <input type="checkbox" name="enabled_modules[]" value="clients" class="sr-only peer" {{ in_array('clients', $modules) ? 'checked' : '' }}>
-                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
-                            </label>
                         </div>
+                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                            <input type="checkbox" name="enabled_modules[]" value="clients" class="sr-only peer" {{ in_array('clients', $modules) ? 'checked' : '' }}>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
 
-                        <!-- Anuncios -->
-                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
-                            <div class="flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
-                                    📢
-                                </span>
-                                <div>
-                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Anuncios</div>
-                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Banners y avisos del menú</div>
-                                </div>
+                    <!-- Facturas -->
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                🧾
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Facturas</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500">Comprobantes y reportes de facturación</div>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer select-none">
-                                <input type="checkbox" name="enabled_modules[]" value="announcements" class="sr-only peer" {{ in_array('announcements', $modules) ? 'checked' : '' }}>
-                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
-                            </label>
                         </div>
+                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                            <input type="checkbox" name="enabled_modules[]" value="invoices" class="sr-only peer" {{ in_array('invoices', $modules) ? 'checked' : '' }}>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+
+                    <!-- Delivery -->
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                🛵
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Delivery</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500">Tarifas de envío y motorizados</div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                            <input type="checkbox" name="enabled_modules[]" value="delivery" class="sr-only peer" {{ in_array('delivery', $modules) ? 'checked' : '' }}>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+
+                    <!-- Analítica -->
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                📊
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Analítica</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500">Estadísticas y reportes de ventas</div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                            <input type="checkbox" name="enabled_modules[]" value="analytics" class="sr-only peer" {{ in_array('analytics', $modules) ? 'checked' : '' }}>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+
+                    <!-- Referidos -->
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                🔗
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Referidos</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500">Enlaces de recomendación y promotores</div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                            <input type="checkbox" name="enabled_modules[]" value="referrals" class="sr-only peer" {{ in_array('referrals', $modules) ? 'checked' : '' }}>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+
+                    <!-- Marketing -->
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                📢
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Marketing</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500">Banners y avisos del menú</div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer select-none">
+                            <input type="checkbox" name="enabled_modules[]" value="announcements" class="sr-only peer" {{ in_array('announcements', $modules) ? 'checked' : '' }}>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
                     </div>
                 </div>
             </div>

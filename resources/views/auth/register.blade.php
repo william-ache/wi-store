@@ -908,6 +908,7 @@
         </div>
     </div>
 
+    @include('partials.public.chat')
 </body>
 
 </html>

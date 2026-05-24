@@ -93,8 +93,24 @@
                         <span class="bg-white/10 dark:bg-white/5 border border-white/20 text-white text-[10px] uppercase font-black px-3.5 py-1.5 rounded-full tracking-wider shadow-inner hidden sm:inline-block">
                             Modo de Lectura
                         </span>
-                        <a href="/{{ config('current_shop')->slug }}/admin/billing/expired" class="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs font-black px-4 py-2.5 rounded-xl tracking-wider shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-1.5 shrink-0">
-                            Comprar Plan 💎
+                        @php
+                            $plan = config('current_shop')->plan ?? 'free_trial';
+                            if ($plan === 'premium') {
+                                $btnGradient = 'from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.3)]';
+                                $planBadge = 'Activar Premium 👑';
+                            } elseif ($plan === 'standard') {
+                                $btnGradient = 'from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-white shadow-[0_0_20px_rgba(14,165,233,0.3)]';
+                                $planBadge = 'Activar Standard ⚡';
+                            } elseif ($plan === 'free_trial') {
+                                $btnGradient = 'from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 shadow-[0_0_20px_rgba(16,185,129,0.3)]';
+                                $planBadge = 'Comprar Plan 🎁';
+                            } else {
+                                $btnGradient = 'from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 shadow-[0_0_20px_rgba(245,158,11,0.3)]';
+                                $planBadge = 'Comprar Plan 💎';
+                            }
+                        @endphp
+                        <a href="/{{ config('current_shop')->slug }}/admin/billing/expired" class="bg-gradient-to-r {{ $btnGradient }} text-xs font-black px-4 py-2.5 rounded-xl tracking-wider shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-1.5 shrink-0 border border-white/10">
+                            {{ $planBadge }}
                         </a>
                     </div>
                 </div>
@@ -116,6 +132,9 @@
 
     <!-- Print Preview Overlay Modal -->
     @include('modals.admin.print-preview')
+
+    <!-- Modal Compartir Catálogo (QR) -->
+    @include('modals.admin.share-qr')
 
     <!-- Common Layout AlpineJS and Excel export scripts -->
     @include('partials.admin.scripts')

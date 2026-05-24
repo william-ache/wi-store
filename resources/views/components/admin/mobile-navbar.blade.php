@@ -20,18 +20,18 @@
             <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Productos</span>
         </a>
         @endif
-        @if(in_array('orders', $currentShop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'announcements']))
+        @if(in_array('orders', $currentShop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'invoices', 'delivery', 'analytics', 'announcements', 'referrals']))
         <a href="/{{ config('current_shop')->slug }}/admin/orders" 
            class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition {{ request()->is('*/admin/orders*') ? 'text-white font-black active:scale-95 bg-white/15 shadow-sm' : 'text-white/60 hover:text-white' }}">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Órdenes</span>
+            <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Pedidos</span>
         </a>
         @endif
-        @if(in_array('announcements', $currentShop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'announcements']))
+        @if(in_array('announcements', $currentShop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'invoices', 'delivery', 'analytics', 'announcements', 'referrals']))
         <a href="/{{ config('current_shop')->slug }}/admin/announcements" 
            class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition {{ request()->is('*/admin/announcements*') ? 'text-white font-black active:scale-95 bg-white/15 shadow-sm' : 'text-white/60 hover:text-white' }}">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-            <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Anuncios</span>
+            <span class="text-[9px] mt-0.5 tracking-wider font-semibold">Marketing</span>
         </a>
         @endif
         <a href="/{{ config('current_shop')->slug }}/admin/settings" 
