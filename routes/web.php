@@ -192,6 +192,10 @@ Route::middleware(['tenant'])->group(function () {
         Route::get('/billing/expired', [App\Http\Controllers\Admin\BillingController::class, 'expired'])->name('billing.expired');
         Route::post('/billing/pay', [App\Http\Controllers\Admin\BillingController::class, 'submitPayment'])->name('billing.pay');
         
+        // Nuevo Wizard de Configuración de Módulos (Primer Ingreso)
+        Route::get('/setup-modules', [ShopSettingsController::class, 'setupModulesForm'])->name('setup-modules');
+        Route::post('/setup-modules', [ShopSettingsController::class, 'saveSetupModules'])->name('setup-modules.save');
+        
         // Perfil de Tienda y Configuración Visual
         Route::get('/settings', [ShopSettingsController::class, 'edit'])->name('settings.edit');
         Route::put('/settings', [ShopSettingsController::class, 'update'])->name('settings.update');

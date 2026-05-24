@@ -21,7 +21,13 @@ class Shop extends Model
         'facebook', 'instagram', 'tiktok', 'x_twitter',
         'contact_phone', 'contact_sms', 'telegram', 'is_active',
         'has_dine_in', 'has_pickup', 'has_delivery', 'amenities',
-        'enable_free_shipping', 'free_shipping_min_amount'
+        'enable_free_shipping', 'free_shipping_min_amount',
+        'enabled_modules', 'has_setup_modules'
+    ];
+
+    protected $attributes = [
+        'enabled_modules' => '["categories", "products", "orders", "clients", "announcements"]',
+        'has_setup_modules' => false,
     ];
 
     protected $casts = [
@@ -36,6 +42,8 @@ class Shop extends Model
         'payment_submitted_at' => 'datetime',
         'enable_free_shipping' => 'boolean',
         'free_shipping_min_amount' => 'decimal:2',
+        'enabled_modules' => 'array',
+        'has_setup_modules' => 'boolean',
     ];
 
     public function categories()

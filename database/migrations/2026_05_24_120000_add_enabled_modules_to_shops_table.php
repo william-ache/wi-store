@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('shops', function (Blueprint $table) {
-            $table->string('payment_company_name')->nullable()->after('active_session_id');
-            $table->string('payment_company_email')->nullable()->after('payment_company_name');
+            $table->json('enabled_modules')->nullable()->after('is_active');
+            $table->boolean('has_setup_modules')->default(false)->after('enabled_modules');
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('shops', function (Blueprint $table) {
-            $table->dropColumn(['payment_company_name', 'payment_company_email']);
+            $table->dropColumn(['enabled_modules', 'has_setup_modules']);
         });
     }
 };

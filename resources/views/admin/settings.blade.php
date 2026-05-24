@@ -621,6 +621,166 @@
             </div>
         </div>
 
+        <!-- TAB 2: APARIENCIA & ACTIVOS -->
+        <div id="content-colores" class="tab-content space-y-4 pt-1">
+            <div>
+                <span class="bg-primary/10 text-primary text-[10px] uppercase font-extrabold tracking-wider px-3 py-1 rounded-full border border-primary/20">
+                    Apariencia de la Tienda
+                </span>
+                <h3 class="text-base md:text-lg font-black text-slate-800 dark:text-slate-100 mt-3 mb-1">
+                    Colores y Módulos Visibles
+                </h3>
+                <p class="text-xs text-slate-400 dark:text-slate-500">
+                    Configura la identidad de marca de tu catálogo y personaliza las secciones que estarán visibles en el menú del panel administrativo.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Columna Izquierda: Colores de la Marca -->
+                <div class="space-y-3.5 bg-slate-50/50 dark:bg-slate-950/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80">
+                    <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary/80"></span>Colores de tu Marca
+                    </h4>
+                    
+                    <div class="grid grid-cols-3 gap-3">
+                        <!-- Color Primario -->
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
+                            <span class="text-[9px] font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest">Primario</span>
+                            <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
+                                <div class="absolute inset-0" id="preview-primary" style="background-color: {{ $shop->color_primary ?? '#E60067' }}"></div>
+                                <input type="color" id="color_primary" name="color_primary" value="{{ $shop->color_primary ?? '#E60067' }}"
+                                       class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                       oninput="updateColorPreview('color_primary', 'preview-primary')">
+                            </div>
+                            <span class="text-[9px] text-slate-400 font-mono">{{ $shop->color_primary ?? '#E60067' }}</span>
+                        </div>
+
+                        <!-- Color Secundario -->
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
+                            <span class="text-[9px] font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest">Secundario</span>
+                            <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
+                                <div class="absolute inset-0" id="preview-secondary" style="background-color: {{ $shop->color_secondary ?? '#C6A100' }}"></div>
+                                <input type="color" id="color_secondary" name="color_secondary" value="{{ $shop->color_secondary ?? '#C6A100' }}"
+                                       class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                       oninput="updateColorPreview('color_secondary', 'preview-secondary')">
+                            </div>
+                            <span class="text-[9px] text-slate-400 font-mono">{{ $shop->color_secondary ?? '#C6A100' }}</span>
+                        </div>
+
+                        <!-- Color de Fondo -->
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
+                            <span class="text-[9px] font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest">Fondo</span>
+                            <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
+                                <div class="absolute inset-0" id="preview-background" style="background-color: {{ $shop->color_background ?? '#0b0f19' }}"></div>
+                                <input type="color" id="color_background" name="color_background" value="{{ $shop->color_background ?? '#0b0f19' }}"
+                                       class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                       oninput="updateColorPreview('color_background', 'preview-background')">
+                            </div>
+                            <span class="text-[9px] text-slate-400 font-mono">{{ $shop->color_background ?? '#0b0f19' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Módulos del Menú Visibles -->
+                <div class="space-y-3.5 bg-slate-50/50 dark:bg-slate-950/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80">
+                    <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-secondary/80"></span>Módulos del Menú Visibles
+                    </h4>
+                    
+                    <div class="space-y-2">
+                        @php
+                            $modules = $shop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'announcements'];
+                        @endphp
+                        
+                        <!-- Categorías -->
+                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                    📦
+                                </span>
+                                <div>
+                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Categorías</div>
+                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Agrupador de productos</div>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer select-none">
+                                <input type="checkbox" name="enabled_modules[]" value="categories" class="sr-only peer" {{ in_array('categories', $modules) ? 'checked' : '' }}>
+                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+                        </div>
+
+                        <!-- Productos -->
+                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                    🍔
+                                </span>
+                                <div>
+                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Productos</div>
+                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Catálogo de productos</div>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer select-none">
+                                <input type="checkbox" name="enabled_modules[]" value="products" class="sr-only peer" {{ in_array('products', $modules) ? 'checked' : '' }}>
+                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+                        </div>
+
+                        <!-- Órdenes -->
+                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                    📋
+                                </span>
+                                <div>
+                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Órdenes</div>
+                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Pedidos de clientes</div>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer select-none">
+                                <input type="checkbox" name="enabled_modules[]" value="orders" class="sr-only peer" {{ in_array('orders', $modules) ? 'checked' : '' }}>
+                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+                        </div>
+
+                        <!-- Clientes -->
+                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                    👥
+                                </span>
+                                <div>
+                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Clientes</div>
+                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Base de datos de clientes</div>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer select-none">
+                                <input type="checkbox" name="enabled_modules[]" value="clients" class="sr-only peer" {{ in_array('clients', $modules) ? 'checked' : '' }}>
+                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+                        </div>
+
+                        <!-- Anuncios -->
+                        <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
+                                    📢
+                                </span>
+                                <div>
+                                    <div class="text-[11px] font-bold text-slate-800 dark:text-slate-250">Anuncios</div>
+                                    <div class="text-[9px] text-slate-400 dark:text-slate-500">Banners y avisos del menú</div>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer select-none">
+                                <input type="checkbox" name="enabled_modules[]" value="announcements" class="sr-only peer" {{ in_array('announcements', $modules) ? 'checked' : '' }}>
+                                <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- TAB 5: SEGURIDAD -->
         <div id="content-seguridad" class="tab-content space-y-4 pt-1">
             <div>

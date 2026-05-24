@@ -85,14 +85,17 @@
                         <div>
                             <h4 class="font-extrabold text-sm tracking-wide uppercase">Tienda Temporalmente Desactivada</h4>
                             <p class="text-xs text-red-100 dark:text-red-300 font-medium mt-0.5">
-                                El menú digital público se encuentra fuera de servicio y todos los accesos de escritura (crear, editar o eliminar productos, categorías u órdenes) han sido suspendidos.
+                                Para activarla nuevamente debe comprar un plan. El menú digital público se encuentra fuera de servicio y todos los accesos de escritura han sido suspendidos.
                             </p>
                         </div>
                     </div>
-                    <div class="shrink-0">
-                        <span class="bg-white/10 dark:bg-white/5 border border-white/20 text-white text-[10px] uppercase font-black px-3.5 py-1.5 rounded-full tracking-wider shadow-inner">
+                    <div class="shrink-0 flex items-center gap-2">
+                        <span class="bg-white/10 dark:bg-white/5 border border-white/20 text-white text-[10px] uppercase font-black px-3.5 py-1.5 rounded-full tracking-wider shadow-inner hidden sm:inline-block">
                             Modo de Lectura
                         </span>
+                        <a href="/{{ config('current_shop')->slug }}/admin/billing/expired" class="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs font-black px-4 py-2.5 rounded-xl tracking-wider shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-1.5 shrink-0">
+                            Comprar Plan 💎
+                        </a>
                     </div>
                 </div>
             </div>

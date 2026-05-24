@@ -105,6 +105,14 @@ class IdentifyTenant
                     ]);
                 }
 
+                // --- CONTROL DE NUEVO CONFIGURADOR DE MÓDULOS ---
+                if (!$shop->has_setup_modules) {
+                    $isSetupRoute = $request->is('*/admin/setup-modules*') || $request->routeIs('admin.setup-modules*') || $request->is('*/logout');
+                    if (!$isSetupRoute) {
+                        return redirect()->route('admin.setup-modules', ['shop_slug' => $shop->slug]);
+                    }
+                }
+
                 // --- CONTROL DE VENCIMIENTO DE PLAN / PRUEBA GRATIS ---
                 $isExpired = $shop->plan_expires_at && $shop->plan_expires_at->isPast();
                 $isPendingPayment = $shop->payment_status === 'pending';

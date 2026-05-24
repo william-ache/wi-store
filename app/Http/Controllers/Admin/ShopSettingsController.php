@@ -57,6 +57,8 @@ class ShopSettingsController extends Controller
             'has_pickup' => 'nullable|boolean',
             'has_delivery' => 'nullable|boolean',
             'amenities' => 'nullable|array',
+            'enabled_modules' => 'nullable|array',
+            'enabled_modules.*' => 'string|in:categories,products,orders,clients,announcements',
         ]);
 
         $data = $request->only([
@@ -67,6 +69,8 @@ class ShopSettingsController extends Controller
             'has_dine_in', 'has_pickup', 'has_delivery', 'amenities',
             'enable_free_shipping', 'free_shipping_min_amount'
         ]);
+
+        $data['enabled_modules'] = $request->input('enabled_modules', []);
 
         // Actualizar fecha de actualización de tasa de cambio si se modificó
         if ($request->filled('exchange_rate')) {
@@ -148,5 +152,37 @@ class ShopSettingsController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    /**
+     * Show the brand & modules wizard for first-time login.
+     */
+    public function setupModulesForm()
+    {
+        $shop = Auth::user()->shop;
+        return view('admin.setup_modules', compact('shop'));
+    }
+
+    /**
+     * Save the initial configuration of brand & modules.
+     */
+    public function saveSetupModules(Request $request)
+    {
+        $shop = Auth::user()->shop;
+
+        $request->validate([
+            'enabled_modules' => 'nullable|array',
+            'enabled_modules.*' => 'string|in:categories,products,orders,clients,announcements',
+        ]);
+
+        $modules = $request->input('enabled_modules', []);
+
+        $shop->update([
+            'enabled_modules' => $modules,
+            'has_setup_modules' => true,
+        ]);
+
+        return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug])
+            ->with('success', '¡Excelente! Tu menú ha sido configurado con éxito.');
     }
 }
