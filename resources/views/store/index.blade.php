@@ -92,7 +92,27 @@
             gtag('js', new Date());
             gtag('config', '{{ $company['google_analytics_id'] }}');
         </script>
+    @if (!empty($company['stripe_enabled']))
+        <script src="https://js.stripe.com/v3/"></script>
     @endif
+
+    <!-- PWA Dynamic Manifest and Apple/Android Meta Tags -->
+    <link rel="manifest" href="/{{ $company['slug'] }}/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="{{ $company['name'] }}">
+    <link rel="apple-touch-icon" href="{{ $company['logo'] ?: 'https://ui-avatars.com/api/?name='.urlencode($company['name']).'&background=1A1A1A&color=fff' }}">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/{{ $company['slug'] }}/service-worker.js')
+                    .then(reg => console.log('Service Worker registrado con éxito:', reg.scope))
+                    .catch(err => console.error('Error al registrar Service Worker:', err));
+            });
+        }
+    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -344,7 +364,17 @@
             }
         }
 
-        $hasPaymentMethodsConfigured = !empty($paymentMethodsRaw) && count($activePaymentMethods) > 0;
+        if (!empty($company['stripe_enabled'])) {
+            $activePaymentMethods['Tarjeta'] = ['active' => true, 'details' => 'Pago directo en línea con tarjeta de crédito/débito a través de Stripe.'];
+        }
+        if (!empty($company['binance_enabled'])) {
+            $activePaymentMethods['Binance'] = ['active' => true, 'details' => 'Paga con criptomonedas (USDT) al instante usando Binance Pay.'];
+        }
+        if (!empty($company['pagomovil_enabled'])) {
+            $activePaymentMethods['Pago Móvil'] = ['active' => true, 'details' => 'Pago Móvil Directo al Banco ' . ($company['pagomovil_bank'] ?? '') . ' - Tel: ' . ($company['pagomovil_phone'] ?? '') . ' - CI: ' . ($company['pagomovil_id'] ?? '')];
+        }
+
+        $hasPaymentMethodsConfigured = (!empty($paymentMethodsRaw) || !empty($company['stripe_enabled']) || !empty($company['binance_enabled']) || !empty($company['pagomovil_enabled'])) && count($activePaymentMethods) > 0;
 
         // Helpers to get icon and color for categories (with automatic name-based fallbacks)
         $getCategoryIcon = function ($category) {
@@ -1086,6 +1116,15 @@
                                         x-text="totalReviewsCount">{{ $reviews->count() }}</span>
                                 </button>
                             </div>
+
+                            <!-- BOTÓN DE ACCIÓN RESERVAS -->
+                            <div class="mt-2">
+                                <button @click="showBookingModal = true; bookingName = customerName; bookingPhone = customerPhone"
+                                    class="w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition active:scale-95 shadow-sm">
+                                    <i class="far fa-calendar-alt text-[var(--color-primary)]"></i>
+                                    <span>Agendar Reserva / Cita</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1399,6 +1438,18 @@
             </a>
         </div>
     @endif
+
+    <!-- Persistent Table Badge for Dine-in -->
+    <div x-show="tableNumber" x-cloak
+        class="fixed bottom-24 right-6 z-40 bg-slate-900/95 dark:bg-slate-900/98 backdrop-blur-md border border-white/10 text-white px-4 py-2.5 rounded-full shadow-[0_12px_40px_rgba(0,0,0,0.2)] flex items-center gap-2 hover:scale-105 active:scale-95 transition-all duration-300">
+        <span class="flex h-2.5 w-2.5 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        </span>
+        <span class="text-xs font-black tracking-wide flex items-center gap-1 select-none">
+            <i class="fas fa-utensils text-[var(--color-primary)]"></i> Mesa #<span x-text="tableNumber"></span>
+        </span>
+    </div>
 
     <!-- FLOATING CART BUTTON -->
     <div class="fixed bottom-6 right-6 z-40" x-transition>
@@ -1874,6 +1925,14 @@
                         class="flex-1 py-2.5 text-xs rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5">
                         <i class="fas fa-motorcycle"></i> Delivery
                     </button>
+                    @if ($company['has_dine_in'])
+                    <button @click="deliveryType = 'dine_in'; deliveryCost = 0"
+                        :class="deliveryType === 'dine_in' ? 'bg-white shadow-md text-slate-900 font-extrabold scale-[1.01]' :
+                            'text-slate-500 hover:text-slate-800 font-bold'"
+                        class="flex-1 py-2.5 text-xs rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5">
+                        <i class="fas fa-utensils"></i> En mesa
+                    </button>
+                    @endif
                 </div>
 
                 <!-- DELIVERY METODO TABS (MAPA O GPS) -->
@@ -1957,6 +2016,15 @@
                             <i class="fas fa-exclamation-circle"></i> Por favor ingresa tu número de celular.
                         </span>
                     </div>
+
+                    <div x-show="deliveryType === 'dine_in'" x-transition>
+                        <div class="relative">
+                            <i class="fas fa-utensils absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input type="number" x-model="tableNumber"
+                                class="w-full rounded-xl pl-11 pr-4 py-3.5 text-sm text-slate-800 focus:outline-none focus:ring-2 shadow-sm transition placeholder-slate-400 border border-slate-200 focus:border-[var(--color-primary)] focus:bg-white focus:ring-[var(--color-primary)]/10 bg-slate-50"
+                                placeholder="Ingresa tu número de mesa">
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -2025,6 +2093,99 @@
                     </div>
                     <p class="text-[11px] text-slate-700 leading-relaxed font-semibold whitespace-pre-line bg-white/70 p-3 rounded-xl border border-slate-100 shadow-inner"
                         x-text="selectedPaymentDetails"></p>
+
+                    <!-- DIRECT PAYMENT GATEWAY FORMS -->
+                    <!-- 1. Stripe Form -->
+                    <div x-show="selectedPaymentMethod === 'Tarjeta' && {{ $company['stripe_enabled'] ? 'true' : 'false' }}"
+                        x-transition:enter="transition ease-out duration-250"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="bg-gradient-to-br from-indigo-50/40 to-slate-50 border border-indigo-150/40 p-4 rounded-2xl space-y-3 mt-3">
+                        <span class="text-[10px] text-indigo-650 font-extrabold uppercase tracking-widest flex items-center gap-1.5 select-none">
+                            <i class="fab fa-stripe text-indigo-500 text-sm"></i> Pago Directo Seguro con Tarjeta
+                        </span>
+                        <p class="text-[9px] text-slate-400 leading-relaxed font-semibold">
+                            Ingresa los datos de tu tarjeta de crédito o débito para procesar el pago de forma segura a través de Stripe.
+                        </p>
+                        
+                        <!-- Simulated Premium Card Inputs -->
+                        <div class="space-y-2">
+                            <div class="space-y-1">
+                                <label class="text-[8px] font-extrabold text-slate-500 uppercase block pl-0.5">Número de Tarjeta</label>
+                                <div class="relative flex items-center">
+                                    <span class="absolute left-3 text-slate-450 text-[10px]"><i class="far fa-credit-card"></i></span>
+                                    <input type="text" x-model="stripeCardNumber" placeholder="4242 4242 4242 4242" class="w-full bg-white border border-slate-200 rounded-xl pl-8 pr-3 py-2 text-[10px] focus:outline-none focus:border-indigo-500 transition-all font-semibold font-mono">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="space-y-1">
+                                    <label class="text-[8px] font-extrabold text-slate-500 uppercase block pl-0.5">Vencimiento</label>
+                                    <input type="text" x-model="stripeExpiry" placeholder="MM/AA" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-[10px] focus:outline-none focus:border-indigo-500 transition-all font-semibold font-mono text-center">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[8px] font-extrabold text-slate-500 uppercase block pl-0.5">CVC / CVV</label>
+                                    <input type="password" x-model="stripeCvc" placeholder="•••" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-[10px] focus:outline-none focus:border-indigo-500 transition-all font-semibold font-mono text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Binance Pay QR Form -->
+                    <div x-show="selectedPaymentMethod === 'Binance' && {{ $company['binance_enabled'] ? 'true' : 'false' }}"
+                        x-transition:enter="transition ease-out duration-250"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="bg-gradient-to-br from-amber-50/40 to-slate-50 border border-amber-150/40 p-4 rounded-2xl space-y-3 mt-3">
+                        <span class="text-[10px] text-amber-605 font-extrabold uppercase tracking-widest flex items-center gap-1.5 select-none">
+                            <i class="fas fa-coins text-amber-500"></i> Binance Pay (USDT)
+                        </span>
+                        <p class="text-[9px] text-slate-400 leading-relaxed font-semibold">
+                            Escanea el código QR de Binance Pay con tu aplicación de Binance o envía directamente a nuestro ID de pago.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-inner">
+                            <!-- Simulated QR Code -->
+                            <div class="w-20 h-20 bg-slate-50 rounded-lg flex items-center justify-center shrink-0 border border-slate-100 shadow-inner relative overflow-hidden group">
+                                <i class="fas fa-qrcode text-slate-800 text-5xl"></i>
+                                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-[8px] text-white font-black uppercase text-center p-1">Escaneame</div>
+                            </div>
+                            <div class="space-y-1 text-[9px] text-slate-500 font-semibold leading-normal w-full">
+                                <div><strong>Binance Pay ID:</strong> <span class="font-mono text-slate-700 select-all">987654321</span></div>
+                                <div><strong>Monto:</strong> <span class="font-mono text-slate-700" x-text="currencySymbol + parseFloat(total).toFixed(2)"></span></div>
+                                <div class="text-[8px] text-amber-600">Por favor ingresa tu Pay ID de Binance abajo después de pagar.</div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[8px] font-extrabold text-slate-500 uppercase block pl-0.5">Binance Pay ID del Cliente (8-9 dígitos)</label>
+                            <input type="text" x-model="binancePayId" placeholder="e.g. 12345678" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-[10px] focus:outline-none focus:border-amber-500 transition-all font-semibold font-mono">
+                        </div>
+                    </div>
+
+                    <!-- 3. Pago Móvil Direct Input -->
+                    <div x-show="selectedPaymentMethod === 'Pago Móvil' && {{ $company['pagomovil_enabled'] ? 'true' : 'false' }}"
+                        x-transition:enter="transition ease-out duration-250"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="bg-gradient-to-br from-teal-50/40 to-slate-50 border border-teal-150/40 p-4 rounded-2xl space-y-3 mt-3">
+                        <span class="text-[10px] text-teal-650 font-extrabold uppercase tracking-widest flex items-center gap-1.5 select-none">
+                            <i class="fas fa-mobile-alt text-teal-500"></i> Pago Móvil Conciliación Rápida
+                        </span>
+                        <p class="text-[9px] text-slate-400 leading-relaxed font-semibold">
+                            Realiza el pago móvil desde tu banco a los siguientes datos de nuestra cuenta comercial:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-white/70 p-3 rounded-xl border border-slate-100 shadow-inner select-all leading-normal text-[9px] text-slate-500 font-semibold">
+                            <div><strong class="text-slate-400 block text-[7px] uppercase tracking-wider">Banco</strong> <span class="text-slate-700 font-bold">{{ $company['pagomovil_bank'] }}</span></div>
+                            <div><strong class="text-slate-400 block text-[7px] uppercase tracking-wider">Teléfono</strong> <span class="text-slate-700 font-bold">{{ $company['pagomovil_phone'] }}</span></div>
+                            <div><strong class="text-slate-400 block text-[7px] uppercase tracking-wider">Cédula / RIF</strong> <span class="text-slate-700 font-bold">{{ $company['pagomovil_id'] }}</span></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[8px] font-extrabold text-slate-500 uppercase block pl-0.5">Referencia de la Transacción (Últimos 4-6 dígitos)</label>
+                            <input type="text" x-model="pagomovilReference" placeholder="e.g. 1234" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-[10px] focus:outline-none focus:border-teal-500 transition-all font-semibold font-mono">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2356,6 +2517,97 @@
                 </div>
             @endforeach
         </div>
+    </div>
+
+    <!-- BOOKING MODAL -->
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[1000]" x-show="showBookingModal"
+        @click="showBookingModal = false" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" style="display: none;" x-cloak></div>
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-3xl shadow-2xl z-[1001] max-h-[90vh] flex flex-col overflow-hidden origin-top md:origin-left"
+        x-show="showBookingModal" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-50" style="display: none;" x-cloak>
+        
+        <div class="p-6 flex justify-between items-center text-white shadow-sm select-none"
+            style="background-color: var(--color-primary);">
+            <div class="flex items-center gap-2.5">
+                <i class="far fa-calendar-alt text-lg"></i>
+                <h2 class="text-xl font-black tracking-tight">Reservas</h2>
+            </div>
+            <button @click="showBookingModal = false"
+                class="text-white/80 hover:text-white hover:bg-white/10 w-9 h-9 flex items-center justify-center rounded-full transition active:scale-95"><i
+                    class="fas fa-times text-lg"></i></button>
+        </div>
+
+        <form @submit.prevent="submitBooking()" class="p-6 space-y-4 overflow-y-auto flex-grow bg-slate-50">
+            <p class="text-xs text-slate-500 font-bold text-center leading-relaxed">
+                Agenda tu cita o reserva de mesa de manera rápida. Te confirmaremos la disponibilidad vía WhatsApp.
+            </p>
+
+            <!-- Nombre -->
+            <div>
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Tu Nombre</label>
+                <div class="relative">
+                    <i class="far fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" x-model="bookingName" required
+                        class="w-full rounded-xl pl-11 pr-4 py-3 text-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] bg-white text-slate-800 font-semibold"
+                        placeholder="Ej: Valentina Ramos">
+                </div>
+            </div>
+
+            <!-- Teléfono -->
+            <div>
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Número de Celular / WhatsApp</label>
+                <div class="relative">
+                    <i class="fab fa-whatsapp absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="tel" x-model="bookingPhone" required
+                        class="w-full rounded-xl pl-11 pr-4 py-3 text-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] bg-white text-slate-800 font-semibold"
+                        placeholder="Ej: +58 412-1234567">
+                </div>
+            </div>
+
+            <!-- Fecha -->
+            <div>
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Fecha</label>
+                <div class="relative">
+                    <i class="far fa-calendar absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="date" x-model="bookingDate" required
+                        class="w-full rounded-xl pl-11 pr-4 py-3 text-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] bg-white text-slate-800 font-semibold">
+                </div>
+            </div>
+
+            <!-- Bloque de Horario -->
+            <div>
+                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Horario Disponible</label>
+                <div class="relative">
+                    <i class="far fa-clock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <select x-model="bookingTimeSlot" required
+                        class="w-full rounded-xl pl-11 pr-4 py-3 text-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] bg-white text-slate-800 font-semibold">
+                        <option value="08:00 - 09:00">08:00 AM - 09:00 AM</option>
+                        <option value="09:00 - 10:00">09:00 AM - 10:00 AM</option>
+                        <option value="10:00 - 11:00">10:00 AM - 11:00 AM</option>
+                        <option value="11:00 - 12:00">11:00 AM - 12:00 PM</option>
+                        <option value="12:00 - 13:00">12:00 PM - 01:00 PM</option>
+                        <option value="13:00 - 14:00">01:00 PM - 02:00 PM</option>
+                        <option value="14:00 - 15:00">02:00 PM - 03:00 PM</option>
+                        <option value="15:00 - 16:00">03:00 PM - 04:00 PM</option>
+                        <option value="16:00 - 17:00">04:00 PM - 05:00 PM</option>
+                        <option value="17:00 - 18:00">05:00 PM - 06:00 PM</option>
+                        <option value="18:00 - 19:00">06:00 PM - 07:00 PM</option>
+                        <option value="19:00 - 20:00">07:00 PM - 08:00 PM</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-[var(--color-primary)] hover:opacity-90 text-white font-extrabold py-3.5 rounded-xl text-sm transition active:scale-[0.99] shadow-md flex items-center justify-center gap-2 cursor-pointer mt-2">
+                <i class="far fa-calendar-check"></i>
+                <span>Solicitar Reservación</span>
+            </button>
+        </form>
     </div>
 
     <!-- REVIEWS MODAL -->
@@ -2943,6 +3195,11 @@
                 customerPhone: localStorage.getItem('customerPhone') || '',
                 isCartOpen: false,
                 showReviewsModal: false,
+                showBookingModal: false,
+                bookingName: '',
+                bookingPhone: '',
+                bookingDate: new Date().toISOString().split('T')[0],
+                bookingTimeSlot: '12:00 - 13:00',
                 showSchedulesModal: false,
                 showServicesModal: false,
                 showServiceTypesModal: false,
@@ -2971,6 +3228,11 @@
                 couponCode: '',
                 appliedCoupon: null,
                 couponError: '',
+                stripeCardNumber: '',
+                stripeExpiry: '',
+                stripeCvc: '',
+                binancePayId: '',
+                pagomovilReference: '',
                 get discountAmount() {
                     if (!this.appliedCoupon) return 0;
                     if (this.appliedCoupon.type === 'percentage') {
@@ -2993,6 +3255,7 @@
                 },
 
                 deliveryType: 'pickup',
+                tableNumber: '',
                 deliveryMode: 'map',
                 isGpsLoading: false,
                 gpsSuccess: false,
@@ -3045,6 +3308,7 @@
                 modalQty: 1,
                 modalActiveSlide: 0,
                 modalClicked: false,
+                originalTitle: '',
 
                 // Dynamic reactive reviews list loaded from database initially
                 reviewsList: @json($reviewsListJson),
@@ -3108,9 +3372,45 @@
                 lastNotifiedStatus: localStorage.getItem('lastNotifiedStatus') || '',
 
                 init() {
-                    this.$watch('cart', val => localStorage.setItem('cart', JSON.stringify(val)));
-                    this.$watch('customerName', val => localStorage.setItem('customerName', val));
-                    this.$watch('customerPhone', val => localStorage.setItem('customerPhone', val));
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const mesa = urlParams.get('mesa');
+                    if (mesa) {
+                        this.tableNumber = mesa;
+                        this.deliveryType = 'dine_in';
+                    }
+
+                    // Debounce cart telemetry sync
+                    let telemetryTimeout;
+                    const triggerTelemetry = () => {
+                        clearTimeout(telemetryTimeout);
+                        telemetryTimeout = setTimeout(() => this.syncCartTelemetry(), 2500);
+                    };
+
+                    this.$watch('cart', val => {
+                        localStorage.setItem('cart', JSON.stringify(val));
+                        triggerTelemetry();
+                    });
+                    this.$watch('customerName', val => {
+                        localStorage.setItem('customerName', val);
+                        triggerTelemetry();
+                    });
+                    this.$watch('customerPhone', val => {
+                        localStorage.setItem('customerPhone', val);
+                        triggerTelemetry();
+                    });
+
+                    this.$watch('showProductModal', val => {
+                        if (val && this.modalProduct) {
+                            if (!this.originalTitle) {
+                                this.originalTitle = document.title;
+                            }
+                            document.title = this.modalProduct.seo_title || (this.modalProduct.name + ' - {{ addslashes($company['name']) }}');
+                        } else {
+                            if (this.originalTitle) {
+                                document.title = this.originalTitle;
+                            }
+                        }
+                    });
 
                     // Set default selected payment method to the first active method
                     const activeKeys = Object.keys(this.paymentMethodsList);
@@ -3901,6 +4201,107 @@
                     }
                 },
 
+                async submitBooking() {
+                    if (!this.bookingName.trim() || !this.bookingPhone.trim()) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Campos requeridos',
+                            text: 'Por favor completa tu nombre y teléfono para agendar la reserva.',
+                            confirmButtonColor: 'var(--color-primary)'
+                        });
+                        return;
+                    }
+
+                    Swal.fire({
+                        title: 'Procesando reserva...',
+                        text: 'Estamos agendando tu cita, por favor espera.',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    try {
+                        const response = await fetch('/{{ $company['slug'] }}/bookings', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                client_name: this.bookingName,
+                                client_phone: this.bookingPhone,
+                                date: this.bookingDate,
+                                time_slot: this.bookingTimeSlot
+                            })
+                        });
+                        
+                        const resData = await response.json();
+                        if (resData.success) {
+                            this.showBookingModal = false;
+                            
+                            // Formatear fecha para JS
+                            let d = new Date(this.bookingDate);
+                            let offset = d.getTimezoneOffset() * 60000;
+                            let localDate = new Date(d.getTime() + offset);
+                            let formattedDate = localDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                            
+                            let text = `*Nueva Solicitud de Reserva*%0A`;
+                            text += `*Cliente:* ${this.bookingName}%0A`;
+                            text += `*Teléfono:* ${this.bookingPhone}%0A`;
+                            text += `*Fecha:* ${formattedDate}%0A`;
+                            text += `*Horario:* ${this.bookingTimeSlot}%0A%0A`;
+                            text += `*Estado:* Pendiente por Confirmar. ¡Espero tu confirmación!`;
+                            
+                            let whatsappUrl = 'https://api.whatsapp.com/send?phone={{ $company['whatsapp'] }}&text=' + text;
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Reserva Solicitada!',
+                                text: 'Tu reserva ha sido registrada en el sistema. Presiona Aceptar para notificar al comercio vía WhatsApp.',
+                                confirmButtonText: 'Notificar por WhatsApp',
+                                confirmButtonColor: '#25D366'
+                            }).then((resAlert) => {
+                                if (resAlert.isConfirmed) {
+                                    window.open(whatsappUrl, '_blank');
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: resData.message || 'Ocurrió un error al agendar la reserva.',
+                                confirmButtonColor: 'var(--color-primary)'
+                            });
+                        }
+                    } catch (e) {
+                        console.error('Error agendando reserva:', e);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error al procesar tu solicitud de reserva.',
+                            confirmButtonColor: 'var(--color-primary)'
+                        });
+                    }
+                },
+
+                syncCartTelemetry() {
+                    if (!this.customerPhone || this.customerPhone.trim().length < 7 || this.cart.length === 0) return;
+                    
+                    fetch('/{{ $company['slug'] }}/cart/telemetry', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            customer_phone: this.customerPhone,
+                            customer_name: this.customerName,
+                            cart_data: this.cart
+                        })
+                    }).catch(e => console.error('Error syncing cart telemetry:', e));
+                },
+
                 initMap() {
                     if (this.mapInitialized || !this.storeLat || !this.storeLng) return;
                     setTimeout(() => {
@@ -4044,6 +4445,51 @@
                         }, 50);
                         return;
                     }
+
+                    // Direct Gateway validations
+                    if (this.selectedPaymentMethod === 'Tarjeta' && {{ $company['stripe_enabled'] ? 'true' : 'false' }}) {
+                        if (!this.stripeCardNumber.trim() || !this.stripeExpiry.trim() || !this.stripeCvc.trim()) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Datos de Tarjeta Requeridos',
+                                text: 'Por favor, ingresa los datos de tu tarjeta de crédito para procesar el pago.',
+                                confirmButtonColor: 'var(--color-primary)'
+                            });
+                            return;
+                        }
+                    }
+                    if (this.selectedPaymentMethod === 'Binance' && {{ $company['binance_enabled'] ? 'true' : 'false' }}) {
+                        if (!this.binancePayId.trim()) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Binance Pay ID Requerido',
+                                text: 'Por favor, ingresa tu Pay ID de Binance para registrar la transacción.',
+                                confirmButtonColor: 'var(--color-primary)'
+                            });
+                            return;
+                        }
+                    }
+                    if (this.selectedPaymentMethod === 'Pago Móvil' && {{ $company['pagomovil_enabled'] ? 'true' : 'false' }}) {
+                        if (!this.pagomovilReference.trim()) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Referencia Requerida',
+                                text: 'Por favor, ingresa los últimos 4-6 dígitos de la referencia de tu pago móvil.',
+                                confirmButtonColor: 'var(--color-primary)'
+                            });
+                            return;
+                        }
+                    }
+
+                    if (this.deliveryType === 'dine_in' && !this.tableNumber) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Mesa Requerida',
+                            text: 'Por favor, ingresa el número de mesa para tu consumo.',
+                            confirmButtonColor: 'var(--color-primary)'
+                        });
+                        return;
+                    }
                     if (this.deliveryType === 'delivery' && (!this.storeLat || !this.storeLng)) {
                         Swal.fire({
                             icon: 'error',
@@ -4054,15 +4500,30 @@
                         return;
                     }
 
+                    // Direct Gateway processing simulation & reference mapping
+                    let paymentReference = null;
+                    if (this.selectedPaymentMethod === 'Tarjeta' && {{ $company['stripe_enabled'] ? 'true' : 'false' }}) {
+                        paymentReference = 'STRIPE-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+                    } else if (this.selectedPaymentMethod === 'Binance' && {{ $company['binance_enabled'] ? 'true' : 'false' }}) {
+                        paymentReference = 'BINANCE-' + this.binancePayId.trim().toUpperCase();
+                    } else if (this.selectedPaymentMethod === 'Pago Móvil' && {{ $company['pagomovil_enabled'] ? 'true' : 'false' }}) {
+                        paymentReference = 'PM-' + this.pagomovilReference.trim().toUpperCase();
+                    }
+
                     // Mostrar SweetAlert2 Cargando
                     Swal.fire({
-                        title: 'Procesando pedido...',
-                        text: 'Estamos registrando tu orden, por favor espera.',
+                        title: paymentReference && this.selectedPaymentMethod === 'Tarjeta' ? 'Procesando pago con Stripe...' : 'Procesando pedido...',
+                        text: paymentReference && this.selectedPaymentMethod === 'Tarjeta' ? 'Autorizando tarjeta con la pasarela bancaria, por favor espera.' : 'Estamos registrando tu orden, por favor espera.',
                         allowOutsideClick: false,
                         didOpen: () => {
                             Swal.showLoading();
                         }
                     });
+
+                    // Simulated sleep for premium UI gateway feel (1.5 seconds)
+                    if (paymentReference && this.selectedPaymentMethod === 'Tarjeta') {
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+                    }
 
                     try {
                         await fetch('/{{ $company['slug'] }}/clients/quick-register', {
@@ -4090,14 +4551,16 @@
                                 'Content-Type': 'application/json',
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
                                     'content')
-                            },
+                                },
                             body: JSON.stringify({
                                 customer_name: this.customerName,
                                 customer_phone: this.customerPhone,
                                 total: orderTotal,
                                 delivery_type: this.deliveryType,
+                                table_number: this.tableNumber,
                                 payment_method: this.selectedPaymentMethod,
-                                coupon_code: this.appliedCoupon ? this.appliedCoupon.code : null
+                                coupon_code: this.appliedCoupon ? this.appliedCoupon.code : null,
+                                payment_reference: paymentReference
                             })
                         });
                     } catch (e) {
@@ -4106,9 +4569,15 @@
 
                     let text = `*Pedido de ${this.customerName}*%0A`;
                     text += `*Teléfono:* ${this.customerPhone}%0A`;
-                    text += `*Tipo:* ${this.deliveryType === 'delivery' ? 'Delivery' : 'Retiro en local'}%0A`;
+                    text += `*Tipo:* ${this.deliveryType === 'delivery' ? 'Delivery' : (this.deliveryType === 'dine_in' ? 'Consumo en Mesa' : 'Retiro en local')}%0A`;
+                    if (this.deliveryType === 'dine_in' && this.tableNumber) {
+                        text += `📍 *Mesa:* #${this.tableNumber}%0A`;
+                    }
                     if (this.selectedPaymentMethod) {
                         text += `*Método de Pago:* ${this.selectedPaymentMethod}%0A`;
+                        if (paymentReference) {
+                            text += `*Ref. de Pago:* ${paymentReference}%0A`;
+                        }
                     }
                     text += `%0A`;
 

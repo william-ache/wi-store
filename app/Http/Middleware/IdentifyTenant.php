@@ -12,20 +12,25 @@ class IdentifyTenant
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $shopSlug = $request->route('shop_slug');
+        $host = $request->getHost();
+        $shop = Shop::where('custom_domain', $host)->first();
 
-        if ($shopSlug) {
-            $shop = Shop::where('slug', $shopSlug)->first();
-
-            if (!$shop) {
-                abort(404, 'Tienda no encontrada.');
+        if (!$shop) {
+            $shopSlug = $request->route('shop_slug');
+            if ($shopSlug) {
+                $shop = Shop::where('slug', $shopSlug)->first();
             }
+        }
 
-            // Registrar en config para los global scopes
-            config(['current_shop' => $shop]);
-            config(['current_shop_id' => $shop->id]);
+        if (!$shop) {
+            abort(404, 'Tienda no encontrada.');
+        }
 
-            // Si la tienda está inactiva
+        // Registrar en config para los global scopes
+        config(['current_shop' => $shop]);
+        config(['current_shop_id' => $shop->id]);
+
+        // Si la tienda está inactiva
             if (!$shop->is_active) {
                 // Determinar si es una ruta administrativa
                 $isAdminRoute = $request->is('*/admin*') || $request->routeIs('admin.*');
@@ -172,6 +177,16 @@ class IdentifyTenant
                 'contact_phone' => $contactPhone,
                 'contact_sms' => $contactSms,
                 'telegram' => $telegram,
+                'facebook_pixel_id' => $shop->facebook_pixel_id,
+                'tiktok_pixel_id' => $shop->tiktok_pixel_id,
+                'google_analytics_id' => $shop->google_analytics_id,
+                'stripe_enabled' => $shop->stripe_enabled,
+                'stripe_publishable_key' => $shop->stripe_publishable_key,
+                'binance_enabled' => $shop->binance_enabled,
+                'pagomovil_enabled' => $shop->pagomovil_enabled,
+                'pagomovil_bank' => $shop->pagomovil_bank,
+                'pagomovil_phone' => $shop->pagomovil_phone,
+                'pagomovil_id' => $shop->pagomovil_id,
                 'colors' => [
                     'primary' => $shop->color_primary,
                     'secondary' => $shop->color_secondary,
@@ -182,7 +197,6 @@ class IdentifyTenant
 
             // Limpiar parámetro de la ruta para los controladores
             $request->route()->forgetParameter('shop_slug');
-        }
 
         return $next($request);
     }

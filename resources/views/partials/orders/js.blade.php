@@ -30,6 +30,18 @@
                     }
                 },
                 { 
+                    data: 'delivery_type',
+                    render: function(data, type, row) {
+                        if (data === 'dine_in') {
+                            return `<span class="bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 text-[9px] font-black px-2 py-0.5 rounded border border-purple-200/20">MESA ${row.table_number || ''}</span>`;
+                        } else if (data === 'pickup') {
+                            return `<span class="bg-indigo-100 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 text-[9px] font-black px-2 py-0.5 rounded border border-indigo-200/20">RETIRO</span>`;
+                        } else {
+                            return `<span class="bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 text-[9px] font-black px-2 py-0.5 rounded border border-blue-200/20">DELIVERY</span>`;
+                        }
+                    }
+                },
+                { 
                     data: 'payment_method',
                     render: function(data) {
                         const map = {
@@ -82,7 +94,7 @@
                     render: function(data, type, row) {
                         return `
                             <div class="flex items-center gap-2">
-                                <button onclick="editOrder(${row.id}, ${row.client_id || 'null'}, '${row.customer_name.replace(/'/g, "\\'")}', '${row.customer_phone}', ${row.total}, '${row.status}', '${row.payment_method}', '${row.payment_status}')" class="p-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:border-primary rounded-xl text-slate-600 dark:text-slate-400 hover:text-primary transition-all shadow-sm cursor-pointer" title="Editar">
+                                <button onclick="editOrder(${row.id}, ${row.client_id || 'null'}, '${row.customer_name.replace(/'/g, "\\'")}', '${row.customer_phone}', ${row.total}, '${row.status}', '${row.payment_method}', '${row.payment_status}', '${row.delivery_type || 'delivery'}', '${row.table_number || ''}', '${row.payment_reference || ''}')" class="p-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:border-primary rounded-xl text-slate-600 dark:text-slate-400 hover:text-primary transition-all shadow-sm cursor-pointer" title="Editar">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                 </button>
                                 <button onclick="deleteOrder(${row.id})" class="p-2 bg-rose-50 dark:bg-rose-950/30 border border-rose-100/40 hover:border-rose-500 rounded-xl text-rose-600 dark:text-rose-400 hover:text-white hover:bg-rose-500 transition-all shadow-sm cursor-pointer" title="Eliminar">
@@ -149,8 +161,8 @@
     });
 
     // Delegación de Alpine a Javascript
-    function editOrder(id, clientId, name, phone, total, status, method, payStatus) {
-        Alpine.$data(document.getElementById('orders-page')).openEdit(id, clientId, name, phone, total, status, method, payStatus);
+    function editOrder(id, clientId, name, phone, total, status, method, payStatus, deliveryType, tableNumber, paymentReference) {
+        Alpine.$data(document.getElementById('orders-page')).openEdit(id, clientId, name, phone, total, status, method, payStatus, deliveryType, tableNumber, paymentReference);
     }
 
     // Toast de SweetAlert2 con colores de la tienda
@@ -187,7 +199,10 @@
                 total: alpineData.orderTotal,
                 status: alpineData.orderStatus,
                 payment_method: alpineData.orderPaymentMethod,
-                payment_status: alpineData.orderPaymentStatus
+                payment_status: alpineData.orderPaymentStatus,
+                delivery_type: alpineData.orderDeliveryType,
+                table_number: alpineData.orderTableNumber,
+                payment_reference: alpineData.orderPaymentReference
             },
             success: function(response) {
                 if (response.success) {
@@ -264,7 +279,7 @@
                 type: 'GET',
                 success: function(res) {
                     if (res.success && res.data) {
-                        editOrder(res.data.id, res.data.client_id, res.data.customer_name, res.data.customer_phone, res.data.total, res.data.status, res.data.payment_method, res.data.payment_status);
+                        editOrder(res.data.id, res.data.client_id, res.data.customer_name, res.data.customer_phone, res.data.total, res.data.status, res.data.payment_method, res.data.payment_status, res.data.delivery_type, res.data.table_number, res.data.payment_reference);
                         window.history.replaceState({}, document.title, window.location.pathname);
                     }
                 }

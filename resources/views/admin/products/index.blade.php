@@ -16,6 +16,8 @@
     productIsAvailable: 1,
     productImagePreview: null,
     productPreparationTime: '',
+    productSeoTitle: '',
+    productSeoDescription: '',
     errors: {},
     
     // Dynamic Product Features State
@@ -308,8 +310,9 @@
         this.productPrice = '';
         this.productDescription = '';
         this.productIsAvailable = 1;
-        this.productImagePreview = null;
         this.productPreparationTime = '';
+        this.productSeoTitle = '';
+        this.productSeoDescription = '';
         document.getElementById('image').value = '';
         this.errors = {};
         
@@ -343,7 +346,7 @@
 
         this.showModal = true;
     },
-    openEdit(id, name, categoryId, price, description, isAvailable, imagePath, features, preparationTime) {
+    openEdit(id, name, categoryId, price, description, isAvailable, imagePath, features, preparationTime, seoTitle, seoDescription) {
         this.isEdit = true;
         this.productId = id;
         this.productName = name;
@@ -353,6 +356,8 @@
         this.productIsAvailable = isAvailable ? 1 : 0;
         this.productImagePreview = imagePath ? (imagePath.startsWith('http') ? imagePath : '/storage/' + imagePath) : null;
         this.productPreparationTime = preparationTime || '';
+        this.productSeoTitle = seoTitle || '';
+        this.productSeoDescription = seoDescription || '';
         document.getElementById('image').value = '';
         this.errors = {};
 

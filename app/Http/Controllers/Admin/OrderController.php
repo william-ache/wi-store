@@ -38,7 +38,10 @@ class OrderController extends Controller
             'status' => 'required|string',
             'payment_method' => 'required|string',
             'payment_status' => 'required|string',
-            'client_id' => 'nullable|exists:clients,id'
+            'client_id' => 'nullable|exists:clients,id',
+            'delivery_type' => 'nullable|string',
+            'table_number' => 'nullable|string|max:255',
+            'payment_reference' => 'nullable|string|max:255',
         ]);
 
         $orderNumber = '#' . (Order::max('id') ? (1000 + Order::max('id') + 1) : 1001);
@@ -52,6 +55,9 @@ class OrderController extends Controller
             'status' => $request->status,
             'payment_method' => $request->payment_method,
             'payment_status' => $request->payment_status,
+            'delivery_type' => $request->delivery_type ?: 'delivery',
+            'table_number' => $request->table_number,
+            'payment_reference' => $request->payment_reference,
         ]);
 
         // Sincronizar total gastado del cliente si está asociado
@@ -96,7 +102,10 @@ class OrderController extends Controller
             'status' => 'required|string',
             'payment_method' => 'required|string',
             'payment_status' => 'required|string',
-            'client_id' => 'nullable|exists:clients,id'
+            'client_id' => 'nullable|exists:clients,id',
+            'delivery_type' => 'nullable|string',
+            'table_number' => 'nullable|string|max:255',
+            'payment_reference' => 'nullable|string|max:255',
         ]);
 
         $oldStatus = $order->status;
@@ -109,6 +118,9 @@ class OrderController extends Controller
             'status' => $request->status,
             'payment_method' => $request->payment_method,
             'payment_status' => $request->payment_status,
+            'delivery_type' => $request->delivery_type ?: 'delivery',
+            'table_number' => $request->table_number,
+            'payment_reference' => $request->payment_reference,
         ]);
 
         // Sincronizar total gastado del cliente si cambia el estado o total de la orden

@@ -175,17 +175,25 @@ Route::prefix('/wydex-super-admin')->name('super-admin.')->group(function () {
 
 // 2. RUTAS DINÁMICAS MULTI-TENANT (Tiendas Individuales)
 // Colocadas al final del archivo. La detección y el aislamiento ocurren mediante el Middleware 'tenant'.
-Route::middleware(['tenant'])->group(function () {
+$host = request()->getHost();
+$isCustomDomain = !str_ends_with($host, 'wistore.com') && $host !== 'localhost' && $host !== '127.0.0.1' && \App\Models\Shop::where('custom_domain', $host)->exists();
+$tenantPrefix = $isCustomDomain ? '' : '/{shop_slug}';
+
+Route::middleware(['tenant'])->prefix($tenantPrefix)->group(function () {
 
     // Frontend del Cliente (Público)
-    Route::get('/{shop_slug}', [StoreController::class, 'index'])->name('store.index');
-    Route::post('/{shop_slug}/reviews', [StoreController::class, 'storeReview'])->name('reviews.store');
-    Route::post('/{shop_slug}/clients/quick-register', [StoreController::class, 'registerClient'])->name('clients.quick-register');
-    Route::post('/{shop_slug}/orders/notify', [StoreController::class, 'notifyOrder'])->name('orders.notify');
-    Route::post('/{shop_slug}/coupons/validate', [StoreController::class, 'validateCoupon'])->name('coupons.validate');
+    Route::get('/', [StoreController::class, 'index'])->name('store.index');
+    Route::post('/reviews', [StoreController::class, 'storeReview'])->name('reviews.store');
+    Route::post('/clients/quick-register', [StoreController::class, 'registerClient'])->name('clients.quick-register');
+    Route::post('/orders/notify', [StoreController::class, 'notifyOrder'])->name('orders.notify');
+    Route::post('/coupons/validate', [StoreController::class, 'validateCoupon'])->name('coupons.validate');
+    Route::post('/bookings', [StoreController::class, 'submitBooking'])->name('store.bookings');
+    Route::post('/cart/telemetry', [StoreController::class, 'saveCartTelemetry'])->name('store.cart.telemetry');
+    Route::get('/manifest.json', [StoreController::class, 'manifest'])->name('store.manifest');
+    Route::get('/service-worker.js', [StoreController::class, 'serviceWorker'])->name('store.sw');
     
     // Panel Administrativo de la Tienda (Privado)
-    Route::middleware(['auth'])->prefix('/{shop_slug}/admin')->name('admin.')->group(function () {
+    Route::middleware(['auth'])->prefix('/admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/search', [App\Http\Controllers\Admin\DashboardController::class, 'search'])->name('search');
         Route::get('/tutorials', [App\Http\Controllers\Admin\DashboardController::class, 'tutorials'])->name('tutorials');
@@ -218,6 +226,8 @@ Route::middleware(['tenant'])->group(function () {
         Route::resource('clients', App\Http\Controllers\Admin\ClientController::class);
         Route::resource('announcements', App\Http\Controllers\Admin\AnnouncementController::class);
         Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('bookings', App\Http\Controllers\Admin\BookingController::class);
+        Route::resource('abandoned-carts', App\Http\Controllers\Admin\AbandonedCartController::class)->only(['index', 'destroy']);
 
         // Rutas de Feedback de Usuario
         Route::get('/feedback', [App\Http\Controllers\Admin\FeedbackController::class, 'index'])->name('feedback.index');

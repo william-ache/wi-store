@@ -54,7 +54,7 @@
                     render: function(data, type, row) {
                         return `
                             <div class="flex items-center gap-2">
-                                <button onclick="editCategory(${row.id}, '${row.name.replace(/'/g, "\\'")}', ${row.status}, '${row.icon ? row.icon.replace(/'/g, "\\'") : ''}', '${row.color ? row.color.replace(/'/g, "\\'") : ''}')" class="p-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:border-primary rounded-xl text-slate-600 dark:text-slate-400 hover:text-primary transition-all shadow-sm cursor-pointer" title="Editar">
+                                <button onclick="editCategory(${row.id}, '${row.name.replace(/'/g, "\\'")}', ${row.status}, '${row.icon ? row.icon.replace(/'/g, "\\'") : ''}', '${row.color ? row.color.replace(/'/g, "\\'") : ''}', '${row.seo_title ? row.seo_title.replace(/'/g, "\\'") : ''}', '${row.seo_description ? row.seo_description.replace(/'/g, "\\'") : ''}')" class="p-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:border-primary rounded-xl text-slate-600 dark:text-slate-400 hover:text-primary transition-all shadow-sm cursor-pointer" title="Editar">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                 </button>
                                 <button onclick="deleteCategory(${row.id})" class="p-2 bg-rose-50 dark:bg-rose-950/30 border border-rose-100/40 hover:border-rose-500 rounded-xl text-rose-600 dark:text-rose-400 hover:text-white hover:bg-rose-500 transition-all shadow-sm cursor-pointer" title="Eliminar">
@@ -121,8 +121,8 @@
     });
 
     // Delegación de Alpine a Javascript
-    function editCategory(id, name, status, icon, color) {
-        Alpine.$data(document.getElementById('categories-page')).openEdit(id, name, status, icon, color);
+    function editCategory(id, name, status, icon, color, seoTitle, seoDescription) {
+        Alpine.$data(document.getElementById('categories-page')).openEdit(id, name, status, icon, color, seoTitle, seoDescription);
     }
 
     // Toast de SweetAlert2 con colores de la tienda
@@ -156,7 +156,9 @@
                 name: alpineData.categoryName,
                 status: alpineData.categoryStatus,
                 icon: alpineData.categoryIcon,
-                color: alpineData.categoryColor
+                color: alpineData.categoryColor,
+                seo_title: alpineData.categorySeoTitle,
+                seo_description: alpineData.categorySeoDescription
             },
             success: function(response) {
                 if (response.success) {
@@ -244,7 +246,7 @@
                 type: 'GET',
                 success: function(res) {
                     if (res.success && res.data) {
-                        editCategory(res.data.id, res.data.name, res.data.status, res.data.icon, res.data.color);
+                        editCategory(res.data.id, res.data.name, res.data.status, res.data.icon, res.data.color, res.data.seo_title, res.data.seo_description);
                         window.history.replaceState({}, document.title, window.location.pathname);
                     }
                 }

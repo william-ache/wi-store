@@ -59,6 +59,20 @@ class ShopSettingsController extends Controller
             'amenities' => 'nullable|array',
             'enabled_modules' => 'nullable|array',
             'enabled_modules.*' => 'string|in:categories,products,orders,clients,invoices,delivery,analytics,announcements,referrals',
+            'custom_domain' => 'nullable|string|max:255|unique:shops,custom_domain,' . $shop->id,
+            'facebook_pixel_id' => 'nullable|string|max:255',
+            'tiktok_pixel_id' => 'nullable|string|max:255',
+            'google_analytics_id' => 'nullable|string|max:255',
+            'stripe_enabled' => 'nullable|boolean',
+            'stripe_publishable_key' => 'nullable|string',
+            'stripe_secret_key' => 'nullable|string',
+            'binance_enabled' => 'nullable|boolean',
+            'binance_api_key' => 'nullable|string',
+            'binance_secret_key' => 'nullable|string',
+            'pagomovil_enabled' => 'nullable|boolean',
+            'pagomovil_bank' => 'nullable|string|max:255',
+            'pagomovil_phone' => 'nullable|string|max:255',
+            'pagomovil_id' => 'nullable|string|max:255',
         ]);
 
         $data = $request->only([
@@ -67,9 +81,16 @@ class ShopSettingsController extends Controller
             'delivery_rate_per_km', 'latitude', 'longitude',
             'facebook', 'instagram', 'tiktok', 'x_twitter', 'contact_phone', 'contact_sms', 'telegram',
             'has_dine_in', 'has_pickup', 'has_delivery', 'amenities',
-            'enable_free_shipping', 'free_shipping_min_amount'
+            'enable_free_shipping', 'free_shipping_min_amount',
+            'custom_domain', 'facebook_pixel_id', 'tiktok_pixel_id', 'google_analytics_id',
+            'stripe_publishable_key', 'stripe_secret_key',
+            'binance_api_key', 'binance_secret_key',
+            'pagomovil_bank', 'pagomovil_phone', 'pagomovil_id'
         ]);
 
+        $data['stripe_enabled'] = $request->has('stripe_enabled');
+        $data['binance_enabled'] = $request->has('binance_enabled');
+        $data['pagomovil_enabled'] = $request->has('pagomovil_enabled');
         $data['enabled_modules'] = $request->input('enabled_modules', []);
 
         // Actualizar fecha de actualización de tasa de cambio si se modificó

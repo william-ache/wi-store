@@ -70,6 +70,23 @@
                 </div>
             </div>
 
+            <!-- Tipo de Pedido y Número de Mesa (Dine-in) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="delivery_type" class="block text-[10px] font-black text-primary uppercase tracking-widest mb-1.5">Tipo de Pedido</label>
+                    <select id="delivery_type" x-model="orderDeliveryType" class="select2-enable w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition">
+                        <option value="delivery">Delivery</option>
+                        <option value="pickup">Retiro en Local</option>
+                        <option value="dine_in">Consumo en Mesa (Dine-in)</option>
+                    </select>
+                </div>
+                <div x-show="orderDeliveryType === 'dine_in'" x-transition>
+                    <label for="table_number" class="block text-[10px] font-black text-primary uppercase tracking-widest mb-1.5">Número de Mesa</label>
+                    <input type="number" id="table_number" x-model="orderTableNumber" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition" placeholder="Ej: 4">
+                    <p x-show="errors.table_number" class="text-[10px] text-rose-500 font-bold mt-1" x-text="errors.table_number"></p>
+                </div>
+            </div>
+
             <!-- Estado del Pedido y Estado del Pago -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -87,6 +104,15 @@
                         <option value="pending">Pendiente por Cobrar</option>
                         <option value="paid">Pagado y Conciliado</option>
                     </select>
+                </div>
+            </div>
+
+            <!-- Referencia de Pago (Si existe, para conciliar) -->
+            <div class="space-y-1.5">
+                <label for="payment_reference" class="block text-[10px] font-black text-primary uppercase tracking-widest mb-1.5">Referencia de Pago / Gateway</label>
+                <div class="relative flex items-center">
+                    <span class="absolute left-3.5 text-slate-400 text-xs"><i class="fas fa-receipt"></i></span>
+                    <input type="text" id="payment_reference" x-model="orderPaymentReference" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl pl-9 pr-4 py-3 focus:outline-none focus:border-primary transition" placeholder="Ej: STRIPE-ABC123XYZ, PM-1234">
                 </div>
             </div>
         </div>

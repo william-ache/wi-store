@@ -16,6 +16,9 @@
     orderStatus: 'pending',
     orderPaymentMethod: 'efectivo',
     orderPaymentStatus: 'pending',
+    orderDeliveryType: 'delivery',
+    orderTableNumber: '',
+    orderPaymentReference: '',
     errors: {},
     
     openCreate() {
@@ -28,10 +31,13 @@
         this.orderStatus = 'pending';
         this.orderPaymentMethod = 'efectivo';
         this.orderPaymentStatus = 'pending';
+        this.orderDeliveryType = 'delivery';
+        this.orderTableNumber = '';
+        this.orderPaymentReference = '';
         this.errors = {};
         this.showModal = true;
     },
-    openEdit(id, clientId, name, phone, total, status, method, payStatus) {
+    openEdit(id, clientId, name, phone, total, status, method, payStatus, deliveryType, tableNumber, paymentReference) {
         this.isEdit = true;
         this.orderId = id;
         this.orderClientId = clientId || '';
@@ -41,6 +47,9 @@
         this.orderStatus = status;
         this.orderPaymentMethod = method;
         this.orderPaymentStatus = payStatus;
+        this.orderDeliveryType = deliveryType || 'delivery';
+        this.orderTableNumber = tableNumber || '';
+        this.orderPaymentReference = paymentReference || '';
         this.errors = {};
         this.showModal = true;
     },
@@ -73,6 +82,9 @@
                     $('#payment_method').on('change', (e) => {
                         this.orderPaymentMethod = e.target.value;
                     });
+                    $('#delivery_type').on('change', (e) => {
+                        this.orderDeliveryType = e.target.value;
+                    });
                     $('#status').on('change', (e) => {
                         this.orderStatus = e.target.value;
                     });
@@ -83,6 +95,7 @@
                     // Sync Alpine values to Select2 UI on initialization
                     $('#client_id').val(this.orderClientId).trigger('change.select2');
                     $('#payment_method').val(this.orderPaymentMethod).trigger('change.select2');
+                    $('#delivery_type').val(this.orderDeliveryType).trigger('change.select2');
                     $('#status').val(this.orderStatus).trigger('change.select2');
                     $('#payment_status').val(this.orderPaymentStatus).trigger('change.select2');
                 });
@@ -134,6 +147,7 @@
                         <th>Nº Orden</th>
                         <th>Cliente</th>
                         <th>Teléfono</th>
+                        <th>Tipo / Mesa</th>
                         <th>Método Pago</th>
                         <th>Pago</th>
                         <th>Total</th>

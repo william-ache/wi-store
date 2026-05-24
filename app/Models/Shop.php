@@ -63,7 +63,17 @@ class Shop extends Model
         'has_setup_modules',
         'facebook_pixel_id',
         'tiktok_pixel_id',
-        'google_analytics_id'
+        'google_analytics_id',
+        'stripe_enabled',
+        'stripe_publishable_key',
+        'stripe_secret_key',
+        'binance_enabled',
+        'binance_api_key',
+        'binance_secret_key',
+        'pagomovil_enabled',
+        'pagomovil_bank',
+        'pagomovil_phone',
+        'pagomovil_id'
     ];
 
     protected $attributes = [
@@ -85,6 +95,9 @@ class Shop extends Model
         'free_shipping_min_amount' => 'decimal:2',
         'enabled_modules' => 'array',
         'has_setup_modules' => 'boolean',
+        'stripe_enabled' => 'boolean',
+        'binance_enabled' => 'boolean',
+        'pagomovil_enabled' => 'boolean',
     ];
 
     public function categories()

@@ -16,9 +16,15 @@
     show: false,
     copied: false,
     shopUrl: '{{ request()->getSchemeAndHttpHost() . '/' . config('current_shop')->slug }}',
+    isTableQr: false,
+    tableNumber: '',
+    
+    getQrUrl() {
+        return this.isTableQr && this.tableNumber ? this.shopUrl + '?mesa=' + this.tableNumber : this.shopUrl;
+    },
     
     copyUrl() {
-        navigator.clipboard.writeText(this.shopUrl);
+        navigator.clipboard.writeText(this.getQrUrl());
         this.copied = true;
         setTimeout(() => this.copied = false, 2000);
         
@@ -34,17 +40,17 @@
     },
     
     shareWhatsApp() {
-        let text = encodeURIComponent('¡Hola! Te invito a ver nuestro catálogo digital aquí: ' + this.shopUrl);
+        let text = encodeURIComponent('¡Hola! Te invito a ver nuestro catálogo digital aquí: ' + this.getQrUrl());
         window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
     },
     
     shareFacebook() {
-        let url = encodeURIComponent(this.shopUrl);
+        let url = encodeURIComponent(this.getQrUrl());
         window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank');
     },
     
     shareInstagram() {
-        navigator.clipboard.writeText(this.shopUrl);
+        navigator.clipboard.writeText(this.getQrUrl());
         Swal.fire({
             toast: true,
             position: 'top-end',
@@ -59,12 +65,12 @@
     
     async downloadQR() {
         try {
-            let qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=600x600&color={{ $rgbColor }}&margin=15&data=' + encodeURIComponent(this.shopUrl);
+            let qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=600x600&color={{ $rgbColor }}&margin=15&data=' + encodeURIComponent(this.getQrUrl());
             const response = await fetch(qrUrl);
             const blob = await response.blob();
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'QR_Catalogo_{{ config('current_shop')->slug }}.png';
+            link.download = this.isTableQr && this.tableNumber ? 'QR_Mesa_' + this.tableNumber + '_{{ config('current_shop')->slug }}.png' : 'QR_Catalogo_{{ config('current_shop')->slug }}.png';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -80,7 +86,7 @@
             });
         } catch(e) {
             console.error('Error al descargar QR con blob, usando fallback:', e);
-            window.open('https://api.qrserver.com/v1/create-qr-code/?size=600x600&color={{ $rgbColor }}&margin=15&data=' + encodeURIComponent(this.shopUrl), '_blank');
+            window.open('https://api.qrserver.com/v1/create-qr-code/?size=600x600&color={{ $rgbColor }}&margin=15&data=' + encodeURIComponent(this.getQrUrl()), '_blank');
         }
     }
 }"
@@ -128,16 +134,37 @@ class="fixed inset-0 z-[100] flex items-center justify-center p-4">
         <div class="flex justify-center my-6">
             <div class="bg-white p-6 rounded-[28px] border border-slate-100/80 shadow-[0_12px_40px_rgba(0,0,0,0.04)] flex items-center justify-center transition-all duration-300 hover:shadow-[0_16px_50px_rgba(0,0,0,0.08)]">
                 <!-- Código QR personalizado con el color primario exacto de la tienda -->
-                <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=250x250&color={{ $rgbColor }}&margin=10&data=' + encodeURIComponent(shopUrl)" 
+                <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=250x250&color={{ $rgbColor }}&margin=10&data=' + encodeURIComponent(getQrUrl())" 
                      alt="Código QR" 
                      class="w-48 h-48 sm:w-56 sm:h-56 object-contain select-none pointer-events-none">
+            </div>
+        </div>
+
+        <!-- Selector de Código QR para Mesa (Dine-in) -->
+        <div class="mb-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 rounded-3xl p-4 transition-all duration-300">
+            <div class="flex items-center justify-between">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-slate-800 dark:text-slate-200">Mapear Código QR a Mesa</span>
+                    <span class="text-[11px] text-slate-400 dark:text-slate-500">Añade ?mesa=X al código para pedidos Dine-in</span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" x-model="isTableQr" class="sr-only peer">
+                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary" style="background-color: var(--color-primary, '#E60067')"></div>
+                </label>
+            </div>
+            
+            <div x-show="isTableQr" x-transition.duration.300ms class="mt-3 flex gap-2">
+                <input type="number" 
+                       x-model="tableNumber" 
+                       placeholder="Nro de Mesa (ej: 4)" 
+                       class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-[16px] px-4 py-2 transition-all outline-none">
             </div>
         </div>
 
         <!-- Campo del Enlace de Copiado -->
         <div class="flex items-center gap-2.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800/80 rounded-[20px] px-4 py-3.5 w-full shadow-inner">
             <div class="flex-grow text-slate-500 dark:text-slate-300 text-[11px] sm:text-xs font-semibold truncate select-all" 
-                 x-text="shopUrl"></div>
+                 x-text="getQrUrl()"></div>
             
             <button @click="copyUrl()" 
                     class="flex items-center gap-1 text-primary hover:opacity-85 text-xs font-extrabold tracking-wide transition-all select-none shrink-0 cursor-pointer">

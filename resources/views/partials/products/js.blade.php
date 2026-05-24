@@ -68,7 +68,7 @@
                         const preparationTimeEscaped = row.preparation_time ? row.preparation_time.replace(/'/g, "\\'") : '';
                         return `
                             <div class="flex items-center gap-2">
-                                <button onclick="editProduct(${row.id}, '${nameEscaped}', ${row.category_id}, ${row.price}, '${descriptionEscaped}', ${row.is_available}, '${row.image_path || ''}', '${featuresEscaped}', '${preparationTimeEscaped}')" class="p-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:border-primary rounded-xl text-slate-600 dark:text-slate-400 hover:text-primary transition-all shadow-sm cursor-pointer" title="Editar">
+                                <button onclick="editProduct(${row.id}, '${nameEscaped}', ${row.category_id}, ${row.price}, '${descriptionEscaped}', ${row.is_available}, '${row.image_path || ''}', '${featuresEscaped}', '${preparationTimeEscaped}', '${row.seo_title ? row.seo_title.replace(/'/g, "\\'") : ''}', '${row.seo_description ? row.seo_description.replace(/'/g, "\\'") : ''}')" class="p-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:border-primary rounded-xl text-slate-600 dark:text-slate-400 hover:text-primary transition-all shadow-sm cursor-pointer" title="Editar">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                 </button>
                                 <button onclick="deleteProduct(${row.id})" class="p-2 bg-rose-50 dark:bg-rose-950/30 border border-rose-100/40 hover:border-rose-500 rounded-xl text-rose-600 dark:text-rose-400 hover:text-white hover:bg-rose-500 transition-all shadow-sm cursor-pointer" title="Eliminar">
@@ -135,7 +135,7 @@
     });
 
     // Delegación de Alpine a Javascript
-    function editProduct(id, name, categoryId, price, description, isAvailable, imagePath, featuresUrlEncoded, preparationTime) {
+    function editProduct(id, name, categoryId, price, description, isAvailable, imagePath, featuresUrlEncoded, preparationTime, seoTitle, seoDescription) {
         let features = null;
         try {
             if (featuresUrlEncoded && featuresUrlEncoded !== 'undefined' && featuresUrlEncoded !== 'null') {
@@ -144,7 +144,7 @@
         } catch(e) {
             console.error('Error decoding features:', e);
         }
-        Alpine.$data(document.getElementById('products-page')).openEdit(id, name, categoryId, price, description, isAvailable, imagePath, features, preparationTime);
+        Alpine.$data(document.getElementById('products-page')).openEdit(id, name, categoryId, price, description, isAvailable, imagePath, features, preparationTime, seoTitle, seoDescription);
     }
 
     // Toast de SweetAlert2 con colores de la tienda
@@ -173,6 +173,8 @@
         formData.append('description', alpineData.productDescription);
         formData.append('is_available', alpineData.productIsAvailable);
         formData.append('preparation_time', alpineData.productPreparationTime);
+        formData.append('seo_title', alpineData.productSeoTitle || '');
+        formData.append('seo_description', alpineData.productSeoDescription || '');
 
         // Filter and stringify features config
         let activeFeatures = {
@@ -276,7 +278,7 @@
                 type: 'GET',
                 success: function(res) {
                     if (res.success && res.data) {
-                        editProduct(res.data.id, res.data.name, res.data.category_id, res.data.price, res.data.description, res.data.is_available, res.data.image_path, encodeURIComponent(JSON.stringify(res.data.features || null)));
+                        editProduct(res.data.id, res.data.name, res.data.category_id, res.data.price, res.data.description, res.data.is_available, res.data.image_path, encodeURIComponent(JSON.stringify(res.data.features || null)), res.data.preparation_time, res.data.seo_title, res.data.seo_description);
                         window.history.replaceState({}, document.title, window.location.pathname);
                     }
                 }

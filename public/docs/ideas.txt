@@ -26,7 +26,6 @@ Escaneo inteligente de facturas de proveedores con Google Gemini: sube la factur
 
 Validador de pago móvil automático para Banco Venezolano de Crédito y Banco de Venezuela
 
-
 Cashea y Cashea Link: financiamiento en cuotas (QR en punto de venta o enlace de pago para el cliente)
 
 Importación y exportación Excel
@@ -36,3 +35,5 @@ Webhooks para eventos en tiempo real
 
 https://www.instagram.com/lovavzla/
 https://www.instagram.com/adsv.e/
+
+agregar mi propio reprodcutor de video personalizado

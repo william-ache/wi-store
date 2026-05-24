@@ -5,6 +5,7 @@
 @section('header_title', 'Categorías de Productos')
 
 @section('content')
+
 <div x-data="{ 
     showModal: false, 
     isEdit: false, 
@@ -13,6 +14,8 @@
     categoryStatus: 1,
     categoryIcon: '',
     categoryColor: '#E60067',
+    categorySeoTitle: '',
+    categorySeoDescription: '',
     errors: {},
     
     openCreate() {
@@ -22,16 +25,20 @@
         this.categoryStatus = 1;
         this.categoryIcon = '';
         this.categoryColor = '#E60067';
+        this.categorySeoTitle = '';
+        this.categorySeoDescription = '';
         this.errors = {};
         this.showModal = true;
     },
-    openEdit(id, name, status, icon, color) {
+    openEdit(id, name, status, icon, color, seoTitle, seoDescription) {
         this.isEdit = true;
         this.categoryId = id;
         this.categoryName = name;
         this.categoryStatus = status ? 1 : 0;
         this.categoryIcon = icon || '';
         this.categoryColor = color || '#E60067';
+        this.categorySeoTitle = seoTitle || '';
+        this.categorySeoDescription = seoDescription || '';
         this.errors = {};
         this.showModal = true;
     },

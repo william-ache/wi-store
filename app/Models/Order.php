@@ -11,7 +11,7 @@ class Order extends Model
     use HasFactory, BelongsToTenant;
 
     protected $fillable = [
-        'shop_id', 'client_id', 'order_number', 'customer_name', 'customer_phone', 'total', 'status', 'payment_method', 'payment_status'
+        'shop_id', 'client_id', 'order_number', 'customer_name', 'customer_phone', 'total', 'status', 'payment_method', 'payment_status', 'table_number', 'delivery_type', 'payment_reference'
     ];
 
     public function client()
