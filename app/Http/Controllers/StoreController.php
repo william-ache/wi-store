@@ -119,18 +119,76 @@ class StoreController extends Controller
             'customer_phone' => 'required|string|max:255',
             'total' => 'required|numeric|min:0',
             'delivery_type' => 'required|string',
-            'payment_method' => 'nullable|string'
+            'payment_method' => 'nullable|string',
+            'coupon_code' => 'nullable|string'
         ]);
 
         $pmText = $request->payment_method ? ' - Pago: ' . $request->payment_method : '';
+        $couponText = '';
+
+        if ($request->coupon_code) {
+            $code = strtoupper(trim($request->coupon_code));
+            $coupon = \App\Models\Coupon::where('code', $code)->first();
+            if ($coupon) {
+                $coupon->increment('used_count');
+                $couponText = ' (Cupón: ' . $coupon->code . ')';
+            }
+        }
 
         \App\Models\Notification::create([
             'title' => 'Nueva orden recibida',
-            'content' => 'Has recibido una nueva orden de ' . $request->customer_name . ' (' . $request->customer_phone . ') por un monto de $' . number_format($request->total, 2) . '. Tipo: ' . ($request->delivery_type === 'delivery' ? 'Delivery' : 'Retiro en local') . $pmText . '.',
+            'content' => 'Has recibido una nueva orden de ' . $request->customer_name . ' (' . $request->customer_phone . ') por un monto de $' . number_format($request->total, 2) . '. Tipo: ' . ($request->delivery_type === 'delivery' ? 'Delivery' : 'Retiro en local') . $pmText . $couponText . '.',
             'type' => 'new_order',
             'is_read' => false
         ]);
 
         return response()->json(['success' => true]);
+    }
+
+    public function validateCoupon(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string|max:255',
+            'subtotal' => 'required|numeric|min:0',
+        ]);
+
+        $code = strtoupper(trim($request->code));
+        $coupon = \App\Models\Coupon::where('code', $code)->first();
+
+        if (!$coupon) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El código de cupón ingresado no existe.'
+            ]);
+        }
+
+        $validation = $coupon->validateForAmount($request->subtotal);
+        if (!$validation['valid']) {
+            return response()->json([
+                'success' => false,
+                'message' => $validation['message']
+            ]);
+        }
+
+        $discount = 0.00;
+        if ($coupon->type === 'percentage') {
+            $discount = $request->subtotal * ($coupon->value / 100);
+        } else {
+            $discount = $coupon->value;
+        }
+
+        if ($discount > $request->subtotal) {
+            $discount = $request->subtotal;
+        }
+
+        return response()->json([
+            'success' => true,
+            'coupon' => [
+                'code' => $coupon->code,
+                'type' => $coupon->type,
+                'value' => $coupon->value,
+                'discount' => round($discount, 2),
+            ]
+        ]);
     }
 }

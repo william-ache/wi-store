@@ -182,6 +182,7 @@ Route::middleware(['tenant'])->group(function () {
     Route::post('/{shop_slug}/reviews', [StoreController::class, 'storeReview'])->name('reviews.store');
     Route::post('/{shop_slug}/clients/quick-register', [StoreController::class, 'registerClient'])->name('clients.quick-register');
     Route::post('/{shop_slug}/orders/notify', [StoreController::class, 'notifyOrder'])->name('orders.notify');
+    Route::post('/{shop_slug}/coupons/validate', [StoreController::class, 'validateCoupon'])->name('coupons.validate');
     
     // Panel Administrativo de la Tienda (Privado)
     Route::middleware(['auth'])->prefix('/{shop_slug}/admin')->name('admin.')->group(function () {
@@ -216,6 +217,7 @@ Route::middleware(['tenant'])->group(function () {
         Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
         Route::resource('clients', App\Http\Controllers\Admin\ClientController::class);
         Route::resource('announcements', App\Http\Controllers\Admin\AnnouncementController::class);
+        Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class)->only(['index', 'store', 'update', 'destroy']);
 
         // Rutas de Feedback de Usuario
         Route::get('/feedback', [App\Http\Controllers\Admin\FeedbackController::class, 'index'])->name('feedback.index');

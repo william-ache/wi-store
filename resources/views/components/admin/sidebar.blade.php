@@ -84,6 +84,11 @@
                 <span>Marketing</span>
             </a>
             @endif
+            <a href="/{{ config('current_shop')->slug }}/admin/coupons" 
+               class="flex items-center gap-2.5 px-3 py-2 rounded-lg transition text-xs font-semibold {{ request()->is('*/admin/coupons*') ? 'bg-slate-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                <span>Cupones</span>
+            </a>
             <a href="#" onclick="Swal.fire({ title: 'Sistema de Referidos 🔗', text: 'El programa de promotores de marca, recompensas y cupones compartidos de afiliados estará disponible muy pronto.', icon: 'info', confirmButtonText: '¡Entendido!', confirmButtonColor: '{{ config('current_shop')->color_primary ?? '#E60067' }}', background: '#0d1127', color: '#fff' })"
                class="flex items-center gap-2.5 px-3 py-2 rounded-lg transition text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>

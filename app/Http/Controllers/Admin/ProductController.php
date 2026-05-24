@@ -35,6 +35,8 @@ class ProductController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string|max:500',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048', // max 2MB
@@ -56,6 +58,8 @@ class ProductController extends Controller
         $product = Product::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
+            'seo_title' => $request->seo_title,
+            'seo_description' => $request->seo_description,
             'description' => $request->description,
             'price' => $request->price,
             'image_path' => $imagePath,
@@ -93,6 +97,8 @@ class ProductController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string|max:500',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048',
@@ -118,6 +124,8 @@ class ProductController extends Controller
         $product->update([
             'category_id' => $request->category_id,
             'name' => $request->name,
+            'seo_title' => $request->seo_title,
+            'seo_description' => $request->seo_description,
             'description' => $request->description,
             'price' => $request->price,
             'image_path' => $imagePath,

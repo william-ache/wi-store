@@ -7,6 +7,93 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $company['name'] }} - Menú Digital</title>
 
+    {{-- PIXELS Y TRACKING --}}
+    @if (!empty($company['facebook_pixel_id']))
+        <!-- Meta Pixel Code -->
+        <script>
+            ! function(f, b, e, v, n, t, s) {
+                if (f.fbq) return;
+                n = f.fbq = function() {
+                    n.callMethod ?
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                };
+                if (!f._fbq) f._fbq = n;
+                n.push = n;
+                n.loaded = !0;
+                n.version = '2.0';
+                n.queue = [];
+                t = b.createElement(e);
+                t.async = !0;
+                t.src = v;
+                s = b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t, s)
+            }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '{{ $company['facebook_pixel_id'] }}');
+            fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+                src="https://www.facebook.com/tr?id={{ $company['facebook_pixel_id'] }}&ev=PageView&noscript=1" /></noscript>
+    @endif
+
+    @if (!empty($company['tiktok_pixel_id']))
+        <!-- TikTok Pixel Code -->
+        <script>
+            ! function(w, d, t) {
+                w.TiktokAnalyticsObject = t;
+                var ttq = w[t] = w[t] || [];
+                ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias",
+                    "group", "enableCookie", "disableCookie"
+                ];
+                ttq.setAndDefer = function(t, e) {
+                    t[e] = function() {
+                        t.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+                    }
+                };
+                for (var i = 0; i < ttq.methods.length; i++) {
+                    ttq.setAndDefer(ttq, ttq.methods[i])
+                }
+                ttq.instance = function(t) {
+                    for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++) {
+                        ttq.setAndDefer(e, ttq.methods[n])
+                    }
+                    return e
+                };
+                ttq.load = function(e, n) {
+                    var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
+                    ttq._i = ttq._i || {};
+                    ttq._i[e] = [];
+                    ttq._i[e]._u = i;
+                    ttq._t = ttq._t || {};
+                    ttq._t[e] = +new Date;
+                    ttq._o = ttq._o || {};
+                    ttq._o[e] = n || {};
+                    var o = document.createElement("script");
+                    o.type = "text/javascript";
+                    o.async = !0;
+                    o.src = i + "?sdkid=" + e + "&lib=" + t;
+                    var a = document.getElementsByTagName("script")[0];
+                    a.parentNode.insertBefore(o, a)
+                };
+                ttq.load("{{ $company['tiktok_pixel_id'] }}");
+                ttq.page();
+            }(window, document, 'ttq');
+        </script>
+    @endif
+
+    @if (!empty($company['google_analytics_id']))
+        <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $company['google_analytics_id'] }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', '{{ $company['google_analytics_id'] }}');
+        </script>
+    @endif
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -106,6 +193,7 @@
             0% {
                 transform: translateX(-100%);
             }
+
             100% {
                 transform: translateX(100%);
             }
@@ -163,10 +251,13 @@
 
         /* Premium Gold Effects */
         @keyframes premium-glow {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 12px rgba(251, 191, 36, 0.5), 0 0 25px rgba(251, 191, 36, 0.25), inset 0 0 10px rgba(251, 191, 36, 0.3);
                 border-color: #FBBF24;
             }
+
             50% {
                 box-shadow: 0 0 25px rgba(251, 191, 36, 0.9), 0 0 50px rgba(251, 191, 36, 0.5), inset 0 0 20px rgba(251, 191, 36, 0.6);
                 border-color: #F59E0B;
@@ -174,10 +265,13 @@
         }
 
         @keyframes float-crown {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translate(-50%, 0) rotate(0deg);
                 filter: drop-shadow(0 4px 6px rgba(251, 191, 36, 0.7));
             }
+
             50% {
                 transform: translate(-50%, -6px) rotate(2deg);
                 filter: drop-shadow(0 10px 15px rgba(251, 191, 36, 0.95));
@@ -401,25 +495,30 @@
         class="fixed inset-0 bg-white flex flex-col justify-center items-center z-[9999] transition-opacity duration-500">
         <div class="relative w-24 h-24 flex justify-center items-center mb-2">
             @if ($isPremiumPlan)
-                <div class="absolute -top-7 left-1/2 z-40 pointer-events-none float-crown-animation flex items-center justify-center">
-                    <i class="fas fa-crown text-[22px] text-gold-gradient filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"></i>
-                    <span class="absolute w-1.5 h-1.5 rounded-full bg-white animate-ping opacity-75" style="top: 1px;"></span>
+                <div
+                    class="absolute -top-7 left-1/2 z-40 pointer-events-none float-crown-animation flex items-center justify-center">
+                    <i
+                        class="fas fa-crown text-[22px] text-gold-gradient filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"></i>
+                    <span class="absolute w-1.5 h-1.5 rounded-full bg-white animate-ping opacity-75"
+                        style="top: 1px;"></span>
                 </div>
             @endif
             <div class="absolute inset-0 border-4 {{ $isPremiumPlan ? 'border-yellow-100/50' : 'border-slate-100' }} rounded-full animate-spin"
                 style="border-top-color: {{ $isPremiumPlan ? '#F59E0B' : 'var(--color-primary)' }};"></div>
-            <div class="w-20 h-20 rounded-full {{ $isPremiumPlan ? 'premium-border-glow border-2 border-yellow-400 shadow-[0_0_15px_rgba(251,191,36,0.5)] bg-white' : 'bg-slate-200 text-slate-400 shadow-sm' }} overflow-hidden flex items-center justify-center text-xs font-bold relative z-10">
+            <div
+                class="w-20 h-20 rounded-full {{ $isPremiumPlan ? 'premium-border-glow border-2 border-yellow-400 shadow-[0_0_15px_rgba(251,191,36,0.5)] bg-white' : 'bg-slate-200 text-slate-400 shadow-sm' }} overflow-hidden flex items-center justify-center text-xs font-bold relative z-10">
                 @if (!empty($company['logo']))
-                    <img src="{{ $company['logo'] }}" alt="Logo" class="w-full h-full object-cover" 
-                         id="loader-logo-img"
-                         onerror="this.style.display='none'; document.getElementById('loader-logo-fallback').classList.remove('hidden');">
-                    <div id="loader-logo-fallback" class="hidden w-full h-full text-white flex items-center justify-center text-lg font-black tracking-wider"
-                         style="background-color: var(--color-primary);">
+                    <img src="{{ $company['logo'] }}" alt="Logo" class="w-full h-full object-cover"
+                        id="loader-logo-img"
+                        onerror="this.style.display='none'; document.getElementById('loader-logo-fallback').classList.remove('hidden');">
+                    <div id="loader-logo-fallback"
+                        class="hidden w-full h-full text-white flex items-center justify-center text-lg font-black tracking-wider"
+                        style="background-color: var(--color-primary);">
                         {{ $initials }}
                     </div>
                 @else
                     <div class="w-full h-full text-white flex items-center justify-center text-lg font-black tracking-wider"
-                         style="background-color: var(--color-primary);">
+                        style="background-color: var(--color-primary);">
                         {{ $initials }}
                     </div>
                 @endif
@@ -431,9 +530,9 @@
     <!-- PORTADA / BANNER DE LA TIENDA (MÓVIL Y PC) -->
     <main class="flex-grow">
         <div class="relative h-56 md:h-80 w-full bg-slate-900 overflow-hidden">
-            <img src="{{ !empty($company['cover']) ? $company['cover'] : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200' }}" 
-                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200';" 
-                 alt="Portada" class="w-full h-full object-cover opacity-70">
+            <img src="{{ !empty($company['cover']) ? $company['cover'] : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200' }}"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200';"
+                alt="Portada" class="w-full h-full object-cover opacity-70">
             <!-- Oscurecimiento sutil general -->
             <div class="absolute inset-0 bg-black/10"></div>
             <!-- Desvanecimiento (Fade) elegante hacia el color de fondo de la aplicación -->
@@ -451,30 +550,34 @@
                     <div
                         class="relative bg-white/95 backdrop-blur-xl border border-white/40 rounded-2xl p-6 shadow-lg text-center mt-0">
 
-                        
+
                         @if ($isPremiumPlan)
-                            <div class="absolute -top-20 left-1/2 z-40 pointer-events-none float-crown-animation flex items-center justify-center">
-                                <i class="fas fa-crown text-[30px] text-gold-gradient filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"></i>
-                                <span class="absolute w-2 h-2 rounded-full bg-white animate-ping opacity-75" style="top: 2px;"></span>
+                            <div
+                                class="absolute -top-20 left-1/2 z-40 pointer-events-none float-crown-animation flex items-center justify-center">
+                                <i
+                                    class="fas fa-crown text-[30px] text-gold-gradient filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"></i>
+                                <span class="absolute w-2 h-2 rounded-full bg-white animate-ping opacity-75"
+                                    style="top: 2px;"></span>
                             </div>
                         @endif
-                        
+
                         <div
                             class="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full border-4 {{ $isPremiumPlan ? 'premium-border-glow border-yellow-400 shadow-[0_0_20px_rgba(251,191,36,0.6)] bg-white' : 'border-white bg-white shadow-sm' }} overflow-hidden flex items-center justify-center">
-                        @if (!empty($company['logo']))
-                            <img src="{{ $company['logo'] }}" alt="Logo" class="w-full h-full object-cover" 
-                                 id="company-logo-img"
-                                 onerror="this.style.display='none'; document.getElementById('company-logo-fallback').classList.remove('hidden');">
-                            <div id="company-logo-fallback" class="hidden w-full h-full text-white flex items-center justify-center text-xl font-black tracking-wider"
-                                 style="background-color: var(--color-primary);">
-                                {{ $initials }}
-                            </div>
-                        @else
-                            <div class="w-full h-full text-white flex items-center justify-center text-xl font-black tracking-wider"
-                                 style="background-color: var(--color-primary);">
-                                {{ $initials }}
-                            </div>
-                        @endif
+                            @if (!empty($company['logo']))
+                                <img src="{{ $company['logo'] }}" alt="Logo" class="w-full h-full object-cover"
+                                    id="company-logo-img"
+                                    onerror="this.style.display='none'; document.getElementById('company-logo-fallback').classList.remove('hidden');">
+                                <div id="company-logo-fallback"
+                                    class="hidden w-full h-full text-white flex items-center justify-center text-xl font-black tracking-wider"
+                                    style="background-color: var(--color-primary);">
+                                    {{ $initials }}
+                                </div>
+                            @else
+                                <div class="w-full h-full text-white flex items-center justify-center text-xl font-black tracking-wider"
+                                    style="background-color: var(--color-primary);">
+                                    {{ $initials }}
+                                </div>
+                            @endif
                         </div>
 
                         @php
@@ -482,7 +585,7 @@
                                 ? $company['google_maps_link']
                                 : 'https://www.google.com/maps/search/?api=1&query=' .
                                     urlencode($company['address'] ?? '');
-                            
+
                             $planOptions = [
                                 'free_trial' => [
                                     'label' => 'Prueba 7 días',
@@ -513,7 +616,7 @@
                                 'text' => 'text-slate-700',
                                 'border' => 'border-slate-200',
                                 'icon' => 'fas fa-award',
-                             ];
+                            ];
                         @endphp
                         <div class="pt-10">
                             <button type="button" @click="shareMenu()"
@@ -535,7 +638,8 @@
                                     </span>
                                 @endif
                                 @if ($isPremiumPlan)
-                                    <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-black bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-500 text-white border border-yellow-300 shadow-[0_2px_10px_rgba(251,191,36,0.5)] select-none">
+                                    <span
+                                        class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-black bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-500 text-white border border-yellow-300 shadow-[0_2px_10px_rgba(251,191,36,0.5)] select-none">
                                         <i class="fas fa-circle-check text-[11px] text-white"></i>
                                         <span>Verificado Premium</span>
                                     </span>
@@ -587,46 +691,58 @@
                                         'wifi' => [
                                             'label' => 'Wi-Fi',
                                             'icon' => 'fas fa-wifi',
-                                            'bg' => 'bg-blue-50/90 text-blue-700 border-blue-100/60 shadow-[0_1px_2px_rgba(59,130,246,0.05)] dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900/30',
-                                            'iconColor' => 'text-blue-500 dark:text-blue-400'
+                                            'bg' =>
+                                                'bg-blue-50/90 text-blue-700 border-blue-100/60 shadow-[0_1px_2px_rgba(59,130,246,0.05)] dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900/30',
+                                            'iconColor' => 'text-blue-500 dark:text-blue-400',
                                         ],
                                         'parking' => [
                                             'label' => 'Estacionamiento',
                                             'icon' => 'fas fa-parking',
-                                            'bg' => 'bg-emerald-50/90 text-emerald-700 border-emerald-100/60 shadow-[0_1px_2px_rgba(16,185,129,0.05)] dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30',
-                                            'iconColor' => 'text-emerald-500 dark:text-emerald-400'
+                                            'bg' =>
+                                                'bg-emerald-50/90 text-emerald-700 border-emerald-100/60 shadow-[0_1px_2px_rgba(16,185,129,0.05)] dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30',
+                                            'iconColor' => 'text-emerald-500 dark:text-emerald-400',
                                         ],
                                         'restrooms' => [
                                             'label' => 'Baños públicos',
                                             'icon' => 'fas fa-restroom',
-                                            'bg' => 'bg-teal-50/90 text-teal-700 border-teal-100/60 shadow-[0_1px_2px_rgba(20,184,166,0.05)] dark:bg-teal-950/20 dark:text-teal-400 dark:border-teal-900/30',
-                                            'iconColor' => 'text-teal-500 dark:text-teal-400'
+                                            'bg' =>
+                                                'bg-teal-50/90 text-teal-700 border-teal-100/60 shadow-[0_1px_2px_rgba(20,184,166,0.05)] dark:bg-teal-950/20 dark:text-teal-400 dark:border-teal-900/30',
+                                            'iconColor' => 'text-teal-500 dark:text-teal-400',
                                         ],
                                         'pet_friendly' => [
                                             'label' => 'Pet Friendly',
                                             'icon' => 'fas fa-paw',
-                                            'bg' => 'bg-indigo-50/90 text-indigo-700 border-indigo-100/60 shadow-[0_1px_2px_rgba(99,102,241,0.05)] dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-900/30',
-                                            'iconColor' => 'text-indigo-500 dark:text-indigo-400'
+                                            'bg' =>
+                                                'bg-indigo-50/90 text-indigo-700 border-indigo-100/60 shadow-[0_1px_2px_rgba(99,102,241,0.05)] dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-900/30',
+                                            'iconColor' => 'text-indigo-500 dark:text-indigo-400',
                                         ],
                                         'kids_menu' => [
                                             'label' => 'Menú Niños',
                                             'icon' => 'fas fa-child',
-                                            'bg' => 'bg-rose-50/90 text-rose-700 border-rose-100/60 shadow-[0_1px_2px_rgba(244,63,94,0.05)] dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900/30',
-                                            'iconColor' => 'text-rose-500 dark:text-rose-400'
+                                            'bg' =>
+                                                'bg-rose-50/90 text-rose-700 border-rose-100/60 shadow-[0_1px_2px_rgba(244,63,94,0.05)] dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900/30',
+                                            'iconColor' => 'text-rose-500 dark:text-rose-400',
                                         ],
                                         'reservations' => [
                                             'label' => 'Reservas',
                                             'icon' => 'fas fa-calendar-alt',
-                                            'bg' => 'bg-amber-50/90 text-amber-700 border-amber-100/60 shadow-[0_1px_2px_rgba(245,158,11,0.05)] dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/30',
-                                            'iconColor' => 'text-amber-500 dark:text-amber-400'
+                                            'bg' =>
+                                                'bg-amber-50/90 text-amber-700 border-amber-100/60 shadow-[0_1px_2px_rgba(245,158,11,0.05)] dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/30',
+                                            'iconColor' => 'text-amber-500 dark:text-amber-400',
                                         ],
                                     ];
 
                                     foreach ($company['amenities'] as $key => $amenityData) {
-                                        if (isset($amenityData['enabled']) && ($amenityData['enabled'] === '1' || $amenityData['enabled'] === 1 || $amenityData['enabled'] === true || $amenityData['enabled'] === 'true')) {
+                                        if (
+                                            isset($amenityData['enabled']) &&
+                                            ($amenityData['enabled'] === '1' ||
+                                                $amenityData['enabled'] === 1 ||
+                                                $amenityData['enabled'] === true ||
+                                                $amenityData['enabled'] === 'true')
+                                        ) {
                                             if (isset($allPossibleAmenities[$key])) {
                                                 $activeAmenities[$key] = array_merge($allPossibleAmenities[$key], [
-                                                    'val' => $amenityData['value'] ?? ''
+                                                    'val' => $amenityData['value'] ?? '',
                                                 ]);
                                             }
                                         }
@@ -695,98 +811,100 @@
                                 }
                             @endphp
 
-                             <!-- REDES SOCIALES -->
-                             @php
-                                 $hasFacebook = !empty($company['facebook']);
-                                 $hasTiktok = !empty($company['tiktok']);
-                                 $hasInstagram = !empty($company['instagram']);
-                                 $hasX = !empty($company['x_twitter']);
-                                 $hasAnySocial = $hasFacebook || $hasTiktok || $hasInstagram || $hasX;
-                             @endphp
+                            <!-- REDES SOCIALES -->
+                            @php
+                                $hasFacebook = !empty($company['facebook']);
+                                $hasTiktok = !empty($company['tiktok']);
+                                $hasInstagram = !empty($company['instagram']);
+                                $hasX = !empty($company['x_twitter']);
+                                $hasAnySocial = $hasFacebook || $hasTiktok || $hasInstagram || $hasX;
+                            @endphp
 
-                             @if ($hasAnySocial)
-                                 <div class="mt-4 flex items-center justify-center gap-3 select-none">
-                                     <!-- Facebook -->
-                                     @if ($hasFacebook)
-                                         <a href="{{ $company['facebook'] }}" target="_blank"
-                                             class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-[#1877F2]/10 border-[#1877F2]/20 text-[#1877F2] hover:bg-[#1877F2] hover:text-white hover:scale-110 active:scale-95"
-                                             title="Visítanos en Facebook">
-                                             <i class="fab fa-facebook-f"></i>
-                                         </a>
-                                     @endif
+                            @if ($hasAnySocial)
+                                <div class="mt-4 flex items-center justify-center gap-3 select-none">
+                                    <!-- Facebook -->
+                                    @if ($hasFacebook)
+                                        <a href="{{ $company['facebook'] }}" target="_blank"
+                                            class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-[#1877F2]/10 border-[#1877F2]/20 text-[#1877F2] hover:bg-[#1877F2] hover:text-white hover:scale-110 active:scale-95"
+                                            title="Visítanos en Facebook">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    @endif
 
-                                     <!-- TikTok -->
-                                     @if ($hasTiktok)
-                                         <a href="{{ $company['tiktok'] }}" target="_blank"
-                                             class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-black/10 border-black/20 text-black hover:bg-black hover:text-white hover:scale-110 active:scale-95 group"
-                                             title="Síguenos en TikTok">
-                                             <i class="fab fa-tiktok text-black group-hover:text-white transition-colors"></i>
-                                         </a>
-                                     @endif
+                                    <!-- TikTok -->
+                                    @if ($hasTiktok)
+                                        <a href="{{ $company['tiktok'] }}" target="_blank"
+                                            class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-black/10 border-black/20 text-black hover:bg-black hover:text-white hover:scale-110 active:scale-95 group"
+                                            title="Síguenos en TikTok">
+                                            <i
+                                                class="fab fa-tiktok text-black group-hover:text-white transition-colors"></i>
+                                        </a>
+                                    @endif
 
-                                     <!-- Instagram -->
-                                     @if ($hasInstagram)
-                                         <a href="{{ $company['instagram'] }}" target="_blank"
-                                             class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-gradient-to-tr from-[#FFB703]/10 to-[#E60067]/10 border-[#E60067]/20 text-[#E60067] hover:from-[#FFB703] hover:to-[#E60067] hover:text-white hover:scale-110 active:scale-95"
-                                             title="Síguenos en Instagram">
-                                             <i class="fab fa-instagram"></i>
-                                         </a>
-                                     @endif
+                                    <!-- Instagram -->
+                                    @if ($hasInstagram)
+                                        <a href="{{ $company['instagram'] }}" target="_blank"
+                                            class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-gradient-to-tr from-[#FFB703]/10 to-[#E60067]/10 border-[#E60067]/20 text-[#E60067] hover:from-[#FFB703] hover:to-[#E60067] hover:text-white hover:scale-110 active:scale-95"
+                                            title="Síguenos en Instagram">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    @endif
 
-                                     <!-- X (Twitter) -->
-                                     @if ($hasX)
-                                         <a href="{{ $company['x_twitter'] }}" target="_blank"
-                                             class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-black/10 border-black/20 text-black hover:bg-black hover:text-white hover:scale-110 active:scale-95 group"
-                                             title="Síguenos en X (Twitter)">
-                                             <svg class="w-3 h-3 text-black group-hover:text-white transition-colors"
-                                                 fill="currentColor" viewBox="0 0 24 24"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                 <path
-                                                     d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                             </svg>
-                                         </a>
-                                     @endif
-                                 </div>
-                             @endif
+                                    <!-- X (Twitter) -->
+                                    @if ($hasX)
+                                        <a href="{{ $company['x_twitter'] }}" target="_blank"
+                                            class="w-9 h-9 rounded-full flex items-center justify-center text-xs transition-all duration-300 shadow-sm border bg-black/10 border-black/20 text-black hover:bg-black hover:text-white hover:scale-110 active:scale-95 group"
+                                            title="Síguenos en X (Twitter)">
+                                            <svg class="w-3 h-3 text-black group-hover:text-white transition-colors"
+                                                fill="currentColor" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                            </svg>
+                                        </a>
+                                    @endif
+                                </div>
+                            @endif
 
-                             <!-- CANALES DE CONTACTO -->
-                             @php
-                                 $hasTelegram = !empty($company['telegram']);
-                                 $hasTelegramUrl = $hasTelegram
-                                     ? (str_contains($company['telegram'], 't.me')
-                                         ? $company['telegram']
-                                         : 'https://t.me/' . ltrim($company['telegram'], '@'))
-                                     : '';
-                                 $hasWhatsApp = !empty($company['whatsapp']);
-                             @endphp
+                            <!-- CANALES DE CONTACTO -->
+                            @php
+                                $hasTelegram = !empty($company['telegram']);
+                                $hasTelegramUrl = $hasTelegram
+                                    ? (str_contains($company['telegram'], 't.me')
+                                        ? $company['telegram']
+                                        : 'https://t.me/' . ltrim($company['telegram'], '@'))
+                                    : '';
+                                $hasWhatsApp = !empty($company['whatsapp']);
+                            @endphp
 
-                             @if ($hasWhatsApp || $hasTelegram)
-                                 <div class="mt-3.5 flex flex-wrap justify-center gap-2 text-[10px] md:text-[11px] font-bold select-none">
-                                     <!-- WhatsApp -->
-                                     @if ($hasWhatsApp)
-                                         @if (count($whatsapps) > 1)
-                                             <button @click="showWhatsappModal = true"
-                                                 class="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-500 hover:text-white border border-emerald-100 text-emerald-600 px-3 py-1.5 rounded-xl transition duration-300 active:scale-95 shadow-sm cursor-pointer">
-                                                 <i class="fab fa-whatsapp text-[13px]"></i> WhatsApp
-                                             </button>
-                                         @else
-                                             <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $whatsapps[0]['number'] ?? $company['whatsapp']) }}"
-                                                 target="_blank"
-                                                 class="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-500 hover:text-white border border-emerald-100 text-emerald-600 px-3 py-1.5 rounded-xl transition duration-300 active:scale-95 shadow-sm">
-                                                 <i class="fab fa-whatsapp text-[13px]"></i> WhatsApp
-                                             </a>
-                                         @endif
-                                     @endif
+                            @if ($hasWhatsApp || $hasTelegram)
+                                <div
+                                    class="mt-3.5 flex flex-wrap justify-center gap-2 text-[10px] md:text-[11px] font-bold select-none">
+                                    <!-- WhatsApp -->
+                                    @if ($hasWhatsApp)
+                                        @if (count($whatsapps) > 1)
+                                            <button @click="showWhatsappModal = true"
+                                                class="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-500 hover:text-white border border-emerald-100 text-emerald-600 px-3 py-1.5 rounded-xl transition duration-300 active:scale-95 shadow-sm cursor-pointer">
+                                                <i class="fab fa-whatsapp text-[13px]"></i> WhatsApp
+                                            </button>
+                                        @else
+                                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $whatsapps[0]['number'] ?? $company['whatsapp']) }}"
+                                                target="_blank"
+                                                class="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-500 hover:text-white border border-emerald-100 text-emerald-600 px-3 py-1.5 rounded-xl transition duration-300 active:scale-95 shadow-sm">
+                                                <i class="fab fa-whatsapp text-[13px]"></i> WhatsApp
+                                            </a>
+                                        @endif
+                                    @endif
 
-                                     <!-- Telegram Contacto -->
-                                     @if ($hasTelegram)
-                                         <a href="{{ $hasTelegramUrl }}" target="_blank"
-                                             class="flex items-center gap-1.5 bg-sky-50 hover:bg-[#0088cc] hover:text-white border border-[#0088cc]/20 text-[#0088cc] px-3 py-1.5 rounded-xl transition duration-300 active:scale-95 shadow-sm">
-                                             <i class="fab fa-telegram-plane text-[13px]"></i> Telegram
-                                         </a>
-                                     @endif
-                                 </div>
-                             @endif
+                                    <!-- Telegram Contacto -->
+                                    @if ($hasTelegram)
+                                        <a href="{{ $hasTelegramUrl }}" target="_blank"
+                                            class="flex items-center gap-1.5 bg-sky-50 hover:bg-[#0088cc] hover:text-white border border-[#0088cc]/20 text-[#0088cc] px-3 py-1.5 rounded-xl transition duration-300 active:scale-95 shadow-sm">
+                                            <i class="fab fa-telegram-plane text-[13px]"></i> Telegram
+                                        </a>
+                                    @endif
+                                </div>
+                            @endif
                             <!-- MÉTODOS DE PAGO -->
                             @php
                                 $methodColors = [
@@ -804,75 +922,106 @@
                             <!-- TASA MONETARIA -->
                             @if (!empty($company['exchange_rate']))
                                 @php
-                                    $currencyLabel = (isset($company['base_currency']) && strtoupper($company['base_currency']) === 'EUR') ? 'EUR' : 'USD';
+                                    $currencyLabel =
+                                        isset($company['base_currency']) &&
+                                        strtoupper($company['base_currency']) === 'EUR'
+                                            ? 'EUR'
+                                            : 'USD';
                                 @endphp
                                 <div class="mt-4 w-full max-w-[280px] mx-auto bg-gradient-to-br from-[#5A6370] to-[#3B424D] text-white border border-[#374151]/55 rounded-2xl px-4 py-3 flex flex-col items-center relative overflow-hidden transition-all duration-300 hover:shadow-lg select-none"
-                                     style="box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 8px 20px -6px rgba(0, 0, 0, 0.2);">
+                                    style="box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 8px 20px -6px rgba(0, 0, 0, 0.2);">
                                     <!-- Decorative light reflection shimmer effect -->
-                                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-bcv-shimmer pointer-events-none"></div>
-                                    
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-bcv-shimmer pointer-events-none">
+                                    </div>
+
                                     <!-- Large subtle background watermark -->
-                                    <div class="absolute -left-4 -bottom-4 w-24 h-24 opacity-[0.05] text-white pointer-events-none select-none transform rotate-12">
+                                    <div
+                                        class="absolute -left-4 -bottom-4 w-24 h-24 opacity-[0.05] text-white pointer-events-none select-none transform rotate-12">
                                         <svg viewBox="0 0 100 100" class="w-full h-full" fill="currentColor">
                                             <!-- Concentric outer circles -->
-                                            <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1.8"/>
-                                            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="0.8"/>
-                                            
+                                            <circle cx="50" cy="50" r="48" fill="none"
+                                                stroke="currentColor" stroke-width="1.8" />
+                                            <circle cx="50" cy="50" r="45" fill="none"
+                                                stroke="currentColor" stroke-width="0.8" />
+
                                             <!-- 32 detailed segments rotated -->
                                             @for ($i = 0; $i < 32; $i++)
-                                                <use href="#bcv-seal-segment" transform="rotate({{ $i * 11.25 }} 50 50)" />
+                                                <use href="#bcv-seal-segment"
+                                                    transform="rotate({{ $i * 11.25 }} 50 50)" />
                                             @endfor
-                                            
+
                                             <!-- Solid central circle -->
-                                            <circle cx="50" cy="50" r="25.5" fill="currentColor" stroke="white" stroke-width="0.8"/>
-                                            
+                                            <circle cx="50" cy="50" r="25.5" fill="currentColor"
+                                                stroke="white" stroke-width="0.8" />
+
                                             <!-- Inner banner box for BCV letters -->
-                                            <rect x="23" y="38" width="54" height="24" fill="currentColor" stroke="white" stroke-width="1.5" rx="1.5"/>
-                                            <text x="50" y="55.5" font-family="'Georgia', 'Times New Roman', serif" font-weight="900" font-size="16" fill="white" text-anchor="middle" letter-spacing="1">BCV</text>
+                                            <rect x="23" y="38" width="54" height="24" fill="currentColor"
+                                                stroke="white" stroke-width="1.5" rx="1.5" />
+                                            <text x="50" y="55.5" font-family="'Georgia', 'Times New Roman', serif"
+                                                font-weight="900" font-size="16" fill="white" text-anchor="middle"
+                                                letter-spacing="1">BCV</text>
                                         </svg>
                                     </div>
 
                                     <!-- Official Seal Stamp (Esquina Superior Derecha) -->
                                     <div class="absolute top-2 right-2 w-[38px] h-[38px] bg-white/90 backdrop-blur-md rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.15)] border border-slate-200/40 flex items-center justify-center transform -rotate-12 hover:rotate-0 hover:scale-105 active:scale-95 transition-all duration-300 pointer-events-auto cursor-pointer"
-                                         title="Tasa Oficial del Banco Central de Venezuela">
-                                         <svg viewBox="0 0 100 100" class="w-[30px] h-[30px] text-slate-800" fill="currentColor">
-                                             <defs>
-                                                 <g id="bcv-seal-segment">
-                                                     <path d="M 50,5.5 L 47.8,10.2 L 52.2,10.2 Z" fill="currentColor"/>
-                                                     <path d="M 50,11.5 L 44,17.2 L 46.2,19.2 L 50,15.6 L 53.8,19.2 L 56,17.2 Z" fill="currentColor"/>
-                                                     <path d="M 49.3,10 L 50.7,10 L 50.7,24.5 L 49.3,24.5 Z" fill="currentColor"/>
-                                                     <path d="M 50,16.5 L 45.2,21.3 L 47,23.1 L 50,20.1 L 53,23.1 L 54.8,21.3 Z" fill="currentColor"/>
-                                                     <path d="M 50,21.5 L 48.2,24.2 L 51.8,24.2 Z" fill="currentColor"/>
-                                                 </g>
-                                             </defs>
-                                             <!-- Concentric outer circles -->
-                                             <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1.8"/>
-                                             <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="0.8"/>
-                                             
-                                             <!-- 32 detailed segments rotated -->
-                                             @for ($i = 0; $i < 32; $i++)
-                                                 <use href="#bcv-seal-segment" transform="rotate({{ $i * 11.25 }} 50 50)" />
-                                             @endfor
-                                             
-                                             <!-- Solid central circle -->
-                                             <circle cx="50" cy="50" r="25.5" fill="currentColor" stroke="white" stroke-width="0.8"/>
-                                             
-                                             <!-- Inner banner box for BCV letters -->
-                                             <rect x="23" y="38" width="54" height="24" fill="currentColor" stroke="white" stroke-width="1.5" rx="1.5"/>
-                                             <text x="50" y="55.5" font-family="'Georgia', 'Times New Roman', serif" font-weight="900" font-size="16" fill="white" text-anchor="middle" letter-spacing="1">BCV</text>
-                                         </svg>
+                                        title="Tasa Oficial del Banco Central de Venezuela">
+                                        <svg viewBox="0 0 100 100" class="w-[30px] h-[30px] text-slate-800"
+                                            fill="currentColor">
+                                            <defs>
+                                                <g id="bcv-seal-segment">
+                                                    <path d="M 50,5.5 L 47.8,10.2 L 52.2,10.2 Z" fill="currentColor" />
+                                                    <path
+                                                        d="M 50,11.5 L 44,17.2 L 46.2,19.2 L 50,15.6 L 53.8,19.2 L 56,17.2 Z"
+                                                        fill="currentColor" />
+                                                    <path d="M 49.3,10 L 50.7,10 L 50.7,24.5 L 49.3,24.5 Z"
+                                                        fill="currentColor" />
+                                                    <path
+                                                        d="M 50,16.5 L 45.2,21.3 L 47,23.1 L 50,20.1 L 53,23.1 L 54.8,21.3 Z"
+                                                        fill="currentColor" />
+                                                    <path d="M 50,21.5 L 48.2,24.2 L 51.8,24.2 Z"
+                                                        fill="currentColor" />
+                                                </g>
+                                            </defs>
+                                            <!-- Concentric outer circles -->
+                                            <circle cx="50" cy="50" r="48" fill="none"
+                                                stroke="currentColor" stroke-width="1.8" />
+                                            <circle cx="50" cy="50" r="45" fill="none"
+                                                stroke="currentColor" stroke-width="0.8" />
+
+                                            <!-- 32 detailed segments rotated -->
+                                            @for ($i = 0; $i < 32; $i++)
+                                                <use href="#bcv-seal-segment"
+                                                    transform="rotate({{ $i * 11.25 }} 50 50)" />
+                                            @endfor
+
+                                            <!-- Solid central circle -->
+                                            <circle cx="50" cy="50" r="25.5" fill="currentColor"
+                                                stroke="white" stroke-width="0.8" />
+
+                                            <!-- Inner banner box for BCV letters -->
+                                            <rect x="23" y="38" width="54" height="24" fill="currentColor"
+                                                stroke="white" stroke-width="1.5" rx="1.5" />
+                                            <text x="50" y="55.5" font-family="'Georgia', 'Times New Roman', serif"
+                                                font-weight="900" font-size="16" fill="white" text-anchor="middle"
+                                                letter-spacing="1">BCV</text>
+                                        </svg>
                                     </div>
-                                    
-                                    <span class="text-[#A2ACBC] text-[9.5px] font-black uppercase tracking-[0.15em] mb-1 select-none pr-8">
+
+                                    <span
+                                        class="text-[#A2ACBC] text-[9.5px] font-black uppercase tracking-[0.15em] mb-1 select-none pr-8">
                                         Tasa Oficial BCV ({{ $currencyLabel }})
                                     </span>
-                                    
-                                    <span class="text-xl md:text-2xl font-black text-white tracking-tight mb-1 select-none pr-8">
+
+                                    <span
+                                        class="text-xl md:text-2xl font-black text-white tracking-tight mb-1 select-none pr-8">
                                         {{ $company['exchange_rate'] }}
                                     </span>
 
                                     @if (!empty($company['exchange_updated_at']))
-                                        <div class="text-[#96A4B6] text-[9.5px] font-semibold flex items-center justify-center gap-1 mt-0.5 select-none w-full border-t border-white/5 pt-1.5">
+                                        <div
+                                            class="text-[#96A4B6] text-[9.5px] font-semibold flex items-center justify-center gap-1 mt-0.5 select-none w-full border-t border-white/5 pt-1.5">
                                             <i class="far fa-clock text-[9px] text-[#8A95A5]"></i>
                                             <span>Actualizado: {{ $company['exchange_updated_at'] }}</span>
                                         </div>
@@ -909,12 +1058,14 @@
                                 <button @click="showBranchesModal = true"
                                     class="w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm">
                                     <i class="fas fa-store"></i> <span>Sucursales</span>
-                                    <span class="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm">
+                                    <span
+                                        class="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm">
                                         {{ count($branches) }}
                                     </span>
                                 </button>
                             </div>
-                            <div class="mt-2 grid {{ (($company['has_dine_in'] ?? true) || ($company['has_pickup'] ?? true) || ($company['has_delivery'] ?? true)) ? 'grid-cols-2' : 'grid-cols-1' }} gap-2">
+                            <div
+                                class="mt-2 grid {{ ($company['has_dine_in'] ?? true) || ($company['has_pickup'] ?? true) || ($company['has_delivery'] ?? true) ? 'grid-cols-2' : 'grid-cols-1' }} gap-2">
                                 @if (($company['has_dine_in'] ?? true) || ($company['has_pickup'] ?? true) || ($company['has_delivery'] ?? true))
                                     <button @click="showServiceTypesModal = true"
                                         class="w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition active:scale-95 shadow-sm">
@@ -922,7 +1073,7 @@
                                         <span>Servicios</span>
                                         <span
                                             class="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1 shadow-sm">
-                                            {{ (($company['has_dine_in'] ?? true) ? 1 : 0) + (($company['has_pickup'] ?? true) ? 1 : 0) + (($company['has_delivery'] ?? true) ? 1 : 0) }}
+                                            {{ ($company['has_dine_in'] ?? true ? 1 : 0) + ($company['has_pickup'] ?? true ? 1 : 0) + ($company['has_delivery'] ?? true ? 1 : 0) }}
                                         </span>
                                     </button>
                                 @endif
@@ -1593,12 +1744,13 @@
             <!-- AVISO DINÁMICO DE ENVÍO GRATIS -->
             <template x-if="enableFreeShipping && cart.length > 0">
                 <div class="rounded-2xl p-3.5 border transition-all duration-300 flex items-center gap-3 shadow-sm select-none"
-                     :class="total < freeShippingMinAmount 
-                        ? 'bg-amber-50 border-amber-200 text-amber-800' 
-                        : 'bg-emerald-50 border-emerald-200 text-emerald-800'">
-                    
+                    :class="total < freeShippingMinAmount ?
+                        'bg-amber-50 border-amber-200 text-amber-800' :
+                        'bg-emerald-50 border-emerald-200 text-emerald-800'">
+
                     <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 shadow-sm"
-                         :class="total < freeShippingMinAmount ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'">
+                        :class="total < freeShippingMinAmount ? 'bg-amber-100 text-amber-600' :
+                            'bg-emerald-100 text-emerald-600'">
                         <template x-if="total < freeShippingMinAmount">
                             <i class="fas fa-info-circle text-base animate-pulse"></i>
                         </template>
@@ -1610,19 +1762,22 @@
                     <div class="flex-grow min-w-0">
                         <template x-if="total < freeShippingMinAmount">
                             <div class="text-[11px] font-semibold">
-                                Faltan <span class="font-extrabold text-xs" x-text="currencySymbol + (freeShippingMinAmount - total).toFixed(2)"></span> para <span class="font-bold">envío gratis</span>
+                                Faltan <span class="font-extrabold text-xs"
+                                    x-text="currencySymbol + (freeShippingMinAmount - total).toFixed(2)"></span> para
+                                <span class="font-bold">envío gratis</span>
                             </div>
                         </template>
                         <template x-if="total >= freeShippingMinAmount">
                             <div class="text-[11px] font-black tracking-wide flex items-center gap-1 uppercase">
-                                ¡Tienes envío gratis! <i class="fas fa-check-circle text-emerald-500 animate-bounce"></i>
+                                ¡Tienes envío gratis! <i
+                                    class="fas fa-check-circle text-emerald-500 animate-bounce"></i>
                             </div>
                         </template>
-                        
+
                         <div class="w-full bg-slate-200 rounded-full h-1.5 mt-1.5 overflow-hidden">
                             <div class="h-full rounded-full transition-all duration-500 ease-out"
-                                 :class="total < freeShippingMinAmount ? 'bg-amber-500' : 'bg-emerald-500'"
-                                 :style="{ width: Math.min((total / freeShippingMinAmount) * 100, 100) + '%' }">
+                                :class="total < freeShippingMinAmount ? 'bg-amber-500' : 'bg-emerald-500'"
+                                :style="{ width: Math.min((total / freeShippingMinAmount) * 100, 100) + '%' }">
                             </div>
                         </div>
                     </div>
@@ -1873,14 +2028,101 @@
                 </div>
             </div>
         </div>
-        <div class="p-5 bg-white border-t border-slate-100">
-            <div class="flex justify-between items-start mb-4">
+
+        <!-- COUPON CODE PANEL -->
+        <div class="px-5 pt-4" x-show="cart.length > 0" x-transition>
+            <div class="bg-gradient-to-br from-slate-50 to-white border border-slate-200/80 rounded-2xl p-4 shadow-sm">
+                <h3 class="text-xs font-black text-slate-700 flex items-center gap-1.5 mb-3">
+                    <span
+                        class="inline-flex items-center justify-center w-5 h-5 rounded-lg bg-[var(--color-primary)]/10">
+                        <i class="fas fa-tag text-[var(--color-primary)] text-[10px]"></i>
+                    </span>
+                    Cupón de Descuento
+                </h3>
+
+                <!-- Input Row -->
+                <div class="flex gap-2">
+                    <div class="relative flex-1">
+                        <input type="text" x-model="couponCode" @input="couponCode = couponCode.toUpperCase()"
+                            @keydown.enter.prevent="applyCouponCode()" :disabled="appliedCoupon !== null"
+                            placeholder="Ej: VERANO20"
+                            class="w-full rounded-xl pl-4 pr-4 py-3 text-xs font-bold tracking-wider text-slate-800 border transition placeholder-slate-300 focus:outline-none focus:ring-2"
+                            :class="appliedCoupon !== null ?
+                                'bg-emerald-50 border-emerald-200 text-emerald-700 focus:ring-emerald-300/30' :
+                                'bg-white border-slate-200 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]/10'">
+                    </div>
+                    <button type="button" @click="applyCouponCode()"
+                        :disabled="!couponCode.trim() && appliedCoupon === null"
+                        class="px-4 py-3 rounded-xl text-xs font-extrabold transition active:scale-95 shadow-sm"
+                        :class="appliedCoupon !== null ?
+                            'bg-rose-100 text-rose-600 hover:bg-rose-200 border border-rose-200' :
+                            'bg-[var(--color-primary)] text-white hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed'">
+                        <span x-show="appliedCoupon === null"><i class="fas fa-check mr-1"></i>Aplicar</span>
+                        <span x-show="appliedCoupon !== null"><i class="fas fa-times mr-1"></i>Quitar</span>
+                    </button>
+                </div>
+
+                <!-- Success feedback -->
+                <div x-show="appliedCoupon !== null" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 -translate-y-1"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    class="mt-2.5 bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2.5 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div
+                            class="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-check text-white text-[9px]"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-extrabold text-emerald-800"
+                                x-text="'¡Cupón ' + (appliedCoupon?.code ?? '') + ' aplicado!'"></p>
+                            <p class="text-[10px] text-emerald-600 font-semibold"
+                                x-text="appliedCoupon?.type === 'percentage'
+                                    ? appliedCoupon.value + '% de descuento'
+                                    : currencySymbol + parseFloat(appliedCoupon?.value ?? 0).toFixed(2) + ' de descuento'">
+                            </p>
+                        </div>
+                    </div>
+                    <span class="text-sm font-extrabold text-emerald-700"
+                        x-text="'-' + currencySymbol + discountAmount.toFixed(2)"></span>
+                </div>
+
+                <!-- Error feedback -->
+                <div x-show="couponError !== ''" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 -translate-y-1"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    class="mt-2.5 bg-rose-50 border border-rose-200 rounded-xl px-3 py-2.5 flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-full bg-rose-400 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-exclamation text-white text-[9px]"></i>
+                    </div>
+                    <p class="text-[11px] font-bold text-rose-700" x-text="couponError"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-5 bg-white border-t border-slate-100 mt-4">
+            <!-- Subtotal row (shown only when coupon is applied) -->
+            <div class="flex justify-between items-center mb-1.5" x-show="appliedCoupon !== null" x-transition>
+                <span class="text-xs font-bold text-slate-400">Subtotal:</span>
+                <span class="text-xs font-bold text-slate-500"
+                    x-text="currencySymbol + (total + actualDeliveryCost).toFixed(2)"></span>
+            </div>
+            <!-- Discount row -->
+            <div class="flex justify-between items-center mb-1.5" x-show="appliedCoupon !== null" x-transition>
+                <span class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+                    <i class="fas fa-tag text-[10px]"></i>
+                    <span x-text="'Cupón ' + (appliedCoupon?.code ?? '')"></span>:
+                </span>
+                <span class="text-xs font-extrabold text-emerald-600"
+                    x-text="'-' + currencySymbol + discountAmount.toFixed(2)"></span>
+            </div>
+            <div class="flex justify-between items-start mb-4"
+                :class="appliedCoupon !== null ? 'pt-1.5 border-t border-slate-100' : ''">
                 <span class="text-base font-black text-slate-800">Total:</span>
                 <div class="text-right">
                     <span class="text-lg font-black text-slate-900 block"
-                        x-text="currencySymbol + (total + actualDeliveryCost).toFixed(2)"></span>
+                        x-text="currencySymbol + Math.max(total - discountAmount + actualDeliveryCost, 0).toFixed(2)"></span>
                     <span x-show="exchangeRate > 0" class="text-xs font-bold text-slate-400 block mt-0.5"
-                        x-text="'Bs. ' + ((total + actualDeliveryCost) * exchangeRate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })"></span>
+                        x-text="'Bs. ' + (Math.max(total - discountAmount + actualDeliveryCost, 0) * exchangeRate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })"></span>
                 </div>
             </div>
             <button x-show="cart.length > 0" @click="sendWhatsApp()"
@@ -1924,11 +2166,11 @@
             </template>
 
             <!-- Si es tipo simple y tiene un texto personalizado (que no sea genérico de "horario configurado"), mostrarlo -->
-            <template x-if="workHours && workHours.type === 'simple' && workHours.text && workHours.text !== 'Horario configurado' && workHours.text !== 'Horario personalizado configurado'">
+            <template
+                x-if="workHours && workHours.type === 'simple' && workHours.text && workHours.text !== 'Horario configurado' && workHours.text !== 'Horario personalizado configurado'">
                 <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center">
                     <i class="far fa-clock text-[var(--color-primary)] text-3xl mb-3 block"></i>
-                    <p class="text-sm font-bold text-slate-700 leading-relaxed"
-                        x-text="workHours.text"></p>
+                    <p class="text-sm font-bold text-slate-700 leading-relaxed" x-text="workHours.text"></p>
                 </div>
             </template>
 
@@ -1987,7 +2229,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <template x-for="service in services" :key="service.label">
                         <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center gap-2 text-center transition-transform duration-300 hover:scale-[1.02]"
-                             :class="service.bg">
+                            :class="service.bg">
                             <i :class="service.icon + ' ' + service.iconColor" class="text-2xl"></i>
                             <span class="text-xs font-bold" x-text="service.label"></span>
                             <template x-if="service.val">
@@ -2032,7 +2274,7 @@
                 <div class="grid grid-cols-1 gap-3">
                     <template x-for="serviceType in serviceTypes" :key="serviceType.key">
                         <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02]"
-                             :class="serviceType.bg">
+                            :class="serviceType.bg">
                             <i :class="serviceType.icon + ' ' + serviceType.iconColor" class="text-2xl"></i>
                             <span class="text-sm font-bold" x-text="serviceType.label"></span>
                         </div>
@@ -2234,7 +2476,8 @@
                             </div>
                             <span class="text-xs text-amber-500 shrink-0 ml-2 mt-0.5">
                                 <template x-for="star in 5" :key="star">
-                                    <i :class="star <= rev.rating ? 'fas fa-star' : 'far fa-star'" class="mr-0.5"></i>
+                                    <i :class="star <= rev.rating ? 'fas fa-star' : 'far fa-star'"
+                                        class="mr-0.5"></i>
                                 </template>
                             </span>
                         </div>
@@ -2260,8 +2503,8 @@
 
             <!-- Bloque del Formulario Desplegado -->
             <div x-show="showForm" x-cloak x-transition:enter="transition ease-out duration-250"
-                x-transition:enter-start="opacity-0 translate-y-3" x-transition:enter-end="opacity-100 translate-y-0"
-                class="space-y-3">
+                x-transition:enter-start="opacity-0 translate-y-3"
+                x-transition:enter-end="opacity-100 translate-y-0" class="space-y-3">
                 <div class="flex justify-between items-center mb-1">
                     <h3 class="text-sm font-black text-slate-800">Deja tu opinión</h3>
                     <button @click="showForm = false"
@@ -2284,11 +2527,13 @@
 
                     <div class="flex flex-col gap-2.5 bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center select-none"
                         x-data="{ hoverRating: 0 }">
-                        <span class="text-xs font-black text-slate-500 block uppercase tracking-wider">Valoración de tu
+                        <span class="text-xs font-black text-slate-500 block uppercase tracking-wider">Valoración de
+                            tu
                             experiencia</span>
                         <div class="flex justify-center gap-4 py-1" @mouseleave="hoverRating = 0">
                             <template x-for="star in [1, 2, 3, 4, 5]" :key="star">
-                                <button type="button" @click="review.rating = star" @mouseenter="hoverRating = star"
+                                <button type="button" @click="review.rating = star"
+                                    @mouseenter="hoverRating = star"
                                     class="text-3xl transition-all duration-150 transform hover:scale-125 focus:outline-none cursor-pointer"
                                     :class="(hoverRating ? hoverRating >= star : parseInt(review.rating) >= star) ?
                                     'text-amber-400' : 'text-slate-300'">
@@ -2522,7 +2767,8 @@
                 <span class="text-base leading-none">⏱️</span>
                 <span class="text-xs font-black text-slate-800">Tiempo estimado de preparación:</span>
                 <span class="text-xs font-black text-slate-500 ml-auto"
-                    x-text="modalProduct && modalProduct.preparation_time ? modalProduct.preparation_time : '20-30 min'">20-30 min</span>
+                    x-text="modalProduct && modalProduct.preparation_time ? modalProduct.preparation_time : '20-30 min'">20-30
+                    min</span>
             </div>
 
             <!-- Variants Selection Panels -->
@@ -2721,6 +2967,19 @@
                 pendingOrderMessage: '',
                 showPaymentError: false,
 
+                // Coupons properties
+                couponCode: '',
+                appliedCoupon: null,
+                couponError: '',
+                get discountAmount() {
+                    if (!this.appliedCoupon) return 0;
+                    if (this.appliedCoupon.type === 'percentage') {
+                        return this.total * (parseFloat(this.appliedCoupon.value) / 100);
+                    } else {
+                        return parseFloat(this.appliedCoupon.value);
+                    }
+                },
+
                 // Propiedades de Anuncios
                 announcements: @json($announcements ?? []),
                 showAnnouncementModal: false,
@@ -2814,10 +3073,30 @@
 
                 // Service types data
                 serviceTypes: (() => {
-                    return [
-                        { key: 'has_dine_in', label: 'Comer aquí', icon: 'fas fa-utensils', bg: 'bg-emerald-50/90 text-emerald-700 border-emerald-100/60', iconColor: 'text-emerald-500', enabled: @json($company['has_dine_in'] ?? true) },
-                        { key: 'has_pickup', label: 'Recoger', icon: 'fas fa-shopping-bag', bg: 'bg-amber-50/90 text-amber-700 border-amber-100/60', iconColor: 'text-amber-500', enabled: @json($company['has_pickup'] ?? true) },
-                        { key: 'has_delivery', label: 'Entrega a domicilio', icon: 'fas fa-motorcycle', bg: 'bg-blue-50/90 text-blue-700 border-blue-100/60', iconColor: 'text-blue-500', enabled: @json($company['has_delivery'] ?? true) }
+                    return [{
+                            key: 'has_dine_in',
+                            label: 'Comer aquí',
+                            icon: 'fas fa-utensils',
+                            bg: 'bg-emerald-50/90 text-emerald-700 border-emerald-100/60',
+                            iconColor: 'text-emerald-500',
+                            enabled: @json($company['has_dine_in'] ?? true)
+                        },
+                        {
+                            key: 'has_pickup',
+                            label: 'Recoger',
+                            icon: 'fas fa-shopping-bag',
+                            bg: 'bg-amber-50/90 text-amber-700 border-amber-100/60',
+                            iconColor: 'text-amber-500',
+                            enabled: @json($company['has_pickup'] ?? true)
+                        },
+                        {
+                            key: 'has_delivery',
+                            label: 'Entrega a domicilio',
+                            icon: 'fas fa-motorcycle',
+                            bg: 'bg-blue-50/90 text-blue-700 border-blue-100/60',
+                            iconColor: 'text-blue-500',
+                            enabled: @json($company['has_delivery'] ?? true)
+                        }
                     ].filter(s => s.enabled);
                 })(),
                 storeStatus: {
@@ -2849,7 +3128,8 @@
                     this.applyAccessibilitySettings();
 
                     // Mostrar el anuncio apenas entra al menú — forzar cierre del carrito y modales primero
-                    if (this.announcements && this.announcements.length > 0 && !sessionStorage.getItem('announcements_closed')) {
+                    if (this.announcements && this.announcements.length > 0 && !sessionStorage.getItem(
+                            'announcements_closed')) {
                         // Forzar cierre del carrito y cualquier modal para que el anuncio sea lo primero que ve el usuario
                         this.isCartOpen = false;
                         this.showWhatsappModal = false;
@@ -3802,7 +4082,7 @@
                     }
 
                     // Notificar orden al backend para generar alerta y registrar en el sistema
-                    const orderTotal = this.total + this.actualDeliveryCost;
+                    const orderTotal = Math.max(this.total - this.discountAmount + this.actualDeliveryCost, 0);
                     try {
                         await fetch('/{{ $company['slug'] }}/orders/notify', {
                             method: 'POST',
@@ -3816,7 +4096,8 @@
                                 customer_phone: this.customerPhone,
                                 total: orderTotal,
                                 delivery_type: this.deliveryType,
-                                payment_method: this.selectedPaymentMethod
+                                payment_method: this.selectedPaymentMethod,
+                                coupon_code: this.appliedCoupon ? this.appliedCoupon.code : null
                             })
                         });
                     } catch (e) {
@@ -3836,8 +4117,15 @@
                             `▫️ ${i.quantity}x ${i.name} - ${this.currencySymbol}${(i.price * i.quantity).toFixed(2)}%0A`;
                     });
 
+                    if (this.appliedCoupon) {
+                        text += `%0A*Subtotal:* ${this.currencySymbol}${this.total.toFixed(2)}`;
+                        text +=
+                            `%0A*Cupón [${this.appliedCoupon.code}]:* -${this.currencySymbol}${this.discountAmount.toFixed(2)}`;
+                    }
+
                     if (this.deliveryType === 'delivery' && this.marker) {
-                        const shippingText = this.actualDeliveryCost === 0 ? '¡Gratis! 🎁' : `${this.currencySymbol}${this.actualDeliveryCost.toFixed(2)}`;
+                        const shippingText = this.actualDeliveryCost === 0 ? '¡Gratis! 🎁' :
+                            `${this.currencySymbol}${this.actualDeliveryCost.toFixed(2)}`;
                         text += `%0A*Costo de Envío:* ${shippingText}`;
                         text +=
                             `%0A*Ubicación:* https://www.google.com/maps?q=${this.marker.getLatLng().lat},${this.marker.getLatLng().lng}`;
@@ -3919,6 +4207,46 @@
                     window.open(`https://wa.me/${waNumber}?text=${this.pendingOrderMessage}`, '_blank');
                 },
 
+                async applyCouponCode() {
+                    if (this.appliedCoupon !== null) {
+                        this.appliedCoupon = null;
+                        this.couponCode = '';
+                        this.couponError = '';
+                        return;
+                    }
+
+                    const code = this.couponCode.trim().toUpperCase();
+                    if (!code) return;
+
+                    this.couponError = '';
+
+                    try {
+                        const response = await fetch(`/{{ $company['slug'] }}/coupons/validate`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            },
+                            body: JSON.stringify({
+                                code: code,
+                                subtotal: this.total
+                            })
+                        });
+
+                        const data = await response.json();
+                        if (data.success) {
+                            this.appliedCoupon = data.coupon;
+                        } else {
+                            this.couponError = data.message || 'Código de cupón inválido.';
+                            this.appliedCoupon = null;
+                        }
+                    } catch (e) {
+                        this.couponError = 'Error al conectar con el servidor.';
+                        this.appliedCoupon = null;
+                    }
+                },
+
                 applyAccessibilitySettings() {
                     document.documentElement.style.fontSize = this.accessibility.fontSize + 'px';
                     const body = document.body;
@@ -3961,108 +4289,104 @@
         </defs>
     </svg>
 
-    @if(isset($announcements) && count($announcements) > 0)
+    @if (isset($announcements) && count($announcements) > 0)
         <!-- COMPONENTE: AnnouncementBanner (ANUNCIOS DESTACADOS) -->
-        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[2000]" 
-             x-show="showAnnouncementModal"
-             @click="showAnnouncementModal = false; sessionStorage.setItem('announcements_closed', 'true')" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0" 
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200" 
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0" 
-             style="display: none;"></div>
-             
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[2000]" x-show="showAnnouncementModal"
+            @click="showAnnouncementModal = false; sessionStorage.setItem('announcements_closed', 'true')"
+            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" style="display: none;">
+        </div>
+
         <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-sm bg-white/95 backdrop-blur-xl rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] z-[2001] flex flex-col overflow-hidden origin-center border border-white/50"
-             x-show="showAnnouncementModal" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-90" 
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200" 
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-90" 
-             style="display: none;">
-             
-             <!-- Botón de Cerrar (X) -->
-             <button @click="showAnnouncementModal = false; sessionStorage.setItem('announcements_closed', 'true')"
-                     class="absolute top-4 right-4 z-50 text-slate-400 hover:text-slate-700 bg-slate-100/80 hover:bg-slate-200 w-8 h-8 flex items-center justify-center rounded-full transition active:scale-95 shadow-sm border border-slate-200/30">
-                 <i class="fas fa-times text-sm"></i>
-             </button>
-             
-             <div class="relative w-full overflow-hidden flex-grow flex flex-col pt-6 pb-2">
-                 <!-- Cabecera del Anuncio -->
-                 <div class="flex items-center gap-2.5 px-6 mb-2 select-none">
-                     <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs shadow-inner"
-                          style="background-color: rgba(230, 0, 103, 0.1); color: var(--color-primary);">
-                          <i class="fas fa-bullhorn animate-bounce text-xs"></i>
-                     </div>
-                     <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider block">Anuncio Importante</span>
-                 </div>
-                 
-                 <!-- Carrusel de Anuncios -->
-                 <div class="relative flex-grow flex items-center justify-center min-h-[300px]">
-                     <template x-for="(ann, idx) in announcements" :key="ann.id">
-                         <div x-show="activeAnnouncementSlide === idx" 
-                              x-transition:enter="transition ease-out duration-300" 
-                              x-transition:enter-start="opacity-0 translate-x-8" 
-                              x-transition:enter-end="opacity-100 translate-x-0" 
-                              x-transition:leave="transition ease-in duration-200 absolute" 
-                              x-transition:leave-start="opacity-100 translate-x-0" 
-                              x-transition:leave-end="opacity-0 -translate-x-8" 
-                              class="w-full flex flex-col px-6 pb-4 pt-2 items-center text-center space-y-4">
-                             
-                             <!-- Imagen (si existe) -->
-                             <template x-if="ann.image_path">
-                                 <div class="w-full h-40 rounded-2xl overflow-hidden shadow-inner border border-slate-100 bg-slate-50 shrink-0">
-                                     <img :src="ann.image_path" class="w-full h-full object-cover" alt="Anuncio">
-                                 </div>
-                             </template>
-                             
-                             <!-- Texto -->
-                             <div class="space-y-2 flex-grow">
-                                 <h3 class="text-md font-black text-slate-800 tracking-tight leading-snug" x-text="ann.title"></h3>
-                                 <p class="text-xs text-slate-550 leading-relaxed font-semibold max-h-[120px] overflow-y-auto scrollbar-none" x-text="ann.content" x-show="ann.content"></p>
-                             </div>
-                             
-                             <!-- Botón de Acción (si existe) -->
-                             <template x-if="ann.button_text && ann.button_link">
-                                 <a :href="ann.button_link" 
+            x-show="showAnnouncementModal" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-90" style="display: none;">
+
+            <!-- Botón de Cerrar (X) -->
+            <button @click="showAnnouncementModal = false; sessionStorage.setItem('announcements_closed', 'true')"
+                class="absolute top-4 right-4 z-50 text-slate-400 hover:text-slate-700 bg-slate-100/80 hover:bg-slate-200 w-8 h-8 flex items-center justify-center rounded-full transition active:scale-95 shadow-sm border border-slate-200/30">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+
+            <div class="relative w-full overflow-hidden flex-grow flex flex-col pt-6 pb-2">
+                <!-- Cabecera del Anuncio -->
+                <div class="flex items-center gap-2.5 px-6 mb-2 select-none">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs shadow-inner"
+                        style="background-color: rgba(230, 0, 103, 0.1); color: var(--color-primary);">
+                        <i class="fas fa-bullhorn animate-bounce text-xs"></i>
+                    </div>
+                    <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider block">Anuncio
+                        Importante</span>
+                </div>
+
+                <!-- Carrusel de Anuncios -->
+                <div class="relative flex-grow flex items-center justify-center min-h-[300px]">
+                    <template x-for="(ann, idx) in announcements" :key="ann.id">
+                        <div x-show="activeAnnouncementSlide === idx"
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0 translate-x-8"
+                            x-transition:enter-end="opacity-100 translate-x-0"
+                            x-transition:leave="transition ease-in duration-200 absolute"
+                            x-transition:leave-start="opacity-100 translate-x-0"
+                            x-transition:leave-end="opacity-0 -translate-x-8"
+                            class="w-full flex flex-col px-6 pb-4 pt-2 items-center text-center space-y-4">
+
+                            <!-- Imagen (si existe) -->
+                            <template x-if="ann.image_path">
+                                <div
+                                    class="w-full h-40 rounded-2xl overflow-hidden shadow-inner border border-slate-100 bg-slate-50 shrink-0">
+                                    <img :src="ann.image_path" class="w-full h-full object-cover" alt="Anuncio">
+                                </div>
+                            </template>
+
+                            <!-- Texto -->
+                            <div class="space-y-2 flex-grow">
+                                <h3 class="text-md font-black text-slate-800 tracking-tight leading-snug"
+                                    x-text="ann.title"></h3>
+                                <p class="text-xs text-slate-550 leading-relaxed font-semibold max-h-[120px] overflow-y-auto scrollbar-none"
+                                    x-text="ann.content" x-show="ann.content"></p>
+                            </div>
+
+                            <!-- Botón de Acción (si existe) -->
+                            <template x-if="ann.button_text && ann.button_link">
+                                <a :href="ann.button_link"
                                     class="w-full inline-flex items-center justify-center py-3 px-6 rounded-2xl text-white font-extrabold text-xs shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-95 cursor-pointer mt-2"
-                                    style="background-color: var(--color-primary);"
-                                    x-text="ann.button_text"></a>
-                             </template>
-                         </div>
-                     </template>
-                 </div>
-                 
-                 <!-- Controles y Puntos del Carrusel -->
-                 <div class="px-6 py-2 flex items-center justify-between border-t border-slate-100 select-none shrink-0" x-show="announcements.length > 1">
-                     <!-- Anterior -->
-                     <button type="button" 
-                             @click="activeAnnouncementSlide = (activeAnnouncementSlide - 1 + announcements.length) % announcements.length" 
-                             class="w-8 h-8 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-550 flex items-center justify-center font-bold text-xs transition active:scale-75 shadow-sm border border-slate-200/30">
-                         <i class="fas fa-chevron-left text-[9px]"></i>
-                     </button>
-                     
-                     <!-- Puntos Indicadores -->
-                     <div class="flex gap-1.5 py-1">
-                         <template x-for="(ann, idx) in announcements" :key="idx">
-                             <button type="button" @click="activeAnnouncementSlide = idx"
-                                     class="w-1.5 h-1.5 rounded-full transition-all duration-300"
-                                     :class="activeAnnouncementSlide === idx ? 'w-4' : 'bg-slate-350'"
-                                     :style="activeAnnouncementSlide === idx ? 'background-color: var(--color-primary);' : ''"></button>
-                         </template>
-                     </div>
-                     
-                     <!-- Siguiente -->
-                     <button type="button" 
-                             @click="activeAnnouncementSlide = (activeAnnouncementSlide + 1) % announcements.length" 
-                             class="w-8 h-8 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-550 flex items-center justify-center font-bold text-xs transition active:scale-75 shadow-sm border border-slate-200/30">
-                         <i class="fas fa-chevron-right text-[9px]"></i>
-                     </button>
-                 </div>
-             </div>
+                                    style="background-color: var(--color-primary);" x-text="ann.button_text"></a>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Controles y Puntos del Carrusel -->
+                <div class="px-6 py-2 flex items-center justify-between border-t border-slate-100 select-none shrink-0"
+                    x-show="announcements.length > 1">
+                    <!-- Anterior -->
+                    <button type="button"
+                        @click="activeAnnouncementSlide = (activeAnnouncementSlide - 1 + announcements.length) % announcements.length"
+                        class="w-8 h-8 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-550 flex items-center justify-center font-bold text-xs transition active:scale-75 shadow-sm border border-slate-200/30">
+                        <i class="fas fa-chevron-left text-[9px]"></i>
+                    </button>
+
+                    <!-- Puntos Indicadores -->
+                    <div class="flex gap-1.5 py-1">
+                        <template x-for="(ann, idx) in announcements" :key="idx">
+                            <button type="button" @click="activeAnnouncementSlide = idx"
+                                class="w-1.5 h-1.5 rounded-full transition-all duration-300"
+                                :class="activeAnnouncementSlide === idx ? 'w-4' : 'bg-slate-350'"
+                                :style="activeAnnouncementSlide === idx ? 'background-color: var(--color-primary);' : ''"></button>
+                        </template>
+                    </div>
+
+                    <!-- Siguiente -->
+                    <button type="button"
+                        @click="activeAnnouncementSlide = (activeAnnouncementSlide + 1) % announcements.length"
+                        class="w-8 h-8 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-550 flex items-center justify-center font-bold text-xs transition active:scale-75 shadow-sm border border-slate-200/30">
+                        <i class="fas fa-chevron-right text-[9px]"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     @endif
     @include('partials.public.chat')

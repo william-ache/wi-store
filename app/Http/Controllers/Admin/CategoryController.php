@@ -32,6 +32,8 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string|max:500',
             'status' => 'required|boolean',
             'icon' => 'nullable|string|max:255',
             'color' => 'nullable|string|max:7',
@@ -47,6 +49,8 @@ class CategoryController extends Controller
 
         $category = Category::create([
             'name' => $request->name,
+            'seo_title' => $request->seo_title,
+            'seo_description' => $request->seo_description,
             'slug' => $slug,
             'status' => $request->status,
             'icon' => $request->icon,
@@ -78,6 +82,8 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string|max:500',
             'status' => 'required|boolean',
             'icon' => 'nullable|string|max:255',
             'color' => 'nullable|string|max:7',
@@ -93,6 +99,8 @@ class CategoryController extends Controller
         }
 
         $category->name = $request->name;
+        $category->seo_title = $request->seo_title;
+        $category->seo_description = $request->seo_description;
         $category->status = $request->status;
         $category->icon = $request->icon;
         $category->color = $request->color;
