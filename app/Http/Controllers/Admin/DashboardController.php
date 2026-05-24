@@ -12,9 +12,27 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     /**
-     * Display the admin dashboard with real statistics.
+     * Display the simplified welcome admin dashboard.
      */
     public function index()
+    {
+        $productsCount = Product::count();
+        $categoriesCount = \App\Models\Category::count();
+        $ordersCount = Order::count();
+        $clientsCount = \App\Models\Client::count();
+
+        return view('admin.dashboard', compact(
+            'productsCount',
+            'categoriesCount',
+            'ordersCount',
+            'clientsCount'
+        ));
+    }
+
+    /**
+     * Display the full statistics and sales analytics.
+     */
+    public function analytics()
     {
         // 1. Resumen Semanal
         $totalReceived = (float) Order::sum('total');
@@ -101,7 +119,7 @@ class DashboardController extends Controller
             })->sortByDesc('units')->values();
         }
 
-        return view('admin.dashboard', compact(
+        return view('admin.analytics', compact(
             'totalReceived',
             'ordersCount',
             'orderGoal',

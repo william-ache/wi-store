@@ -1,228 +1,226 @@
 @extends('layouts.admin')
 
 @section('title', 'Inicio')
-@section('subtitle', 'Panel de Control')
+@section('subtitle', 'Tu Panel Principal')
 @section('header_title', config('current_shop')->name ?? 'Mi Tienda')
 
 @section('content')
 <!-- ═══════════════════════════════════════════════ -->
-<!-- 1. BANNER RESUMEN SEMANAL + TENDENCIA DE VENTAS -->
+<!-- 1. GREETING BANNER -->
 <!-- ═══════════════════════════════════════════════ -->
-<div class="grid grid-cols-1 lg:grid-cols-5 gap-5">
-    <!-- Resumen Semanal -->
-    <div class="lg:col-span-3 bg-gradient-to-br from-primary to-primary/80 border-0 rounded-3xl p-6 md:p-8 relative overflow-hidden shadow-xl shadow-primary/10 transition-all duration-300 hover:scale-[1.01]">
-        <!-- Glass decorative blur elements -->
-        <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-        <div class="absolute bottom-0 left-0 w-40 h-40 bg-white/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/4"></div>
-        
-        <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-white/60 relative z-10">Resumen Semanal</span>
-        
-        <div class="grid grid-cols-3 gap-6 mt-5 relative z-10">
-            <!-- Total Recibido -->
-            <div>
-                <span class="text-[10px] text-white/70 font-semibold block mb-1">Total Recibido</span>
-                @php
-                    $formattedTotal = number_format($totalReceived, 2);
-                    $parts = explode('.', $formattedTotal);
-                @endphp
-                <p class="text-3xl md:text-4xl font-black tracking-tight text-white">${{ $parts[0] }}<span class="text-lg">.{{ $parts[1] }}</span></p>
+<div class="bg-gradient-to-br from-slate-900 via-slate-900 to-primary/10 border border-slate-800 rounded-3xl p-6 md:p-8 relative overflow-hidden shadow-xl transition-all duration-300">
+    <div class="absolute -top-24 -right-24 w-80 h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-secondary/5 rounded-full blur-3xl pointer-events-none"></div>
+    
+    <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center md:text-left">
+            <div class="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-full">
+                <span>🚀 ¡Panel Listo!</span>
             </div>
-            <!-- Pedidos -->
-            <div class="text-center">
-                <span class="text-[10px] text-white/70 font-semibold block mb-1">Pedidos</span>
-                <p class="text-3xl md:text-4xl font-black text-white">{{ $ordersCount }}</p>
-                <div class="w-full bg-white/20 rounded-full h-1.5 mt-2 max-w-[100px] mx-auto">
-                    <div class="bg-white h-1.5 rounded-full" style="width: {{ $progressPercentage }}%"></div>
-                </div>
-                <span class="text-[9px] text-white/80 font-semibold mt-1 block">{{ $ordersCount }} / {{ $orderGoal }}</span>
-            </div>
-            <!-- Visitas -->
-            <div class="text-right">
-                <span class="text-[10px] text-white/70 font-semibold block mb-1">Visitas del Menú</span>
-                <p class="text-3xl md:text-4xl font-black text-white">{{ number_format($visitsCount) }}</p>
-            </div>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                ¡Hola de nuevo, <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">{{ config('current_shop')->name ?? 'Comerciante' }}</span>! 👋
+            </h1>
+            <p class="text-xs text-slate-400 max-w-lg leading-relaxed font-medium">
+                Este es el centro de control de tu tienda digital. Desde aquí puedes administrar tus productos, procesar pedidos y hacer crecer tu marca.
+            </p>
         </div>
         
-        <div class="mt-5 relative z-10">
-            <span class="inline-flex items-center gap-1 bg-white/15 text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/10 shadow-sm backdrop-blur-md">
-                {!! $trendIcon !!}
-                {{ $trendLabel }}
-            </span>
-        </div>
-    </div>
-
-    <!-- Tendencia de Ventas (Gráfico Chart.js) -->
-    <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:scale-[1.01]">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
-        <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400 relative z-10">Tendencia de Ventas</span>
-        <div class="flex-grow flex items-end mt-4 relative w-full h-full min-h-[120px] z-10">
-            <canvas id="salesChart"></canvas>
+        <div class="shrink-0 flex gap-3">
+            <a href="/{{ config('current_shop')->slug }}" target="_blank" 
+               class="bg-gradient-to-r from-primary to-primary/95 text-white text-xs font-bold px-5 py-3 rounded-2xl shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] flex items-center gap-2 border border-white/10">
+                <span>Ver Tu Tienda en Vivo</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
         </div>
     </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 2. QUICK METRIC CARDS -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+    <!-- Pedidos -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg relative overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+        <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-emerald-500/5 rounded-full blur-xl"></div>
+        <span class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest block mb-1">Pedidos Totales</span>
+        <p class="text-2xl font-black text-white leading-none">{{ $ordersCount }}</p>
+        <span class="text-[9px] text-emerald-400 font-bold mt-2 inline-flex items-center gap-1">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            Flujo Operativo
+        </span>
+    </div>
 
+    <!-- Productos -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg relative overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+        <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-primary/5 rounded-full blur-xl"></div>
+        <span class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest block mb-1">Productos</span>
+        <p class="text-2xl font-black text-white leading-none">{{ $productsCount }}</p>
+        <span class="text-[9px] text-primary font-bold mt-2 inline-flex items-center gap-1">
+            🗂️ {{ $categoriesCount }} Categorías
+        </span>
+    </div>
+
+    <!-- Clientes -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg relative overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+        <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-secondary/5 rounded-full blur-xl"></div>
+        <span class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest block mb-1">Clientes</span>
+        <p class="text-2xl font-black text-white leading-none">{{ $clientsCount }}</p>
+        <span class="text-[9px] text-secondary font-bold mt-2 inline-flex items-center gap-1">
+            👥 Compradores
+        </span>
+    </div>
+
+    <!-- Plan Actual -->
+    @php
+        $dashPlan = config('current_shop')->plan ?? 'free_trial';
+        if ($dashPlan === 'free_trial') {
+            $dashPlanName = 'Básico / Gratis';
+            $dashPlanClass = 'text-purple-400';
+            $dashPlanBadge = 'bg-purple-500/10 border-purple-500/20';
+        } elseif ($dashPlan === 'standard') {
+            $dashPlanName = 'Standard Pro';
+            $dashPlanClass = 'text-sky-400';
+            $dashPlanBadge = 'bg-sky-500/10 border-sky-500/20';
+        } else {
+            $dashPlanName = 'Premium Negocio';
+            $dashPlanClass = 'text-emerald-400';
+            $dashPlanBadge = 'bg-emerald-500/10 border-emerald-500/20';
+        }
+    @endphp
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg relative overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+        <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-purple-500/5 rounded-full blur-xl"></div>
+        <span class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest block mb-1">Plan de Negocio</span>
+        <p class="text-sm font-black text-white leading-tight mt-1">{{ $dashPlanName }}</p>
+        <span class="text-[9px] {{ $dashPlanClass }} font-black mt-2 inline-flex items-center gap-1 uppercase tracking-wider">
+            👑 Plan Activo
+        </span>
+    </div>
+</div>
 
 <!-- ═══════════════════════════════════════════════ -->
-<!-- 3. CLIENTES TOP + PRODUCTOS MÁS PEDIDOS -->
+<!-- 3. WORKSPACE SECTIONS -->
 <!-- ═══════════════════════════════════════════════ -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-    <!-- Clientes que Más Han Comprado -->
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl text-white relative overflow-hidden transition-all duration-300 hover:scale-[1.01]">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
-        <h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-5 relative z-10">Clientes que más han comprado</h3>
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-5">
+    
+    <!-- Checklist de Onboarding (3 cols) -->
+    <div class="lg:col-span-3 bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl relative overflow-hidden flex flex-col justify-between">
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
         
-        <div class="space-y-4 relative z-10">
-            @forelse($topClients as $index => $client)
-            <div class="flex items-center gap-4">
-                <span class="text-xs font-black text-slate-500 w-4 text-right shrink-0">{{ $index + 1 }}</span>
-                <div class="w-9 h-9 rounded-full {{ $client['color'] }} flex items-center justify-center text-white font-black text-xs shadow-sm shrink-0">
-                    {{ $client['initial'] }}
+        <div>
+            <h2 class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400 mb-5 relative z-10 flex items-center justify-between">
+                <span>Guía de Configuración Inicial</span>
+                <span class="text-primary font-bold">4 / 4 Completados</span>
+            </h2>
+            
+            <div class="space-y-4">
+                <!-- Paso 1 -->
+                <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-slate-800/30 border border-slate-800/80">
+                    <div class="w-6 h-6 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 text-xs">
+                        ✓
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-100">Crear tu tienda digital</h4>
+                        <p class="text-[10px] text-slate-400 mt-0.5 leading-relaxed font-medium">Registrado y configurado con tus colores corporativos y slug de marca único.</p>
+                    </div>
                 </div>
-                <div class="flex-grow min-w-0">
-                    <p class="text-sm font-bold text-slate-100 truncate">{{ $client['name'] }}</p>
+
+                <!-- Paso 2 -->
+                <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-slate-800/30 border border-slate-800/80">
+                    <div class="w-6 h-6 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 text-xs">
+                        ✓
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-100">Agregar Categorías y Productos</h4>
+                        <p class="text-[10px] text-slate-400 mt-0.5 leading-relaxed font-medium">Tu inventario tiene cargados productos e imágenes listos para la compra del cliente.</p>
+                    </div>
                 </div>
-                <div class="text-right shrink-0">
-                    <p class="text-xs font-black text-slate-100">Total: ${{ number_format($client['total'], 2) }}</p>
-                    <span class="text-[10px] text-slate-400 font-semibold">{{ $client['orders'] }} compras</span>
+
+                <!-- Paso 3 -->
+                <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-slate-800/30 border border-slate-800/80">
+                    <div class="w-6 h-6 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 text-xs">
+                        ✓
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-100">Configurar Métodos de Pago</h4>
+                        <p class="text-[10px] text-slate-400 mt-0.5 leading-relaxed font-medium">Tienes habilitado el envío directo por WhatsApp para coordinar el pago cómodamente.</p>
+                    </div>
+                </div>
+
+                <!-- Paso 4 -->
+                <div class="flex items-start gap-3.5 p-3 rounded-2xl bg-slate-800/30 border border-slate-800/80">
+                    <div class="w-6 h-6 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 text-xs">
+                        ✓
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-100">Compartir el Código QR</h4>
+                        <p class="text-[10px] text-slate-400 mt-0.5 leading-relaxed font-medium">Tu menú digital cuenta con código QR generado en el sistema listo para imprimir.</p>
+                    </div>
                 </div>
             </div>
-            @empty
-            <div class="text-center py-8">
-                <span class="text-2xl block mb-2 opacity-60">👥</span>
-                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Sin compras registradas</p>
-                <p class="text-[10px] text-slate-500 mt-1">Los clientes que completen órdenes aparecerán aquí.</p>
-            </div>
-            @endforelse
         </div>
     </div>
 
-    <!-- Productos Más Pedidos -->
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl text-white relative overflow-hidden transition-all duration-300 hover:scale-[1.01]">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
-        <h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-5 relative z-10">Productos más pedidos</h3>
+    <!-- Accesos Rápidos (2 cols) -->
+    <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl relative overflow-hidden flex flex-col justify-between">
+        <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-secondary/5 rounded-full blur-2xl pointer-events-none"></div>
         
-        <div class="space-y-4 relative z-10">
-            @forelse($topProducts as $product)
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-lg shrink-0 overflow-hidden border border-slate-700">
-                    @if($product['img'])
-                        <img src="{{ $product['img'] }}" alt="" class="w-full h-full object-cover">
-                    @else
-                        <span class="text-base">🛍️</span>
-                    @endif
-                </div>
-                <div class="flex-grow min-w-0">
-                    <p class="text-xs font-bold text-slate-100 truncate">{{ $product['name'] }}</p>
-                    <p class="text-[10px] text-slate-400 truncate">{{ $product['desc'] }}</p>
-                </div>
-                <div class="text-right shrink-0">
-                    <p class="text-xs font-black text-slate-100">Total: {{ $product['units'] }}</p>
-                </div>
+        <div>
+            <h2 class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400 mb-5 relative z-10">Accesos Rápidos</h2>
+            
+            <div class="grid grid-cols-1 gap-3 relative z-10">
+                <!-- Administrar Productos -->
+                <a href="/{{ config('current_shop')->slug }}/admin/products" 
+                   class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-800/40 hover:bg-slate-800 border border-slate-800/80 hover:border-slate-700 transition-all duration-300 group">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl group-hover:scale-110 transition-transform">🍔</span>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-100">Cargar Productos</h4>
+                            <p class="text-[9px] text-slate-400 font-medium">Agrega artículos y fotos</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-500 group-hover:text-white transition-colors text-xs font-black">→</span>
+                </a>
+
+                <!-- Configuración Visual -->
+                <a href="/{{ config('current_shop')->slug }}/admin/settings" 
+                   class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-800/40 hover:bg-slate-800 border border-slate-800/80 hover:border-slate-700 transition-all duration-300 group">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl group-hover:scale-110 transition-transform">🎨</span>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-100">Personalizar Tienda</h4>
+                            <p class="text-[9px] text-slate-400 font-medium">Colores, logo e información</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-500 group-hover:text-white transition-colors text-xs font-black">→</span>
+                </a>
+
+                <!-- Ver Analítica -->
+                <a href="/{{ config('current_shop')->slug }}/admin/analytics" 
+                   class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-800/40 hover:bg-slate-800 border border-slate-800/80 hover:border-slate-700 transition-all duration-300 group">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl group-hover:scale-110 transition-transform">📊</span>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-100">Ver Rendimiento</h4>
+                            <p class="text-[9px] text-slate-400 font-medium">Estadísticas y ventas comerciales</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-500 group-hover:text-white transition-colors text-xs font-black">→</span>
+                </a>
+
+                <!-- Ver Pedidos -->
+                <a href="/{{ config('current_shop')->slug }}/admin/orders" 
+                   class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-800/40 hover:bg-slate-800 border border-slate-800/80 hover:border-slate-700 transition-all duration-300 group">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl group-hover:scale-110 transition-transform">📋</span>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-100">Gestionar Pedidos</h4>
+                            <p class="text-[9px] text-slate-400 font-medium">Recibe y despacha órdenes</p>
+                        </div>
+                    </div>
+                    <span class="text-slate-500 group-hover:text-white transition-colors text-xs font-black">→</span>
+                </a>
             </div>
-            @empty
-            <div class="text-center py-8">
-                <span class="text-2xl block mb-2 opacity-60">📦</span>
-                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Sin productos ordenados</p>
-                <p class="text-[10px] text-slate-500 mt-1">Las ventas de catálogo activarán este listado.</p>
-            </div>
-            @endforelse
         </div>
     </div>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        const primaryColor = '{{ config('current_shop')->color_primary ?? '#E60067' }}';
-        const secondaryColor = '{{ config('current_shop')->color_secondary ?? '#C6A100' }}';
-        
-        // Detectar modo oscuro
-        const isDark = document.documentElement.classList.contains('dark');
-        
-        // Verificar luminancia del color primario
-        const hex = primaryColor.replace('#', '');
-        const r = parseInt(hex.substr(0, 2), 16);
-        const g = parseInt(hex.substr(2, 2), 16);
-        const b = parseInt(hex.substr(4, 2), 16);
-        const isPrimaryDark = ((r * 299) + (g * 587) + (b * 114)) / 1000 < 128;
-
-        // Usar color secundario o blanco si el primario no hace contraste en modo oscuro
-        const chartColor = (isDark && isPrimaryDark) ? (secondaryColor !== '#000000' && secondaryColor !== '#0f172a' ? secondaryColor : '#38bdf8') : primaryColor;
-        
-        // Crear gradiente debajo de la línea
-        let gradient = ctx.createLinearGradient(0, 0, 0, 150);
-        gradient.addColorStop(0, chartColor + '40'); // 25% opacidad
-        gradient.addColorStop(1, chartColor + '00'); // Transparente
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: {!! json_encode($chartLabels) !!},
-                datasets: [{
-                    label: 'Ventas',
-                    data: {!! json_encode($chartData) !!},
-                    borderColor: chartColor,
-                    backgroundColor: gradient,
-                    borderWidth: 3,
-                    pointBackgroundColor: isDark ? '#0f172a' : '#ffffff',
-                    pointBorderColor: chartColor,
-                    pointBorderWidth: 2,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: '#0f172a',
-                        titleColor: '#f8fafc',
-                        bodyColor: '#cbd5e1',
-                        padding: 10,
-                        cornerRadius: 8,
-                        displayColors: false,
-                        callbacks: {
-                            label: function(context) {
-                                return '$' + context.parsed.y;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        ticks: {
-                            color: '#94a3b8',
-                            font: {
-                                size: 10,
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                    y: {
-                        display: false,
-                        min: 0
-                    }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                },
-            }
-        });
-    });
-</script>
-@endpush
-

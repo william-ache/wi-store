@@ -195,6 +195,7 @@ Route::middleware(['tenant'])->prefix($tenantPrefix)->group(function () {
     // Panel Administrativo de la Tienda (Privado)
     Route::middleware(['auth'])->prefix('/admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/analytics', [App\Http\Controllers\Admin\DashboardController::class, 'analytics'])->name('analytics');
         Route::get('/search', [App\Http\Controllers\Admin\DashboardController::class, 'search'])->name('search');
         Route::get('/tutorials', [App\Http\Controllers\Admin\DashboardController::class, 'tutorials'])->name('tutorials');
         
