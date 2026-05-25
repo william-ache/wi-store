@@ -10,15 +10,26 @@ use Illuminate\Support\Facades\Auth;
 
 class ShopSettingsController extends Controller
 {
+    protected function currentShop(): Shop
+    {
+        $shop = config('current_shop') ?? Auth::user()?->shop;
+
+        if (!$shop) {
+            abort(404, 'Tienda no encontrada.');
+        }
+
+        return $shop;
+    }
+
     public function edit()
     {
-        $shop = Auth::user()->shop;
+        $shop = $this->currentShop();
         return view('admin.settings', compact('shop'));
     }
 
     public function update(Request $request)
     {
-        $shop = Auth::user()->shop;
+        $shop = $this->currentShop();
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -180,7 +191,7 @@ class ShopSettingsController extends Controller
      */
     public function setupModulesForm()
     {
-        $shop = Auth::user()->shop;
+        $shop = $this->currentShop();
         return view('admin.setup_modules', compact('shop'));
     }
 
@@ -189,7 +200,7 @@ class ShopSettingsController extends Controller
      */
     public function saveSetupModules(Request $request)
     {
-        $shop = Auth::user()->shop;
+        $shop = $this->currentShop();
 
         $request->validate([
             'enabled_modules' => 'nullable|array',

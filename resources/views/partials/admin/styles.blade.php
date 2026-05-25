@@ -231,6 +231,54 @@
         font-family: 'Outfit', sans-serif !important;
         padding: 2rem !important;
     }
+
+    /* Toasts compactos (no heredan el padding de modales) */
+    .swal2-popup.swal2-toast {
+        padding: 0.625rem 0.875rem !important;
+        border-radius: 0.875rem !important;
+        max-width: min(22rem, calc(100vw - 2rem)) !important;
+        min-height: auto !important;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12), 0 2px 6px rgba(15, 23, 42, 0.06) !important;
+    }
+
+    .swal2-popup.swal2-toast .swal2-title {
+        font-size: 0.8125rem !important;
+        font-weight: 600 !important;
+        line-height: 1.35 !important;
+        margin: 0 0 0 0.5rem !important;
+        padding: 0 !important;
+    }
+
+    .swal2-popup.swal2-toast .swal2-icon {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+        min-width: 1.5rem !important;
+        margin: 0 0.5rem 0 0 !important;
+        transform: scale(0.85);
+    }
+
+    .swal2-popup.swal2-toast .swal2-icon-content {
+        font-size: 0.75rem !important;
+    }
+
+    .swal2-popup.swal2-toast .swal2-timer-progress-bar {
+        height: 2px !important;
+    }
+
+    @media (min-width: 768px) {
+        .swal2-container.swal2-top-end {
+            top: 1rem !important;
+            right: 1rem !important;
+        }
+
+        .swal2-popup.swal2-toast {
+            max-width: 20rem !important;
+        }
+
+        .swal2-popup.swal2-toast .swal2-title {
+            font-size: 0.75rem !important;
+        }
+    }
     .dark .swal2-popup {
         background-color: #0f172a !important;
         color: #f1f5f9 !important;

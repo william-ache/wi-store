@@ -201,8 +201,8 @@
                             <i class="fas fa-envelope text-xs"></i>
                         </span>
                         <input type="email" id="email" name="email" required autofocus
-                               placeholder="admin@tu-marca.com"
-                               value="admin@wistore.com"
+                               placeholder="tu-correo@gmail.com"
+                               value="{{ old('email') }}"
                                class="w-full bg-slate-900/80 border border-slate-800/80 rounded-2xl px-4 py-3 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner">
                     </div>
                     @error('email')
@@ -224,7 +224,6 @@
                         </span>
                         <input :type="showPassword ? 'text' : 'password'" id="password" name="password" required
                                placeholder="••••••••••••"
-                               value="password"
                                class="w-full bg-slate-900/80 border border-slate-800/80 rounded-2xl px-4 py-3 pl-11 pr-10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner">
                         <button type="button" @click="showPassword = !showPassword"
                                 class="absolute right-4 top-3 text-slate-500 hover:text-white transition-colors focus:outline-none">

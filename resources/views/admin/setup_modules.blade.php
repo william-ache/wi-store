@@ -1,27 +1,87 @@
+@php
+    $shopPlan = strtolower($shop->plan ?? 'standard');
+
+    $planThemes = [
+        'free_trial' => [
+            'label' => 'Prueba gratuita',
+            'icon' => '⚡',
+            'badge' => 'bg-purple-500/15 border-purple-400/25 text-purple-200',
+            'blob_a' => 'from-purple-600/25 to-fuchsia-500/10',
+            'blob_b' => 'from-cyan-500/15 to-blue-600/10',
+            'logo_gradient' => 'from-purple-400 to-cyan-400',
+            'primary' => '#a855f7',
+            'secondary' => '#22d3ee',
+            'btn_gradient' => 'from-purple-500 via-fuchsia-500 to-cyan-400',
+            'btn_hover' => 'hover:from-purple-400 hover:via-fuchsia-400 hover:to-cyan-300',
+            'glow' => 'rgba(168, 85, 247, 0.4)',
+            'card_border' => 'border-purple-500/20',
+            'selected_bg' => 'bg-purple-500/10',
+            'selected_border' => 'border-purple-400/50',
+            'check_bg' => 'bg-purple-500',
+        ],
+        'standard' => [
+            'label' => 'Plan Standard',
+            'icon' => '⚡',
+            'badge' => 'bg-sky-500/15 border-sky-400/25 text-sky-200',
+            'blob_a' => 'from-sky-500/25 to-blue-600/10',
+            'blob_b' => 'from-indigo-500/15 to-cyan-500/10',
+            'logo_gradient' => 'from-sky-400 to-indigo-400',
+            'primary' => '#0ea5e9',
+            'secondary' => '#6366f1',
+            'btn_gradient' => 'from-sky-500 via-blue-500 to-indigo-500',
+            'btn_hover' => 'hover:from-sky-400 hover:via-blue-400 hover:to-indigo-400',
+            'glow' => 'rgba(14, 165, 233, 0.4)',
+            'card_border' => 'border-sky-500/20',
+            'selected_bg' => 'bg-sky-500/10',
+            'selected_border' => 'border-sky-400/50',
+            'check_bg' => 'bg-sky-500',
+        ],
+        'premium' => [
+            'label' => 'Plan Premium',
+            'icon' => '👑',
+            'badge' => 'bg-emerald-500/15 border-amber-400/25 text-emerald-200',
+            'blob_a' => 'from-emerald-500/20 to-teal-500/10',
+            'blob_b' => 'from-amber-500/15 to-yellow-500/10',
+            'logo_gradient' => 'from-emerald-400 to-amber-400',
+            'primary' => $shop->color_primary ?? '#10b981',
+            'secondary' => $shop->color_secondary ?? '#f59e0b',
+            'btn_gradient' => 'from-emerald-500 via-teal-500 to-amber-400',
+            'btn_hover' => 'hover:brightness-110',
+            'glow' => 'rgba(16, 185, 129, 0.35)',
+            'card_border' => 'border-emerald-500/20',
+            'selected_bg' => 'bg-emerald-500/10',
+            'selected_border' => 'border-emerald-400/50',
+            'check_bg' => 'bg-emerald-500',
+        ],
+    ];
+
+    $theme = $planThemes[$shopPlan] ?? $planThemes['standard'];
+
+    if ($shopPlan === 'premium') {
+        $theme['btn_gradient'] = null;
+    }
+
+    $modules = [
+        ['key' => 'categories', 'icon' => 'fa-layer-group', 'emoji' => '📦', 'title' => 'Categorías', 'desc' => 'Organiza tu menú por grupos y secciones.'],
+        ['key' => 'products', 'icon' => 'fa-burger', 'emoji' => '🍔', 'title' => 'Productos', 'desc' => 'Precios, fotos, descripciones y disponibilidad.'],
+        ['key' => 'orders', 'icon' => 'fa-clipboard-list', 'emoji' => '📋', 'title' => 'Pedidos', 'desc' => 'Recibe y gestiona pedidos en tiempo real.'],
+        ['key' => 'clients', 'icon' => 'fa-users', 'emoji' => '👥', 'title' => 'Clientes', 'desc' => 'Historial y contacto de compradores.'],
+        ['key' => 'invoices', 'icon' => 'fa-file-invoice', 'emoji' => '🧾', 'title' => 'Facturas', 'desc' => 'Comprobantes y reportes de ventas.'],
+        ['key' => 'delivery', 'icon' => 'fa-motorcycle', 'emoji' => '🛵', 'title' => 'Delivery', 'desc' => 'Tarifas, zonas y opciones de envío.'],
+        ['key' => 'analytics', 'icon' => 'fa-chart-line', 'emoji' => '📊', 'title' => 'Analítica', 'desc' => 'Estadísticas y rendimiento del negocio.'],
+        ['key' => 'referrals', 'icon' => 'fa-link', 'emoji' => '🔗', 'title' => 'Referidos', 'desc' => 'Enlaces de recomendación y promotores.'],
+        ['key' => 'announcements', 'icon' => 'fa-bullhorn', 'emoji' => '📢', 'title' => 'Marketing', 'desc' => 'Banners y promociones en tu menú digital.', 'wide' => true],
+    ];
+@endphp
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configura tu Menú | WIStore</title>
+    <title>Configura tu menú | {{ $shop->name }}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '{{ config('current_shop')->color_primary ?? '#6366f1' }}',
-                        secondary: '{{ config('current_shop')->color_secondary ?? '#22d3ee' }}',
-                    },
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,59 +89,100 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        [x-cloak] {
-            display: none !important;
-        }
+        [x-cloak] { display: none !important; }
 
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: #070913;
+            background-color: #06080f;
+            --plan-primary: {{ $theme['primary'] }};
+            --plan-secondary: {{ $theme['secondary'] }};
+            --plan-glow: {{ $theme['glow'] }};
         }
 
-        .custom-glow {
-            box-shadow: 0 0 35px rgba(255, 255, 255, 0.03), 0 0 15px rgba(var(--color-primary-rgb, 99, 102, 241), 0.05);
+        .plan-card {
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 60px var(--plan-glow);
         }
 
-        @keyframes wave {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-8px) scale(1.01); }
+        .module-selected {
+            background: color-mix(in srgb, var(--plan-primary) 12%, transparent);
+            border-color: color-mix(in srgb, var(--plan-primary) 45%, transparent);
+            box-shadow: 0 0 24px color-mix(in srgb, var(--plan-primary) 18%, transparent);
         }
 
-        .wave-bg {
-            animation: wave 14s ease-in-out infinite;
+        .module-check {
+            background: var(--plan-primary);
+            border-color: var(--plan-primary);
         }
+
+        .icon-selected {
+            background: color-mix(in srgb, var(--plan-primary) 22%, transparent);
+            color: white;
+        }
+
+        .btn-plan {
+            background: linear-gradient(135deg, var(--plan-primary) 0%, var(--plan-secondary) 100%);
+            box-shadow: 0 4px 14px color-mix(in srgb, var(--plan-primary) 35%, transparent),
+                        0 12px 40px color-mix(in srgb, var(--plan-primary) 25%, transparent),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-plan:hover {
+            box-shadow: 0 6px 20px color-mix(in srgb, var(--plan-primary) 45%, transparent),
+                        0 16px 48px color-mix(in srgb, var(--plan-secondary) 30%, transparent),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .btn-plan::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .btn-plan:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .float-blob { animation: float 10s ease-in-out infinite; }
     </style>
 </head>
 
-<body class="min-h-screen text-slate-100 flex flex-col justify-between relative overflow-x-hidden selection:bg-primary selection:text-white">
+<body class="min-h-screen text-slate-100 flex flex-col relative overflow-x-hidden"
+      style="--selection-bg: var(--plan-primary);">
 
-    <!-- BACKGROUND ANIMATIONS -->
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#070913]">
-        <div class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-primary/10 to-secondary/15 blur-[120px] wave-bg"></div>
-        <div class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-r from-secondary/10 to-blue-600/10 blur-[160px] wave-bg" style="animation-delay: -3s;"></div>
-        <div class="absolute -bottom-[10%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-primary/5 via-secondary/5 to-transparent blur-[160px] wave-bg" style="animation-delay: -6s;"></div>
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute -top-[15%] -right-[8%] w-[min(600px,90vw)] h-[min(600px,90vw)] rounded-full bg-gradient-to-br {{ $theme['blob_a'] }} blur-[100px] float-blob"></div>
+        <div class="absolute bottom-[10%] -left-[12%] w-[min(500px,80vw)] h-[min(500px,80vw)] rounded-full bg-gradient-to-tr {{ $theme['blob_b'] }} blur-[120px] float-blob" style="animation-delay: -4s;"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.03),transparent_55%)]"></div>
     </div>
 
-    <!-- HEADER -->
-    <header class="w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
-        <div class="flex items-center gap-2">
-            <span class="text-xl font-black text-white tracking-wider uppercase">
-                WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Store</span>
+    <header class="w-full max-w-4xl mx-auto px-5 sm:px-6 py-5 flex items-center justify-between relative z-10">
+        <div class="flex items-center gap-3 flex-wrap">
+            <span class="text-lg font-black text-white tracking-wide">
+                WI<span class="text-transparent bg-clip-text bg-gradient-to-r {{ $theme['logo_gradient'] }}">Store</span>
             </span>
-            <span class="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[9px] uppercase font-bold text-slate-400 tracking-wider">
-                Bienvenido
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border {{ $theme['badge'] }}">
+                {{ $theme['icon'] }} {{ $theme['label'] }}
             </span>
         </div>
-        
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <button type="submit" class="text-xs font-extrabold text-slate-400 hover:text-rose-400 flex items-center gap-1.5 transition-colors group">
-                <i class="fas fa-sign-out-alt text-xs group-hover:translate-x-0.5 transition-transform"></i>
-                Cerrar Sesión
+            <button type="submit" class="text-[11px] font-bold text-slate-500 hover:text-rose-400 flex items-center gap-1.5 transition-colors">
+                <i class="fas fa-sign-out-alt text-[10px]"></i> Salir
             </button>
         </form>
-    </header>    <!-- MAIN BODY -->
-    <main class="flex-grow flex items-center justify-center px-4 py-6 relative z-10" 
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-6 pb-10 relative z-10"
           x-data="{
               selectedModules: ['categories', 'products', 'orders', 'clients', 'invoices', 'delivery', 'analytics', 'announcements', 'referrals'],
               toggleModule(module) {
@@ -92,359 +193,94 @@
                   }
               }
           }">
-        
+
         <div class="w-full max-w-3xl">
-            
-            <div class="w-full bg-[#0d1127]/40 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-6 md:p-10 shadow-2xl relative overflow-hidden custom-glow">
-                <div class="absolute -top-20 -right-20 w-48 h-48 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
-                
-                <!-- HEADER WIZARD -->
+            <div class="plan-card w-full bg-[#0c101c]/75 backdrop-blur-2xl border {{ $theme['card_border'] }} rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-9 relative overflow-hidden">
+
+                <div class="absolute top-0 left-0 right-0 h-1 rounded-t-[2.5rem] opacity-80"
+                     style="background: linear-gradient(90deg, var(--plan-primary), var(--plan-secondary));"></div>
+
                 <div class="text-center mb-8 relative z-10">
-                    <div class="inline-flex items-center gap-2 bg-gradient-to-r from-primary/15 to-secondary/15 border border-white/10 rounded-full px-5 py-2 mb-5 shadow-lg backdrop-blur-md">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span class="text-slate-200 text-[10px] font-black uppercase tracking-widest">
-                            🚀 Primer ingreso al panel administrativo
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.04] mb-5">
+                        <span class="w-2 h-2 rounded-full animate-pulse" style="background: var(--plan-primary);"></span>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-300">
+                            Primer ingreso · Configuración inicial
                         </span>
                     </div>
-                    <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
-                        Personaliza tu Espacio de Trabajo
+
+                    <h1 class="text-2xl sm:text-[2rem] font-black text-white tracking-tight leading-tight">
+                        Arma tu panel de control
                     </h1>
-                    <p class="text-xs text-slate-400 mt-3 max-w-lg mx-auto leading-relaxed font-medium">
-                        Elige qué secciones u opciones del menú deseas tener visibles en tu panel de administración para <span class="text-white font-bold">{{ $shop->name }}</span>. Podrás cambiar esto después desde la configuración.
+                    <p class="text-sm text-slate-400 mt-3 max-w-md mx-auto leading-relaxed">
+                        Elige los módulos visibles para
+                        <span class="font-bold text-white">{{ $shop->name }}</span>.
+                        Tu plan <span class="font-semibold" style="color: var(--plan-primary);">{{ $theme['label'] }}</span> define el estilo de tu espacio.
                     </p>
                 </div>
 
-                <form action="{{ route('admin.setup-modules.save', ['shop_slug' => $shop->slug]) }}" method="POST" class="space-y-6 relative z-10">
+                <form action="{{ route('admin.setup-modules.save', ['shop_slug' => $shop->slug]) }}" method="POST" class="relative z-10 space-y-6">
                     @csrf
-                    
-                    <!-- MODULE CARDS GRID -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        
-                        <!-- Categorías -->
-                        <div @click="toggleModule('categories')"
-                             class="p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden cursor-pointer select-none group flex gap-4"
-                             :class="selectedModules.includes('categories') 
-                                 ? 'bg-slate-900/80 border-primary/50 shadow-[0_0_20px_rgba(var(--color-primary-rgb,99,102,241),0.15)] scale-[1.01]' 
-                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10 hover:bg-slate-900/50'">
-                            
-                            <!-- Icon Container -->
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                                 :class="selectedModules.includes('categories') ? 'bg-primary/20 text-white shadow-inner' : 'bg-white/5 text-slate-400'">
-                                <span class="text-2xl group-hover:scale-110 transition-transform duration-300">📦</span>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        @foreach ($modules as $mod)
+                            <div @click="toggleModule('{{ $mod['key'] }}')"
+                                 class="group p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer select-none flex gap-3.5 relative
+                                        {{ !empty($mod['wide']) ? 'sm:col-span-2' : '' }}"
+                                 :class="selectedModules.includes('{{ $mod['key'] }}')
+                                     ? 'module-selected scale-[1.01]'
+                                     : 'bg-white/[0.02] border-white/[0.06] hover:border-white/12 hover:bg-white/[0.04]'">
+
+                                <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 border border-white/5"
+                                     :class="selectedModules.includes('{{ $mod['key'] }}') ? 'icon-selected' : 'bg-white/5 text-slate-500'">
+                                    <span class="text-xl leading-none">{{ $mod['emoji'] }}</span>
+                                </div>
+
+                                <div class="flex-grow min-w-0 pr-7">
+                                    <h4 class="text-[11px] font-black tracking-wider uppercase transition-colors"
+                                        :class="selectedModules.includes('{{ $mod['key'] }}') ? 'text-white' : 'text-slate-500'">
+                                        {{ $mod['title'] }}
+                                    </h4>
+                                    <p class="text-[10px] text-slate-500 leading-snug mt-0.5 font-medium">
+                                        {{ $mod['desc'] }}
+                                    </p>
+                                </div>
+
+                                <div class="absolute right-3.5 top-4 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300"
+                                     :class="selectedModules.includes('{{ $mod['key'] }}') ? 'module-check scale-110' : 'border-white/15'">
+                                    <i class="fas fa-check text-[8px] font-black text-white" x-show="selectedModules.includes('{{ $mod['key'] }}')"></i>
+                                </div>
+
+                                <input type="checkbox" name="enabled_modules[]" value="{{ $mod['key'] }}" class="hidden"
+                                       :checked="selectedModules.includes('{{ $mod['key'] }}')">
                             </div>
-
-                            <!-- Text Content -->
-                            <div class="flex-grow space-y-1 pr-6">
-                                <h4 class="text-xs font-black tracking-wider uppercase"
-                                    :class="selectedModules.includes('categories') ? 'text-white' : 'text-slate-400'">
-                                    Categorías
-                                </h4>
-                                <p class="text-[10px] text-slate-400 leading-normal font-medium">
-                                    Crea y organiza tus productos por grupos o clasificaciones personalizadas.
-                                </p>
-                            </div>
-
-                            <!-- Selection Indicator -->
-                            <div class="absolute right-4 top-5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300"
-                                 :class="selectedModules.includes('categories') ? 'bg-primary border-primary text-slate-950 scale-110' : 'border-white/20 text-transparent'">
-                                <i class="fas fa-check text-[9px] font-black" x-show="selectedModules.includes('categories')"></i>
-                            </div>
-
-                            <input type="checkbox" name="enabled_modules[]" value="categories" class="hidden" :checked="selectedModules.includes('categories')">
-                        </div>
-
-                        <!-- Productos -->
-                        <div @click="toggleModule('products')"
-                             class="p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden cursor-pointer select-none group flex gap-4"
-                             :class="selectedModules.includes('products') 
-                                 ? 'bg-slate-900/80 border-primary/50 shadow-[0_0_20px_rgba(var(--color-primary-rgb,99,102,241),0.15)] scale-[1.01]' 
-                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10 hover:bg-slate-900/50'">
-                            
-                            <!-- Icon Container -->
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                                 :class="selectedModules.includes('products') ? 'bg-primary/20 text-white shadow-inner' : 'bg-white/5 text-slate-400'">
-                                <span class="text-2xl group-hover:scale-110 transition-transform duration-300">🍔</span>
-                            </div>
-
-                            <!-- Text Content -->
-                            <div class="flex-grow space-y-1 pr-6">
-                                <h4 class="text-xs font-black tracking-wider uppercase"
-                                    :class="selectedModules.includes('products') ? 'text-white' : 'text-slate-400'">
-                                    Productos
-                                </h4>
-                                <p class="text-[10px] text-slate-400 leading-normal font-medium">
-                                    Gestiona tus artículos con precios, imágenes, descripciones y stock.
-                                </p>
-                            </div>
-
-                            <!-- Selection Indicator -->
-                            <div class="absolute right-4 top-5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300"
-                                 :class="selectedModules.includes('products') ? 'bg-primary border-primary text-slate-950 scale-110' : 'border-white/20 text-transparent'">
-                                <i class="fas fa-check text-[9px] font-black" x-show="selectedModules.includes('products')"></i>
-                            </div>
-
-                            <input type="checkbox" name="enabled_modules[]" value="products" class="hidden" :checked="selectedModules.includes('products')">
-                        </div>
-
-                        <!-- Pedidos -->
-                        <div @click="toggleModule('orders')"
-                             class="p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden cursor-pointer select-none group flex gap-4"
-                             :class="selectedModules.includes('orders') 
-                                 ? 'bg-slate-900/80 border-primary/50 shadow-[0_0_20px_rgba(var(--color-primary-rgb,99,102,241),0.15)] scale-[1.01]' 
-                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10 hover:bg-slate-900/50'">
-                            
-                            <!-- Icon Container -->
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                                 :class="selectedModules.includes('orders') ? 'bg-primary/20 text-white shadow-inner' : 'bg-white/5 text-slate-400'">
-                                <span class="text-2xl group-hover:scale-110 transition-transform duration-300">📋</span>
-                            </div>
-
-                            <!-- Text Content -->
-                            <div class="flex-grow space-y-1 pr-6">
-                                <h4 class="text-xs font-black tracking-wider uppercase"
-                                    :class="selectedModules.includes('orders') ? 'text-white' : 'text-slate-400'">
-                                    Pedidos
-                                </h4>
-                                <p class="text-[10px] text-slate-400 leading-normal font-medium">
-                                    Recibe, procesa y despacha pedidos en tiempo real con facturas rápidas.
-                                </p>
-                            </div>
-
-                            <!-- Selection Indicator -->
-                            <div class="absolute right-4 top-5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300"
-                                 :class="selectedModules.includes('orders') ? 'bg-primary border-primary text-slate-950 scale-110' : 'border-white/20 text-transparent'">
-                                <i class="fas fa-check text-[9px] font-black" x-show="selectedModules.includes('orders')"></i>
-                            </div>
-
-                            <input type="checkbox" name="enabled_modules[]" value="orders" class="hidden" :checked="selectedModules.includes('orders')">
-                        </div>
-
-                        <!-- Clientes -->
-                        <div @click="toggleModule('clients')"
-                             class="p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden cursor-pointer select-none group flex gap-4"
-                             :class="selectedModules.includes('clients') 
-                                 ? 'bg-slate-900/80 border-primary/50 shadow-[0_0_20px_rgba(var(--color-primary-rgb,99,102,241),0.15)] scale-[1.01]' 
-                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10 hover:bg-slate-900/50'">
-                            
-                            <!-- Icon Container -->
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                                 :class="selectedModules.includes('clients') ? 'bg-primary/20 text-white shadow-inner' : 'bg-white/5 text-slate-400'">
-                                <span class="text-2xl group-hover:scale-110 transition-transform duration-300">👥</span>
-                            </div>
-
-                            <!-- Text Content -->
-                            <div class="flex-grow space-y-1 pr-6">
-                                <h4 class="text-xs font-black tracking-wider uppercase"
-                                    :class="selectedModules.includes('clients') ? 'text-white' : 'text-slate-400'">
-                                    Clientes
-                                </h4>
-                                <p class="text-[10px] text-slate-400 leading-normal font-medium">
-                                    Visualiza tus compradores recurrentes y sus canales directos de contacto.
-                                </p>
-                            </div>
-
-                            <!-- Selection Indicator -->
-                            <div class="absolute right-4 top-5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300"
-                                 :class="selectedModules.includes('clients') ? 'bg-primary border-primary text-slate-950 scale-110' : 'border-white/20 text-transparent'">
-                                <i class="fas fa-check text-[9px] font-black" x-show="selectedModules.includes('clients')"></i>
-                            </div>
-
-                            <input type="checkbox" name="enabled_modules[]" value="clients" class="hidden" :checked="selectedModules.includes('clients')">
-                        </div>
-
-                        <!-- Facturas -->
-                        <div @click="toggleModule('invoices')"
-                             class="p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden cursor-pointer select-none group flex gap-4"
-                             :class="selectedModules.includes('invoices') 
-                                 ? 'bg-slate-900/80 border-primary/50 shadow-[0_0_20px_rgba(var(--color-primary-rgb,99,102,241),0.15)] scale-[1.01]' 
-                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10 hover:bg-slate-900/50'">
-                            
-                            <!-- Icon Container -->
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                                 :class="selectedModules.includes('invoices') ? 'bg-primary/20 text-white shadow-inner' : 'bg-white/5 text-slate-400'">
-                                <span class="text-2xl group-hover:scale-110 transition-transform duration-300">🧾</span>
-                            </div>
-
-                            <!-- Text Content -->
-                            <div class="flex-grow space-y-1 pr-6">
-                                <h4 class="text-xs font-black tracking-wider uppercase"
-                                    :class="selectedModules.includes('invoices') ? 'text-white' : 'text-slate-400'">
-                                    Facturas
-                                </h4>
-                                <p class="text-[10px] text-slate-400 leading-normal font-medium">
-                                    Gestiona y descarga los comprobantes y reportes de facturación.
-                                </p>
-                            </div>
-
-                            <!-- Selection Indicator -->
-                            <div class="absolute right-4 top-5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300"
-                                 :class="selectedModules.includes('invoices') ? 'bg-primary border-primary text-slate-950 scale-110' : 'border-white/20 text-transparent'">
-                                <i class="fas fa-check text-[9px] font-black" x-show="selectedModules.includes('invoices')"></i>
-                            </div>
-
-                            <input type="checkbox" name="enabled_modules[]" value="invoices" class="hidden" :checked="selectedModules.includes('invoices')">
-                        </div>
-
-                        <!-- Delivery -->
-                        <div @click="toggleModule('delivery')"
-                             class="p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden cursor-pointer select-none group flex gap-4"
-                             :class="selectedModules.includes('delivery') 
-                                 ? 'bg-slate-900/80 border-primary/50 shadow-[0_0_20px_rgba(var(--color-primary-rgb,99,102,241),0.15)] scale-[1.01]' 
-                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10 hover:bg-slate-900/50'">
-                            
-                            <!-- Icon Container -->
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                                 :class="selectedModules.includes('delivery') ? 'bg-primary/20 text-white shadow-inner' : 'bg-white/5 text-slate-400'">
-                                <span class="text-2xl group-hover:scale-110 transition-transform duration-300">🛵</span>
-                            </div>
-
-                            <!-- Text Content -->
-                            <div class="flex-grow space-y-1 pr-6">
-                                <h4 class="text-xs font-black tracking-wider uppercase"
-                                    :class="selectedModules.includes('delivery') ? 'text-white' : 'text-slate-400'">
-                                    Delivery
-                                </h4>
-                                <p class="text-[10px] text-slate-400 leading-normal font-medium">
-                                    Configura tarifas de envío, motorizados, y coberturas de entrega.
-                                </p>
-                            </div>
-
-                            <!-- Selection Indicator -->
-                            <div class="absolute right-4 top-5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300"
-                                 :class="selectedModules.includes('delivery') ? 'bg-primary border-primary text-slate-950 scale-110' : 'border-white/20 text-transparent'">
-                                <i class="fas fa-check text-[9px] font-black" x-show="selectedModules.includes('delivery')"></i>
-                            </div>
-
-                            <input type="checkbox" name="enabled_modules[]" value="delivery" class="hidden" :checked="selectedModules.includes('delivery')">
-                        </div>
-
-                        <!-- Analítica -->
-                        <div @click="toggleModule('analytics')"
-                             class="p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden cursor-pointer select-none group flex gap-4"
-                             :class="selectedModules.includes('analytics') 
-                                 ? 'bg-slate-900/80 border-primary/50 shadow-[0_0_20px_rgba(var(--color-primary-rgb,99,102,241),0.15)] scale-[1.01]' 
-                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10 hover:bg-slate-900/50'">
-                            
-                            <!-- Icon Container -->
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                                 :class="selectedModules.includes('analytics') ? 'bg-primary/20 text-white shadow-inner' : 'bg-white/5 text-slate-400'">
-                                <span class="text-2xl group-hover:scale-110 transition-transform duration-300">📊</span>
-                            </div>
-
-                            <!-- Text Content -->
-                            <div class="flex-grow space-y-1 pr-6">
-                                <h4 class="text-xs font-black tracking-wider uppercase"
-                                    :class="selectedModules.includes('analytics') ? 'text-white' : 'text-slate-400'">
-                                    Analítica
-                                </h4>
-                                <p class="text-[10px] text-slate-400 leading-normal font-medium">
-                                    Visualiza estadísticas, reportes de ventas y desempeño comercial.
-                                </p>
-                            </div>
-
-                            <!-- Selection Indicator -->
-                            <div class="absolute right-4 top-5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300"
-                                 :class="selectedModules.includes('analytics') ? 'bg-primary border-primary text-slate-950 scale-110' : 'border-white/20 text-transparent'">
-                                <i class="fas fa-check text-[9px] font-black" x-show="selectedModules.includes('analytics')"></i>
-                            </div>
-
-                            <input type="checkbox" name="enabled_modules[]" value="analytics" class="hidden" :checked="selectedModules.includes('analytics')">
-                        </div>
-
-                        <!-- Referidos -->
-                        <div @click="toggleModule('referrals')"
-                             class="p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden cursor-pointer select-none group flex gap-4"
-                             :class="selectedModules.includes('referrals') 
-                                 ? 'bg-slate-900/80 border-primary/50 shadow-[0_0_20px_rgba(var(--color-primary-rgb,99,102,241),0.15)] scale-[1.01]' 
-                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10 hover:bg-slate-900/50'">
-                            
-                            <!-- Icon Container -->
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                                 :class="selectedModules.includes('referrals') ? 'bg-primary/20 text-white shadow-inner' : 'bg-white/5 text-slate-400'">
-                                <span class="text-2xl group-hover:scale-110 transition-transform duration-300">🔗</span>
-                            </div>
-
-                            <!-- Text Content -->
-                            <div class="flex-grow space-y-1 pr-6">
-                                <h4 class="text-xs font-black tracking-wider uppercase"
-                                    :class="selectedModules.includes('referrals') ? 'text-white' : 'text-slate-400'">
-                                    Referidos
-                                </h4>
-                                <p class="text-[10px] text-slate-400 leading-normal font-medium">
-                                    Crea enlaces de recomendación y recompensa a tus promotores.
-                                </p>
-                            </div>
-
-                            <!-- Selection Indicator -->
-                            <div class="absolute right-4 top-5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300"
-                                 :class="selectedModules.includes('referrals') ? 'bg-primary border-primary text-slate-950 scale-110' : 'border-white/20 text-transparent'">
-                                <i class="fas fa-check text-[9px] font-black" x-show="selectedModules.includes('referrals')"></i>
-                            </div>
-
-                            <input type="checkbox" name="enabled_modules[]" value="referrals" class="hidden" :checked="selectedModules.includes('referrals')">
-                        </div>
-
-                        <!-- Anuncios -->
-                        <div @click="toggleModule('announcements')"
-                             class="p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden cursor-pointer select-none md:col-span-2 group flex gap-4"
-                             :class="selectedModules.includes('announcements') 
-                                 ? 'bg-slate-900/80 border-primary/50 shadow-[0_0_20px_rgba(var(--color-primary-rgb,99,102,241),0.15)] scale-[1.01]' 
-                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10 hover:bg-slate-900/50'">
-                            
-                            <!-- Icon Container -->
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                                 :class="selectedModules.includes('announcements') ? 'bg-primary/20 text-white shadow-inner' : 'bg-white/5 text-slate-400'">
-                                <span class="text-2xl group-hover:scale-110 transition-transform duration-300">📢</span>
-                            </div>
-
-                            <!-- Text Content -->
-                            <div class="flex-grow space-y-1 pr-6">
-                                <h4 class="text-xs font-black tracking-wider uppercase"
-                                    :class="selectedModules.includes('announcements') ? 'text-white' : 'text-slate-400'">
-                                    Marketing
-                                </h4>
-                                <p class="text-[10px] text-slate-400 leading-normal font-medium">
-                                    Crea banners promocionales u ofertas destacadas en la cabecera de tu menú para atraer más atención.
-                                </p>
-                            </div>
-
-                            <!-- Selection Indicator -->
-                            <div class="absolute right-4 top-5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300"
-                                 :class="selectedModules.includes('announcements') ? 'bg-primary border-primary text-slate-950 scale-110' : 'border-white/20 text-transparent'">
-                                <i class="fas fa-check text-[9px] font-black" x-show="selectedModules.includes('announcements')"></i>
-                            </div>
-
-                            <input type="checkbox" name="enabled_modules[]" value="announcements" class="hidden" :checked="selectedModules.includes('announcements')">
-                        </div>
-
+                        @endforeach
                     </div>
 
-                    <!-- SUBMIT BUTTON -->
-                    <div class="pt-4">
-                        <button type="submit" 
-                                class="block w-full text-center bg-gradient-to-r from-primary to-secondary hover:brightness-110 text-white font-extrabold py-4.5 rounded-2xl transition-all duration-300 text-xs uppercase tracking-widest shadow-[0_4px_25px_rgba(var(--color-primary-rgb,99,102,241),0.3)] active:scale-[0.98] border border-white/10">
-                            Comenzar e ir al panel <i class="fas fa-arrow-right ml-1"></i>
-                        </button>
-                    </div>
+                    <p class="text-center text-[10px] text-slate-600 font-medium">
+                        <span x-text="selectedModules.length"></span> módulos seleccionados · puedes cambiar esto después en Configuración
+                    </p>
 
+                    <button type="submit"
+                            class="btn-plan relative w-full flex items-center justify-center gap-3 text-white font-black py-4 sm:py-[1.15rem] rounded-2xl transition-all duration-300 active:scale-[0.98] overflow-hidden group">
+                        <span class="text-sm sm:text-[15px] tracking-wide">Comenzar e ir al panel</span>
+                        <span class="flex items-center justify-center w-9 h-9 rounded-xl bg-white/20 group-hover:bg-white/30 transition-all group-hover:translate-x-0.5">
+                            <i class="fas fa-arrow-right text-sm"></i>
+                        </span>
+                    </button>
                 </form>
             </div>
-            
         </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="w-full py-6 text-xs text-slate-500 relative z-10 border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>© 2026 WIStore. Todos los derechos reservados.</p>
-            <div class="flex items-center gap-6">
-                <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
-                <span>•</span>
-                <a href="{{ route('contacto') }}" class="hover:text-white transition-colors">Contacto</a>
+    <footer class="w-full py-5 text-[11px] text-slate-600 relative z-10 border-t border-white/[0.04]">
+        <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>© 2026 WIStore</p>
+            <div class="flex items-center gap-4">
+                <a href="{{ route('legal.privacidad') }}" class="hover:text-slate-400 transition-colors">Privacidad</a>
+                <a href="{{ route('contacto') }}" class="hover:text-slate-400 transition-colors">Contacto</a>
             </div>
         </div>
     </footer>
-
 </body>
 
 </html>

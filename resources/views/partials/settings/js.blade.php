@@ -1,3 +1,30 @@
+@php
+    $currentHours = old('work_hours', $shop->work_hours ?? null);
+    if (is_string($currentHours)) {
+        $decodedHours = json_decode($currentHours, true);
+        if ($decodedHours !== null) {
+            $currentHours = $decodedHours;
+        }
+    }
+    $isCustom = is_array($currentHours) && isset($currentHours['type']) && $currentHours['type'] === 'custom';
+
+    $paymentMethods = $shop->payment_methods ? json_decode($shop->payment_methods, true) : [];
+    if (empty($paymentMethods)) {
+        $paymentMethods = [
+            'Efectivo' => ['active' => true, 'details' => ''],
+            'Pago Móvil' => ['active' => true, 'details' => ''],
+        ];
+    }
+    $availableMethods = [
+        'Transferencia' => ['color' => 'bg-slate-600 text-white border-slate-600 shadow-sm', 'placeholder' => 'Banco, Número de Cuenta, Titular, RIF...'],
+        'Pago Móvil' => ['color' => 'bg-teal-500 text-white border-teal-500 shadow-sm', 'placeholder' => 'Banco, Teléfono, Cédula...'],
+        'Efectivo' => ['color' => 'bg-emerald-600 text-white border-emerald-600 shadow-sm', 'placeholder' => 'Detalles (ej: Traer sencillo, Se acepta cambio...)'],
+        'Zelle' => ['color' => 'bg-purple-600 text-white border-purple-600 shadow-sm', 'placeholder' => 'Correo de Zelle, Nombre...'],
+        'Binance' => ['color' => 'bg-yellow-500 text-white border-yellow-500 shadow-sm', 'placeholder' => 'Pay ID, Correo, USDT...'],
+        'PayPal' => ['color' => 'bg-blue-600 text-white border-blue-600 shadow-sm', 'placeholder' => 'Correo de cuenta...'],
+        'Punto de Venta' => ['color' => 'bg-indigo-500 text-white border-indigo-500 shadow-sm', 'placeholder' => 'Detalles (ej: Pago directo al retirar/recibir...)'],
+    ];
+@endphp
 <script>
     // Tab management
     function showTab(tabName) {

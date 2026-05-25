@@ -6,8 +6,6 @@ ceo de https://www.zenifi.app/
 
 poner varios estados en los pedidos, , pendiente, cobrado, entregado, en preparacion listo cancelado 
 
-cambiar analitica por reporte 
-
 integrar chat para soporte tecnico por parte nuestra hacia el usuario y que el usuario envie feedback y nosotros podamos responderle   
 
 incluird chat para poder hablar con el cliente desde el panel admin y ellos puedan responder desde su web en el footer hay un chat de widx para poder tener conversaciones con el cliente 
@@ -37,3 +35,7 @@ https://www.instagram.com/lovavzla/
 https://www.instagram.com/adsv.e/
 
 agregar mi propio reprodcutor de video personalizado
+
+agregar laoder al ahcer cualquier peticion y que sea le mismo que el del menu digital con su logo y cargando pero que no diga cargando menu si no, salga solo el logo
+
+se oculto el ajuste avanzado
