@@ -80,7 +80,8 @@
                     Crea y administra las categorías comerciales para agrupar tus artículos y optimizar el catálogo de tu tienda.
                 </p>
             </div>
-            <div>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <x-admin.excel-toolbar entity="categories" />
                 <button @click="openCreate()" class="bg-primary hover:bg-primary/90 text-white font-extrabold text-xs px-5 py-3 rounded-xl transition shadow-md hover:shadow-lg shadow-black/5 dark:shadow-black/20 active:scale-95 flex items-center justify-center gap-2">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     Registrar Categoría

@@ -116,7 +116,8 @@
                     Crea, edita y suspende las promociones o alertas de tu menú en tiempo real.
                 </p>
             </div>
-            <div>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <x-admin.excel-toolbar entity="announcements" />
                 <button :disabled="announcementCount >= 3" 
                         @click="openCreate()" 
                         :class="announcementCount >= 3 ? 'bg-slate-200 dark:bg-slate-850 text-slate-400 dark:text-slate-600 cursor-not-allowed border border-slate-300/20' : 'bg-primary hover:bg-primary/90 text-white active:scale-95 shadow-md hover:shadow-lg shadow-black/5 dark:shadow-black/20'"

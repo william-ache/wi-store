@@ -34,6 +34,20 @@
                     {{ $shop->zone }}
                 </p>
             @endif
+            @if (!empty($shop->has_cashea) || !empty($shop->has_krece))
+                <p class="mt-2 inline-flex flex-wrap items-center gap-2">
+                    @if (!empty($shop->has_cashea))
+                        <span class="inline-flex items-center">
+                            <img src="{{ asset('images/cashea-logo.png') }}" alt="Cashea" class="h-5 w-5 rounded-md object-contain" title="Cashea disponible">
+                        </span>
+                    @endif
+                    @if (!empty($shop->has_krece))
+                        <span class="inline-flex items-center">
+                            <img src="{{ asset('images/krece-logo.png') }}" alt="Krece" class="h-5 w-5 rounded-md object-contain" title="Krece disponible">
+                        </span>
+                    @endif
+                </p>
+            @endif
             <p class="text-xs text-slate-400 mt-2 line-clamp-2 leading-relaxed">
                 {{ $shop->description ?: 'Menú digital con pedidos por WhatsApp.' }}
             </p>

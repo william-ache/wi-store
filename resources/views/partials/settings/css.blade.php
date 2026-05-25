@@ -15,6 +15,15 @@
         font-weight: 600 !important;
         padding-left: 0.25rem !important;
     }
+    /* Cashea brand (evita colores arbitrarios [#FFE500] que rompen Blade) */
+    .cashea-brand-bg { background-color: #FFE500; }
+    .cashea-brand-border { border-color: rgba(255, 229, 0, 0.35); }
+    .cashea-logo-badge { border-radius: 6px; }
+    .krece-brand-bg { background-color: #22D3EE; }
+    .krece-brand-border { border-color: rgba(34, 211, 238, 0.45); }
+    .krece-logo-badge { border-radius: 6px; }
+    .peer-toggle::after { content: '' !important; }
+
     .tab-content { display: none; }
     .tab-content.active { display: block; }
     .tab-btn.active { background-color: var(--color-primary); color: white; }

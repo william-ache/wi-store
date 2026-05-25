@@ -159,6 +159,12 @@
                                 </p>
                                 <p class="text-xs text-slate-400 mt-2 line-clamp-2 flex-grow" x-text="shop.description"></p>
                                 <div class="flex flex-wrap gap-1.5 mt-3">
+                                    <span x-show="shop.has_cashea" class="inline-flex items-center">
+                                        <img src="{{ asset('images/cashea-logo.png') }}" alt="Cashea" class="h-4 w-4 rounded-md object-contain">
+                                    </span>
+                                    <span x-show="shop.has_krece" class="inline-flex items-center">
+                                        <img src="{{ asset('images/krece-logo.png') }}" alt="Krece" class="h-4 w-4 rounded-md object-contain">
+                                    </span>
                                     <span x-show="shop.has_delivery" class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Delivery</span>
                                     <span x-show="shop.has_pickup" class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-200 border border-purple-500/20">Retiro</span>
                                     <span x-show="shop.has_dine_in" class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-200 border border-cyan-500/20">Local</span>

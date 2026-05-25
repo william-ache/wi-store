@@ -73,7 +73,15 @@ class Shop extends Model
         'pagomovil_enabled',
         'pagomovil_bank',
         'pagomovil_phone',
-        'pagomovil_id'
+        'pagomovil_id',
+        'cashea_enabled',
+        'cashea_qr_path',
+        'cashea_link_enabled',
+        'cashea_link_url',
+        'krece_enabled',
+        'krece_qr_path',
+        'krece_link_enabled',
+        'krece_link_url',
     ];
 
     protected $attributes = [
@@ -98,7 +106,44 @@ class Shop extends Model
         'stripe_enabled' => 'boolean',
         'binance_enabled' => 'boolean',
         'pagomovil_enabled' => 'boolean',
+        'cashea_enabled' => 'boolean',
+        'cashea_link_enabled' => 'boolean',
+        'krece_enabled' => 'boolean',
+        'krece_link_enabled' => 'boolean',
     ];
+
+    public function hasCasheaAvailable(): bool
+    {
+        return (bool) $this->cashea_enabled || (bool) $this->cashea_link_enabled;
+    }
+
+    public function hasKreceAvailable(): bool
+    {
+        return (bool) $this->krece_enabled || (bool) $this->krece_link_enabled;
+    }
+
+    public function casheaQrUrl(): ?string
+    {
+        return $this->financingQrUrl($this->cashea_qr_path);
+    }
+
+    public function kreceQrUrl(): ?string
+    {
+        return $this->financingQrUrl($this->krece_qr_path);
+    }
+
+    private function financingQrUrl(?string $path): ?string
+    {
+        if (! $path) {
+            return null;
+        }
+
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+            return $path;
+        }
+
+        return asset('storage/' . $path);
+    }
 
     public function categories()
     {

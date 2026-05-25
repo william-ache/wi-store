@@ -11,11 +11,14 @@
     <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] p-6 md:p-8 transition-all duration-300">
         
         <!-- Encabezado de la Sección -->
-        <div class="pb-6 border-b border-slate-100 dark:border-slate-800">
-            <h2 class="text-xl md:text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Recuperación de Ventas Perdidas</h2>
-            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Visualiza los carritos de clientes que iniciaron el ingreso de datos pero no finalizaron la orden. ¡Recupéralos con un mensaje directo de WhatsApp!
-            </p>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
+            <div>
+                <h2 class="text-xl md:text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Recuperación de Ventas Perdidas</h2>
+                <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    Visualiza los carritos de clientes que iniciaron el ingreso de datos pero no finalizaron la orden. ¡Recupéralos con un mensaje directo de WhatsApp!
+                </p>
+            </div>
+            <x-admin.excel-toolbar entity="abandoned-carts" />
         </div>
 
         <!-- Tabla de Datos -->

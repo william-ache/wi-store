@@ -17,7 +17,11 @@
     $hasHorario = (is_array($whRaw) && (!empty($whRaw['text']) || (($whRaw['type'] ?? '') === 'custom')))
         || (is_string($whRaw) && trim((string) $whRaw) !== '');
     $paymentMethodsCheck = $shop->payment_methods ? json_decode($shop->payment_methods, true) : [];
-    $hasPagos = !empty($paymentMethodsCheck);
+    $hasPagos = !empty($paymentMethodsCheck)
+        || $shop->cashea_enabled
+        || $shop->cashea_link_enabled
+        || !empty($shop->cashea_qr_path)
+        || !empty($shop->cashea_link_url);
 @endphp
 
 <div id="content-comercio" class="tab-content active space-y-4 md:space-y-5 pt-0.5"
@@ -119,7 +123,7 @@
 
         <div id="settings-section-pagos">
             <x-settings-section id="pagos" title="Métodos de pago"
-                subtitle="Efectivo, Pago Móvil, Zelle y datos para el cliente." icon="💳">
+                subtitle="Efectivo, Pago Móvil, Zelle, Cashea (QR o link) y datos para el cliente." icon="💳">
                 @include('partials.settings.comercio.pagos')
             </x-settings-section>
         </div>

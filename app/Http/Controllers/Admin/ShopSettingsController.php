@@ -84,6 +84,16 @@ class ShopSettingsController extends Controller
             'pagomovil_bank' => 'nullable|string|max:255',
             'pagomovil_phone' => 'nullable|string|max:255',
             'pagomovil_id' => 'nullable|string|max:255',
+            'cashea_enabled' => 'nullable|boolean',
+            'cashea_qr' => 'nullable|image|max:4096',
+            'remove_cashea_qr' => 'nullable|boolean',
+            'cashea_link_enabled' => 'nullable|boolean',
+            'cashea_link_url' => 'nullable|url|max:500',
+            'krece_enabled' => 'nullable|boolean',
+            'krece_qr' => 'nullable|image|max:4096',
+            'remove_krece_qr' => 'nullable|boolean',
+            'krece_link_enabled' => 'nullable|boolean',
+            'krece_link_url' => 'nullable|url|max:500',
         ]);
 
         $data = $request->only([
@@ -96,12 +106,18 @@ class ShopSettingsController extends Controller
             'custom_domain', 'facebook_pixel_id', 'tiktok_pixel_id', 'google_analytics_id',
             'stripe_publishable_key', 'stripe_secret_key',
             'binance_api_key', 'binance_secret_key',
-            'pagomovil_bank', 'pagomovil_phone', 'pagomovil_id'
+            'pagomovil_bank', 'pagomovil_phone', 'pagomovil_id',
+            'cashea_link_url',
+            'krece_link_url',
         ]);
 
         $data['stripe_enabled'] = $request->has('stripe_enabled');
         $data['binance_enabled'] = $request->has('binance_enabled');
         $data['pagomovil_enabled'] = $request->has('pagomovil_enabled');
+        $data['cashea_enabled'] = $request->has('cashea_enabled');
+        $data['cashea_link_enabled'] = $request->has('cashea_link_enabled');
+        $data['krece_enabled'] = $request->has('krece_enabled');
+        $data['krece_link_enabled'] = $request->has('krece_link_enabled');
         $data['enabled_modules'] = $request->input('enabled_modules', []);
 
         // Actualizar fecha de actualización de tasa de cambio si se modificó
@@ -145,6 +161,34 @@ class ShopSettingsController extends Controller
                 Storage::disk('public')->delete($shop->cover_path);
             }
             $data['cover_path'] = $request->file('cover')->store('covers', 'public');
+        }
+
+        if ($request->hasFile('cashea_qr')) {
+            if ($shop->cashea_qr_path && ! filter_var($shop->cashea_qr_path, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($shop->cashea_qr_path);
+            }
+            $data['cashea_qr_path'] = $request->file('cashea_qr')->store('cashea', 'public');
+        }
+
+        if ($request->boolean('remove_cashea_qr') && $shop->cashea_qr_path) {
+            if (! filter_var($shop->cashea_qr_path, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($shop->cashea_qr_path);
+            }
+            $data['cashea_qr_path'] = null;
+        }
+
+        if ($request->hasFile('krece_qr')) {
+            if ($shop->krece_qr_path && ! filter_var($shop->krece_qr_path, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($shop->krece_qr_path);
+            }
+            $data['krece_qr_path'] = $request->file('krece_qr')->store('krece', 'public');
+        }
+
+        if ($request->boolean('remove_krece_qr') && $shop->krece_qr_path) {
+            if (! filter_var($shop->krece_qr_path, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($shop->krece_qr_path);
+            }
+            $data['krece_qr_path'] = null;
         }
 
         $shop->update($data);

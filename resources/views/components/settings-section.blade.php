@@ -7,14 +7,14 @@
 ])
 
 <div {{ $attributes->merge(['class' => 'rounded-2xl border transition-all duration-300 overflow-hidden']) }}
-     :class="sections['{{ $id }}']
+     x-bind:class="sections['{{ $id }}']
          ? 'border-primary/25 bg-white dark:bg-slate-900/50 shadow-sm'
          : 'border-slate-200/80 dark:border-slate-800/80 bg-slate-50/40 dark:bg-slate-950/30'">
 
     <div class="settings-section-header flex items-center gap-3 p-3.5 sm:p-4 md:p-5 cursor-pointer select-none"
-         @click="sections['{{ $id }}'] ? togglePanel('{{ $id }}') : enableSection('{{ $id }}')">
+         x-on:click="sections['{{ $id }}'] ? togglePanel('{{ $id }}') : enableSection('{{ $id }}')">
         <span class="w-10 h-10 md:w-11 md:h-11 rounded-xl flex items-center justify-center text-lg md:text-xl shrink-0 transition-colors"
-              :class="sections['{{ $id }}'] ? 'bg-primary/15' : 'bg-slate-200/60 dark:bg-slate-800'">
+              x-bind:class="sections['{{ $id }}'] ? 'bg-primary/15' : 'bg-slate-200/60 dark:bg-slate-800'">
             {{ $icon }}
         </span>
         <div class="flex-grow min-w-0">
@@ -30,24 +30,24 @@
         @if($optional)
             <button type="button"
                     x-show="!sections['{{ $id }}']"
-                    @click.stop="enableSection('{{ $id }}')"
+                    x-on:click.stop="enableSection('{{ $id }}')"
                     class="shrink-0 text-[10px] md:text-xs font-black uppercase tracking-wider px-3 py-1.5 md:px-3.5 md:py-2 rounded-lg bg-primary text-white hover:brightness-105 active:scale-95 transition shadow-sm">
                 Activar
             </button>
             <button type="button"
                     x-show="sections['{{ $id }}']"
                     x-cloak
-                    @click.stop="togglePanel('{{ $id }}')"
+                    x-on:click.stop="togglePanel('{{ $id }}')"
                     class="shrink-0 w-8 h-8 md:w-9 md:h-9 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                 <i class="fas text-[10px] md:text-xs transition-transform duration-200"
-                   :class="openPanel === '{{ $id }}' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                   x-bind:class="openPanel === '{{ $id }}' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </button>
         @else
             <button type="button"
-                    @click.stop="togglePanel('{{ $id }}')"
+                    x-on:click.stop="togglePanel('{{ $id }}')"
                     class="shrink-0 w-8 h-8 md:w-9 md:h-9 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                 <i class="fas text-[10px] md:text-xs transition-transform duration-200"
-                   :class="openPanel === '{{ $id }}' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                   x-bind:class="openPanel === '{{ $id }}' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </button>
         @endif
     </div>

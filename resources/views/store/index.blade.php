@@ -184,6 +184,10 @@
             transition: background 0.3s ease;
         }
 
+        .cashea-logo-badge { border-radius: 6px; }
+        .krece-logo-badge { border-radius: 6px; }
+        .krece-brand-bg { background-color: #22D3EE; }
+
         ::-webkit-scrollbar-thumb:hover {
             background: var(--color-secondary);
         }
@@ -375,8 +379,47 @@
         if (!empty($company['pagomovil_enabled'])) {
             $activePaymentMethods['Pago Móvil'] = ['active' => true, 'details' => 'Pago Móvil Directo al Banco ' . ($company['pagomovil_bank'] ?? '') . ' - Tel: ' . ($company['pagomovil_phone'] ?? '') . ' - CI: ' . ($company['pagomovil_id'] ?? '')];
         }
+        if (!empty($company['cashea_enabled']) && !empty($company['cashea_qr_url'])) {
+            $activePaymentMethods['Cashea'] = [
+                'active' => true,
+                'details' => 'Financia tu compra en cuotas con Cashea. Escanea el código QR de la tienda al pagar.',
+                'type' => 'cashea_qr',
+                'qr_url' => $company['cashea_qr_url'],
+            ];
+        }
+        if (!empty($company['cashea_link_enabled']) && !empty($company['cashea_link_url'])) {
+            $activePaymentMethods['Cashea Link'] = [
+                'active' => true,
+                'details' => 'Paga en cuotas con Cashea usando el enlace de pago de la tienda.',
+                'type' => 'cashea_link',
+                'link_url' => $company['cashea_link_url'],
+            ];
+        }
+        if (!empty($company['krece_enabled']) && !empty($company['krece_qr_url'])) {
+            $activePaymentMethods['Krece'] = [
+                'active' => true,
+                'details' => 'Financia tu compra en cuotas con Krece. Escanea el código QR de la tienda al pagar.',
+                'type' => 'krece_qr',
+                'qr_url' => $company['krece_qr_url'],
+            ];
+        }
+        if (!empty($company['krece_link_enabled']) && !empty($company['krece_link_url'])) {
+            $activePaymentMethods['Krece Link'] = [
+                'active' => true,
+                'details' => 'Paga en cuotas con Krece usando el enlace de pago de la tienda.',
+                'type' => 'krece_link',
+                'link_url' => $company['krece_link_url'],
+            ];
+        }
 
-        $hasPaymentMethodsConfigured = (!empty($paymentMethodsRaw) || !empty($company['stripe_enabled']) || !empty($company['binance_enabled']) || !empty($company['pagomovil_enabled'])) && count($activePaymentMethods) > 0;
+        $hasPaymentMethodsConfigured = (!empty($paymentMethodsRaw)
+            || !empty($company['stripe_enabled'])
+            || !empty($company['binance_enabled'])
+            || !empty($company['pagomovil_enabled'])
+            || !empty($company['cashea_enabled'])
+            || !empty($company['cashea_link_enabled'])
+            || !empty($company['krece_enabled'])
+            || !empty($company['krece_link_enabled'])) && count($activePaymentMethods) > 0;
 
         // Helpers to get icon and color for categories (with automatic name-based fallbacks)
         $getCategoryIcon = function ($category) {
@@ -617,38 +660,6 @@
                                 ? $company['google_maps_link']
                                 : 'https://www.google.com/maps/search/?api=1&query=' .
                                     urlencode($company['address'] ?? '');
-
-                            $planOptions = [
-                                'free_trial' => [
-                                    'label' => 'Prueba 7 días',
-                                    'bg' => 'bg-indigo-50',
-                                    'text' => 'text-indigo-700',
-                                    'border' => 'border-indigo-100',
-                                    'icon' => 'fas fa-clock',
-                                ],
-                                'standard' => [
-                                    'label' => 'Plan Standard',
-                                    'bg' => 'bg-sky-50',
-                                    'text' => 'text-sky-700',
-                                    'border' => 'border-sky-100',
-                                    'icon' => 'fas fa-layer-group',
-                                ],
-                                'premium' => [
-                                    'label' => 'Plan Premium',
-                                    'bg' => 'bg-emerald-50',
-                                    'text' => 'text-emerald-700',
-                                    'border' => 'border-emerald-100',
-                                    'icon' => 'fas fa-crown',
-                                ],
-                            ];
-                            $displayPlanKey = $companyPlanKey;
-                            $planInfo = $planOptions[$displayPlanKey] ?? [
-                                'label' => ucfirst($companyPlanKey),
-                                'bg' => 'bg-slate-100',
-                                'text' => 'text-slate-700',
-                                'border' => 'border-slate-200',
-                                'icon' => 'fas fa-award',
-                            ];
                         @endphp
                         <div class="pt-10">
                             <button type="button" @click="shareMenu()"
@@ -661,22 +672,6 @@
                                 style="color: var(--color-secondary);">
                                 {{ $company['name'] }}
                             </h1>
-                            <div class="flex items-center justify-center gap-2 mt-2 flex-wrap">
-                                @if (!$isPremiumPlan)
-                                    <span
-                                        class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold {{ $planInfo['bg'] }} {{ $planInfo['text'] }} border {{ $planInfo['border'] }}">
-                                        <i class="{{ $planInfo['icon'] }} text-[11px]"></i>
-                                        {{ $planInfo['label'] }}
-                                    </span>
-                                @endif
-                                @if ($isPremiumPlan)
-                                    <span
-                                        class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-black bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-500 text-white border border-yellow-300 shadow-[0_2px_10px_rgba(251,191,36,0.5)] select-none">
-                                        <i class="fas fa-circle-check text-[11px] text-white"></i>
-                                        <span>Verificado Premium</span>
-                                    </span>
-                                @endif
-                            </div>
                             <p class="text-xs text-slate-500 mt-2 flex items-center justify-center gap-2">
                                 <a href="{{ $companyMapUrl }}" target="_blank"
                                     class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-700 border border-slate-200 hover:bg-slate-200 transition">
@@ -706,6 +701,8 @@
                                     <i class="fas fa-star text-amber-400 text-[10px]"></i> <span
                                         x-text="averageRating.toFixed(1)">{{ number_format($averageRating, 1) }}</span>
                                 </button>
+
+                                @include('partials.store.financing-badges')
 
                                 <!-- CURRENT BRANCH BADGE -->
                                 <button @click="showBranchesModal = true"
@@ -2047,15 +2044,23 @@
                                 'border border-slate-200 text-slate-500 hover:text-slate-800 bg-white'"
                             class="py-3 px-3 text-xs rounded-2xl font-bold transition flex flex-col items-center justify-center gap-2 cursor-pointer relative overflow-hidden group">
                             <span class="flex items-center gap-1.5">
-                                <svg class="w-3.5 h-3.5"
-                                    :class="selectedPaymentMethod === methodName ? 'text-[var(--color-primary)]' :
-                                        'text-slate-400'"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
-                                    </path>
-                                </svg>
+                                <template x-if="methodName === 'Cashea' || methodName === 'Cashea Link'">
+                                    <img src="{{ asset('images/cashea-logo.png') }}" alt="Cashea" class="h-5 w-5 rounded-md object-contain cashea-logo-badge">
+                                </template>
+                                <template x-if="methodName === 'Krece' || methodName === 'Krece Link'">
+                                    <img src="{{ asset('images/krece-logo.png') }}" alt="Krece" class="h-5 w-5 rounded-md object-contain krece-logo-badge">
+                                </template>
+                                <template x-if="!['Cashea','Cashea Link','Krece','Krece Link'].includes(methodName)">
+                                    <svg class="w-3.5 h-3.5"
+                                        :class="selectedPaymentMethod === methodName ? 'text-[var(--color-primary)]' :
+                                            'text-slate-400'"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
+                                        </path>
+                                    </svg>
+                                </template>
                                 <span class="font-extrabold text-[11px]" x-text="methodName"></span>
                             </span>
                             <div x-show="selectedPaymentMethod === methodName"
@@ -2187,6 +2192,106 @@
                             <label class="text-[8px] font-extrabold text-slate-500 uppercase block pl-0.5">Referencia de la Transacción (Últimos 4-6 dígitos)</label>
                             <input type="text" x-model="pagomovilReference" placeholder="e.g. 1234" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-[10px] focus:outline-none focus:border-teal-500 transition-all font-semibold font-mono">
                         </div>
+                    </div>
+
+                    <!-- 4. Cashea QR (punto de venta) -->
+                    <div x-show="selectedPaymentMethod === 'Cashea'"
+                        x-transition:enter="transition ease-out duration-250"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="bg-gradient-to-br from-[#FFE500]/15 to-slate-50 border border-[#FFE500]/40 p-4 rounded-2xl space-y-3 mt-3">
+                        <span class="text-[10px] text-slate-800 font-extrabold uppercase tracking-widest flex items-center gap-2 select-none">
+                            <img src="{{ asset('images/cashea-logo.png') }}" alt="Cashea" class="h-6 w-6 rounded-md object-contain cashea-logo-badge">
+                            Pago con Cashea (cuotas)
+                        </span>
+                        <p class="text-[9px] text-slate-500 leading-relaxed font-semibold">
+                            Escanea el QR de la tienda con la app Cashea para financiar tu compra en cuotas.
+                        </p>
+                        @if (!empty($company['cashea_qr_url']))
+                            <div class="flex justify-center p-3 bg-white rounded-2xl border border-slate-100 shadow-inner">
+                                <img src="{{ $company['cashea_qr_url'] }}" alt="QR Cashea" class="max-w-[200px] w-full h-auto object-contain">
+                            </div>
+                        @endif
+                        <label class="flex items-start gap-2 cursor-pointer select-none">
+                            <input type="checkbox" x-model="casheaConfirmed" class="mt-0.5 rounded border-[#FFE500] text-[#FFE500] focus:ring-[#FFE500]">
+                            <span class="text-[10px] font-bold text-slate-700">Confirmo que pagaré con Cashea escaneando este QR</span>
+                        </label>
+                    </div>
+
+                    <!-- 5. Cashea Link -->
+                    <div x-show="selectedPaymentMethod === 'Cashea Link'"
+                        x-transition:enter="transition ease-out duration-250"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="bg-gradient-to-br from-[#FFE500]/15 to-slate-50 border border-[#FFE500]/40 p-4 rounded-2xl space-y-3 mt-3">
+                        <span class="text-[10px] text-slate-800 font-extrabold uppercase tracking-widest flex items-center gap-2 select-none">
+                            <img src="{{ asset('images/cashea-logo.png') }}" alt="Cashea" class="h-6 w-6 rounded-md object-contain cashea-logo-badge">
+                            Cashea Link
+                        </span>
+                        <p class="text-[9px] text-slate-500 leading-relaxed font-semibold">
+                            Abre el enlace de pago Cashea de la tienda para completar tu financiamiento en cuotas.
+                        </p>
+                        @if (!empty($company['cashea_link_url']))
+                            <a href="{{ $company['cashea_link_url'] }}" target="_blank" rel="noopener noreferrer"
+                               class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#FFE500] text-black text-[11px] font-black uppercase tracking-wide hover:brightness-95 transition-all shadow-md">
+                                <i class="fas fa-external-link-alt text-[10px]"></i>
+                                Abrir enlace Cashea
+                            </a>
+                        @endif
+                        <label class="flex items-start gap-2 cursor-pointer select-none">
+                            <input type="checkbox" x-model="casheaLinkConfirmed" class="mt-0.5 rounded border-[#FFE500] text-[#FFE500] focus:ring-[#FFE500]">
+                            <span class="text-[10px] font-bold text-slate-700">Confirmo que pagaré usando el enlace Cashea Link</span>
+                        </label>
+                    </div>
+
+                    <!-- 6. Krece QR -->
+                    <div x-show="selectedPaymentMethod === 'Krece'"
+                        x-transition:enter="transition ease-out duration-250"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="bg-gradient-to-br from-sky-100/50 to-slate-50 border border-sky-200/60 p-4 rounded-2xl space-y-3 mt-3">
+                        <span class="text-[10px] text-slate-800 font-extrabold uppercase tracking-widest flex items-center gap-2 select-none">
+                            <img src="{{ asset('images/krece-logo.png') }}" alt="Krece" class="h-6 w-6 rounded-md object-contain krece-logo-badge">
+                            Pago con Krece (cuotas)
+                        </span>
+                        <p class="text-[9px] text-slate-500 leading-relaxed font-semibold">
+                            Escanea el QR de la tienda con la app Krece para financiar tu compra en cuotas.
+                        </p>
+                        @if (!empty($company['krece_qr_url']))
+                            <div class="flex justify-center p-3 bg-white rounded-2xl border border-slate-100 shadow-inner">
+                                <img src="{{ $company['krece_qr_url'] }}" alt="QR Krece" class="max-w-[200px] w-full h-auto object-contain">
+                            </div>
+                        @endif
+                        <label class="flex items-start gap-2 cursor-pointer select-none">
+                            <input type="checkbox" x-model="kreceConfirmed" class="mt-0.5 rounded border-sky-300 text-sky-500 focus:ring-sky-400">
+                            <span class="text-[10px] font-bold text-slate-700">Confirmo que pagaré con Krece escaneando este QR</span>
+                        </label>
+                    </div>
+
+                    <!-- 7. Krece Link -->
+                    <div x-show="selectedPaymentMethod === 'Krece Link'"
+                        x-transition:enter="transition ease-out duration-250"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="bg-gradient-to-br from-sky-100/50 to-slate-50 border border-sky-200/60 p-4 rounded-2xl space-y-3 mt-3">
+                        <span class="text-[10px] text-slate-800 font-extrabold uppercase tracking-widest flex items-center gap-2 select-none">
+                            <img src="{{ asset('images/krece-logo.png') }}" alt="Krece" class="h-6 w-6 rounded-md object-contain krece-logo-badge">
+                            Krece Link
+                        </span>
+                        <p class="text-[9px] text-slate-500 leading-relaxed font-semibold">
+                            Abre el enlace de pago Krece de la tienda para completar tu financiamiento en cuotas.
+                        </p>
+                        @if (!empty($company['krece_link_url']))
+                            <a href="{{ $company['krece_link_url'] }}" target="_blank" rel="noopener noreferrer"
+                               class="flex items-center justify-center gap-2 w-full py-3 rounded-xl krece-brand-bg text-black text-[11px] font-black uppercase tracking-wide hover:brightness-95 transition-all shadow-md">
+                                <i class="fas fa-external-link-alt text-[10px]"></i>
+                                Abrir enlace Krece
+                            </a>
+                        @endif
+                        <label class="flex items-start gap-2 cursor-pointer select-none">
+                            <input type="checkbox" x-model="kreceLinkConfirmed" class="mt-0.5 rounded border-sky-300 text-sky-500 focus:ring-sky-400">
+                            <span class="text-[10px] font-bold text-slate-700">Confirmo que pagaré usando el enlace Krece Link</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -3235,6 +3340,10 @@
                 stripeCvc: '',
                 binancePayId: '',
                 pagomovilReference: '',
+                casheaConfirmed: false,
+                casheaLinkConfirmed: false,
+                kreceConfirmed: false,
+                kreceLinkConfirmed: false,
                 get discountAmount() {
                     if (!this.appliedCoupon) return 0;
                     if (this.appliedCoupon.type === 'percentage') {
@@ -3689,6 +3798,10 @@
                 selectPayment(name) {
                     this.selectedPaymentMethod = name;
                     this.selectedPaymentDetails = this.paymentMethodsList[name]?.details || '';
+                    this.casheaConfirmed = false;
+                    this.casheaLinkConfirmed = false;
+                    this.kreceConfirmed = false;
+                    this.kreceLinkConfirmed = false;
                     this.showPaymentError = false;
                 },
 
@@ -4482,6 +4595,50 @@
                             return;
                         }
                     }
+                    if (this.selectedPaymentMethod === 'Cashea') {
+                        if (!this.casheaConfirmed) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Confirma Cashea',
+                                text: 'Marca la casilla confirmando que pagarás con Cashea (QR).',
+                                confirmButtonColor: 'var(--color-primary)'
+                            });
+                            return;
+                        }
+                    }
+                    if (this.selectedPaymentMethod === 'Cashea Link') {
+                        if (!this.casheaLinkConfirmed) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Confirma Cashea Link',
+                                text: 'Marca la casilla confirmando que usarás el enlace de pago Cashea.',
+                                confirmButtonColor: 'var(--color-primary)'
+                            });
+                            return;
+                        }
+                    }
+                    if (this.selectedPaymentMethod === 'Krece') {
+                        if (!this.kreceConfirmed) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Confirma Krece',
+                                text: 'Marca la casilla confirmando que pagarás con Krece (QR).',
+                                confirmButtonColor: 'var(--color-primary)'
+                            });
+                            return;
+                        }
+                    }
+                    if (this.selectedPaymentMethod === 'Krece Link') {
+                        if (!this.kreceLinkConfirmed) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Confirma Krece Link',
+                                text: 'Marca la casilla confirmando que usarás el enlace de pago Krece.',
+                                confirmButtonColor: 'var(--color-primary)'
+                            });
+                            return;
+                        }
+                    }
 
                     if (this.deliveryType === 'dine_in' && !this.tableNumber) {
                         Swal.fire({
@@ -4510,6 +4667,10 @@
                         paymentReference = 'BINANCE-' + this.binancePayId.trim().toUpperCase();
                     } else if (this.selectedPaymentMethod === 'Pago Móvil' && {{ $company['pagomovil_enabled'] ? 'true' : 'false' }}) {
                         paymentReference = 'PM-' + this.pagomovilReference.trim().toUpperCase();
+                    } else if (this.selectedPaymentMethod === 'Cashea') {
+                        paymentReference = 'CASHEA-QR';
+                    } else if (this.selectedPaymentMethod === 'Cashea Link') {
+                        paymentReference = 'CASHEA-LINK';
                     }
 
                     // Mostrar SweetAlert2 Cargando

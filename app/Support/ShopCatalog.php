@@ -81,6 +81,8 @@ class ShopCatalog
         $categoryKey = $shop->shop_category ?: 'otros';
         $shop->category = self::CATEGORY_LABELS[$categoryKey] ?? 'Otros';
         $shop->zone = self::extractZone($shop->address);
+        $shop->has_cashea = $shop->hasCasheaAvailable();
+        $shop->has_krece = $shop->hasKreceAvailable();
 
         return $shop;
     }
@@ -109,6 +111,8 @@ class ShopCatalog
             'has_pickup' => (bool) $shop->has_pickup,
             'has_dine_in' => (bool) $shop->has_dine_in,
             'plan' => $shop->plan,
+            'has_cashea' => $shop->hasCasheaAvailable(),
+            'has_krece' => $shop->hasKreceAvailable(),
             'url' => '/' . $shop->slug,
         ];
     }

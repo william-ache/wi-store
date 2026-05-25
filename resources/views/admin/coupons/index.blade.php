@@ -12,13 +12,15 @@
                 Crea códigos promocionales por porcentaje o monto fijo para incentivar compras en tu menú.
             </p>
         </div>
-        
-        <!-- Botón para expandir formulario/modal -->
-        <button type="button" @click="document.getElementById('new-coupon-card').classList.toggle('hidden'); document.getElementById('new-coupon-card').scrollIntoView({ behavior: 'smooth' })"
+
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <x-admin.excel-toolbar entity="coupons" />
+            <button type="button" @click="document.getElementById('new-coupon-card').classList.toggle('hidden'); document.getElementById('new-coupon-card').scrollIntoView({ behavior: 'smooth' })"
                 class="px-5 py-3 bg-purple-650 hover:bg-purple-750 text-white font-extrabold text-xs uppercase tracking-widest rounded-2xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-300 flex items-center gap-2 cursor-pointer border border-white/5 shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
             <span>Nuevo Cupón</span>
         </button>
+        </div>
     </div>
 
     <!-- MENSAJES DE ÉXITO O ERROR -->

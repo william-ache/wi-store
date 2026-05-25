@@ -7,7 +7,9 @@
 @section('content')
 @include('partials.settings.css')
 
-@php($showAdvancedSettings = false)
+@php
+    $showAdvancedSettings = in_array($shop->plan ?? 'standard', ['premium', 'vip', 'free_trial'], true);
+@endphp
 
 <div class="settings-page space-y-5 md:space-y-6 max-w-5xl lg:max-w-6xl">
 
@@ -112,7 +114,7 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer select-none">
                             <input type="checkbox" name="enabled_modules[]" value="categories" class="sr-only peer" {{ in_array('categories', $modules) ? 'checked' : '' }}>
-                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
 
@@ -129,7 +131,7 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer select-none">
                             <input type="checkbox" name="enabled_modules[]" value="products" class="sr-only peer" {{ in_array('products', $modules) ? 'checked' : '' }}>
-                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
 
@@ -146,7 +148,7 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer select-none">
                             <input type="checkbox" name="enabled_modules[]" value="orders" class="sr-only peer" {{ in_array('orders', $modules) ? 'checked' : '' }}>
-                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
 
@@ -163,7 +165,7 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer select-none">
                             <input type="checkbox" name="enabled_modules[]" value="clients" class="sr-only peer" {{ in_array('clients', $modules) ? 'checked' : '' }}>
-                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
 
@@ -180,7 +182,7 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer select-none">
                             <input type="checkbox" name="enabled_modules[]" value="invoices" class="sr-only peer" {{ in_array('invoices', $modules) ? 'checked' : '' }}>
-                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
 
@@ -197,7 +199,7 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer select-none">
                             <input type="checkbox" name="enabled_modules[]" value="delivery" class="sr-only peer" {{ in_array('delivery', $modules) ? 'checked' : '' }}>
-                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
 
@@ -214,7 +216,7 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer select-none">
                             <input type="checkbox" name="enabled_modules[]" value="analytics" class="sr-only peer" {{ in_array('analytics', $modules) ? 'checked' : '' }}>
-                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
 
@@ -231,7 +233,7 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer select-none">
                             <input type="checkbox" name="enabled_modules[]" value="referrals" class="sr-only peer" {{ in_array('referrals', $modules) ? 'checked' : '' }}>
-                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
 
@@ -248,7 +250,7 @@
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer select-none">
                             <input type="checkbox" name="enabled_modules[]" value="announcements" class="sr-only peer" {{ in_array('announcements', $modules) ? 'checked' : '' }}>
-                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
                     </div>
@@ -354,7 +356,7 @@
                                 </span>
                                 <label class="relative inline-flex items-center cursor-pointer select-none">
                                     <input type="checkbox" name="stripe_enabled" value="1" class="sr-only peer" {{ $shop->stripe_enabled ? 'checked' : '' }}>
-                                    <div class="relative w-[30px] h-[16px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-[14px] after:w-[14px] after:transition-all peer-checked:bg-primary"></div>
+                                    <div class="relative w-[30px] h-[16px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-[14px] after:w-[14px] after:transition-all peer-checked:bg-primary"></div>
                                 </label>
                             </div>
                             <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-normal">
@@ -382,7 +384,7 @@
                                 </span>
                                 <label class="relative inline-flex items-center cursor-pointer select-none">
                                     <input type="checkbox" name="binance_enabled" value="1" class="sr-only peer" {{ $shop->binance_enabled ? 'checked' : '' }}>
-                                    <div class="relative w-[30px] h-[16px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-[14px] after:w-[14px] after:transition-all peer-checked:bg-primary"></div>
+                                    <div class="relative w-[30px] h-[16px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-[14px] after:w-[14px] after:transition-all peer-checked:bg-primary"></div>
                                 </label>
                             </div>
                             <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-normal">
@@ -410,7 +412,7 @@
                                 </span>
                                 <label class="relative inline-flex items-center cursor-pointer select-none">
                                     <input type="checkbox" name="pagomovil_enabled" value="1" class="sr-only peer" {{ $shop->pagomovil_enabled ? 'checked' : '' }}>
-                                    <div class="relative w-[30px] h-[16px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:peer-checked:after:translate-x-[14px] after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-[14px] after:w-[14px] after:transition-all peer-checked:bg-primary"></div>
+                                    <div class="relative w-[30px] h-[16px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[1px] after:left-[1px] after:bg-white after:rounded-full after:h-[14px] after:w-[14px] after:transition-all peer-checked:bg-primary"></div>
                                 </label>
                             </div>
                             <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-normal">
@@ -435,6 +437,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         @endif

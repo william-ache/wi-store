@@ -59,3 +59,6 @@
 
                         <input type="hidden" name="payment_methods" id="payment_methods_json" value="{!! json_encode($paymentMethods) !!}">
                     </div>
+
+                    @include('partials.settings.comercio.cashea')
+                    @include('partials.settings.comercio.krece')

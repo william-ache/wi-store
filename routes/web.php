@@ -232,6 +232,12 @@ Route::middleware(['tenant'])->prefix($tenantPrefix)->group(function () {
         Route::resource('bookings', App\Http\Controllers\Admin\BookingController::class);
         Route::resource('abandoned-carts', App\Http\Controllers\Admin\AbandonedCartController::class)->only(['index', 'destroy']);
 
+        Route::prefix('excel/{entity}')->whereIn('entity', \App\Support\AdminExcel\AdminExcelRegistry::keys())->group(function () {
+            Route::get('/export', [App\Http\Controllers\Admin\AdminExcelController::class, 'export'])->name('excel.export');
+            Route::get('/template', [App\Http\Controllers\Admin\AdminExcelController::class, 'template'])->name('excel.template');
+            Route::post('/import', [App\Http\Controllers\Admin\AdminExcelController::class, 'import'])->name('excel.import');
+        });
+
         // Rutas de Feedback de Usuario
         Route::get('/feedback', [App\Http\Controllers\Admin\FeedbackController::class, 'index'])->name('feedback.index');
         Route::post('/feedback', [App\Http\Controllers\Admin\FeedbackController::class, 'store'])->name('feedback.store');
