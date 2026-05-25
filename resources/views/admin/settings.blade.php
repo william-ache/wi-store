@@ -485,6 +485,10 @@
             </button>
         </div>
     </form>
+
+    <form id="shop-short-link-form" action="/{{ $shop->slug }}/admin/settings/short-link" method="POST" class="hidden">
+        @csrf
+    </form>
 </div>
 
 @push('scripts')

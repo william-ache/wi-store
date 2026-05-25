@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="wistore-ui">
+<html lang="es" class="wistore-ui wistore-landing">
 
 <head>
     <meta charset="UTF-8">
@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     @include('partials.global.wistore-scrollbar')
+    @include('partials.landing.landing-scrollbar')
     <!-- jQuery & DataTables CDN -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 

@@ -23,10 +23,6 @@
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <a href="{{ route('tiendas.index') }}"
-                class="text-left text-base font-bold text-white py-3 px-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10">
-            <i class="fas fa-store text-purple-400 mr-2"></i> Marketplace
-        </a>
         <button type="button" @click="scrollTo('explorar')"
                 class="text-left text-base font-bold text-slate-300 py-3 px-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 text-sm">
             <i class="fas fa-eye text-slate-500 mr-2"></i> Vista previa en landing
@@ -39,6 +35,10 @@
                 class="text-left text-base font-bold text-white py-3 px-4 rounded-xl hover:bg-white/5">
             <i class="fas fa-tags text-pink-400 mr-2"></i> Planes y precios
         </button>
+        <a href="{{ route('tiendas.index') }}"
+                class="text-left text-base font-bold text-white py-3 px-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10">
+            <i class="fas fa-store text-purple-400 mr-2"></i> Marketplace
+        </a>
         <a href="/login"
            class="text-left text-base font-bold text-slate-300 py-3 px-4 rounded-xl hover:bg-white/5">
             <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión

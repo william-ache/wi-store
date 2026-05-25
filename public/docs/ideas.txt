@@ -1,10 +1,6 @@
 poner el progreso del consumo en productos y categorias, y el reduseño de KATALO
 
-en analiticca poner ventas y estadisticas 
-
 ceo de https://www.zenifi.app/
-
-poner varios estados en los pedidos, , pendiente, cobrado, entregado, en preparacion listo cancelado 
 
 incluird chat para poder hablar con el cliente desde el panel admin y que el cliente pueda escribir desde el carrito de compra si asi lo desea 
 
@@ -19,11 +15,6 @@ Recordatorios de pago por SMS (EnvíaTuSMS) y correo electrónico (Resend, Postm
 Escaneo inteligente de facturas de proveedores con Google Gemini: sube la factura y el sistema extrae los datos automáticamente
 
 Validador de pago móvil automático para Banco Venezolano de Crédito y Banco de Venezuela
-
-Cashea y Cashea Link: financiamiento en cuotas (QR en punto de venta o enlace de pago para el cliente) que la gente pueda subir su QR de cashea si asi lo desea desde la configuracion y que desde el menu muestre que la tienda tiene cashea disponible por el logo o icono de cashea 
-
-API REST con documentación completa
-Webhooks para eventos en tiempo real
 
 https://www.instagram.com/lovavzla/
 https://www.instagram.com/adsv.e/

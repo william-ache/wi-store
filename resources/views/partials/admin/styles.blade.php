@@ -1,26 +1,5 @@
 <style>
-    @php
-        $primaryColor = config('current_shop')->color_primary ?? '#E60067';
-        $primaryColor = ltrim($primaryColor, '#');
-        if (strlen($primaryColor) === 3) {
-            $r = hexdec(substr($primaryColor, 0, 1) . substr($primaryColor, 0, 1));
-            $g = hexdec(substr($primaryColor, 1, 1) . substr($primaryColor, 1, 1));
-            $b = hexdec(substr($primaryColor, 2, 1) . substr($primaryColor, 2, 1));
-        } elseif (strlen($primaryColor) === 6) {
-            $r = hexdec(substr($primaryColor, 0, 2));
-            $g = hexdec(substr($primaryColor, 2, 2));
-            $b = hexdec(substr($primaryColor, 4, 2));
-        } else {
-            $r = 230;
-            $g = 0;
-            $b = 103;
-        }
-    @endphp
-    :root {
-        --color-primary: {{ config('current_shop')->color_primary ?? '#E60067' }};
-        --color-primary-rgb: {{ $r }}, {{ $g }}, {{ $b }};
-        --color-secondary: {{ config('current_shop')->color_secondary ?? '#C6A100' }};
-    }
+    @include('partials.admin.css-vars')
     html {
         scroll-behavior: smooth;
     }
@@ -31,7 +10,8 @@
     }
     [x-cloak] { display: none !important; }
     
-    /* Scrollbar: ver partials/global/wistore-scrollbar.blade.php (html.wistore-ui) */
+    /* Scrollbar admin: color primario de la tienda */
+    @include('partials.admin.scrollbar')
 
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

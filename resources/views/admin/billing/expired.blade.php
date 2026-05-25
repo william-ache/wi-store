@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth wistore-ui">
+<html lang="es" class="scroll-smooth wistore-ui wistore-admin">
 
 <head>
     <meta charset="UTF-8">
@@ -26,6 +26,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     @include('partials.global.wistore-scrollbar')
+    <style>
+    @include('partials.admin.css-vars')
+    @include('partials.admin.scrollbar')
+    </style>
     <style>
         [x-cloak] {
             display: none !important;

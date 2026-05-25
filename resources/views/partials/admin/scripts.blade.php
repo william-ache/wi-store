@@ -337,7 +337,13 @@
             });
         @endif
         
-        @if(session('error'))
+        @if($errors->any())
+            Toast.fire({
+                icon: 'error',
+                title: 'Revisa los campos del formulario',
+                text: @json($errors->first())
+            });
+        @elseif(session('error'))
             Toast.fire({
                 icon: 'error',
                 title: "{!! session('error') !!}"

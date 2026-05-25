@@ -36,8 +36,7 @@
         </div>
     @endif
 
-    <form action="/{{ $shop->slug }}/admin/settings/short-link" method="POST" class="space-y-2">
-        @csrf
+    <div class="space-y-2">
         <div class="space-y-0.5">
             <label for="code" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Palabra clave o prefijo corto</label>
             <div class="flex items-stretch rounded-xl border border-slate-200 dark:border-slate-750 overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/15 transition shadow-sm bg-slate-50 dark:bg-slate-850">
@@ -47,6 +46,7 @@
                 <input type="text"
                        id="code"
                        name="code"
+                       form="shop-short-link-form"
                        value="{{ old('code', $shop->shortLinks()->first()?->code) }}"
                        placeholder="ej: {{ $shop->slug }}"
                        required
@@ -60,10 +60,11 @@
             </p>
         </div>
         <button type="submit"
+                form="shop-short-link-form"
                 class="bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white font-extrabold py-2 px-4 rounded-xl transition text-[10px] active:scale-[0.98] w-full sm:w-auto">
             Guardar enlace corto
         </button>
-    </form>
+    </div>
 </div>
 
 <div id="toast-notification" class="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:-translate-x-0 z-50 pointer-events-none"

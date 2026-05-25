@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('customer_name');
             $table->string('customer_phone');
             $table->decimal('total', 10, 2);
-            $table->string('status')->default('pending'); // pending, preparing, delivered, cancelled
+            $table->string('status')->default('pending'); // pending, collected, preparing, ready, delivered, cancelled
             $table->string('payment_method')->default('efectivo'); // cash, pagomovil, card, etc.
             $table->string('payment_status')->default('pending'); // pending, paid
             $table->timestamps();

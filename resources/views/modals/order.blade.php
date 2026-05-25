@@ -92,10 +92,9 @@
                 <div>
                     <label for="status" class="block text-[10px] font-black text-primary uppercase tracking-widest mb-1.5">Estado del Pedido</label>
                     <select id="status" x-model="orderStatus" class="select2-enable w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition">
-                        <option value="pending">Pendiente por Confirmar</option>
-                        <option value="preparing">En Preparación</option>
-                        <option value="delivered">Entregado / Despachado</option>
-                        <option value="cancelled">Cancelado</option>
+                        @foreach(\App\Support\OrderStatus::labels() as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="wistore-ui">
+<html lang="es" class="wistore-ui wistore-landing">
 
 <head>
     <meta charset="UTF-8">
@@ -77,6 +77,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @include('partials.global.wistore-scrollbar')
+    @include('partials.landing.landing-scrollbar')
 
     <style>
         body {
@@ -331,14 +332,14 @@
                 <button type="button" @click="scrollTo('explorar')"
                         :class="activeSection === 'explorar' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
                         class="landing-nav-link text-sm font-bold transition-colors">Tiendas</button>
-                <a href="{{ route('tiendas.index') }}"
-                        class="landing-nav-link text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors">Marketplace</a>
                 <button type="button" @click="scrollTo('como-funciona')"
                         :class="activeSection === 'como-funciona' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
                         class="landing-nav-link text-sm font-bold transition-colors">Cómo funciona</button>
                 <button type="button" @click="scrollTo('precios')"
                         :class="activeSection === 'precios' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
                         class="landing-nav-link text-sm font-bold transition-colors">Precios</button>
+                <a href="{{ route('tiendas.index') }}"
+                        class="landing-nav-link text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors">Marketplace</a>
                 <a href="/login" class="text-sm font-bold text-slate-300 hover:text-white transition-colors">Entrar</a>
                 <a href="/register"
                    class="bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-110 text-white text-sm font-black px-5 py-2.5 rounded-xl shadow-md shadow-purple-500/25 transition-all">

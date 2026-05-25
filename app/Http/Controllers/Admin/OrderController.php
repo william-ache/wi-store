@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Client;
+use App\Support\OrderStatus;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
@@ -35,7 +37,7 @@ class OrderController extends Controller
             'customer_name' => 'required|string|max:255',
             'customer_phone' => 'required|string|max:50',
             'total' => 'required|numeric|min:0',
-            'status' => 'required|string',
+            'status' => ['required', 'string', Rule::in(OrderStatus::keys())],
             'payment_method' => 'required|string',
             'payment_status' => 'required|string',
             'client_id' => 'nullable|exists:clients,id',
@@ -61,13 +63,7 @@ class OrderController extends Controller
         ]);
 
         // Sincronizar total gastado del cliente si está asociado
-        if ($order->client_id && $order->status === 'delivered') {
-            $client = Client::find($order->client_id);
-            if ($client) {
-                $client->total_spent = $client->orders()->where('status', 'delivered')->sum('total');
-                $client->save();
-            }
-        }
+        $order->syncClientTotalSpent();
 
         $order->load('client');
 
@@ -99,7 +95,7 @@ class OrderController extends Controller
             'customer_name' => 'required|string|max:255',
             'customer_phone' => 'required|string|max:50',
             'total' => 'required|numeric|min:0',
-            'status' => 'required|string',
+            'status' => ['required', 'string', Rule::in(OrderStatus::keys())],
             'payment_method' => 'required|string',
             'payment_status' => 'required|string',
             'client_id' => 'nullable|exists:clients,id',
@@ -124,13 +120,7 @@ class OrderController extends Controller
         ]);
 
         // Sincronizar total gastado del cliente si cambia el estado o total de la orden
-        if ($order->client_id) {
-            $client = Client::find($order->client_id);
-            if ($client) {
-                $client->total_spent = $client->orders()->where('status', 'delivered')->sum('total');
-                $client->save();
-            }
-        }
+        $order->syncClientTotalSpent();
 
         $order->load('client');
 
@@ -153,7 +143,7 @@ class OrderController extends Controller
         if ($clientId) {
             $client = Client::find($clientId);
             if ($client) {
-                $client->total_spent = $client->orders()->where('status', 'delivered')->sum('total');
+                $client->total_spent = $client->orders()->where('status', OrderStatus::DELIVERED)->sum('total');
                 $client->save();
             }
         }

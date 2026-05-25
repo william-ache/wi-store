@@ -1,4 +1,5 @@
 <script>
+    window.orderStatusMeta = @json(\App\Support\OrderStatus::meta());
     let datatable;
 
     $(document).ready(function() {
@@ -72,19 +73,11 @@
                 { 
                     data: 'status',
                     render: function(data) {
-                        const classes = {
-                            'pending': 'bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border-amber-200/30',
-                            'preparing': 'bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border-blue-200/30',
-                            'delivered': 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200/30',
-                            'cancelled': 'bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border-rose-200/30'
-                        };
-                        const labels = {
-                            'pending': 'Pendiente',
-                            'preparing': 'En Preparación',
-                            'delivered': 'Entregado',
-                            'cancelled': 'Cancelado'
-                        };
-                        return `<span class="${classes[data] || 'bg-slate-100 text-slate-600'} text-[10px] font-black px-2.5 py-1 rounded-full border">${labels[data] || data}</span>`;
+                        const meta = window.orderStatusMeta[data];
+                        if (meta) {
+                            return `<span class="${meta.badge} text-[10px] font-black px-2.5 py-1 rounded-full border">${meta.label}</span>`;
+                        }
+                        return `<span class="bg-slate-100 text-slate-600 text-[10px] font-black px-2.5 py-1 rounded-full border">${data}</span>`;
                     }
                 },
                 {

@@ -21,7 +21,11 @@
         || $shop->cashea_enabled
         || $shop->cashea_link_enabled
         || !empty($shop->cashea_qr_path)
-        || !empty($shop->cashea_link_url);
+        || !empty($shop->cashea_link_url)
+        || $shop->krece_enabled
+        || $shop->krece_link_enabled
+        || !empty($shop->krece_qr_path)
+        || !empty($shop->krece_link_url);
 @endphp
 
 <div id="content-comercio" class="tab-content active space-y-4 md:space-y-5 pt-0.5"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth wistore-ui">
+<html lang="es" class="scroll-smooth wistore-ui wistore-landing">
 
 <head>
     <meta charset="UTF-8">
@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     @include('partials.global.wistore-scrollbar')
+    @include('partials.landing.landing-scrollbar')
     <style>
         [x-cloak] {
             display: none !important;
@@ -209,21 +210,21 @@
         /* ── Colores ─────────────────────────────── */
         primaryColor: '#6366f1',
         accentColor: '#22d3ee',
-        bgColor: '#070913',
+        bgColor: '#FEFFFD',
         selectedPreset: 0,
         presets: [
-            { primary: '#6366f1', accent: '#22d3ee', bg: '#070913', name: 'Índigo' },
-            { primary: '#a855f7', accent: '#f472b6', bg: '#0d0616', name: 'Rosa' },
-            { primary: '#0ea5e9', accent: '#06b6d4', bg: '#020e1a', name: 'Cielo' },
-            { primary: '#10b981', accent: '#34d399', bg: '#020f0a', name: 'Esmeralda' },
-            { primary: '#f59e0b', accent: '#fb923c', bg: '#120900', name: 'Ámbar' },
-            { primary: '#ec4899', accent: '#a855f7', bg: '#120012', name: 'Fucsia' },
-            { primary: '#ef4444', accent: '#f97316', bg: '#130202', name: 'Rojo' },
-            { primary: '#e2e8f0', accent: '#94a3b8', bg: '#0f1117', name: 'Negro' },
-            { primary: '#84cc16', accent: '#22d3ee', bg: '#040e02', name: 'Lima' },
-            { primary: '#64748b', accent: '#cbd5e1', bg: '#0c0f13', name: 'Plata' },
-            { primary: '#14b8a6', accent: '#0ea5e9', bg: '#061b23', name: 'Océano' },
-            { primary: '#f97316', accent: '#facc15', bg: '#1a1205', name: 'Naranja' },
+            { primary: '#6366f1', accent: '#22d3ee', bg: '#FEFFFD', name: 'Índigo' },
+            { primary: '#a855f7', accent: '#f472b6', bg: '#FEFFFD', name: 'Rosa' },
+            { primary: '#0ea5e9', accent: '#06b6d4', bg: '#FEFFFD', name: 'Cielo' },
+            { primary: '#10b981', accent: '#34d399', bg: '#FEFFFD', name: 'Esmeralda' },
+            { primary: '#f59e0b', accent: '#fb923c', bg: '#FEFFFD', name: 'Ámbar' },
+            { primary: '#ec4899', accent: '#a855f7', bg: '#FEFFFD', name: 'Fucsia' },
+            { primary: '#ef4444', accent: '#f97316', bg: '#FEFFFD', name: 'Rojo' },
+            { primary: '#e2e8f0', accent: '#94a3b8', bg: '#FEFFFD', name: 'Negro' },
+            { primary: '#84cc16', accent: '#22d3ee', bg: '#FEFFFD', name: 'Lima' },
+            { primary: '#64748b', accent: '#cbd5e1', bg: '#FEFFFD', name: 'Plata' },
+            { primary: '#14b8a6', accent: '#0ea5e9', bg: '#FEFFFD', name: 'Océano' },
+            { primary: '#f97316', accent: '#facc15', bg: '#FEFFFD', name: 'Naranja' },
         ],
         applyPreset(i) {
             this.selectedPreset = i;
