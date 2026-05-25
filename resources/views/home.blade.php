@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="wistore-ui">
 
 <head>
     <meta charset="UTF-8">
@@ -76,14 +76,9 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @include('partials.global.wistore-scrollbar')
 
     <style>
-        html {
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: #a855f7 #070913;
-        }
-
         body {
             font-family: 'Outfit', sans-serif;
             -webkit-tap-highlight-color: transparent;
@@ -92,34 +87,6 @@
         .hero-gradient {
             background: radial-gradient(circle at 50% 10%, rgba(99, 102, 241, 0.18) 0%, rgba(0, 0, 0, 0) 50%),
                 radial-gradient(circle at 10% 80%, rgba(79, 70, 229, 0.08) 0%, rgba(0, 0, 0, 0) 40%);
-        }
-
-        .scrollbar-none::-webkit-scrollbar {
-            display: none;
-        }
-
-        .scrollbar-none {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #070913;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #a855f7 0%, #22d3ee 100%);
-            border-radius: 9999px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #c084fc 0%, #67e8f9 100%);
         }
 
         /* GPU hardware acceleration for ultra smooth scrolling on heavy blurs */
@@ -282,10 +249,11 @@
             -webkit-mask-image: linear-gradient(to right, transparent, white 15%, white 85%, transparent);
         }
     </style>
+    @include('partials.landing.ux-styles')
 </head>
 
-<body class="bg-[#070913] text-gray-100 min-h-screen selection:bg-brand-500 selection:text-white relative"
-    x-data="{ isMobileMenuOpen: false }">
+<body class="bg-[#070913] text-gray-100 min-h-screen pb-24 md:pb-0 selection:bg-brand-500 selection:text-white relative"
+    x-data="landingPage()" x-init="init()">
 
     <!-- ============================================== -->
     <!-- CAPA DE FONDO GLOBAL (Base Canvas & Neón)      -->
@@ -340,273 +308,47 @@
         </svg>
     </div>
 
-    <!-- Header / Navbar (Híbrido Inteligente) -->
-    <header class="border-b border-gray-800/50 bg-[#070913]/85 backdrop-blur-lg sticky top-0 z-50">
-        <!-- El contenedor se ensancha en escritorio y se achica en móvil -->
+    <!-- Header -->
+    <header class="border-b border-gray-800/50 bg-[#070913]/90 backdrop-blur-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2 group transition-transform duration-300 active:scale-95">
+            <a href="#inicio" @click.prevent="scrollTo('inicio')" class="flex items-center gap-2 active:scale-95 transition-transform">
                 <span class="text-xl md:text-2xl font-black tracking-tight text-white uppercase">
-                    WI<span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span>
+                    WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span>
                 </span>
             </a>
 
-            <!-- EN ESCRITORIO: Links de Navegación con Alto Contraste (WCAG Compliant) -->
-            <nav class="hidden md:flex items-center gap-8" x-data="{ openDropdown: false }" @click.away="openDropdown = false">
-                <a href="#explorar"
-                    class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Explorar
-                    Tiendas</a>
-                <a href="#como-funciona"
-                    class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">¿Cómo
-                    funciona?</a>
-
-                <a href="#precios"
-                    class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Planes</a>
-
-                <a href="/login"
-                    class="text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors duration-200">Iniciar
-                    Sesión</a>
-                <a href="#precios"
-                    class="bg-brand-600 hover:bg-brand-555 hover:scale-[1.03] text-white text-sm font-black px-5 py-2.5 rounded-xl shadow-md shadow-brand-600/30 transition-all duration-300">
-                    Crear mi Menú
+            <nav class="hidden md:flex items-center gap-6">
+                <button type="button" @click="scrollTo('explorar')"
+                        :class="activeSection === 'explorar' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
+                        class="landing-nav-link text-sm font-bold transition-colors">Tiendas</button>
+                <button type="button" @click="scrollTo('como-funciona')"
+                        :class="activeSection === 'como-funciona' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
+                        class="landing-nav-link text-sm font-bold transition-colors">Cómo funciona</button>
+                <button type="button" @click="scrollTo('precios')"
+                        :class="activeSection === 'precios' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
+                        class="landing-nav-link text-sm font-bold transition-colors">Precios</button>
+                <a href="/login" class="text-sm font-bold text-slate-300 hover:text-white transition-colors">Entrar</a>
+                <a href="/register"
+                   class="bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-110 text-white text-sm font-black px-5 py-2.5 rounded-xl shadow-md shadow-purple-500/25 transition-all">
+                    Crear mi tienda
                 </a>
             </nav>
 
-            <!-- EN MÓVIL: Botones Rápidos iOS-style con Dropdown de Planes -->
-            <div class="flex items-center gap-2 md:hidden">
-                <a href="/login"
-                    class="text-xs font-bold text-slate-200 hover:text-white px-2.5 py-1.5 rounded-lg">Entrar</a>
-
-                <a href="#precios"
-                    class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-black px-3.5 py-2 rounded-xl shadow-md transition whitespace-nowrap">
-                    Planes
-                </a>
-            </div>
+            <button type="button" @click="isMobileMenuOpen = true"
+                    class="md:hidden w-11 h-11 rounded-xl border border-white/10 text-white flex items-center justify-center hover:bg-white/5"
+                    aria-label="Abrir menú">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <!-- HERO SECTION (Premium 3D Asymmetric Layout) -->
-    <section class="relative pt-16 md:pt-24 pb-20 md:pb-36 px-4 max-w-7xl mx-auto overflow-hidden z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
+    @include('partials.landing.ux-chrome')
 
-            <!-- COLUMNA IZQUIERDA: Propuesta de Valor y CTAs -->
-            <div class="lg:col-span-6 text-center lg:text-left space-y-8">
-                <!-- Badge -->
-                <div
-                    class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-slate-900/60 border border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.2)] backdrop-blur-md">
-                    <span class="text-[11px] md:text-xs font-bold text-white tracking-wide">⚡ 0% Comisiones por
-                        Venta</span>
-                </div>
-
-                <!-- Título Principal -->
-                <h1
-                    class="text-4xl md:text-6xl lg:text-[4.5rem] font-extrabold tracking-tight text-white leading-[1.1]">
-                    Vende en automático con tu <br class="hidden lg:block" />
-                    <span
-                        class="block mt-2 bg-gradient-to-r from-indigo-400 via-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent pb-2">
-                        Menú Digital
-                    </span>
-                </h1>
-
-                <!-- Descripción -->
-                <p class="text-base md:text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-                    Personaliza tu logotipo, edita los 3 colores principales de tu identidad en tiempo real y recibe
-                    todos tus pedidos de forma estructurada directamente a tu WhatsApp o Telegram. ¡Todo listo en menos
-                    de 3 minutos!
-                </p>
-
-                <!-- Botones Principales con Espaciado Generoso y Mayor Peso Visual -->
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 pt-6">
-                    <a href="/register"
-                        class="w-full sm:w-auto text-center bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 hover:scale-[1.02] text-white font-black px-10 py-4 rounded-2xl shadow-[0_0_25px_rgba(168,85,247,0.35)] transition-all duration-300 text-sm md:text-base">
-                        Inicia tu prueba gratis 7 días
-                    </a>
-                    <a href="#explorar"
-                        class="w-full sm:w-auto text-center border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-[1.02] backdrop-blur-sm text-white font-extrabold px-10 py-4 rounded-2xl transition-all duration-300 text-sm md:text-base sm:ml-2">
-                        Explorar Tiendas
-                    </a>
-                </div>
-                <div class="mt-4 flex justify-center lg:justify-start">
-                    <span
-                        class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 text-purple-200 text-[11px] font-black uppercase tracking-[0.18em] px-4 py-2 rounded-full shadow-sm shadow-purple-500/10">
-                        <span class="h-2.5 w-2.5 rounded-full bg-purple-400 animate-pulse"></span>
-                        7 días de prueba gratis • Sin tarjeta
-                    </span>
-                </div>
-            </div>
-
-            <!-- COLUMNA DERECHA: Mockup Interactivo de Tableta Flotante (Aireado con Excelente Jerarquía) -->
-            <div class="lg:col-span-6 relative flex justify-center items-center py-12 lg:py-16 lg:pl-12 mt-8 lg:mt-0">
-
-                <!-- Sticker Circular Flotante -->
-                <div
-                    class="absolute -top-4 left-0 md:left-10 z-30 bg-gradient-to-br from-purple-500 to-cyan-500 w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center p-3 shadow-2xl animate-[bounce_4s_infinite] transform -rotate-12 border-4 border-[#070913]">
-                    <span
-                        class="text-white text-[11px] md:text-xs font-black text-center leading-tight shadow-black drop-shadow-md">
-                        0%<br>Comisiones<br>por Venta
-                    </span>
-                </div>
-
-                <!-- Mockup de Tableta 3D -->
-                <div
-                    class="relative w-full max-w-[380px] lg:max-w-[420px] aspect-[3/4.2] bg-slate-900 border-[8px] md:border-[10px] border-slate-800 rounded-[2.5rem] md:rounded-[3rem] p-4 md:p-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] transform hover:rotate-1 hover:scale-105 transition-all duration-500 ease-out overflow-hidden flex flex-col bg-gradient-to-b from-slate-800 to-slate-950 group">
-
-                    <!-- Brillo Metálico del Borde -->
-                    <div class="absolute inset-0 rounded-[2rem] border border-white/5 pointer-events-none"></div>
-
-                    <!-- Pantalla Interna -->
-                    <div
-                        class="flex-1 bg-slate-50 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col relative shadow-inner">
-
-                        <!-- Muesca de la Cámara -->
-                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-slate-900 rounded-b-xl z-20">
-                        </div>
-
-                        <!-- Cabecera YS Detallitos -->
-                        <div
-                            class="bg-gradient-to-br from-rose-100 via-pink-50 to-amber-50 p-6 pt-10 text-center relative border-b border-rose-100">
-                            <!-- Logo Circular -->
-                            <div
-                                class="w-16 h-16 mx-auto bg-white rounded-full p-1 shadow-lg border-2 border-white flex items-center justify-center mb-3 transform group-hover:scale-110 transition-transform duration-500">
-                                <span class="font-black text-rose-500 text-xl tracking-tighter">YS</span>
-                            </div>
-                            <h3 class="text-xl font-black text-slate-800">YS Detallitos</h3>
-                            <!-- 5 Estrellas -->
-                            <div class="flex items-center justify-center gap-1 text-yellow-400 mt-1.5">
-                                <svg class="w-4 h-4 fill-current drop-shadow-sm" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <svg class="w-4 h-4 fill-current drop-shadow-sm" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <svg class="w-4 h-4 fill-current drop-shadow-sm" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <svg class="w-4 h-4 fill-current drop-shadow-sm" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <svg class="w-4 h-4 fill-current drop-shadow-sm" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        <!-- Categorías Rejilla 3 Columnas -->
-                        <div class="p-4 md:p-5 flex-1 flex flex-col relative bg-slate-50">
-                            <!-- Overlay de gradiente inferior para simular scroll -->
-                            <div
-                                class="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none z-10">
-                            </div>
-
-                            <h4
-                                class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <span class="h-px bg-slate-200 flex-1"></span>
-                                Catálogo
-                                <span class="h-px bg-slate-200 flex-1"></span>
-                            </h4>
-
-                            <div class="grid grid-cols-3 gap-2.5 md:gap-3">
-                                <!-- Tarjeta 1 -->
-                                <div
-                                    class="bg-white rounded-xl p-2 md:p-3 shadow-sm border border-slate-100 flex flex-col items-center text-center hover:border-pink-200 hover:shadow-md transition-all cursor-pointer">
-                                    <div
-                                        class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-amber-50 flex items-center justify-center text-amber-500 mb-2 md:mb-3 text-lg md:text-xl">
-                                        🎁</div>
-                                    <span
-                                        class="text-[9px] md:text-[10px] font-bold text-slate-600 mb-2 md:mb-3 leading-tight flex-1">Regalos<br>Especiales</span>
-                                    <button
-                                        class="w-full py-1.5 md:py-2 bg-rose-50 text-rose-600 text-[8px] md:text-[9px] font-black uppercase rounded-lg hover:bg-rose-100 transition-colors">Entrar</button>
-                                </div>
-                                <!-- Tarjeta 2 -->
-                                <div
-                                    class="bg-white rounded-xl p-2 md:p-3 shadow-sm border border-slate-100 flex flex-col items-center text-center hover:border-pink-200 hover:shadow-md transition-all cursor-pointer">
-                                    <div
-                                        class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-pink-50 flex items-center justify-center text-pink-500 mb-2 md:mb-3 text-lg md:text-xl">
-                                        🎈</div>
-                                    <span
-                                        class="text-[9px] md:text-[10px] font-bold text-slate-600 mb-2 md:mb-3 leading-tight flex-1">Arreglos<br>con
-                                        Globos</span>
-                                    <button
-                                        class="w-full py-1.5 md:py-2 bg-rose-50 text-rose-600 text-[8px] md:text-[9px] font-black uppercase rounded-lg hover:bg-rose-100 transition-colors">Entrar</button>
-                                </div>
-                                <!-- Tarjeta 3 -->
-                                <div
-                                    class="bg-white rounded-xl p-2 md:p-3 shadow-sm border border-slate-100 flex flex-col items-center text-center hover:border-pink-200 hover:shadow-md transition-all cursor-pointer">
-                                    <div
-                                        class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 mb-2 md:mb-3 text-lg md:text-xl">
-                                        💐</div>
-                                    <span
-                                        class="text-[9px] md:text-[10px] font-bold text-slate-600 mb-2 md:mb-3 leading-tight flex-1">Ramos
-                                        y<br>Flores</span>
-                                    <button
-                                        class="w-full py-1.5 md:py-2 bg-rose-50 text-rose-600 text-[8px] md:text-[9px] font-black uppercase rounded-lg hover:bg-rose-100 transition-colors">Entrar</button>
-                                </div>
-                                <!-- Tarjeta 4 -->
-                                <div
-                                    class="bg-white rounded-xl p-2 md:p-3 shadow-sm border border-slate-100 flex flex-col items-center text-center hover:border-pink-200 hover:shadow-md transition-all cursor-pointer">
-                                    <div
-                                        class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-purple-50 flex items-center justify-center text-purple-500 mb-2 md:mb-3 text-lg md:text-xl">
-                                        🍫</div>
-                                    <span
-                                        class="text-[9px] md:text-[10px] font-bold text-slate-600 mb-2 md:mb-3 leading-tight flex-1">Cajas
-                                        de<br>Dulces</span>
-                                    <button
-                                        class="w-full py-1.5 md:py-2 bg-rose-50 text-rose-600 text-[8px] md:text-[9px] font-black uppercase rounded-lg hover:bg-rose-100 transition-colors">Entrar</button>
-                                </div>
-                                <!-- Tarjeta 5 -->
-                                <div
-                                    class="bg-white rounded-xl p-2 md:p-3 shadow-sm border border-slate-100 flex flex-col items-center text-center hover:border-pink-200 hover:shadow-md transition-all cursor-pointer">
-                                    <div
-                                        class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mb-2 md:mb-3 text-lg md:text-xl">
-                                        🧸</div>
-                                    <span
-                                        class="text-[9px] md:text-[10px] font-bold text-slate-600 mb-2 md:mb-3 leading-tight flex-1">Peluches<br>Grandes</span>
-                                    <button
-                                        class="w-full py-1.5 md:py-2 bg-rose-50 text-rose-600 text-[8px] md:text-[9px] font-black uppercase rounded-lg hover:bg-rose-100 transition-colors">Entrar</button>
-                                </div>
-                                <!-- Tarjeta 6 -->
-                                <div
-                                    class="bg-white rounded-xl p-2 md:p-3 shadow-sm border border-slate-100 flex flex-col items-center text-center hover:border-pink-200 hover:shadow-md transition-all cursor-pointer">
-                                    <div
-                                        class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 mb-2 md:mb-3 text-lg md:text-xl">
-                                        🌟</div>
-                                    <span
-                                        class="text-[9px] md:text-[10px] font-bold text-slate-600 mb-2 md:mb-3 leading-tight flex-1">Nuevos<br>Llegados</span>
-                                    <button
-                                        class="w-full py-1.5 md:py-2 bg-rose-50 text-rose-600 text-[8px] md:text-[9px] font-black uppercase rounded-lg hover:bg-rose-100 transition-colors">Entrar</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
+    @include('partials.landing.hero')
 
     <!-- SECCIÓN EXPLORADOR DE TIENDAS (Premium Grid/Carrusel) -->
     @php
-        $categoryLabels = [
-            'gastronomia' => 'Gastronomía',
-            'moda_estilo' => 'Moda y Estilo',
-            'detalles_regalos' => 'Detalles y Regalos',
-            'servicios' => 'Servicios',
-            'otros' => 'Otros',
-        ];
-
-        $shopsWithCategories = $shops->map(function ($shop) use ($categoryLabels) {
-            $categoryKey = $shop->shop_category ?: 'otros';
-            $shop->category = $categoryLabels[$categoryKey] ?? 'Otros';
-            return $shop;
-        });
-
-        $shopsCount = count($shopsWithCategories);
+        $shopsCount = $shopsWithCategories->count();
         if ($shopsCount > 0) {
             $allShops = $shopsWithCategories;
             while (count($allShops) < 16) {
@@ -621,98 +363,29 @@
         }
     @endphp
 
-    <section id="explorar" class="py-16 md:py-24 relative overflow-hidden z-10" x-data="{
-        searchQuery: '{{ request('search', '') }}',
-        activeCategory: 'Todos',
-        allShops: {{ json_encode($shopsWithCategories) }},
-        matchesFilter(name, description, category) {
-            const q = this.searchQuery.toLowerCase();
-            const matchesSearch = q === '' ||
-                name.toLowerCase().includes(q) ||
-                (description && description.toLowerCase().includes(q));
-            const matchesCategory = this.activeCategory === 'Todos' || category === this.activeCategory;
-            return matchesSearch && matchesCategory;
-        },
-        get hasResults() {
-            return this.allShops.some(shop => this.matchesFilter(shop.name, shop.description, shop.category));
-        },
-        get isFiltering() {
-            return this.searchQuery !== '' || this.activeCategory !== 'Todos';
-        }
-    }">
-        <!-- Luces de fondo opcionales para continuidad -->
-        <div class="absolute top-0 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-[100px] pointer-events-none">
-        </div>
+    <section id="explorar" class="py-16 md:py-24 relative overflow-hidden z-10">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-            <!-- Cabecera de la Sección con Buscador y Filtros -->
-            <div class="flex flex-col items-center justify-center mb-12 space-y-6">
-                <!-- Título -->
-                <div class="text-center w-full">
-                    <h2 class="text-3xl md:text-4xl font-black text-white tracking-tight">Explora Tiendas Afiliadas
-                    </h2>
-                    <p class="text-sm text-slate-400 mt-1.5">Compra de forma directa en los mejores catálogos de
-                        WIStore.</p>
-                </div>
+            @include('partials.landing.explore-header')
 
-                <!-- Buscador y Filtros -->
-                <div class="w-full max-w-4xl flex flex-col gap-5 items-center justify-center">
-                    <!-- Formulario Buscador Compacto -->
-                    <form @submit.prevent="" class="w-full max-w-md flex gap-2 shrink-0 justify-center">
-                        <div class="relative flex-grow">
-                            <input type="text" x-model="searchQuery" placeholder="Buscar tienda..."
-                                class="w-full bg-slate-900/80 border border-slate-800 rounded-2xl px-4 py-3 pl-10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner">
-                            <svg class="absolute left-3 top-3.5 text-slate-500" width="14" height="14"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg>
-                        </div>
-                    </form>
-
-                    <!-- Filtros Píldoras Táctiles -->
-                    <div
-                        class="w-full flex gap-2 overflow-x-auto flex-nowrap whitespace-nowrap scrollbar-none py-1 justify-center">
-                        <button type="button" @click="activeCategory = 'Todos'"
-                            :class="activeCategory === 'Todos' ?
-                                'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' :
-                                'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'"
-                            class="text-[11px] font-black px-4 py-2.5 rounded-full border transition-all duration-300">Todos</button>
-                        <button type="button" @click="activeCategory = 'Gastronomía'"
-                            :class="activeCategory === 'Gastronomía' ?
-                                'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' :
-                                'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'"
-                            class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Gastronomía</button>
-                        <button type="button" @click="activeCategory = 'Moda y Estilo'"
-                            :class="activeCategory === 'Moda y Estilo' ?
-                                'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' :
-                                'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'"
-                            class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Moda
-                            y Estilo</button>
-                        <button type="button" @click="activeCategory = 'Detalles y Regalos'"
-                            :class="activeCategory === 'Detalles y Regalos' ?
-                                'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' :
-                                'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'"
-                            class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Detalles
-                            y Regalos</button>
-                        <button type="button" @click="activeCategory = 'Servicios'"
-                            :class="activeCategory === 'Servicios' ?
-                                'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' :
-                                'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'"
-                            class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Servicios</button>
-                        <button type="button" @click="activeCategory = 'Otros'"
-                            :class="activeCategory === 'Otros' ?
-                                'bg-purple-600/20 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]' :
-                                'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-white'"
-                            class="text-[11px] font-bold px-4 py-2.5 rounded-full border transition-all duration-300">Otros</button>
+            <!-- Vista cuadrícula (predeterminada) -->
+            <div x-show="!isFiltering && !showCarousel" x-transition class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+                @forelse($shopsWithCategories as $shop)
+                    @include('partials.landing.shop-card', ['shop' => $shop])
+                @empty
+                    <div class="col-span-full text-center py-16 rounded-[2rem] border border-dashed border-slate-700 bg-slate-900/30">
+                        <p class="text-4xl mb-3">🏪</p>
+                        <p class="text-white font-bold">Pronto verás tiendas de ejemplo aquí</p>
+                        <p class="text-slate-400 text-sm mt-2">Mientras tanto, crea la tuya en minutos.</p>
+                        <a href="/register" class="inline-block mt-6 bg-purple-600 hover:bg-purple-500 text-white font-black px-6 py-3 rounded-xl text-sm">Crear mi tienda</a>
                     </div>
-                </div>
+                @endforelse
             </div>
 
             <!-- MODO ANIMADO (MARQUEE 2 FILAS) -->
-            <div x-show="!isFiltering" class="space-y-6" x-transition:enter="transition ease-out duration-500"
+            <div x-show="!isFiltering && showCarousel" class="space-y-6" x-transition:enter="transition ease-out duration-500"
                 x-transition:enter-start="opacity-0 transform scale-95"
                 x-transition:enter-end="opacity-100 transform scale-100">
                 <!-- Fila 1: Izquierda -->
@@ -981,7 +654,7 @@
                     <p class="text-slate-400 text-xs mt-2 leading-relaxed">No encontramos catálogos oficiales que
                         coincidan con "<span class="text-purple-400 font-bold" x-text="searchQuery"></span>" o con la
                         categoría seleccionada.</p>
-                    <button type="button" @click="searchQuery = ''; activeCategory = 'Todos'"
+                    <button type="button" @click="clearFilters()"
                         class="mt-6 bg-purple-600 hover:bg-purple-500 text-white font-extrabold px-6 py-2.5 rounded-full text-xs transition active:scale-95 shadow-[0_0_15px_rgba(147,51,234,0.3)]">
                         Restablecer filtros
                     </button>
@@ -1051,87 +724,7 @@
         </div>
     </section>
 
-    <!-- SECCIÓN CÓMO FUNCIONA (Estilo Bloques Neón) -->
-    <section id="como-funciona" class="py-20 md:py-28 relative overflow-hidden z-10 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <!-- Cabecera Centrada -->
-            <div class="mb-16 md:mb-20 text-center">
-                <h2 class="text-3xl md:text-5xl font-black text-white tracking-tight">¿Cómo funciona WIStore?</h2>
-                <p class="text-sm md:text-base text-slate-400 mt-3 max-w-xl mx-auto">Crea tu menú interactivo de marca
-                    blanca y recibe pedidos en WhatsApp o Telegram en 3 pasos sencillos.</p>
-            </div>
-
-            <!-- 3 Bloques Numéricos (Horizontal en PC) - Limpieza de Ruido Visual -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-                <!-- Paso 1 -->
-                <div
-                    class="bg-slate-900/15 border border-white/5 p-10 md:p-12 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-purple-500/40 hover:bg-purple-950/5 transition-all duration-300 group">
-                    <!-- Número Escondido Decorativo -->
-                    <span
-                        class="absolute top-4 right-6 text-6xl font-black text-white/[0.015] group-hover:text-purple-500/5 transition-colors select-none">1</span>
-
-                    <!-- Icono Neón -->
-                    <div
-                        class="w-20 h-20 rounded-full bg-slate-950 border border-slate-800 shadow-[0_0_30px_rgba(168,85,247,0.15)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.35)] flex items-center justify-center mb-6 relative transition-all duration-300">
-                        <div class="absolute inset-0 bg-purple-500/20 rounded-full blur-md"></div>
-                        <svg class="w-8 h-8 text-purple-400 relative z-10" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                        </svg>
-                    </div>
-
-                    <h4 class="text-lg font-black text-white mb-3">Registra tus Productos</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed">Ingresa tus categorías, sube imágenes, agrega
-                        descripciones atractivas y define tus precios de venta.</p>
-                </div>
-
-                <!-- Paso 2 -->
-                <div
-                    class="bg-slate-900/15 border border-white/5 p-10 md:p-12 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-cyan-500/40 hover:bg-cyan-950/5 transition-all duration-300 group">
-                    <span
-                        class="absolute top-4 right-6 text-6xl font-black text-white/[0.015] group-hover:text-cyan-500/5 transition-colors select-none">2</span>
-
-                    <!-- Icono Neón -->
-                    <div
-                        class="w-20 h-20 rounded-full bg-slate-950 border border-slate-800 shadow-[0_0_30px_rgba(34,211,238,0.15)] group-hover:shadow-[0_0_40px_rgba(34,211,238,0.35)] flex items-center justify-center mb-6 relative transition-all duration-300">
-                        <div class="absolute inset-0 bg-cyan-500/20 rounded-full blur-md"></div>
-                        <svg class="w-8 h-8 text-cyan-400 relative z-10" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                        </svg>
-                    </div>
-
-                    <h4 class="text-lg font-black text-white mb-3">Elige tus Colores</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed">Define los 3 colores principales de tu identidad
-                        visual, sube tu logo y portada para adaptar el catálogo a tu marca.</p>
-                </div>
-
-                <!-- Paso 3 -->
-                <div
-                    class="bg-slate-900/15 border border-white/5 p-10 md:p-12 rounded-[2.5rem] flex flex-col items-center text-center relative hover:border-pink-500/40 hover:bg-pink-950/5 transition-all duration-300 group">
-                    <span
-                        class="absolute top-4 right-6 text-6xl font-black text-white/[0.015] group-hover:text-pink-500/5 transition-colors select-none">3</span>
-
-                    <!-- Icono Neón -->
-                    <div
-                        class="w-20 h-20 rounded-full bg-slate-950 border border-slate-800 shadow-[0_0_30px_rgba(236,72,153,0.15)] group-hover:shadow-[0_0_40px_rgba(236,72,153,0.35)] flex items-center justify-center mb-6 relative transition-all duration-300">
-                        <div class="absolute inset-0 bg-pink-500/20 rounded-full blur-md"></div>
-                        <svg class="w-8 h-8 text-pink-400 relative z-10" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                        </svg>
-                    </div>
-
-                    <h4 class="text-lg font-black text-white mb-3">Recibe Pedidos Directos</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed">Comparte tu enlace y tus clientes podrán enviarte
-                        pedidos estructurados directamente a tu WhatsApp o Telegram, sin comisiones.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    @include('partials.landing.how-it-works')
 
     <!-- PRECIOS (Glassmorphic Dark Premium) -->
     <section id="precios" class="py-20 md:py-28 border-t border-white/5 relative overflow-hidden"
@@ -2417,6 +2010,7 @@
         </div>
     </footer>
 
+    @include('partials.landing.ux-script')
     @include('partials.public.chat')
 </body>
 

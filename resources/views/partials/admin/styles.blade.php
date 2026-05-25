@@ -31,29 +31,7 @@
     }
     [x-cloak] { display: none !important; }
     
-    /* Custom Premium Scrollbar */
-    ::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
-    }
-    ::-webkit-scrollbar-track {
-        background: rgba(15, 23, 42, 0.02);
-    }
-    .dark ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.02);
-    }
-    ::-webkit-scrollbar-thumb {
-        background: var(--color-primary);
-        border-radius: 9999px;
-        transition: background 0.3s ease;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: var(--color-secondary);
-    }
-    * {
-        scrollbar-width: thin;
-        scrollbar-color: var(--color-primary) transparent;
-    }
+    /* Scrollbar: ver partials/global/wistore-scrollbar.blade.php (html.wistore-ui) */
 
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

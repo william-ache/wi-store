@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="scroll-smooth wistore-ui">
 
 <head>
     <meta charset="UTF-8">
@@ -25,6 +25,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    @include('partials.global.wistore-scrollbar')
     <style>
         [x-cloak] {
             display: none !important;
@@ -50,21 +51,7 @@
         .neon-border-purple {
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
         }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #070913;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #a855f7;
-            border-radius: 9999px;
-        }
-
-        @keyframes wave {
+@keyframes wave {
             0%, 100% { transform: translateY(0) scale(1); }
             50% { transform: translateY(-10px) scale(1.02); }
         }

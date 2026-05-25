@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="scroll-smooth wistore-ui">
 
 <head>
     <meta charset="UTF-8">
@@ -25,6 +25,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    @include('partials.global.wistore-scrollbar')
     <style>
         [x-cloak] {
             display: none !important;
@@ -186,30 +187,6 @@
 
         .field-checking {
             border-color: rgba(14, 165, 233, 0.5) !important;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: #a855f7 #070913;
-        }
-
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #070913;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #a855f7 0%, #22d3ee 100%);
-            border-radius: 9999px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #c084fc 0%, #67e8f9 100%);
         }
     </style>
 </head>

@@ -74,7 +74,7 @@
     ];
 @endphp
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="scroll-smooth wistore-ui">
 
 <head>
     <meta charset="UTF-8">
@@ -88,6 +88,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    @include('partials.global.wistore-scrollbar')
     <style>
         [x-cloak] { display: none !important; }
 

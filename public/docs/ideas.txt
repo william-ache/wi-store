@@ -36,6 +36,4 @@ https://www.instagram.com/adsv.e/
 
 agregar mi propio reprodcutor de video personalizado
 
-agregar laoder al ahcer cualquier peticion y que sea le mismo que el del menu digital con su logo y cargando pero que no diga cargando menu si no, salga solo el logo
-
 se oculto el ajuste avanzado
