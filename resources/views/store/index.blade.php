@@ -92,6 +92,8 @@
             gtag('js', new Date());
             gtag('config', '{{ $company['google_analytics_id'] }}');
         </script>
+    @endif
+
     @if (!empty($company['stripe_enabled']))
         <script src="https://js.stripe.com/v3/"></script>
     @endif
@@ -1925,7 +1927,7 @@
                         class="flex-1 py-2.5 text-xs rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5">
                         <i class="fas fa-motorcycle"></i> Delivery
                     </button>
-                    @if ($company['has_dine_in'])
+                    @if ($company['has_dine_in'] ?? true)
                     <button @click="deliveryType = 'dine_in'; deliveryCost = 0"
                         :class="deliveryType === 'dine_in' ? 'bg-white shadow-md text-slate-900 font-extrabold scale-[1.01]' :
                             'text-slate-500 hover:text-slate-800 font-bold'"
@@ -4858,7 +4860,6 @@
             </div>
         </div>
     @endif
-    @include('partials.public.chat')
 </body>
 
 </html>

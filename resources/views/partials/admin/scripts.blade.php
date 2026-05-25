@@ -2,6 +2,7 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('adminLayout', () => ({
+            showFeedbackModal: {{ (session('open_feedback_modal') || $errors->has('title') || $errors->has('description') || $errors->has('type')) ? 'true' : 'false' }},
             showAllNotifs: false,
             darkMode: localStorage.getItem('admin-dark-mode') === 'true',
             unreadCount: 0,

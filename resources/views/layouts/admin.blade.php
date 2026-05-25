@@ -136,6 +136,9 @@
     <!-- Modal Compartir Catálogo (QR) -->
     @include('modals.admin.share-qr')
 
+    <!-- Modal de Feedback Global -->
+    @include('modals.admin.feedback')
+
     <!-- Common Layout AlpineJS and Excel export scripts -->
     @include('partials.admin.scripts')
     

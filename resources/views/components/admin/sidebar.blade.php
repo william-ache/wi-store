@@ -212,13 +212,15 @@
                         </div>
                         <span class="w-1.5 h-1.5 rounded-full {{ request()->is('*/admin/subscription') ? 'bg-white animate-pulse' : 'bg-purple-500' }} shrink-0"></span>
                     </a>
-                    <a href="/{{ config('current_shop')->slug }}/admin/feedback" 
-                       class="flex items-center justify-between px-3 py-2 rounded-md transition text-xs font-semibold {{ request()->is('*/admin/feedback*') ? 'bg-purple-650 text-white font-bold shadow-[0_0_12px_rgba(168,85,247,0.25)]' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                    <a href="#" 
+                       @click.prevent="showFeedbackModal = true"
+                       class="flex items-center justify-between px-3 py-2 rounded-md transition text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white"
+                       :class="{ 'bg-purple-650 text-white font-bold shadow-[0_0_12px_rgba(168,85,247,0.25)]': showFeedbackModal }">
                         <div class="flex items-center gap-2">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                             <span>Feedback</span>
                         </div>
-                        <span class="w-1.5 h-1.5 rounded-full {{ request()->is('*/admin/feedback*') ? 'bg-white animate-pulse' : 'bg-purple-500' }} shrink-0"></span>
+                        <span class="w-1.5 h-1.5 rounded-full shrink-0 bg-purple-500" :class="{ 'bg-white animate-pulse': showFeedbackModal }"></span>
                     </a>
                     <a href="/{{ config('current_shop')->slug }}/admin/settings" 
                        class="flex items-center gap-2.5 px-3 py-2 rounded-md transition text-xs font-semibold {{ request()->is('*/admin/settings') ? 'bg-slate-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">

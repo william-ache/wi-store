@@ -4,22 +4,6 @@
      class="fixed bottom-6 right-6 z-[9999] select-none font-sans"
      x-cloak>
 
-    <!-- Pulsing Online Badge (When closed) -->
-    <div x-show="!chatOpen"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 translate-x-4"
-         x-transition:enter-end="opacity-100 translate-x-0"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 translate-x-0"
-         x-transition:leave-end="opacity-0 translate-x-4"
-         class="absolute bottom-3 right-20 flex items-center bg-white border border-slate-200/80 px-3 py-1 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.08)] pointer-events-none whitespace-nowrap">
-        <span class="relative flex h-2.5 w-2.5 mr-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-        </span>
-        <span class="text-xs font-black text-slate-700">Online</span>
-    </div>
-
     <!-- MAIN CHAT TRIGGER BUTTON (Orange Circle "?") -->
     <button x-show="!chatOpen"
             @click="toggleChat()"
@@ -29,8 +13,13 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-75"
-            class="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white shadow-[0_8px_24px_rgba(249,115,22,0.4)] hover:shadow-[0_12px_32px_rgba(249,115,22,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none border-2 border-white">
+            class="relative w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white shadow-[0_8px_24px_rgba(249,115,22,0.4)] hover:shadow-[0_12px_32px_rgba(249,115,22,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none border-2 border-white">
         <span class="text-2xl font-black">?</span>
+        <!-- Sleek Status Dot in Corner -->
+        <span class="absolute top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
+        </span>
     </button>
 
     <!-- CLOSE BUTTON (White Circle with Orange "X") -->

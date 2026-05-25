@@ -23,7 +23,26 @@ class FeedbackController extends Controller
         // BelongsToTenant scope will automatically scope this query to the current shop
         $feedbacks = Feedback::orderBy('created_at', 'desc')->get();
 
-        return view('admin.feedback.index', compact('shop', 'feedbacks'));
+        if ($request->wantsJson()) {
+            // Map formatted date and dynamic badge color to feedbacks
+            $formattedFeedbacks = $feedbacks->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'type' => $item->type,
+                    'title' => $item->title,
+                    'description' => $item->description,
+                    'status' => $item->status,
+                    'created_at_formatted' => $item->created_at->format('d/m/Y h:i A'),
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'feedbacks' => $formattedFeedbacks
+            ]);
+        }
+
+        return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug])->with('open_feedback_modal', true);
     }
 
     /**
