@@ -189,9 +189,10 @@ body {
                             <p class="font-extrabold text-white">Wydex Ecosistemas Digitales</p>
                             <p class="text-slate-400 text-xs">Área de Cumplimiento Normativo y Privacidad</p>
                         </div>
-                        <span class="bg-purple-600/20 text-purple-400 border border-purple-500/20 font-extrabold px-6 py-2.5 rounded-lg text-xs select-none">
-                            Próximamente
-                        </span>
+                        <a href="mailto:{{ $wistoreSupportEmail }}"
+                            class="bg-purple-600/20 text-purple-300 border border-purple-500/25 font-extrabold px-6 py-2.5 rounded-lg text-xs hover:bg-purple-600/30 hover:text-white transition-colors break-all">
+                            {{ $wistoreSupportEmail }}
+                        </a>
                     </div>
                 </section>
 

@@ -141,6 +141,10 @@ body {
                         <textarea id="message" name="message" rows="4" required class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors placeholder:text-slate-600 resize-none" placeholder="Cuéntanos un poco sobre tu negocio y cómo podemos ayudarte..."></textarea>
                     </div>
 
+                    <p class="text-[11px] text-slate-500 text-center">
+                        También puedes escribirnos a
+                        <a href="mailto:{{ $wistoreSupportEmail }}" class="text-cyan-300/90 hover:text-cyan-200 font-bold">{{ $wistoreSupportEmail }}</a>
+                    </p>
                     <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-extrabold py-4 rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.3)] text-xs md:text-sm tracking-widest uppercase">
                         Enviar Consulta <i class="fas fa-paper-plane ml-2"></i>
                     </button>
@@ -167,15 +171,16 @@ body {
                         </a>
 
                         <!-- Canal Email -->
-                        <div class="flex items-center gap-4 bg-white/5 border border-white/5 p-4 rounded-2xl">
-                            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-slate-500">
+                        <a href="mailto:{{ $wistoreSupportEmail }}" class="flex items-center gap-4 bg-cyan-500/5 hover:bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500/35 p-4 rounded-2xl transition-all duration-300 group">
+                            <div class="w-12 h-12 rounded-full bg-cyan-500/15 flex items-center justify-center text-cyan-300">
                                 <i class="fas fa-envelope text-xl"></i>
                             </div>
-                            <div>
-                                <p class="text-xs text-slate-500 uppercase font-black tracking-widest">Correo de Soporte</p>
-                                <p class="text-sm font-bold text-slate-400">Próximamente</p>
+                            <div class="min-w-0">
+                                <p class="text-xs text-slate-400 uppercase font-black tracking-widest">Correo de Soporte</p>
+                                <p class="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors break-all">{{ $wistoreSupportEmail }}</p>
                             </div>
-                        </div>
+                            <i class="fas fa-chevron-right ml-auto text-slate-500 group-hover:translate-x-1 transition-transform shrink-0"></i>
+                        </a>
                     </div>
                 </div>
 

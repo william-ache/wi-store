@@ -605,8 +605,8 @@ body {
                     <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Contacto Directo</h4>
                     <ul class="space-y-3 text-xs text-slate-400">
                         <li class="flex items-center gap-2.5">
-                            <i class="fas fa-envelope text-cyan-400 w-4"></i>
-                            <span>(Próximamente)</span>
+                            <i class="fas fa-envelope text-cyan-400 w-4 shrink-0"></i>
+                            @include('partials.global.support-email', ['class' => 'text-xs text-slate-400 hover:text-cyan-300 transition-colors break-all', 'icon' => false])
                         </li>
                         <li class="flex items-center gap-2.5">
                             <i class="fas fa-phone-alt text-purple-400 w-4"></i>

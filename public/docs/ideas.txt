@@ -37,3 +37,6 @@ https://www.instagram.com/adsv.e/
 agregar mi propio reprodcutor de video personalizado
 
 se oculto el ajuste avanzado
+
+
+agreguemos un marketplace de las tiendas en la landing pero en otra vista donde podran filtrar y buscar las tiendas, y tambien por zona y todo eso 

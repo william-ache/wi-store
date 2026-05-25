@@ -1,38 +1,22 @@
 <!-- Client Support Floating Chat Widget -->
 <div x-data="publicChatWidget()"
      x-init="initWidget()"
-     class="fixed bottom-6 right-6 z-[9999] select-none font-sans"
+     class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[9999] select-none font-sans w-14 h-14"
      x-cloak>
 
-    <!-- Botón flotante: carita del bot -->
-    <button x-show="!chatOpen"
-            @click="toggleChat()"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-75"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 scale-100"
-            x-transition:leave-end="opacity-0 scale-75"
-            class="group relative w-14 h-14 bg-gradient-to-br from-purple-600 via-fuchsia-500 to-cyan-500 rounded-full flex items-center justify-center shadow-[0_8px_28px_rgba(168,85,247,0.45)] hover:shadow-[0_12px_36px_rgba(34,211,238,0.35)] hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none border-2 border-white/90"
-            aria-label="Abrir chat de soporte">
-        @include('partials.public.chat-bot-face', ['size' => 'md', 'class' => 'text-white'])
-        <span class="absolute top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
+    <!-- Un solo botón toggle -->
+    <button @click="toggleChat()"
+            class="absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none hover:scale-105 active:scale-95"
+            :class="chatOpen ? 'bg-white border border-purple-200/80 shadow-[0_8px_24px_rgba(0,0,0,0.12)]' : 'bg-gradient-to-br from-purple-600 via-fuchsia-500 to-cyan-500 border-2 border-white/90 shadow-[0_8px_28px_rgba(168,85,247,0.45)]'"
+            :aria-label="chatOpen ? 'Cerrar chat' : 'Abrir chat'">
+        <span x-show="!chatOpen" class="relative flex items-center justify-center">
+            @include('partials.public.chat-bot-face', ['size' => 'md', 'class' => 'text-white'])
+            <span class="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center pointer-events-none">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
+            </span>
         </span>
-    </button>
-
-    <button x-show="chatOpen"
-            @click="toggleChat()"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-75"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 scale-100"
-            x-transition:leave-end="opacity-0 scale-75"
-            class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none border border-purple-200/80"
-            aria-label="Cerrar chat">
-        <i class="fa-solid fa-xmark text-purple-600 text-2xl font-bold"></i>
+        <i x-show="chatOpen" x-cloak class="fa-solid fa-xmark text-purple-600 text-2xl font-bold"></i>
     </button>
 
     <div x-show="chatOpen"
@@ -42,7 +26,7 @@
          x-transition:leave="transition ease-in duration-200 transform origin-bottom-right"
          x-transition:leave-start="opacity-100 scale-100 translate-y-0"
          x-transition:leave-end="opacity-0 scale-90 translate-y-4"
-         class="absolute bottom-20 right-0 w-[calc(100vw-32px)] sm:w-[385px] h-[520px] bg-white rounded-[24px] border border-purple-500/20 shadow-[0_16px_48px_rgba(88,28,135,0.18)] flex flex-col overflow-hidden">
+         class="absolute bottom-[calc(100%+12px)] right-0 w-[min(calc(100vw-40px),385px)] h-[min(520px,calc(100vh-120px))] bg-white rounded-[24px] border border-purple-500/20 shadow-[0_16px_48px_rgba(88,28,135,0.18)] flex flex-col overflow-hidden">
 
         <!-- Header -->
         <div class="px-4 py-3.5 border-b border-purple-100/80 flex items-center justify-between bg-gradient-to-r from-purple-600/10 via-fuchsia-500/5 to-cyan-500/10 shrink-0">
@@ -58,6 +42,9 @@
                     </span>
                 </div>
             </div>
+            <button type="button" @click="toggleChat()" class="w-8 h-8 rounded-full hover:bg-purple-100/80 text-purple-500 flex items-center justify-center shrink-0 transition-colors" aria-label="Cerrar chat">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
         </div>
 
         <!-- Aviso -->
@@ -212,10 +199,10 @@
                 const linkClass = 'underline font-bold text-purple-600 hover:text-cyan-600';
 
                 if (cleanQuery.includes('precio') || cleanQuery.includes('plan') || cleanQuery.includes('costo') || cleanQuery.includes('planes')) {
-                    return `Tenemos planes pensados para tu negocio:<br><br>` +
-                           `💎 <b>Standard ($14.99/mes):</b> Catálogo, pedidos por WhatsApp y 0% comisiones.<br><br>` +
-                           `👑 <b>Premium ($24.99/mes):</b> Todo lo anterior + dominio, analítica y más.<br><br>` +
-                           `⚡ <i>Prueba Premium 7 días gratis, sin tarjeta.</i>`;
+                    return `Estamos actualizando nuestros planes. Los precios estarán <b>muy pronto</b>.<br><br>` +
+                           `💎 <b>Standard:</b> Catálogo, pedidos por WhatsApp y 0% comisiones.<br><br>` +
+                           `👑 <b>Premium:</b> Todo lo anterior + pagos integrados y soporte VIP.<br><br>` +
+                           `👉 <a href="/comparativa" class="${linkClass}">Ver comparativa de planes</a>`;
                 }
 
                 if (cleanQuery.includes('registro') || cleanQuery.includes('crear') || cleanQuery.includes('cuenta') || cleanQuery.includes('probar') || cleanQuery.includes('registrarse')) {
@@ -230,8 +217,9 @@
                            `• <b>Zelle</b>, <b>Binance (USDT)</b> y <b>PayPal</b>.`;
                 }
 
-                if (cleanQuery.includes('contacto') || cleanQuery.includes('asesor') || cleanQuery.includes('soporte') || cleanQuery.includes('whatsapp') || cleanQuery.includes('humano')) {
-                    return `Te conecto con un asesor humano por WhatsApp:<br><br>` +
+                if (cleanQuery.includes('contacto') || cleanQuery.includes('asesor') || cleanQuery.includes('soporte') || cleanQuery.includes('whatsapp') || cleanQuery.includes('humano') || cleanQuery.includes('correo') || cleanQuery.includes('email')) {
+                    return `Te conecto con nuestro equipo:<br><br>` +
+                           `📧 <a href="mailto:{{ $wistoreSupportEmail }}" class="${linkClass}">{{ $wistoreSupportEmail }}</a><br>` +
                            `📲 <a href="https://wa.me/584121305420?text=Hola!%20Necesito%20soporte%20sobre%20WIStore" target="_blank" class="${linkClass}">Chat de WhatsApp</a><br>` +
                            `📞 <b>+58 (412) 130-5420</b>`;
                 }
@@ -241,6 +229,7 @@
                 }
 
                 return `Para esa consulta te recomiendo hablar con nuestro equipo:<br><br>` +
+                       `📧 <a href="mailto:{{ $wistoreSupportEmail }}" class="${linkClass}">{{ $wistoreSupportEmail }}</a><br>` +
                        `📲 <a href="https://wa.me/584121305420?text=Hola!%20Tengo%20una%20duda:%20${encodeURIComponent(query)}" target="_blank" class="${linkClass}">Hablar con asesor</a><br><br>` +
                        `O elige una opción del menú de arriba.`;
             },

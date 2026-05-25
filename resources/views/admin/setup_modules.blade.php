@@ -277,6 +277,7 @@
         <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
             <p>© 2026 WIStore</p>
             <div class="flex items-center gap-4">
+                <a href="mailto:{{ $wistoreSupportEmail }}" class="hover:text-cyan-300/90 transition-colors">{{ $wistoreSupportEmail }}</a>
                 <a href="{{ route('legal.privacidad') }}" class="hover:text-slate-400 transition-colors">Privacidad</a>
                 <a href="{{ route('contacto') }}" class="hover:text-slate-400 transition-colors">Contacto</a>
             </div>

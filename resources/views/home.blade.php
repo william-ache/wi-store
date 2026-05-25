@@ -769,510 +769,38 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
             <!-- Cabecera de Precios -->
-            <div class="text-center mb-12 md:mb-16">
+            <div class="text-center mb-8 md:mb-10">
                 <span
-                    class="bg-purple-600/20 text-purple-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-                    Planes Flexibles
+                    class="landing-plan-badge text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full">
+                    Planes
                 </span>
-                <span
-                    class="inline-flex items-center gap-1.5 bg-gradient-to-r from-cyan-500/15 via-sky-500/10 to-blue-500/15 text-cyan-100 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-cyan-400/20 shadow-[0_0_18px_rgba(56,189,248,0.18)] mt-2 sm:mt-0 sm:ml-2">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" x-show="!loadingRate"></span>
-                    <span
-                        x-text="exchangeRate ? 'Todo a Tasa BCV: ' + Number(exchangeRate).toFixed(2) + ' Bs. 🇻🇪' : (loadingRate ? 'Cargando Tasa BCV... 🇻🇪' : 'Tasa Oficial BCV 🇻🇪')">Tasa
-                        Oficial BCV 🇻🇪</span>
-                </span>
-                <h2 class="text-3xl md:text-5xl font-black text-white mt-5 tracking-tight">Precios que impulsan tu
-                    negocio</h2>
-                <p class="text-sm md:text-base text-slate-400 mt-3 max-w-xl mx-auto leading-relaxed">Selecciona la
-                    solución ideal para digitalizar tu marca, aumentar tus ventas y conectar de forma directa con tus
-                    clientes.</p>
+                <h2 class="text-3xl md:text-4xl font-black text-white mt-4 tracking-tight">Elige tu plan</h2>
+                <p class="text-sm text-slate-400 mt-2 max-w-lg mx-auto">Resumen claro · precios <strong class="text-purple-300/90">muy pronto</strong>. Toca <strong class="text-slate-300 font-bold">Ver más detalle</strong> en cada plan.</p>
 
-                <!-- Cobertura de Servicio Ultra-Premium -->
-                <div class="mt-6 flex flex-wrap justify-center gap-3 relative z-10 select-none">
-                    <div class="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 bg-[#0c1024]/85 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.37)]">
-                        <span class="text-[9px] uppercase font-black tracking-widest text-slate-400 border-r border-white/10 pr-4 mr-1 hidden sm:inline">Cobertura</span>
-                        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-                            <span class="inline-flex items-center gap-1.5 text-xs font-black text-white">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)] animate-pulse"></span>
-                                VE <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-[18px] h-[12px] rounded-[2px] shadow-sm inline-block align-middle opacity-90"><rect width="30" height="6.67" fill="#FFCC00"/><rect y="6.67" width="30" height="6.67" fill="#00247D"/><rect y="13.33" width="30" height="6.67" fill="#CF142B"/><circle cx="7.5" cy="11.2" r="0.45" fill="#fff"/><circle cx="9.3" cy="9.7" r="0.45" fill="#fff"/><circle cx="11.4" cy="8.7" r="0.45" fill="#fff"/><circle cx="13.8" cy="8.2" r="0.45" fill="#fff"/><circle cx="16.2" cy="8.2" r="0.45" fill="#fff"/><circle cx="18.6" cy="8.7" r="0.45" fill="#fff"/><circle cx="20.7" cy="9.7" r="0.45" fill="#fff"/><circle cx="22.5" cy="11.2" r="0.45" fill="#fff"/></svg>
-                                <span class="text-[8px] uppercase font-black text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 rounded-md ml-1 shadow-[0_0_10px_rgba(16,185,129,0.1)]">Activo</span>
-                            </span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-white/20 hidden sm:inline"></span>
-                            <span class="inline-flex items-center gap-1.5 text-xs font-black text-slate-400">
-                                <span class="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.8)] animate-pulse"></span>
-                                CO <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-[18px] h-[12px] rounded-[2px] shadow-sm inline-block align-middle opacity-80"><rect width="30" height="10" fill="#FCD116"/><rect y="10" width="30" height="5" fill="#003893"/><rect y="15" width="30" height="5" fill="#CE1126"/></svg>
-                                <span class="text-[8px] uppercase font-black text-amber-400 bg-amber-500/10 border border-amber-500/25 px-2 py-0.5 rounded-md ml-1 shadow-[0_0_10px_rgba(245,158,11,0.1)]">Próximamente</span>
-                            </span>
-                        </div>
-                    </div>
+                <div class="mt-6 max-w-2xl mx-auto rounded-2xl border border-purple-500/20 bg-purple-500/[0.06] px-4 py-3.5 text-left sm:text-center">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-purple-300/90">Estamos mejorando WIStore</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
+                        Trabajamos en la <strong class="text-white font-semibold">reestructuración de precios, planes y servicios</strong> para ofrecerte lo mejor de WIStore, con la <strong class="text-white font-semibold">mejor relación calidad-precio del mercado</strong>.
+                    </p>
                 </div>
 
-                <!-- Billing Cycle Toggle Switch -->
-                <div class="mt-8 flex justify-center items-center gap-4 relative z-10">
-                    <button @click="billingPeriod = 'monthly'"
-                        class="text-xs font-black tracking-wider uppercase transition-all duration-350 cursor-pointer focus:outline-none"
-                        :class="billingPeriod === 'monthly' ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'">
-                        Pago Mensual
-                    </button>
-                    <button @click="billingPeriod = billingPeriod === 'monthly' ? 'yearly' : 'monthly'"
-                        class="w-14 h-7 rounded-full bg-purple-950/80 border border-purple-500/40 p-1 flex items-center transition-all duration-300 relative focus:outline-none shadow-[0_0_15px_rgba(139,92,246,0.15)] hover:border-purple-400/60"
-                        aria-label="Alternar ciclo de facturación">
-                        <div class="w-5 h-5 rounded-full bg-gradient-to-r from-purple-400 to-cyan-400 shadow-[0_2px_5px_rgba(0,0,0,0.3)] transition-all duration-300 transform"
-                            :class="billingPeriod === 'yearly' ? 'translate-x-7' : 'translate-x-0'"></div>
-                    </button>
-                    <button @click="billingPeriod = 'yearly'"
-                        class="text-xs font-black tracking-wider uppercase flex items-center gap-2 transition-all duration-350 cursor-pointer focus:outline-none"
-                        :class="billingPeriod === 'yearly' ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'">
-                        <span>Pago Anual</span>
-                        <span
-                            class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-black uppercase px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.1)]">Ahorra
-                            hasta 45% 🎉</span>
-                    </button>
-                </div>
-
-                <!-- Botón Único de Comparativa Técnica -->
-                <div class="mt-8 relative z-10">
-                    <a href="{{ route('planes.comparativa') }}"
-                        class="inline-flex items-center gap-2 bg-[#0d1127]/60 hover:bg-slate-800/80 text-cyan-400 hover:text-cyan-300 font-extrabold px-8 py-4 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 text-xs md:text-sm shadow-xl group">
-                        <span>Ver Tabla Comparativa Técnica Completa</span>
-                        <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                </div>
+                <p class="text-[10px] text-slate-500 mt-4">Cobertura: VE activo · CO próximamente</p>
             </div>
 
-            <!-- Grid de 3 Columnas -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch justify-center">
+            <!-- Grid: VIP al centro en desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-stretch md:items-end justify-center max-w-5xl mx-auto">
 
-                <!-- PLAN 2: Plan Standard -->
-                <div id="plan-standard"
-                    class="bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col justify-between shadow-2xl relative transition duration-300 hover:-translate-y-2 hover:border-white/20 group">
-                    <div>
-                        <div class="flex justify-between items-start">
-                            <h3 class="text-lg font-black text-white uppercase tracking-wider">Plan <span
-                                    class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">Standard</span>
-                            </h3>
-                            <span
-                                class="bg-gradient-to-r from-sky-500 to-cyan-400 text-slate-950 text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-[0_0_14px_rgba(14,165,233,0.5)] animate-pulse shrink-0">Ideal
-                                para comenzar</span>
-                        </div>
-                        <div class="mt-3 flex flex-wrap gap-2 items-center">
-                            <div
-                                class="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.12)]">
-                                <span class="text-[11px]">🏦</span>
-                                <span>Tasa BCV</span>
-                            </div>
-                        </div>
-                        <p class="text-[11px] text-slate-400 mt-3 leading-relaxed">Ideal para pequeños negocios y emprendedores que desean digitalizarse.</p>
+                @include('partials.landing.pricing-cards')
 
-                        <!-- Precio Dinámico -->
-                        <div class="my-6">
-                            <!-- Monthly Price -->
-                            <div x-show="billingPeriod === 'monthly'" x-transition class="space-y-3">
-                                <div class="flex items-baseline justify-between">
-                                    <div>
-                                        <div class="text-3xl font-black text-white flex items-baseline gap-1">
-                                            $14.99 <span class="text-[10px] font-bold text-slate-500">/ mes</span>
-                                        </div>
-                                        <span x-show="exchangeRate"
-                                            class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
-                                            <span x-text="(14.99 * exchangeRate).toFixed(2)"></span> Bs. <span
-                                                class="text-[9px] text-slate-500">/ mes</span>
-                                        </span>
-                                    </div>
-                                    <span class="text-[9px] font-black uppercase bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-1 rounded-md shrink-0">
-                                        15% Dto. Anual
-                                    </span>
-                                </div>
-                                
-                                <div @click="billingPeriod = 'yearly'" 
-                                    class="group/save bg-[#0f1636] hover:bg-[#151f47] border border-cyan-500/35 rounded-2xl p-3 cursor-pointer transition-all duration-300 hover:scale-[1.02] shadow-[0_4px_20px_rgba(6,182,212,0.15)] flex items-center justify-between gap-3">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-7 h-7 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-xs text-cyan-400 group-hover/save:scale-110 transition-transform">
-                                            ⚡
-                                        </div>
-                                        <div class="text-left">
-                                            <p class="text-[10px] font-black text-cyan-300 uppercase tracking-wider leading-none">Paga Anual y Ahorra 15%</p>
-                                            <p class="text-[9px] text-slate-400 mt-1">Baja a <strong class="text-white">$12.74/mes</strong> ($152.90/año)</p>
-                                        </div>
-                                    </div>
-                                    <i class="fas fa-chevron-right text-[10px] text-cyan-400 group-hover/save:translate-x-0.5 transition-transform"></i>
-                                </div>
-                            </div>
-                            <!-- Yearly Price -->
-                            <div x-show="billingPeriod === 'yearly'" x-transition class="space-y-3">
-                                <div class="flex items-baseline justify-between">
-                                    <div>
-                                        <div class="text-3xl font-black text-white flex items-baseline gap-1.5 flex-wrap">
-                                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">$12.74</span>
-                                            <span class="text-xs line-through text-slate-500 font-bold">$14.99</span>
-                                            <span class="text-[10px] font-bold text-cyan-400">/ mes</span>
-                                        </div>
-                                        <span x-show="exchangeRate"
-                                            class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
-                                            <span x-text="(12.74 * exchangeRate).toFixed(2)"></span> Bs. <span
-                                                class="text-[9px] text-slate-500">/ mes</span>
-                                        </span>
-                                    </div>
-                                    <span class="text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 px-2 py-1 rounded-md shrink-0">
-                                        ¡Ahorrando 15%!
-                                    </span>
-                                </div>
-                                
-                                <div class="bg-emerald-500/5 border border-emerald-500/30 rounded-2xl p-3 shadow-[0_4px_20px_rgba(16,185,129,0.08)] flex items-center gap-2.5">
-                                    <div class="w-7 h-7 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-xs text-emerald-400">
-                                        🔥
-                                    </div>
-                                    <div class="text-left">
-                                        <p class="text-[10px] font-black text-emerald-400 uppercase tracking-wider leading-none">Ahorras $27.00 al Año 🎉</p>
-                                        <p class="text-[9px] text-slate-350 mt-1">Facturado anualmente ($152.90/año<span x-show="exchangeRate" class="text-emerald-400/90"> / <span x-text="(152.90 * exchangeRate).toFixed(2)"></span> Bs.</span>)</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+            <div class="mt-8 text-center">
+                <a href="{{ route('planes.comparativa') }}"
+                    class="inline-flex items-center gap-2 text-purple-300/80 hover:text-cyan-300/90 font-bold text-xs uppercase tracking-wide transition-colors">
+                    Comparar todos los planes en detalle
+                    <i class="fas fa-arrow-right text-[10px]"></i>
+                </a>
+            </div>
 
-                        <!-- Beneficios -->
-                        <ul class="space-y-3.5 text-[11px] text-slate-300 border-t border-white/10 pt-5">
-                            <li class="flex items-start gap-2.5">
-                                <svg class="text-sky-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M20 6L9 17l-5-5" />
-                                </svg>
-                                <span>Productos y categorías <strong>ilimitados</strong>.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <svg class="text-sky-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M20 6L9 17l-5-5" />
-                                </svg>
-                                <span>Pedidos ilimitados a WhatsApp o Telegram.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <svg class="text-sky-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M20 6L9 17l-5-5" />
-                                </svg>
-                                <span>Personalización visual completa de tu marca.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <svg class="text-sky-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M20 6L9 17l-5-5" />
-                                </svg>
-                                <span>Soporte prioritario por WhatsApp.</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- CTA -->
-                    <div class="mt-8 flex flex-col gap-2.5">
-                        <a href="/register"
-                            class="block w-full text-center bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-white font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-sm shadow-sky-500/30">
-                            Comenzar Standard
-                        </a>
-                        <button @click="selectedPlan = 'standard'; openModal = true"
-                            class="mt-1 text-center text-sky-300 hover:text-sky-200 font-bold text-[9px] uppercase tracking-wide flex items-center justify-center gap-1 transition-colors focus:outline-none">
-                            Detalles Técnicos <i class="fas fa-info-circle"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- PLAN 3: Plan Premium (EL DESTACADO con Corona y Aura) -->
-                <div id="plan-premium"
-                    class="relative rounded-3xl p-[2px] bg-gradient-to-b from-purple-500 via-cyan-500 to-purple-600 shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-transform duration-300 hover:-translate-y-2 flex flex-col">
-
-                    <div
-                        class="bg-[#0d1127] rounded-[1.4rem] p-6 flex flex-col justify-between h-full relative overflow-hidden flex-grow">
-                        <!-- Destello interno -->
-                        <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl"></div>
-
-                        <div class="relative z-10">
-                            <div class="flex justify-between items-start">
-                                <h3 class="text-lg font-black text-white uppercase tracking-wider">Plan <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Premium</span>
-                                </h3>
-                                <span
-                                    class="bg-gradient-to-r from-purple-500 to-cyan-400 text-slate-950 text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-[0_0_14px_rgba(168,85,247,0.5)] animate-pulse shrink-0">
-                                    ✨ RECOMENDADO
-                                </span>
-                            </div>
-                            <div class="mt-3 flex flex-wrap gap-2 items-center">
-                                <div
-                                    class="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-violet-200 shadow-[0_0_15px_rgba(168,85,247,0.12)]">
-                                    <span class="text-[11px]">🏦</span>
-                                    <span>Tasa BCV</span>
-                                </div>
-                                <div
-                                    class="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.25)] animate-pulse shrink-0">
-                                    <span>🎁 7 Días Gratis</span>
-                                </div>
-                            </div>
-                            <p class="text-[11px] text-slate-300 mt-3 leading-relaxed">Potencia tu negocio con herramientas de venta avanzadas, personalización completa y soporte prioritario.</p>
-
-                            <!-- Precio Dinámico -->
-                            <div class="my-6">
-                                <!-- Monthly Price -->
-                                <div x-show="billingPeriod === 'monthly'" x-transition class="space-y-3">
-                                    <div class="flex items-baseline justify-between">
-                                        <div>
-                                            <div class="text-3xl font-black text-white flex items-baseline gap-1">
-                                                $24.99 <span class="text-[10px] font-bold text-purple-300">/ mes</span>
-                                            </div>
-                                            <span x-show="exchangeRate"
-                                                class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
-                                                <span x-text="(24.99 * exchangeRate).toFixed(2)"></span> Bs. <span
-                                                    class="text-[9px] text-slate-500">/ mes</span>
-                                            </span>
-                                        </div>
-                                        <span class="text-[9px] font-black uppercase bg-purple-500/15 text-purple-300 border border-purple-500/25 px-2 py-1 rounded-md shrink-0 animate-pulse">
-                                            25% Dto. Anual
-                                        </span>
-                                    </div>
-                                    
-                                    <div @click="billingPeriod = 'yearly'" 
-                                        class="group/save bg-[#160d27] hover:bg-[#20133a] border border-purple-500/35 rounded-2xl p-3 cursor-pointer transition-all duration-300 hover:scale-[1.02] shadow-[0_4px_20px_rgba(168,85,247,0.15)] flex items-center justify-between gap-3">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-7 h-7 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-xs text-purple-300 group-hover/save:scale-110 transition-transform">
-                                                ⚡
-                                            </div>
-                                            <div class="text-left">
-                                                <p class="text-[10px] font-black text-purple-300 uppercase tracking-wider leading-none">Paga Anual y Ahorra 25%</p>
-                                                <p class="text-[9px] text-slate-400 mt-1">Baja a <strong class="text-white">$18.74/mes</strong> ($224.90/año)</p>
-                                            </div>
-                                        </div>
-                                        <i class="fas fa-chevron-right text-[10px] text-purple-400 group-hover/save:translate-x-0.5 transition-transform"></i>
-                                    </div>
-                                </div>
-                                <!-- Yearly Price -->
-                                <div x-show="billingPeriod === 'yearly'" x-transition class="space-y-3">
-                                    <div class="flex items-baseline justify-between">
-                                        <div>
-                                            <div class="text-3xl font-black text-white flex items-baseline gap-1.5 flex-wrap">
-                                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">$18.74</span>
-                                                <span class="text-xs line-through text-slate-500 font-bold">$24.99</span>
-                                                <span class="text-[10px] font-bold text-cyan-400">/ mes</span>
-                                            </div>
-                                            <span x-show="exchangeRate"
-                                                class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
-                                                <span x-text="(18.74 * exchangeRate).toFixed(2)"></span> Bs. <span
-                                                    class="text-[9px] text-slate-500">/ mes</span>
-                                            </span>
-                                        </div>
-                                        <span class="text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 px-2 py-1 rounded-md shrink-0">
-                                            ¡Ahorrando 25%!
-                                        </span>
-                                    </div>
-                                    
-                                    <div class="bg-emerald-500/5 border border-emerald-500/30 rounded-2xl p-3 shadow-[0_4px_20px_rgba(16,185,129,0.08)] flex items-center gap-2.5">
-                                        <div class="w-7 h-7 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-xs text-emerald-400">
-                                            🔥
-                                        </div>
-                                        <div class="text-left">
-                                            <p class="text-[10px] font-black text-emerald-400 uppercase tracking-wider leading-none">Ahorras $75.00 al Año 🎉</p>
-                                            <p class="text-[9px] text-slate-350 mt-1">Facturado anualmente ($224.90/año<span x-show="exchangeRate" class="text-emerald-400/90"> / <span x-text="(224.90 * exchangeRate).toFixed(2)"></span> Bs.</span>)</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Beneficios -->
-                            <ul class="space-y-3.5 text-[11px] text-slate-200 border-t border-purple-500/20 pt-5">
-                                <li class="flex items-start gap-2.5">
-                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M20 6L9 17l-5-5" />
-                                    </svg>
-                                    <span>Todo lo incluido en el Plan Standard.</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M20 6L9 17l-5-5" />
-                                    </svg>
-                                    <span><strong>Insignia VIP Corona Premium</strong> en tienda.</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M20 6L9 17l-5-5" />
-                                    </svg>
-                                    <span><strong>Métodos de Pago Inteligentes</strong> (Pago Móvil / Zelle).</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <svg class="text-purple-400 shrink-0 mt-0.5 w-3.5 h-3.5" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M20 6L9 17l-5-5" />
-                                    </svg>
-                                    <span><strong>Soporte VIP corporativo 24/7</strong> dedicado.</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- CTA -->
-                        <div class="mt-8 flex flex-col gap-2.5 relative z-10">
-                            <a href="/register"
-                                class="block w-full text-center bg-gradient-to-r from-purple-500 via-fuchsia-500 to-cyan-400 hover:from-purple-400 hover:via-fuchsia-400 hover:to-cyan-300 text-white font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-                                Comenzar Premium (7 Días Gratis)
-                            </a>
-                            <button @click="selectedPlan = 'premium'; openModal = true"
-                                class="mt-1 text-center text-cyan-400 hover:text-cyan-300 font-bold text-[9px] uppercase tracking-wide flex items-center justify-center gap-1 transition-colors focus:outline-none">
-                                Detalles Técnicos <i class="fas fa-info-circle"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PLAN 4: Plan VIP Dorado -->
-                <div id="plan-vip"
-                    class="relative rounded-3xl p-[2px] bg-gradient-to-b from-yellow-400 via-amber-400 to-orange-500 shadow-[0_0_30px_rgba(245,158,11,0.3)] transition-transform duration-300 hover:-translate-y-2 flex flex-col premium-border-glow">
-                    <div
-                        class="bg-[#1b1409] rounded-[1.4rem] p-6 flex flex-col justify-between h-full relative overflow-hidden flex-grow border border-yellow-500/10">
-                        <div
-                            class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,223,0,0.2),_transparent_60%)]">
-                        </div>
-                        
-                        <!-- Corona VIP en la esquina superior derecha dentro de la card -->
-                        <div class="absolute top-5 right-5 z-20 pointer-events-none float-crown-animation flex items-center justify-center">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-b from-yellow-400 to-amber-500 border border-yellow-300 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.5)]">
-                                <i class="fas fa-crown text-base text-slate-950"></i>
-                            </div>
-                        </div>
-
-                        <div class="relative z-10">
-                            <h3 class="text-lg font-black text-white uppercase tracking-wider">Plan <span
-                                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-200">VIP</span>
-                            </h3>
-                            <div class="mt-3 flex flex-wrap gap-2 items-center">
-                                <div
-                                    class="inline-flex items-center gap-2 rounded-full border border-yellow-500/20 bg-yellow-500/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-amber-100 shadow-[0_0_15px_rgba(245,158,11,0.12)] self-start w-fit animate-pulse">
-                                    <span class="text-[11px]">🏦</span>
-                                    <span>Tasa BCV</span>
-                                </div>
-                            </div>
-
-                            <p class="text-[11px] text-slate-200 mt-3 leading-relaxed">Experiencia dorada con corona
-                                VIP, visibilidad premium y diseño de marca exclusivo.</p>
-
-                            <!-- Precio Dinámico -->
-                            <div class="my-6">
-                                <!-- Monthly Price -->
-                                <div x-show="billingPeriod === 'monthly'" x-transition class="space-y-3">
-                                    <div class="flex items-baseline justify-between">
-                                        <div>
-                                            <div class="text-3xl font-black text-white flex items-baseline gap-1">
-                                                $49.99 <span class="text-[10px] font-bold text-amber-200">/ mes</span>
-                                            </div>
-                                            <span x-show="exchangeRate"
-                                                class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
-                                                <span x-text="(49.99 * exchangeRate).toFixed(2)"></span> Bs. <span
-                                                    class="text-[9px] text-slate-500">/ mes</span>
-                                            </span>
-                                        </div>
-                                        <span class="text-[9px] font-black uppercase bg-yellow-500/15 text-yellow-300 border border-yellow-500/25 px-2 py-1 rounded-md shrink-0 animate-bounce">
-                                            45% Dto. Anual
-                                        </span>
-                                    </div>
-                                    
-                                    <div @click="billingPeriod = 'yearly'" 
-                                        class="group/save bg-[#261b09] hover:bg-[#34250c] border border-yellow-500/35 rounded-2xl p-3 cursor-pointer transition-all duration-300 hover:scale-[1.02] shadow-[0_4px_20px_rgba(245,158,11,0.15)] flex items-center justify-between gap-3">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-7 h-7 rounded-xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-xs text-yellow-300 group-hover/save:scale-110 transition-transform">
-                                                ⚡
-                                            </div>
-                                            <div class="text-left">
-                                                <p class="text-[10px] font-black text-yellow-300 uppercase tracking-wider leading-none">Paga Anual y Ahorra 45%</p>
-                                                <p class="text-[9px] text-slate-400 mt-1">Baja a <strong class="text-white">$27.49/mes</strong> ($329.90/año)</p>
-                                            </div>
-                                        </div>
-                                        <i class="fas fa-chevron-right text-[10px] text-yellow-400 group-hover/save:translate-x-0.5 transition-transform"></i>
-                                    </div>
-                                    <span class="text-[10px] text-amber-100/70 font-semibold block mt-1 font-semibold leading-relaxed">Soporte preferente y branding dorado.</span>
-                                </div>
-                                <!-- Yearly Price -->
-                                <div x-show="billingPeriod === 'yearly'" x-transition class="space-y-3">
-                                    <div class="flex items-baseline justify-between">
-                                        <div>
-                                            <div class="text-3xl font-black text-white flex items-baseline gap-1.5 flex-wrap">
-                                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-200">$27.49</span>
-                                                <span class="text-xs line-through text-slate-500 font-bold">$49.99</span>
-                                                <span class="text-[10px] font-bold text-yellow-300">/ mes</span>
-                                            </div>
-                                            <span x-show="exchangeRate"
-                                                class="text-[11px] text-emerald-400 font-bold block mt-0.5" x-transition>
-                                                <span x-text="(27.49 * exchangeRate).toFixed(2)"></span> Bs. <span
-                                                    class="text-[9px] text-slate-500">/ mes</span>
-                                            </span>
-                                        </div>
-                                        <span class="text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 px-2 py-1 rounded-md shrink-0">
-                                            ¡Ahorrando 45%!
-                                        </span>
-                                    </div>
-                                    
-                                    <div class="bg-emerald-500/5 border border-emerald-500/30 rounded-2xl p-3 shadow-[0_4px_20px_rgba(16,185,129,0.08)] flex items-center gap-2.5">
-                                        <div class="w-7 h-7 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-xs text-emerald-400">
-                                            🔥
-                                        </div>
-                                        <div class="text-left">
-                                            <p class="text-[10px] font-black text-emerald-400 uppercase tracking-wider leading-none">Ahorras $270.00 al Año 🎉</p>
-                                            <p class="text-[9px] text-slate-350 mt-1">Facturado anualmente ($329.90/año<span x-show="exchangeRate" class="text-emerald-400/90"> / <span x-text="(329.90 * exchangeRate).toFixed(2)"></span> Bs.</span>)</p>
-                                        </div>
-                                    </div>
-                                    <span class="text-[10px] text-amber-100/70 font-semibold block mt-1 font-semibold leading-relaxed">Soporte preferente y branding dorado.</span>
-                                </div>
-                            </div>
-
-                            <ul class="space-y-3 text-[11px] text-slate-200 border-t border-yellow-500/10 pt-5">
-                                <li class="flex items-start gap-2.5">
-                                    <span
-                                        class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/10 text-yellow-300">
-                                        <i class="fas fa-crown text-[10px]"></i>
-                                    </span>
-                                    <span>Insignia Corona VIP dorada en tu menú digital.</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <span
-                                        class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/10 text-yellow-300">
-                                        <i class="fas fa-star text-[10px]"></i>
-                                    </span>
-                                    <span>Marca blanca avanzada y diseño premium.</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <span
-                                        class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/10 text-yellow-300">
-                                        <i class="fas fa-headset text-[10px]"></i>
-                                    </span>
-                                    <span>Soporte VIP prioritario 24/7.</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <span
-                                        class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/10 text-yellow-300">
-                                        <i class="fas fa-mobile-screen-button text-[10px]"></i>
-                                    </span>
-                                    <span>Integraciones especiales y ajustes rápidos.</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="mt-8 relative z-10">
-                            <a href="https://wa.me/584121305420?text=Hola,%20quiero%20el%20Plan%20VIP%20de%20WIStore"
-                                target="_blank"
-                                class="block w-full text-center bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-300 hover:to-orange-300 text-slate-950 font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-[0_0_20px_rgba(245,158,11,0.3)]">
-                                Solicitar Plan VIP
-                            </a>
-                            <button @click="selectedPlan = 'vip'; openModal = true"
-                                class="mt-3 w-full text-center text-yellow-100 hover:text-white font-bold text-[9px] uppercase tracking-wide flex items-center justify-center gap-1 transition-colors focus:outline-none">
-                                Detalles Técnicos <i class="fas fa-info-circle"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- PLAN 4: Plan Custom / Personalizado -->
                 <div id="plan-custom"
@@ -1382,6 +910,8 @@
                         class="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-rose-500/50 hover:bg-rose-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors focus:outline-none z-20">
                         <i class="fas fa-times text-sm"></i>
                     </button>
+                    <p class="absolute top-7 left-6 md:left-10 text-[10px] font-black uppercase tracking-widest text-purple-300/70 z-20 pointer-events-none"
+                        x-show="selectedPlan">Detalle del plan</p>
 
                     <!-- CONTENIDO PRUEBA GRATIS -->
                     <div x-show="selectedPlan === 'free_trial'" class="p-6 md:p-10 space-y-6">
@@ -1445,15 +975,14 @@
                     <div x-show="selectedPlan === 'standard'" class="p-6 md:p-10 space-y-6">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-12 h-12 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+                                class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-300/90">
                                 <i class="fas fa-award text-xl"></i>
                             </div>
                             <div>
                                 <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">Standard</span>
+                                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Standard</span>
                                 </h3>
-                                <p class="text-xs text-sky-400 font-bold uppercase tracking-wider">Plan Emprendedor •
-                                    $14.99/mes o $11.99/mes anual</p>
+                                <p class="text-xs text-purple-300/80 font-bold uppercase tracking-wider">Plan Emprendedor · <span class="text-cyan-300/90">Muy pronto</span></p>
                             </div>
                         </div>
 
@@ -1468,44 +997,40 @@
                                 plan?</h4>
                             <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Productos y categorías <strong>ilimitados</strong></span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Pedidos estructurados directos a WhatsApp o Telegram</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Código QR dinámico autogenerado</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Soporte prioritario por WhatsApp</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Personalización completa de colores y logos</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-sky-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Panel administrativo básico de órdenes</span>
                                 </li>
                             </ul>
                         </div>
 
                         <div
-                            class="bg-[#0c152b] border border-sky-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            class="bg-white/[0.03] border border-purple-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-sky-300 font-semibold"
-                                    x-text="billingPeriod === 'yearly' ? 'Frecuencia de pago anual (Ahorra 20%)' : 'Frecuencia de pago mensual'">
-                                </p>
-                                <p class="text-lg font-black text-white"
-                                    x-text="billingPeriod === 'yearly' ? '$143.90 USD / año ($11.99/mes)' : '$14.99 USD / mes'">
-                                </p>
+                                <p class="text-xs text-purple-300/80 font-semibold">Precio</p>
+                                <p class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Muy pronto</p>
                             </div>
                             <a href="/register"
-                                class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                class="landing-plan-btn text-white font-black px-6 py-3 rounded-xl text-xs transition-all">
                                 Adquirir Standard
                             </a>
                         </div>
@@ -1522,8 +1047,7 @@
                                 <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span
                                         class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Premium</span>
                                 </h3>
-                                <p class="text-xs text-purple-400 font-bold uppercase tracking-wider">Plan VIP •
-                                    $24.99/mes o $14.99/mes anual</p>
+                                <p class="text-xs text-purple-400 font-bold uppercase tracking-wider">Plan avanzado · <span class="text-cyan-300/90">Muy pronto</span></p>
                             </div>
                         </div>
 
@@ -1568,15 +1092,11 @@
                         <div
                             class="bg-purple-900/15 border border-purple-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-purple-300 font-semibold"
-                                    x-text="billingPeriod === 'yearly' ? 'Frecuencia de pago anual (Ahorra 40%)' : 'Frecuencia de pago mensual'">
-                                </p>
-                                <p class="text-lg font-black text-white"
-                                    x-text="billingPeriod === 'yearly' ? '$179.88 USD / año ($14.99/mes)' : '$24.99 USD / mes'">
-                                </p>
+                                <p class="text-xs text-purple-300 font-semibold">Precio</p>
+                                <p class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Muy pronto</p>
                             </div>
                             <a href="/register"
-                                class="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                class="landing-plan-btn text-white font-black px-6 py-3 rounded-xl text-xs transition-all">
                                 Adquirir Premium
                             </a>
                         </div>
@@ -1586,15 +1106,14 @@
                     <div x-show="selectedPlan === 'vip'" class="p-6 md:p-10 space-y-6">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-12 h-12 rounded-2xl bg-yellow-400/10 border border-yellow-500/20 flex items-center justify-center text-yellow-300">
+                                class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-300/80">
                                 <i class="fas fa-crown text-xl"></i>
                             </div>
                             <div>
                                 <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-200">VIP</span>
+                                        class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200/90 to-purple-300">VIP</span>
                                 </h3>
-                                <p class="text-xs text-amber-300 font-bold uppercase tracking-wider">Dorado, premium y
-                                    con corona exclusiva</p>
+                                <p class="text-xs text-amber-200/80 font-bold uppercase tracking-wider">Experiencia exclusiva · <span class="text-amber-100">Muy pronto</span></p>
                             </div>
                         </div>
 
@@ -1608,34 +1127,34 @@
                                 VIP</h4>
                             <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-amber-300 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Insignia Corona VIP dorada en tienda</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-amber-300 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Marca blanca premium y diseño dorado</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-amber-300 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Soporte VIP prioritario 24/7</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-amber-300 mt-0.5"></i>
+                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
                                     <span>Integración con soluciones a medida</span>
                                 </li>
                             </ul>
                         </div>
 
                         <div
-                            class="bg-[#1f160a] border border-yellow-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            class="bg-gradient-to-br from-amber-500/10 via-purple-500/8 to-transparent border border-amber-400/25 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-amber-200 font-semibold">Consulta la opción VIP</p>
-                                <p class="text-lg font-black text-white">Precio a convenir</p>
+                                <p class="text-xs text-amber-200/80 font-semibold">Precio</p>
+                                <p class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-fuchsia-200 to-purple-200">Muy pronto</p>
                             </div>
                             <a href="https://wa.me/584121305420?text=Hola,%20quiero%20el%20Plan%20VIP%20de%20WIStore"
                                 target="_blank"
-                                class="bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
-                                Cotizar VIP
+                                class="landing-plan-btn landing-plan-btn--vip text-white font-black px-6 py-3 rounded-xl text-xs transition-all">
+                                Reservar interés VIP
                             </a>
                         </div>
                     </div>
@@ -1990,8 +1509,8 @@
                     <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Contacto Directo</h4>
                     <ul class="space-y-3 text-xs text-slate-400">
                         <li class="flex items-center gap-2.5">
-                            <i class="fas fa-envelope text-cyan-400 w-4"></i>
-                            <span>(Próximamente)</span>
+                            <i class="fas fa-envelope text-cyan-400 w-4 shrink-0"></i>
+                            @include('partials.global.support-email', ['class' => 'text-xs text-slate-400 hover:text-cyan-300 transition-colors break-all', 'icon' => false])
                         </li>
                         <li class="flex items-center gap-2.5">
                             <i class="fas fa-phone-alt text-purple-400 w-4"></i>
@@ -2009,10 +1528,10 @@
             <div
                 class="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
                 <p>© 2026 WIStore. Todos los derechos reservados.</p>
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas
-                        y
-                        Privacidad</a>
+                <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+                    <a href="mailto:{{ $wistoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wistoreSupportEmail }}</a>
+                    <span class="hidden sm:inline">•</span>
+                    <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
                     <span>•</span>
                     <a href="{{ route('contacto') }}" class="hover:text-white transition-colors">Contacto</a>
                 </div>

@@ -263,7 +263,9 @@
     <footer class="w-full py-6 text-xs text-slate-500 relative z-10 border-t border-white/5 bg-transparent">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p>© 2026 WIStore. Todos los derechos reservados.</p>
-            <div class="flex items-center gap-6">
+            <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+                <a href="mailto:{{ $wistoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wistoreSupportEmail }}</a>
+                <span class="hidden sm:inline">•</span>
                 <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
                 <span>•</span>
                 <a href="{{ route('contacto') }}" class="hover:text-white transition-colors">Contacto</a>

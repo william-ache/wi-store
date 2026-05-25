@@ -234,6 +234,10 @@
 
     <!-- Footer Sidebar -->
     <div class="p-4 border-t border-slate-800/60 space-y-2">
+        <a href="mailto:{{ $wistoreSupportEmail }}" class="w-full text-slate-500 hover:text-cyan-300 font-semibold py-1.5 text-[10px] flex items-center justify-center gap-1.5 transition-colors break-all">
+            <i class="fas fa-envelope opacity-70"></i>
+            <span>{{ $wistoreSupportEmail }}</span>
+        </a>
         <a href="/{{ config('current_shop')->slug }}" target="_blank" class="w-full bg-slate-800 hover:bg-primary hover:text-white text-slate-300 font-bold py-2.5 rounded-xl border border-slate-700/80 hover:border-primary transition text-xs flex items-center justify-center gap-2">
             Ver Menú Digital →
         </a>
