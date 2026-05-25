@@ -148,6 +148,8 @@ Route::get('/contacto', function () {
     return view('contacto');
 })->name('contacto');
 
+// Marketplace de tiendas
+Route::get('/tiendas', [App\Http\Controllers\MarketplaceController::class, 'index'])->name('tiendas.index');
 
 
 // Ruta del Acortador Dinámico Interno (Ubicado antes del slug dinámico)

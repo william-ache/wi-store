@@ -41,6 +41,11 @@
         </div>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
+            <a :href="marketplaceUrl" href="{{ route('tiendas.index') }}"
+               class="inline-flex items-center gap-2 landing-plan-btn text-white text-xs font-black px-5 py-2.5 rounded-xl shadow-lg">
+                <i class="fas fa-th-large text-[10px]"></i>
+                Ver marketplace completo
+            </a>
             <p class="text-xs text-slate-500" x-show="!isFiltering">
                 <span class="text-purple-300 font-bold">{{ $shopsCount }}</span> tiendas activas
             </p>

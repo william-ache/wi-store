@@ -26,6 +26,14 @@
             get filteredCount() {
                 return this.allShops.filter(shop => this.matchesFilter(shop.name, shop.description, shop.category)).length;
             },
+            get marketplaceUrl() {
+                const params = new URLSearchParams();
+                const q = this.searchQuery.trim();
+                if (q) params.set('q', q);
+                if (this.activeCategory !== 'Todos') params.set('categoria', this.activeCategory);
+                const qs = params.toString();
+                return @json(route('tiendas.index')) + (qs ? '?' + qs : '');
+            },
             init() {
                 const map = [
                     { id: 'explorar', el: document.getElementById('explorar') },

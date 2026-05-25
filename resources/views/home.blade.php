@@ -331,6 +331,8 @@
                 <button type="button" @click="scrollTo('explorar')"
                         :class="activeSection === 'explorar' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
                         class="landing-nav-link text-sm font-bold transition-colors">Tiendas</button>
+                <a href="{{ route('tiendas.index') }}"
+                        class="landing-nav-link text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors">Marketplace</a>
                 <button type="button" @click="scrollTo('como-funciona')"
                         :class="activeSection === 'como-funciona' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
                         class="landing-nav-link text-sm font-bold transition-colors">Cómo funciona</button>
@@ -1481,8 +1483,8 @@
                 <div class="space-y-4">
                     <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Ecosistema</h4>
                     <ul class="space-y-2.5 text-xs">
-                        <li><a href="#explorar" class="text-slate-400 hover:text-cyan-400 transition-colors">Explora
-                                Tiendas</a></li>
+                        <li><a href="{{ route('tiendas.index') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Marketplace de tiendas</a></li>
+                        <li><a href="#explorar" class="text-slate-400 hover:text-cyan-400 transition-colors">Vista previa</a></li>
                         <li><a href="#como-funciona"
                                 class="text-slate-400 hover:text-cyan-400 transition-colors">¿Cómo funciona?</a></li>
                         <li><a href="#precios" class="text-slate-400 hover:text-cyan-400 transition-colors">Planes de

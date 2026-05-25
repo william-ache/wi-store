@@ -28,6 +28,12 @@
     <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
         <div>
             <h3 class="text-lg font-black text-white leading-tight line-clamp-1">{{ $shop->name }}</h3>
+            @if (!empty($shop->zone))
+                <p class="text-[11px] text-cyan-300/80 font-semibold mt-1 flex items-center gap-1">
+                    <i class="fas fa-map-marker-alt text-[10px] opacity-70"></i>
+                    {{ $shop->zone }}
+                </p>
+            @endif
             <p class="text-xs text-slate-400 mt-2 line-clamp-2 leading-relaxed">
                 {{ $shop->description ?: 'Menú digital con pedidos por WhatsApp.' }}
             </p>

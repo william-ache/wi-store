@@ -23,9 +23,13 @@
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <button type="button" @click="scrollTo('explorar')"
+        <a href="{{ route('tiendas.index') }}"
                 class="text-left text-base font-bold text-white py-3 px-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10">
-            <i class="fas fa-store text-purple-400 mr-2"></i> Ver tiendas
+            <i class="fas fa-store text-purple-400 mr-2"></i> Marketplace
+        </a>
+        <button type="button" @click="scrollTo('explorar')"
+                class="text-left text-base font-bold text-slate-300 py-3 px-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 text-sm">
+            <i class="fas fa-eye text-slate-500 mr-2"></i> Vista previa en landing
         </button>
         <button type="button" @click="scrollTo('como-funciona')"
                 class="text-left text-base font-bold text-white py-3 px-4 rounded-xl hover:bg-white/5">
@@ -52,9 +56,9 @@
        class="pointer-events-auto flex-1 text-center bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-black py-3.5 rounded-2xl shadow-[0_8px_30px_rgba(168,85,247,0.45)] text-sm">
         Crear tienda
     </a>
-    <button type="button" @click="scrollTo('explorar')"
+    <a href="{{ route('tiendas.index') }}"
             class="pointer-events-auto shrink-0 w-14 h-14 rounded-2xl bg-slate-900/95 border border-purple-500/40 text-purple-300 flex items-center justify-center shadow-lg"
-            aria-label="Ver tiendas">
+            aria-label="Marketplace de tiendas">
         <i class="fas fa-store text-lg"></i>
-    </button>
+    </a>
 </div>
