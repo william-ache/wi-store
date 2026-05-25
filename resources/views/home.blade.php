@@ -252,32 +252,42 @@
     @include('partials.landing.ux-styles')
 </head>
 
-<body class="bg-[#070913] text-gray-100 min-h-screen pb-24 md:pb-0 selection:bg-brand-500 selection:text-white relative"
+<body class="bg-[#0e1228] text-gray-100 min-h-screen pb-24 md:pb-0 selection:bg-brand-500 selection:text-white relative"
     x-data="landingPage()" x-init="init()">
 
-    <!-- ============================================== -->
-    <!-- CAPA DE FONDO GLOBAL (Base Canvas & Neón)      -->
-    <!-- ============================================== -->
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#070913] gpu-accelerated">
+    <!-- CAPA DE FONDO GLOBAL -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#0e1228] gpu-accelerated">
 
-        <!-- 1. Destellos de Luz (Auras/Glows) -->
-        <!-- Glow Top Right (Hero Area) -->
+        <!-- Luz suave en el lado izquierdo (hero y texto) -->
         <div
-            class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-600/20 to-indigo-600/20 blur-[120px] blur-accelerated">
+            class="absolute -top-[5%] -left-[15%] w-[min(900px,85vw)] h-[min(900px,90vh)] rounded-full bg-gradient-to-br from-purple-500/25 via-fuchsia-500/15 to-cyan-500/10 blur-[100px] blur-accelerated">
+        </div>
+        <div
+            class="absolute top-[25%] -left-[8%] w-[480px] h-[480px] rounded-full bg-gradient-to-r from-fuchsia-500/18 to-purple-500/12 blur-[120px] blur-accelerated">
         </div>
 
-        <!-- Glow Middle Left (Tiendas Area) -->
+        <!-- Equilibrio derecha -->
         <div
-            class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-600/10 blur-[160px] blur-accelerated">
+            class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-l from-purple-500/18 to-cyan-500/12 blur-[120px] blur-accelerated">
         </div>
 
-        <!-- Glow Bottom Center (Precios Area) -->
+        <!-- Centro / tiendas -->
         <div
-            class="absolute -bottom-[10%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-pink-600/10 via-purple-600/10 to-transparent blur-[160px] blur-accelerated">
+            class="absolute top-[45%] left-[5%] w-[520px] h-[520px] rounded-full bg-gradient-to-r from-cyan-400/12 to-purple-500/10 blur-[140px] blur-accelerated">
         </div>
 
-        <!-- 2. Ondas Fluidas de Neón (SVG Abstract Mesh) - Atenuado para Legibilidad -->
-        <svg class="absolute inset-0 w-full h-full opacity-20 pointer-events-none z-0" preserveAspectRatio="none"
+        <!-- Precios (abajo) -->
+        <div
+            class="absolute -bottom-[10%] left-[15%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-fuchsia-500/12 via-purple-500/10 to-transparent blur-[160px] blur-accelerated">
+        </div>
+
+        <!-- Velo: un poco más claro a la izquierda -->
+        <div
+            class="absolute inset-0 bg-gradient-to-r from-[#161b33]/55 via-[#0e1228]/25 to-[#0a0f1c]/40 pointer-events-none">
+        </div>
+
+        <!-- Ondas de neón (más suaves) -->
+        <svg class="absolute inset-0 w-full h-full opacity-[0.14] pointer-events-none z-0" preserveAspectRatio="none"
             viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <!-- Gradiente Cian a Morado -->
@@ -309,7 +319,7 @@
     </div>
 
     <!-- Header -->
-    <header class="border-b border-gray-800/50 bg-[#070913]/90 backdrop-blur-lg sticky top-0 z-50">
+    <header class="border-b border-white/10 bg-[#0e1228]/75 backdrop-blur-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <a href="#inicio" @click.prevent="scrollTo('inicio')" class="flex items-center gap-2 active:scale-95 transition-transform">
                 <span class="text-xl md:text-2xl font-black tracking-tight text-white uppercase">
@@ -1356,7 +1366,7 @@
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0" @click="openModal = false"
-                    class="fixed inset-0 bg-[#070913]/90 backdrop-blur-md"></div>
+                    class="fixed inset-0 bg-[#0e1228]/85 backdrop-blur-md"></div>
 
                 <!-- Contenedor del Modal -->
                 <div x-show="openModal" x-transition:enter="transition ease-out duration-300"

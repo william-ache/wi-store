@@ -20,21 +20,21 @@
             </p>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-xl mx-auto lg:mx-0 text-left">
-                <div class="landing-benefit-card flex items-start gap-3 bg-slate-900/50 border border-white/5 rounded-2xl p-3 transition-all">
+                <div class="landing-benefit-card flex items-start gap-3 bg-white/[0.04] border border-white/10 rounded-2xl p-3 transition-all backdrop-blur-sm">
                     <span class="text-xl shrink-0">📱</span>
                     <div>
                         <p class="text-xs font-black text-white">Fácil de usar</p>
                         <p class="text-[11px] text-slate-400 mt-0.5">Como usar el celular</p>
                     </div>
                 </div>
-                <div class="landing-benefit-card flex items-start gap-3 bg-slate-900/50 border border-white/5 rounded-2xl p-3 transition-all">
+                <div class="landing-benefit-card flex items-start gap-3 bg-white/[0.04] border border-white/10 rounded-2xl p-3 transition-all backdrop-blur-sm">
                     <span class="text-xl shrink-0">💬</span>
                     <div>
                         <p class="text-xs font-black text-white">Pedidos claros</p>
                         <p class="text-[11px] text-slate-400 mt-0.5">Directo a tu chat</p>
                     </div>
                 </div>
-                <div class="landing-benefit-card flex items-start gap-3 bg-slate-900/50 border border-white/5 rounded-2xl p-3 transition-all">
+                <div class="landing-benefit-card flex items-start gap-3 bg-white/[0.04] border border-white/10 rounded-2xl p-3 transition-all backdrop-blur-sm">
                     <span class="text-xl shrink-0">🎨</span>
                     <div>
                         <p class="text-xs font-black text-white">Tu marca</p>
@@ -128,7 +128,7 @@
 
 <!-- Accesos rápidos -->
 <nav class="relative z-10 max-w-4xl mx-auto px-4 -mt-2 mb-6" aria-label="Accesos rápidos">
-    <div class="grid grid-cols-3 gap-2 md:gap-3 bg-slate-900/60 border border-white/10 rounded-2xl p-2 md:p-3 backdrop-blur-md">
+    <div class="grid grid-cols-3 gap-2 md:gap-3 bg-white/[0.05] border border-white/12 rounded-2xl p-2 md:p-3 backdrop-blur-md">
         <button type="button" @click="scrollTo('explorar')"
                 class="flex flex-col items-center gap-1 py-3 md:py-4 rounded-xl hover:bg-purple-500/15 transition-all text-center">
             <i class="fas fa-store text-purple-400 text-lg"></i>

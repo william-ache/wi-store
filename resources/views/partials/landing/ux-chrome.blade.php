@@ -1,5 +1,5 @@
 <!-- Barra de progreso al hacer scroll -->
-<div class="fixed top-0 left-0 right-0 h-1 z-[60] bg-slate-900/50 pointer-events-none">
+<div class="fixed top-0 left-0 right-0 h-1 z-[60] bg-[#0e1228]/60 pointer-events-none">
     <div id="landing-scroll-progress"
          class="landing-scroll-progress h-full w-full bg-gradient-to-r from-purple-500 via-fuchsia-500 to-cyan-400"></div>
 </div>
@@ -13,7 +13,7 @@
      x-transition:leave-start="opacity-100"
      x-transition:leave-end="opacity-0"
      class="fixed inset-0 z-[55] md:hidden">
-    <div class="absolute inset-0 bg-[#070913]/90 backdrop-blur-md" @click="isMobileMenuOpen = false"></div>
+    <div class="absolute inset-0 bg-[#0e1228]/85 backdrop-blur-md" @click="isMobileMenuOpen = false"></div>
     <nav class="absolute right-0 top-0 bottom-0 w-[min(100%,320px)] bg-slate-950 border-l border-white/10 p-6 flex flex-col gap-2 shadow-2xl">
         <div class="flex items-center justify-between mb-4">
             <span class="text-lg font-black text-white">Menú</span>
