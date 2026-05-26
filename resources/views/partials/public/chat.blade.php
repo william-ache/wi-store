@@ -1,23 +1,44 @@
 <!-- Client Support Floating Chat Widget -->
 <div x-data="publicChatWidget()"
      x-init="initWidget()"
-     class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[9999] select-none font-sans w-14 h-14"
+     class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[9999] select-none font-sans"
      x-cloak>
 
-    <!-- Un solo botón toggle -->
-    <button @click="toggleChat()"
-            class="absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none hover:scale-105 active:scale-95"
-            :class="chatOpen ? 'bg-white border border-purple-200/80 shadow-[0_8px_24px_rgba(0,0,0,0.12)]' : 'bg-gradient-to-br from-purple-600 via-fuchsia-500 to-cyan-500 border-2 border-white/90 shadow-[0_8px_28px_rgba(168,85,247,0.45)]'"
-            :aria-label="chatOpen ? 'Cerrar chat' : 'Abrir chat'">
-        <span x-show="!chatOpen" class="relative flex items-center justify-center">
-            @include('partials.public.chat-bot-face', ['size' => 'md', 'class' => 'text-white'])
-            <span class="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center pointer-events-none">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
+    <div class="relative">
+    <div class="relative w-14 h-14 shrink-0">
+        {{-- Mensaje flotante de Wibi --}}
+        <button type="button"
+                x-show="!chatOpen && teaserVisible"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                x-transition:leave-end="opacity-0 translate-y-1 scale-95"
+                @click="toggleChat()"
+                class="wi-wibi-teaser absolute bottom-[calc(100%+10px)] right-0 max-w-[min(calc(100vw-88px),200px)] z-10 cursor-pointer group/teaser focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0e1228] rounded-2xl"
+                :aria-label="'Wibi dice: ' + teaserMessages[teaserIndex] + '. Abrir chat'">
+            <span class="relative block px-3.5 py-2 rounded-2xl rounded-br-md bg-white/95 border border-purple-200/90 shadow-[0_8px_24px_rgba(88,28,135,0.22)] backdrop-blur-sm group-hover/teaser:border-purple-400/80 group-hover/teaser:shadow-[0_10px_28px_rgba(168,85,247,0.28)] transition-shadow">
+                <span class="text-[12px] font-extrabold text-slate-800 leading-snug whitespace-nowrap" x-text="teaserMessages[teaserIndex]"></span>
             </span>
-        </span>
-        <i x-show="chatOpen" x-cloak class="fa-solid fa-xmark text-purple-600 text-2xl font-bold"></i>
-    </button>
+            <span class="absolute -bottom-1.5 right-3 w-3 h-3 rotate-45 bg-white border-r border-b border-purple-200/90 group-hover/teaser:border-purple-400/80" aria-hidden="true"></span>
+        </button>
+
+        <!-- Un solo botón toggle -->
+        <button @click="toggleChat()"
+                class="absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0e1228] hover:scale-105 active:scale-95"
+                :class="chatOpen ? 'bg-white border border-purple-200/80 shadow-[0_8px_24px_rgba(0,0,0,0.12)] wi-wibi-bob-paused' : 'bg-gradient-to-br from-purple-600 via-fuchsia-500 to-cyan-500 border-2 border-white/90 shadow-[0_8px_28px_rgba(168,85,247,0.45)] wi-wibi-bob'"
+                :aria-label="chatOpen ? 'Cerrar chat' : 'Abrir chat con Wibi'">
+            <span x-show="!chatOpen" class="relative flex items-center justify-center wi-wibi-face">
+                @include('partials.public.chat-bot-face', ['size' => 'md', 'class' => 'text-white'])
+                <span class="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center pointer-events-none">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
+                </span>
+            </span>
+            <i x-show="chatOpen" x-cloak class="fa-solid fa-xmark text-purple-600 text-2xl font-bold"></i>
+        </button>
+    </div>
 
     <div x-show="chatOpen"
          x-transition:enter="transition ease-out duration-300 transform origin-bottom-right"
@@ -62,12 +83,14 @@
         <div class="shrink-0 border-b border-purple-100/70 bg-white">
             <div x-show="!hasUserMessage" x-cloak class="px-4 py-3">
                 <div class="text-[10px] uppercase font-black tracking-wider text-purple-400/90 mb-2">Preguntas rápidas</div>
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-1.5 sm:gap-2">
                     <template x-for="chip in quickChips" :key="chip.label">
                         <button type="button"
                                 @click="sendUserMessage(chip.label)"
-                                class="bg-white border border-purple-200/80 hover:border-purple-400 hover:bg-purple-50 text-slate-700 hover:text-purple-700 px-3 py-2 rounded-xl text-[11px] font-bold shadow-sm transition-all active:scale-95 text-left"
-                                x-text="chip.label"></button>
+                                class="bg-white border border-purple-200/80 hover:border-purple-400 hover:bg-purple-50 text-slate-700 hover:text-purple-700 px-2 py-2 sm:px-3 rounded-xl text-[10px] sm:text-[11px] font-bold shadow-sm transition-all active:scale-95 text-center sm:text-left leading-tight min-h-[2.75rem] sm:min-h-0">
+                            <span class="sm:hidden" x-text="chip.mobile"></span>
+                            <span class="hidden sm:inline" x-text="chip.label"></span>
+                        </button>
                     </template>
                 </div>
             </div>
@@ -136,6 +159,7 @@
             </div>
         </div>
     </div>
+    </div>
 </div>
 
 <style>
@@ -154,6 +178,55 @@
     .wi-chat-quick-scroll::-webkit-scrollbar {
         display: none;
     }
+
+    @keyframes wi-wibi-bob {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        35% { transform: translateY(-5px) rotate(-1.5deg); }
+        70% { transform: translateY(-2px) rotate(1deg); }
+    }
+
+    @keyframes wi-wibi-face-wiggle {
+        0%, 100% { transform: rotate(0deg) scale(1); }
+        25% { transform: rotate(-4deg) scale(1.02); }
+        75% { transform: rotate(4deg) scale(1.02); }
+    }
+
+    @keyframes wi-wibi-teaser-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+    }
+
+    .wi-wibi-bob {
+        animation: wi-wibi-bob 2.6s ease-in-out infinite;
+    }
+
+    .wi-wibi-bob-paused {
+        animation: none;
+    }
+
+    .wi-wibi-bob:hover {
+        animation-play-state: paused;
+    }
+
+    .wi-wibi-face {
+        animation: wi-wibi-face-wiggle 4s ease-in-out infinite;
+    }
+
+    .wi-wibi-bob:hover .wi-wibi-face {
+        animation-duration: 1.2s;
+    }
+
+    .wi-wibi-teaser {
+        animation: wi-wibi-teaser-float 3s ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .wi-wibi-bob,
+        .wi-wibi-face,
+        .wi-wibi-teaser {
+            animation: none;
+        }
+    }
 </style>
 
 <script>
@@ -164,11 +237,24 @@
             messages: [],
             isTyping: false,
             hasUserMessage: false,
+            teaserMessages: [
+                '¡Hey!',
+                '¡Hola!',
+                'Soy Wibi',
+                '¿Necesitas ayuda?',
+                '¡Aquí estoy!',
+                '¿Te ayudo?',
+                'Pregúntame algo',
+            ],
+            teaserIndex: 0,
+            teaserVisible: true,
+            teaserTimer: null,
+            teaserCycleDone: false,
             quickChips: [
-                { label: 'Planes de Precios 💎', short: 'Planes 💎' },
-                { label: 'Probar 7 Días Gratis ⚡', short: '7 días ⚡' },
-                { label: 'Métodos de Pago 💸', short: 'Pagos 💸' },
-                { label: 'Hablar con Asesor Humano 📞', short: 'Asesor 📞' },
+                { label: 'Planes de Precios 💎', mobile: 'Planes 💎', short: 'Planes' },
+                { label: 'Probar 7 Días Gratis ⚡', mobile: '7 días gratis ⚡', short: '7 días' },
+                { label: 'Métodos de Pago 💸', mobile: 'Pagos 💸', short: 'Pagos' },
+                { label: 'Hablar con Asesor Humano 📞', mobile: 'Asesor 📞', short: 'Asesor' },
             ],
 
             initWidget() {
@@ -182,12 +268,60 @@
                         text: '¿Qué te gustaría saber? Elige una pregunta rápida arriba o escríbeme:'
                     }
                 ];
+                this.startTeaserRotation();
+            },
+
+            startTeaserRotation() {
+                if (this.teaserTimer) {
+                    clearInterval(this.teaserTimer);
+                    this.teaserTimer = null;
+                }
+                if (this.teaserCycleDone) {
+                    return;
+                }
+                const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const intervalMs = reducedMotion ? 6000 : 3200;
+                const fadeMs = reducedMotion ? 0 : 260;
+                this.teaserTimer = setInterval(() => {
+                    if (this.chatOpen || this.teaserCycleDone) {
+                        return;
+                    }
+                    if (this.teaserIndex >= this.teaserMessages.length - 1) {
+                        clearInterval(this.teaserTimer);
+                        this.teaserTimer = null;
+                        this.teaserCycleDone = true;
+                        return;
+                    }
+                    this.teaserVisible = false;
+                    setTimeout(() => {
+                        if (this.chatOpen || this.teaserCycleDone) {
+                            return;
+                        }
+                        this.teaserIndex += 1;
+                        this.teaserVisible = true;
+                        if (this.teaserIndex >= this.teaserMessages.length - 1) {
+                            clearInterval(this.teaserTimer);
+                            this.teaserTimer = null;
+                            this.teaserCycleDone = true;
+                        }
+                    }, fadeMs);
+                }, intervalMs);
+            },
+
+            destroy() {
+                if (this.teaserTimer) {
+                    clearInterval(this.teaserTimer);
+                    this.teaserTimer = null;
+                }
             },
 
             toggleChat() {
                 this.chatOpen = !this.chatOpen;
                 if (this.chatOpen) {
+                    this.teaserVisible = false;
                     this.$nextTick(() => this.scrollToBottom());
+                } else {
+                    this.teaserVisible = true;
                 }
             },
 

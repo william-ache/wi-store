@@ -56,10 +56,17 @@
         </div>
 
         <div class="mt-4">
-            <a href="/{{ $shop->slug }}"
-                class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
-                Entrar a la Tienda
-            </a>
+            @if ($ariaHidden)
+                <span
+                    class="block w-full text-center bg-slate-800/50 text-white font-bold py-2.5 rounded-xl text-[11px] shadow-sm pointer-events-none select-none">
+                    Entrar a la Tienda
+                </span>
+            @else
+                <a href="/{{ $shop->slug }}"
+                    class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
+                    Entrar a la Tienda
+                </a>
+            @endif
         </div>
     </div>
 </div>
