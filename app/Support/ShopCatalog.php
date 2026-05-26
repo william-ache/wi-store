@@ -76,6 +76,24 @@ class ShopCatalog
         return Shop::query()->where('is_active', true)->latest();
     }
 
+    /** Tiendas premium activas con mejor promedio y más reseñas aprobadas (máx. 10). */
+    public static function featuredPremiumCarousel(int $limit = 10): Collection
+    {
+        return self::activeShopsQuery()
+            ->where('plan', 'premium')
+            ->where(function (Builder $query) {
+                $query->whereNull('plan_expires_at')
+                    ->orWhereDate('plan_expires_at', '>=', now());
+            })
+            ->withAvg(['reviews' => fn (Builder $q) => $q->where('is_approved', true)], 'rating')
+            ->withCount(['reviews as approved_reviews_count' => fn (Builder $q) => $q->where('is_approved', true)])
+            ->orderByRaw('COALESCE(reviews_avg_rating, 0) DESC')
+            ->orderByDesc('approved_reviews_count')
+            ->orderBy('name')
+            ->limit($limit)
+            ->get();
+    }
+
     public static function enrich(Shop $shop): Shop
     {
         $categoryKey = $shop->shop_category ?: 'otros';
@@ -83,6 +101,8 @@ class ShopCatalog
         $shop->zone = self::extractZone($shop->address);
         $shop->has_cashea = $shop->hasCasheaAvailable();
         $shop->has_krece = $shop->hasKreceAvailable();
+        $shop->display_rating = round((float) ($shop->reviews_avg_rating ?? 0), 1);
+        $shop->display_reviews_count = (int) ($shop->approved_reviews_count ?? 0);
 
         return $shop;
     }

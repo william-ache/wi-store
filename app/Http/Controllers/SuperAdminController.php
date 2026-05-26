@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use App\Models\User;
+use App\Support\PlanPricing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -74,12 +75,12 @@ class SuperAdminController extends Controller
         
         $lastPaymentAmount = $request->last_payment_amount;
         if (is_null($lastPaymentAmount) || $lastPaymentAmount === '') {
-            if ($request->plan === 'premium') {
-                $lastPaymentAmount = $request->billing_cycle === 'anual' ? 209.92 : 24.99;
-            } elseif ($request->plan === 'standard') {
-                $lastPaymentAmount = $request->billing_cycle === 'anual' ? 143.90 : 14.99;
+            if (in_array($request->plan, ['standard', 'premium'], true)) {
+                $lastPaymentAmount = PlanPricing::amount(
+                    $request->plan,
+                    $request->billing_cycle === 'anual' ? 'anual' : 'mensual'
+                );
             } else {
-                // free_trial
                 $lastPaymentAmount = 0.00;
             }
         }
@@ -289,12 +290,9 @@ class SuperAdminController extends Controller
         $newExpiresAt = now()->addDays($days)->format('Y-m-d');
         
         // Determine billing amounts
-        $amount = 0.00;
-        if ($plan === 'premium') {
-            $amount = ($cycle === 'anual') ? 224.90 : 24.99;
-        } elseif ($plan === 'standard') {
-            $amount = ($cycle === 'anual') ? 152.90 : 14.99;
-        }
+        $amount = in_array($plan, ['standard', 'premium'], true)
+            ? PlanPricing::amount($plan, $cycle === 'anual' ? 'anual' : 'mensual')
+            : 0.00;
         
         // Update subscription data
         $shop->update([

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $company['name'] }} - Menú Digital</title>
+    @include('partials.seo.head', ['seo' => $seo])
 
     {{-- PIXELS Y TRACKING --}}
     @if (!empty($company['facebook_pixel_id']))
@@ -598,6 +598,7 @@
                 class="w-20 h-20 rounded-full {{ $isPremiumPlan ? 'premium-border-glow border-2 border-yellow-400 shadow-[0_0_15px_rgba(251,191,36,0.5)] bg-white' : 'bg-slate-200 text-slate-400 shadow-sm' }} overflow-hidden flex items-center justify-center text-xs font-bold relative z-10">
                 @if (!empty($company['logo']))
                     <img src="{{ $company['logo'] }}" alt="Logo" class="w-full h-full object-cover"
+                        loading="eager" fetchpriority="high" decoding="async"
                         id="loader-logo-img"
                         onerror="this.style.display='none'; document.getElementById('loader-logo-fallback').classList.remove('hidden');">
                     <div id="loader-logo-fallback"
@@ -621,7 +622,7 @@
         <div class="relative h-56 md:h-80 w-full bg-slate-900 overflow-hidden">
             <img src="{{ !empty($company['cover']) ? $company['cover'] : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200' }}"
                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200';"
-                alt="Portada" class="w-full h-full object-cover opacity-70">
+                alt="Portada" class="w-full h-full object-cover opacity-70" loading="eager" fetchpriority="high" decoding="async">
             <!-- Oscurecimiento sutil general -->
             <div class="absolute inset-0 bg-black/10"></div>
             <!-- Desvanecimiento (Fade) elegante hacia el color de fondo de la aplicación -->
@@ -1281,9 +1282,12 @@
                                                 @php $badgeConfig = $getBadgeConfig($product); @endphp
                                                 <div class="h-40 w-full bg-slate-50 shrink-0 relative overflow-hidden">
                                                     <img @click="openProductDetails(productData)"
-                                                        :src="getProductFeatures(productData).images[0] ||
-                                                            '{{ asset('img1.jpg') }}'"
+                                                        :src="getProductImageSrc(productData)"
+                                                        :width="productData.image_width || 400"
+                                                        :height="productData.image_height || 400"
                                                         alt="{{ $product->name }}"
+                                                        loading="lazy"
+                                                        decoding="async"
                                                         class="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-300 select-none">
 
                                                     {{-- ── BADGE CHIP (badgeConfig from features.badge) ── --}}
@@ -1855,9 +1859,8 @@
                         class="grid grid-cols-[auto_1fr] gap-3 items-start bg-white border border-slate-100 p-3 rounded-2xl shadow-sm hover:shadow-md transition duration-200">
                         <div
                             class="w-14 h-14 rounded-3xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
-                            <img :src="item.image_path ? (item.image_path.startsWith('http') ? item.image_path : '/storage/' +
-                                item.image_path) : '{{ asset('img1.jpg') }}'"
-                                alt="Imagen del producto" class="w-full h-full object-cover">
+                            <img :src="item.image_path || '{{ asset('img1.jpg') }}'"
+                                alt="Imagen del producto" class="w-full h-full object-cover" loading="lazy" decoding="async">
                         </div>
                         <div class="min-w-0 space-y-2">
                             <div class="flex items-start justify-between gap-3">
@@ -3093,9 +3096,8 @@
                     </template>
                     <div x-show="!modalProductFeatures.images || modalProductFeatures.images.length === 0"
                         class="absolute inset-0 flex items-center justify-center">
-                        <img :src="modalProduct ? (modalProduct.image_path ? (modalProduct.image_path.startsWith('http') ?
-                            modalProduct.image_path : '/storage/' + modalProduct.image_path) : '') : ''"
-                            class="w-full h-full object-cover" alt="Default Product Image">
+                        <img :src="modalProduct ? getProductImageSrc(modalProduct) : ''"
+                            class="w-full h-full object-cover" alt="Default Product Image" loading="lazy" decoding="async">
                     </div>
                 </div>
                 <!-- Left/Right Controls -->
@@ -3937,6 +3939,20 @@
                     }
                 },
 
+                resolveStorageImage(path) {
+                    if (!path) return null;
+                    if (path.startsWith('http') || path.startsWith('/')) return path;
+                    return '/storage/' + path;
+                },
+
+                getProductImageSrc(product) {
+                    const defaultImage = '{{ asset('img1.jpg') }}';
+                    if (!product) return defaultImage;
+                    if (product.image_webp_url) return product.image_webp_url;
+                    if (product.image_url) return product.image_url;
+                    return this.resolveStorageImage(product.image_path) || defaultImage;
+                },
+
                 getProductFeatures(product) {
                     if (!product) return {
                         images: [],
@@ -3953,10 +3969,12 @@
                         const rawUnits = product.features.units || product.features.medidas || [];
                         const rawFlavors = product.features.flavors || product.features.sabores || [];
 
-                        let images = Array.isArray(rawImages) && rawImages.length ? rawImages : [product.image_path];
+                        let images = Array.isArray(rawImages) && rawImages.length
+                            ? rawImages
+                            : [product.image_path];
                         images = images.map(img => {
-                            if (!img) return defaultImage;
-                            return img.startsWith('http') ? img : '/storage/' + img;
+                            if (!img) return this.getProductImageSrc(product);
+                            return this.resolveStorageImage(img) || defaultImage;
                         });
 
                         const colors = Array.isArray(rawColors) ? rawColors.map(color => ({
@@ -3980,10 +3998,7 @@
                     }
 
                     const name = (product.name || '').toLowerCase();
-                    const image = product.image_path ? (product.image_path.startsWith('http') ? product.image_path :
-                        '/storage/' + product.image_path) : defaultImage;
-
-                    let images = [image];
+                    let images = [this.getProductImageSrc(product)];
                     let colors = [];
                     let sizes = [];
                     let units = [];
@@ -4085,7 +4100,7 @@
                             selectedSize: size,
                             selectedUnit: unit,
                             selectedFlavor: flavor,
-                            image_path: product.image_path
+                            image_path: this.getProductImageSrc(product)
                         });
                     }
                     this.playAddSound();
@@ -4121,7 +4136,7 @@
                             selectedSize: size,
                             selectedUnit: unit,
                             selectedFlavor: flavor,
-                            image_path: product.image_path
+                            image_path: this.getProductImageSrc(product)
                         });
                     }
 
@@ -4983,7 +4998,7 @@
                             <template x-if="ann.image_path">
                                 <div
                                     class="w-full h-40 rounded-2xl overflow-hidden shadow-inner border border-slate-100 bg-slate-50 shrink-0">
-                                    <img :src="ann.image_path" class="w-full h-full object-cover" alt="Anuncio">
+                                    <img :src="ann.image_path" class="w-full h-full object-cover" alt="Anuncio" loading="lazy" decoding="async">
                                 </div>
                             </template>
 

@@ -49,16 +49,3 @@
         </a>
     </nav>
 </div>
-
-<!-- Acceso rápido flotante (móvil) -->
-<div class="fixed bottom-5 left-4 right-4 z-40 md:hidden flex gap-2 pointer-events-none">
-    <a href="/register"
-       class="pointer-events-auto flex-1 text-center bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-black py-3.5 rounded-2xl shadow-[0_8px_30px_rgba(168,85,247,0.45)] text-sm">
-        Crear tienda
-    </a>
-    <a href="{{ route('tiendas.index') }}"
-            class="pointer-events-auto shrink-0 w-14 h-14 rounded-2xl bg-slate-900/95 border border-purple-500/40 text-purple-300 flex items-center justify-center shadow-lg"
-            aria-label="Marketplace de tiendas">
-        <i class="fas fa-store text-lg"></i>
-    </a>
-</div>

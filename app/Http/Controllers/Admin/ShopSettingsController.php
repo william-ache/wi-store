@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
+use App\Services\ImageOptimizer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ShopSettingsController extends Controller
 {
+    public function __construct(
+        private readonly ImageOptimizer $imageOptimizer,
+    ) {}
     protected function currentShop(): Shop
     {
         $shop = config('current_shop') ?? Auth::user()?->shop;
@@ -147,20 +151,18 @@ class ShopSettingsController extends Controller
             $data['work_hours'] = null;
         }
 
-        // Subida segura del Logo (elimina el archivo previo si existe)
         if ($request->hasFile('logo')) {
             if ($shop->logo_path && !filter_var($shop->logo_path, FILTER_VALIDATE_URL)) {
-                Storage::disk('public')->delete($shop->logo_path);
+                $this->imageOptimizer->deleteStoredImages($shop->logo_path, $shop->logo_webp_path);
             }
-            $data['logo_path'] = $request->file('logo')->store('logos', 'public');
+            $data = array_merge($data, $this->imageOptimizer->storeLogoImage($request->file('logo')));
         }
 
-        // Subida segura de la Portada/Cover (elimina el archivo previo si existe)
         if ($request->hasFile('cover')) {
             if ($shop->cover_path && !filter_var($shop->cover_path, FILTER_VALIDATE_URL)) {
-                Storage::disk('public')->delete($shop->cover_path);
+                $this->imageOptimizer->deleteStoredImages($shop->cover_path, $shop->cover_webp_path);
             }
-            $data['cover_path'] = $request->file('cover')->store('covers', 'public');
+            $data = array_merge($data, $this->imageOptimizer->storeCoverImage($request->file('cover')));
         }
 
         if ($request->hasFile('cashea_qr')) {

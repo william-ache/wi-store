@@ -58,6 +58,32 @@
             </div>
         </div>
 
+        <!-- Preguntas rápidas (siempre arriba; compactas tras el primer mensaje) -->
+        <div class="shrink-0 border-b border-purple-100/70 bg-white">
+            <div x-show="!hasUserMessage" x-cloak class="px-4 py-3">
+                <div class="text-[10px] uppercase font-black tracking-wider text-purple-400/90 mb-2">Preguntas rápidas</div>
+                <div class="grid grid-cols-2 gap-2">
+                    <template x-for="chip in quickChips" :key="chip.label">
+                        <button type="button"
+                                @click="sendUserMessage(chip.label)"
+                                class="bg-white border border-purple-200/80 hover:border-purple-400 hover:bg-purple-50 text-slate-700 hover:text-purple-700 px-3 py-2 rounded-xl text-[11px] font-bold shadow-sm transition-all active:scale-95 text-left"
+                                x-text="chip.label"></button>
+                    </template>
+                </div>
+            </div>
+            <div x-show="hasUserMessage" x-cloak class="px-3 py-2 flex items-center gap-2">
+                <span class="text-[9px] uppercase font-black tracking-wider text-purple-400/80 shrink-0">Rápidas</span>
+                <div class="flex gap-1.5 overflow-x-auto wi-chat-quick-scroll flex-1 min-w-0 pb-0.5">
+                    <template x-for="chip in quickChips" :key="'compact-' + chip.label">
+                        <button type="button"
+                                @click="sendUserMessage(chip.label)"
+                                class="shrink-0 bg-slate-50 border border-purple-200/70 hover:border-purple-400 hover:bg-purple-50 text-slate-600 hover:text-purple-700 px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all active:scale-95 whitespace-nowrap"
+                                x-text="chip.short"></button>
+                    </template>
+                </div>
+            </div>
+        </div>
+
         <!-- Mensajes -->
         <div x-ref="messageFeed"
              class="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-slate-50/80 scroll-smooth">
@@ -90,27 +116,6 @@
                 </div>
             </div>
 
-            <div x-show="!isTyping" class="pt-2 space-y-2 pl-10">
-                <div class="text-[10px] uppercase font-black tracking-wider text-purple-400/90 mb-2">Preguntas rápidas</div>
-                <div class="flex flex-wrap gap-2">
-                    <button @click="sendUserMessage('Planes de Precios 💎')"
-                            class="bg-white border border-purple-200/80 hover:border-purple-400 hover:bg-purple-50 text-slate-700 hover:text-purple-700 px-3.5 py-2 rounded-xl text-[11px] font-bold shadow-sm transition-all active:scale-95">
-                        Planes de Precios 💎
-                    </button>
-                    <button @click="sendUserMessage('Probar 7 Días Gratis ⚡')"
-                            class="bg-white border border-purple-200/80 hover:border-cyan-400 hover:bg-cyan-50 text-slate-700 hover:text-cyan-700 px-3.5 py-2 rounded-xl text-[11px] font-bold shadow-sm transition-all active:scale-95">
-                        Probar 7 Días Gratis ⚡
-                    </button>
-                    <button @click="sendUserMessage('Métodos de Pago 💸')"
-                            class="bg-white border border-purple-200/80 hover:border-purple-400 hover:bg-purple-50 text-slate-700 px-3.5 py-2 rounded-xl text-[11px] font-bold shadow-sm transition-all active:scale-95">
-                        Métodos de Pago 💸
-                    </button>
-                    <button @click="sendUserMessage('Hablar con Asesor Humano 📞')"
-                            class="bg-white border border-purple-200/80 hover:border-fuchsia-400 hover:bg-fuchsia-50 text-slate-700 px-3.5 py-2 rounded-xl text-[11px] font-bold shadow-sm transition-all active:scale-95">
-                        Hablar con Asesor 📞
-                    </button>
-                </div>
-            </div>
         </div>
 
         <!-- Input -->
@@ -142,6 +147,13 @@
     .wi-chat-bot-msg a:hover {
         color: #0891b2;
     }
+    .wi-chat-quick-scroll {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .wi-chat-quick-scroll::-webkit-scrollbar {
+        display: none;
+    }
 </style>
 
 <script>
@@ -151,6 +163,13 @@
             inputText: '',
             messages: [],
             isTyping: false,
+            hasUserMessage: false,
+            quickChips: [
+                { label: 'Planes de Precios 💎', short: 'Planes 💎' },
+                { label: 'Probar 7 Días Gratis ⚡', short: '7 días ⚡' },
+                { label: 'Métodos de Pago 💸', short: 'Pagos 💸' },
+                { label: 'Hablar con Asesor Humano 📞', short: 'Asesor 📞' },
+            ],
 
             initWidget() {
                 this.messages = [
@@ -160,7 +179,7 @@
                     },
                     {
                         sender: 'bot',
-                        text: '¿Qué te gustaría saber? Toca una opción rápida o escríbeme:'
+                        text: '¿Qué te gustaría saber? Elige una pregunta rápida arriba o escríbeme:'
                     }
                 ];
             },
@@ -176,6 +195,7 @@
                 const messageText = text ? text.trim() : this.inputText.trim();
                 if (!messageText) return;
 
+                this.hasUserMessage = true;
                 this.messages.push({ sender: 'user', text: messageText });
                 if (!text) this.inputText = '';
 

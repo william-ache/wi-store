@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
+use App\Services\ImageOptimizer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class AnnouncementController extends Controller
 {
+    public function __construct(
+        private readonly ImageOptimizer $imageOptimizer,
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -42,27 +46,26 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
-            'image' => 'nullable|image|max:2048', // max 2MB
+            'image' => 'nullable|image|max:2048',
             'button_text' => 'nullable|string|max:100',
             'button_link' => 'nullable|string|max:255',
             'expires_at' => 'nullable|date',
             'is_active' => 'required|boolean',
         ]);
 
-        $imagePath = null;
+        $imageFields = [];
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('announcements', 'public');
+            $imageFields = $this->imageOptimizer->storeAnnouncementImage($request->file('image'));
         }
 
-        $announcement = Announcement::create([
+        $announcement = Announcement::create(array_merge([
             'title' => $request->title,
             'content' => $request->content,
-            'image_path' => $imagePath,
             'button_text' => $request->button_text,
             'button_link' => $request->button_link,
             'expires_at' => $request->expires_at,
             'is_active' => $request->is_active,
-        ]);
+        ], $imageFields));
 
         return response()->json([
             'success' => true,
@@ -97,24 +100,20 @@ class AnnouncementController extends Controller
             'is_active' => 'required|boolean',
         ]);
 
-        $imagePath = $announcement->image_path;
+        $imageFields = [];
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-                Storage::disk('public')->delete($imagePath);
-            }
-            $imagePath = $request->file('image')->store('announcements', 'public');
+            $this->imageOptimizer->deleteStoredImages($announcement->image_path, $announcement->image_webp_path);
+            $imageFields = $this->imageOptimizer->storeAnnouncementImage($request->file('image'));
         }
 
-        $announcement->update([
+        $announcement->update(array_merge([
             'title' => $request->title,
             'content' => $request->content,
-            'image_path' => $imagePath,
             'button_text' => $request->button_text,
             'button_link' => $request->button_link,
             'expires_at' => $request->expires_at,
             'is_active' => $request->is_active,
-        ]);
+        ], $imageFields));
 
         return response()->json([
             'success' => true,
@@ -128,10 +127,7 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
-        if ($announcement->image_path && Storage::disk('public')->exists($announcement->image_path)) {
-            Storage::disk('public')->delete($announcement->image_path);
-        }
-
+        $this->imageOptimizer->deleteStoredImages($announcement->image_path, $announcement->image_webp_path);
         $announcement->delete();
 
         return response()->json([

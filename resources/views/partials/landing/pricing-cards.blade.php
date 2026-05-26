@@ -1,112 +1,105 @@
-{{-- Tarjetas resumidas. Precios ocultos (reestructuración). Detalle en modal. --}}
-
 @php
-    $soonBlock = <<<'HTML'
-        <div class="my-5">
-            <p class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-300/90 to-cyan-300/90 tracking-tight">Muy pronto</p>
-            <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-widest font-bold">Precios en actualización</p>
-        </div>
-    HTML;
-    $soonBlockFeatured = <<<'HTML'
-        <div class="my-5 rounded-2xl border border-purple-400/25 bg-gradient-to-br from-purple-500/12 via-fuchsia-500/8 to-cyan-500/5 px-4 py-4">
-            <p class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-fuchsia-200 to-cyan-200 tracking-tight">Muy pronto</p>
-            <p class="text-[10px] text-purple-200/70 mt-1.5 uppercase tracking-[0.2em] font-black">Plan recomendado</p>
-        </div>
-    HTML;
+    use App\Support\PlanPricing;
+    $emprendedor = PlanPricing::PLANS['standard'];
+    $negocio = PlanPricing::PLANS['premium'];
 @endphp
 
-<!-- PLAN Standard -->
+<!-- Plan Emprendedor -->
 <div id="plan-standard"
-    class="landing-plan-card rounded-3xl p-5 md:p-6 flex flex-col justify-between relative transition duration-300 hover:-translate-y-1 md:order-1">
+    class="landing-plan-card landing-plan-card--emprendedor rounded-3xl p-5 md:p-6 flex flex-col justify-between relative transition duration-300 hover:-translate-y-1">
     <div>
         <div class="flex justify-between items-start gap-2">
-            <h3 class="text-base font-black text-white uppercase tracking-wider">Plan <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Standard</span>
+            <h3 class="text-base font-black text-white uppercase tracking-wider">
+                Plan <span class="landing-plan-title--cyan">Emprendedor</span>
             </h3>
-            <span class="landing-plan-badge text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Para empezar</span>
+            <span class="landing-plan-badge landing-plan-badge--emprendedor text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Para empezar</span>
         </div>
         <p class="text-[11px] text-slate-400 mt-2 leading-snug">Digitaliza tu negocio con menú, pedidos y tu marca.</p>
-        {!! $soonBlock !!}
+
+        <div class="landing-plan-price--emprendedor my-5 rounded-2xl px-4 py-3">
+            <p class="text-3xl font-black text-white tracking-tight">
+                {{ PlanPricing::formatUsd($emprendedor['monthly']) }}
+                <span class="text-sm font-semibold text-slate-400">/ mes</span>
+            </p>
+            <p class="text-[10px] text-slate-500 mt-1">
+                Anual: <strong class="text-fuchsia-300">{{ PlanPricing::formatUsd($emprendedor['annual_monthly_equivalent']) }}/mes</strong>
+                · {{ PlanPricing::formatUsd($emprendedor['annual_total']) }}/año
+            </p>
+        </div>
+
         <ul class="space-y-2 text-[11px] text-slate-300 border-t border-white/10 pt-4">
-            <li class="flex gap-2"><span class="text-purple-400/75">✓</span> Catálogo y pedidos ilimitados</li>
-            <li class="flex gap-2"><span class="text-purple-400/75">✓</span> Personalización de marca</li>
-            <li class="flex gap-2"><span class="text-purple-400/75">✓</span> Soporte por WhatsApp</li>
+            <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> Catálogo y pedidos a WhatsApp</li>
+            <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> Personalización de marca</li>
+            <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> Tasa BCV automática en pagos</li>
+            <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> Soporte prioritario</li>
         </ul>
     </div>
     <div class="mt-6 flex flex-col gap-2">
-        <a href="/register" class="landing-plan-btn block w-full text-center text-white font-extrabold py-2.5 rounded-xl text-xs">Comenzar Standard</a>
+        <a href="/register" class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-2.5 rounded-xl text-xs">Comenzar Emprendedor</a>
         <button type="button" @click="selectedPlan = 'standard'; openModal = true"
-            class="w-full py-2 rounded-xl border border-white/10 text-purple-300/80 hover:text-white hover:border-purple-500/30 text-[10px] font-bold uppercase tracking-wide transition-colors">
+            class="landing-plan-ghost landing-plan-ghost--emprendedor w-full py-2 rounded-xl text-[10px] font-bold uppercase tracking-wide">
             Ver más detalle
         </button>
     </div>
 </div>
 
-<!-- PLAN Premium (centro · destaca) -->
+<!-- Plan Negocio -->
 <div id="plan-premium"
-    class="landing-plan-card landing-plan-card--featured landing-plan-vip-elevated rounded-3xl flex flex-col transition duration-300 md:order-2">
-    <div class="landing-plan-inner p-5 md:p-7 flex flex-col justify-between h-full flex-grow relative overflow-hidden">
-        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent"></div>
+    class="landing-plan-card landing-plan-card--featured landing-plan-vip-elevated rounded-3xl flex flex-col transition duration-300">
+    <div class="landing-plan-inner landing-plan-inner--negocio p-5 md:p-7 flex flex-col justify-between h-full flex-grow relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-400/60 to-transparent"></div>
 
         <div class="relative z-10 flex flex-col flex-grow">
-            <div class="flex justify-between items-start gap-2">
-                <div class="flex items-center gap-2.5 min-w-0">
-                    <div class="w-11 h-11 shrink-0 rounded-2xl bg-gradient-to-br from-purple-400/25 to-cyan-500/20 border border-purple-400/30 flex items-center justify-center shadow-lg shadow-purple-500/10">
-                        <i class="fas fa-crown text-lg text-purple-200"></i>
+            <div class="flex justify-between items-center gap-2">
+                <div class="flex items-center gap-2 min-w-0 flex-1">
+                    <div class="landing-plan-icon--negocio w-9 h-9 shrink-0 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-crown text-sm text-purple-200"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-black text-white uppercase tracking-wider leading-tight">Plan <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-fuchsia-200 to-cyan-200">Premium</span>
+                    <h3 class="text-sm font-black text-white uppercase tracking-wide whitespace-nowrap leading-none">
+                        Plan <span class="landing-plan-title--purple">Negocio</span>
                     </h3>
                 </div>
-                <span class="landing-plan-badge text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shrink-0 bg-purple-500/20 border border-purple-400/35 text-purple-100">Recomendado</span>
+                <span class="landing-plan-badge landing-plan-badge--negocio text-[7px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Recomendado</span>
             </div>
-            <p class="text-[11px] text-slate-300/90 mt-3 leading-snug max-w-[95%]">Herramientas avanzadas, pagos integrados y soporte prioritario.</p>
-            {!! $soonBlockFeatured !!}
-            <ul class="space-y-2.5 text-[11px] text-slate-200 border-t border-purple-500/15 pt-4 flex-grow">
-                <li class="flex gap-2"><span class="text-purple-300/90">✓</span> Todo lo del plan Standard</li>
-                <li class="flex gap-2"><span class="text-purple-300/90">✓</span> Pago Móvil y Zelle integrados</li>
-                <li class="flex gap-2"><span class="text-purple-300/90">✓</span> Soporte 24/7 e insignia Premium</li>
+            <p class="text-[11px] text-slate-400 mt-2.5 leading-snug">Pagos integrados, insignia premium en tienda y soporte prioritario.</p>
+
+            <div class="mt-3 rounded-xl border border-cyan-400/35 bg-cyan-500/10 px-3 py-2">
+                <p class="text-[10px] font-black uppercase tracking-wide text-cyan-200">
+                    <i class="fas fa-gift text-cyan-300/90 mr-1"></i>14 días gratis
+                </p>
+                <p class="text-[9px] text-slate-400 mt-0.5 leading-snug">
+                    Prueba todo el plan Negocio sin costo · luego {{ PlanPricing::formatUsd($negocio['monthly']) }}/mes
+                </p>
+            </div>
+
+            <div class="landing-plan-price--negocio my-4 rounded-2xl px-4 py-3">
+                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Después del periodo de prueba</p>
+                <p class="text-3xl font-black text-white tracking-tight">
+                    {{ PlanPricing::formatUsd($negocio['monthly']) }}
+                    <span class="text-sm font-semibold text-slate-400">/ mes</span>
+                </p>
+                <p class="text-[10px] text-slate-500 mt-1">
+                    Anual: {{ PlanPricing::formatUsd($negocio['annual_monthly_equivalent']) }}/mes
+                    · <strong class="text-cyan-300">{{ $negocio['annual_savings_label'] }}</strong>
+                </p>
+            </div>
+
+            <ul class="space-y-2.5 text-[11px] text-slate-300 border-t border-purple-500/20 pt-4 flex-grow">
+                <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> Todo lo del plan Emprendedor</li>
+                <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> Tasa BCV + Pago Móvil y Zelle</li>
+                <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> Insignia premium y soporte 24/7</li>
             </ul>
             <div class="mt-6 flex flex-col gap-2">
                 <a href="/register"
-                    class="landing-plan-btn block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
-                    Comenzar Premium
+                    class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
+                    Probar 14 días gratis
                 </a>
+                <p class="text-[9px] text-center text-slate-500 -mt-1">Sin tarjeta · cancelas cuando quieras</p>
                 <button type="button" @click="selectedPlan = 'premium'; openModal = true"
-                    class="w-full py-2 rounded-xl border border-purple-400/25 bg-purple-500/5 text-purple-100/90 hover:text-white hover:border-purple-400/40 text-[10px] font-bold uppercase tracking-wide transition-colors">
+                    class="landing-plan-ghost landing-plan-ghost--negocio w-full py-2 rounded-xl text-[10px] font-bold uppercase tracking-wide">
                     Ver más detalle
                 </button>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- PLAN VIP -->
-<div id="plan-vip"
-    class="landing-plan-card rounded-3xl p-5 md:p-6 flex flex-col justify-between relative transition duration-300 hover:-translate-y-1 md:order-3">
-    <div>
-        <div class="flex justify-between items-start gap-2">
-            <h3 class="text-base font-black text-white uppercase tracking-wider">Plan <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-fuchsia-200 to-purple-200">VIP</span>
-            </h3>
-            <span class="landing-plan-badge landing-plan-badge--vip-premium text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Exclusivo</span>
-        </div>
-        <p class="text-[11px] text-slate-400 mt-2 leading-snug">La experiencia más exclusiva: corona VIP, marca a medida y soporte dedicado.</p>
-        {!! $soonBlock !!}
-        <ul class="space-y-2 text-[11px] text-slate-300 border-t border-white/10 pt-4">
-            <li class="flex gap-2"><span class="text-amber-300/75">✦</span> Corona VIP en tu menú digital</li>
-            <li class="flex gap-2"><span class="text-amber-300/75">✦</span> Marca blanca y diseño exclusivo</li>
-            <li class="flex gap-2"><span class="text-amber-300/75">✦</span> Soporte VIP y ajustes a medida</li>
-        </ul>
-    </div>
-    <div class="mt-6 flex flex-col gap-2">
-        <a href="https://wa.me/584121305420?text=Hola,%20quiero%20el%20Plan%20VIP%20de%20WIStore" target="_blank"
-            class="landing-plan-btn landing-plan-btn--vip block w-full text-center text-white font-extrabold py-2.5 rounded-xl text-xs">
-            Reservar interés VIP
-        </a>
-        <button type="button" @click="selectedPlan = 'vip'; openModal = true"
-            class="w-full py-2 rounded-xl border border-white/10 text-purple-300/80 hover:text-white hover:border-purple-500/30 text-[10px] font-bold uppercase tracking-wide transition-colors">
-            Ver más detalle
-        </button>
     </div>
 </div>

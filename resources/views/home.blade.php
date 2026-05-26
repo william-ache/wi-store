@@ -28,16 +28,26 @@
             }
         }
 
-        .animate-marquee-left {
+        .landing-marquee-track {
             display: flex;
+            flex-wrap: nowrap;
             width: max-content;
-            animation: marquee-left 45s linear infinite;
+            will-change: transform;
         }
 
-        .animate-marquee-right {
-            display: flex;
-            width: max-content;
-            animation: marquee-right 45s linear infinite;
+        .landing-marquee-track--left {
+            animation: marquee-left 50s linear infinite;
+        }
+
+        .landing-marquee-track--right {
+            animation: marquee-right 50s linear infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .landing-marquee-track--left,
+            .landing-marquee-track--right {
+                animation-duration: 80s;
+            }
         }
     </style>
 
@@ -253,7 +263,7 @@
     @include('partials.landing.ux-styles')
 </head>
 
-<body class="bg-[#0e1228] text-gray-100 min-h-screen pb-24 md:pb-0 selection:bg-brand-500 selection:text-white relative"
+<body class="bg-[#0e1228] text-gray-100 min-h-screen pb-8 md:pb-0 selection:bg-brand-500 selection:text-white relative"
     x-data="landingPage()" x-init="init()">
 
     <!-- CAPA DE FONDO GLOBAL -->
@@ -362,18 +372,26 @@
     <!-- SECCIÓN EXPLORADOR DE TIENDAS (Premium Grid/Carrusel) -->
     @php
         $shopsCount = $shopsWithCategories->count();
-        if ($shopsCount > 0) {
-            $allShops = $shopsWithCategories;
-            while (count($allShops) < 16) {
-                $allShops = $allShops->concat($shopsWithCategories);
+        $carouselShops = $featuredCarouselShops ?? collect();
+        $carouselCount = $carouselShops->count();
+        $padMarqueeRow = static function (\Illuminate\Support\Collection $row, int $min = 8): \Illuminate\Support\Collection {
+            $row = $row->values();
+            if ($row->isEmpty()) {
+                return $row;
             }
-            $half = ceil(count($allShops) / 2);
-            $row1 = $allShops->slice(0, $half);
-            $row2 = $allShops->slice($half);
-        } else {
-            $row1 = collect();
-            $row2 = collect();
+            $expanded = collect();
+            while ($expanded->count() < $min) {
+                $expanded = $expanded->concat($row);
+            }
+            return $expanded;
+        };
+        $row1Source = $carouselShops->take(5)->values();
+        $row2Source = $carouselShops->slice(5, 5)->values();
+        if ($row2Source->isEmpty() && $row1Source->isNotEmpty()) {
+            $row2Source = $row1Source->reverse()->values();
         }
+        $row1 = $padMarqueeRow($row1Source);
+        $row2 = $padMarqueeRow($row2Source);
     @endphp
 
     <section id="explorar" class="py-16 md:py-24 relative overflow-hidden z-10">
@@ -401,249 +419,43 @@
             <div x-show="!isFiltering && showCarousel" class="space-y-6" x-transition:enter="transition ease-out duration-500"
                 x-transition:enter-start="opacity-0 transform scale-95"
                 x-transition:enter-end="opacity-100 transform scale-100">
-                <!-- Fila 1: Izquierda -->
+
+                @if ($carouselCount === 0)
+                    <div class="text-center py-14 rounded-[2rem] border border-dashed border-slate-700 bg-slate-900/40 px-6">
+                        <p class="text-3xl mb-2">👑</p>
+                        <p class="text-white font-bold">Top tiendas Premium</p>
+                        <p class="text-slate-400 text-sm mt-2 max-w-md mx-auto">Pronto verás aquí las tiendas Premium mejor valoradas por sus clientes.</p>
+                    </div>
+                @else
+                <p class="text-center text-[11px] text-slate-500 font-semibold mb-1">
+                    <span class="text-amber-300/90 font-black">{{ $carouselCount }}</span> tiendas Premium · mejor calificación y opiniones
+                </p>
+                <!-- Fila 1: ciclo infinito → -->
                 <div class="overflow-hidden w-full relative py-2 mask-marquee">
-
-
-                    <div class="animate-marquee-left flex gap-6 hover:[animation-play-state:paused]">
-                        <div class="flex gap-6">
-                            @foreach ($row1 as $shop)
-                                <div
-                                    class="w-[260px] lg:w-[280px] shrink-0 bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
-                                    <div class="p-1.5 pb-0">
-                                        <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
-                                            @if ($shop->cover_path)
-                                                <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/' . $shop->cover_path) }}"
-                                                    alt="{{ $shop->name }}"
-                                                    class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
-                                            @else
-                                                <div
-                                                    class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">
-                                                    WISTORE</div>
-                                            @endif
-                                            <div
-                                                class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent">
-                                            </div>
-
-                                            <div
-                                                class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
-                                                <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/' . $shop->logo_path) : 'https://ui-avatars.com/api/?name=' . urlencode($shop->name) . '&background=a855f7&color=fff') }}"
-                                                    alt="Logo" class="w-full h-full object-cover">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <div class="flex items-start justify-between gap-2">
-                                                <h3 class="text-base font-black text-white leading-tight line-clamp-1">
-                                                    {{ $shop->name }}</h3>
-                                                <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
-                                                    @for ($star = 1; $star <= 5; $star++)
-                                                        <svg class="w-3 h-3 text-yellow-400 fill-current"
-                                                            viewBox="0 0 20 20">
-                                                            <path
-                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                    @endfor
-                                                </div>
-                                            </div>
-                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                                                {{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}
-                                            </p>
-                                        </div>
-
-                                        <div class="mt-4">
-                                            <a href="/{{ $shop->slug }}"
-                                                class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
-                                                Entrar a la Tienda
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="flex gap-6" aria-hidden="true">
-                            @foreach ($row1 as $shop)
-                                <div
-                                    class="w-[260px] lg:w-[280px] shrink-0 bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
-                                    <div class="p-1.5 pb-0">
-                                        <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
-                                            @if ($shop->cover_path)
-                                                <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/' . $shop->cover_path) }}"
-                                                    alt="{{ $shop->name }}"
-                                                    class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
-                                            @else
-                                                <div
-                                                    class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">
-                                                    WISTORE</div>
-                                            @endif
-                                            <div
-                                                class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent">
-                                            </div>
-
-                                            <div
-                                                class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
-                                                <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/' . $shop->logo_path) : 'https://ui-avatars.com/api/?name=' . urlencode($shop->name) . '&background=a855f7&color=fff') }}"
-                                                    alt="Logo" class="w-full h-full object-cover">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <div class="flex items-start justify-between gap-2">
-                                                <h3 class="text-base font-black text-white leading-tight line-clamp-1">
-                                                    {{ $shop->name }}</h3>
-                                                <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
-                                                    @for ($star = 1; $star <= 5; $star++)
-                                                        <svg class="w-3 h-3 text-yellow-400 fill-current"
-                                                            viewBox="0 0 20 20">
-                                                            <path
-                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                    @endfor
-                                                </div>
-                                            </div>
-                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                                                {{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}
-                                            </p>
-                                        </div>
-
-                                        <div class="mt-4">
-                                            <a href="/{{ $shop->slug }}"
-                                                class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
-                                                Entrar a la Tienda
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="landing-marquee-track landing-marquee-track--left gap-6">
+                        @foreach ($row1 as $shop)
+                            @include('partials.landing.shop-carousel-card', ['shop' => $shop])
+                        @endforeach
+                        @foreach ($row1 as $shop)
+                            @include('partials.landing.shop-carousel-card', ['shop' => $shop, 'ariaHidden' => true])
+                        @endforeach
                     </div>
                 </div>
 
-                <!-- Fila 2: Derecha -->
+                @if ($row2->isNotEmpty())
+                <!-- Fila 2: ciclo infinito ← -->
                 <div class="overflow-hidden w-full relative py-2 mask-marquee">
-
-
-                    <div class="animate-marquee-right flex gap-6 hover:[animation-play-state:paused]">
-                        <div class="flex gap-6">
-                            @foreach ($row2 as $shop)
-                                <div
-                                    class="w-[260px] lg:w-[280px] shrink-0 bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
-                                    <div class="p-1.5 pb-0">
-                                        <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
-                                            @if ($shop->cover_path)
-                                                <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/' . $shop->cover_path) }}"
-                                                    alt="{{ $shop->name }}"
-                                                    class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
-                                            @else
-                                                <div
-                                                    class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">
-                                                    WISTORE</div>
-                                            @endif
-                                            <div
-                                                class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent">
-                                            </div>
-
-                                            <div
-                                                class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
-                                                <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/' . $shop->logo_path) : 'https://ui-avatars.com/api/?name=' . urlencode($shop->name) . '&background=a855f7&color=fff') }}"
-                                                    alt="Logo" class="w-full h-full object-cover">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <div class="flex items-start justify-between gap-2">
-                                                <h3 class="text-base font-black text-white leading-tight line-clamp-1">
-                                                    {{ $shop->name }}</h3>
-                                                <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
-                                                    @for ($star = 1; $star <= 5; $star++)
-                                                        <svg class="w-3 h-3 text-yellow-400 fill-current"
-                                                            viewBox="0 0 20 20">
-                                                            <path
-                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                    @endfor
-                                                </div>
-                                            </div>
-                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                                                {{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}
-                                            </p>
-                                        </div>
-
-                                        <div class="mt-4">
-                                            <a href="/{{ $shop->slug }}"
-                                                class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
-                                                Entrar a la Tienda
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="flex gap-6" aria-hidden="true">
-                            @foreach ($row2 as $shop)
-                                <div
-                                    class="w-[260px] lg:w-[280px] shrink-0 bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
-                                    <div class="p-1.5 pb-0">
-                                        <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
-                                            @if ($shop->cover_path)
-                                                <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/' . $shop->cover_path) }}"
-                                                    alt="{{ $shop->name }}"
-                                                    class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
-                                            @else
-                                                <div
-                                                    class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">
-                                                    WISTORE</div>
-                                            @endif
-                                            <div
-                                                class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent">
-                                            </div>
-
-                                            <div
-                                                class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
-                                                <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/' . $shop->logo_path) : 'https://ui-avatars.com/api/?name=' . urlencode($shop->name) . '&background=a855f7&color=fff') }}"
-                                                    alt="Logo" class="w-full h-full object-cover">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <div class="flex items-start justify-between gap-2">
-                                                <h3 class="text-base font-black text-white leading-tight line-clamp-1">
-                                                    {{ $shop->name }}</h3>
-                                                <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
-                                                    @for ($star = 1; $star <= 5; $star++)
-                                                        <svg class="w-3 h-3 text-yellow-400 fill-current"
-                                                            viewBox="0 0 20 20">
-                                                            <path
-                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                    @endfor
-                                                </div>
-                                            </div>
-                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                                                {{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}
-                                            </p>
-                                        </div>
-
-                                        <div class="mt-4">
-                                            <a href="/{{ $shop->slug }}"
-                                                class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
-                                                Entrar a la Tienda
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="landing-marquee-track landing-marquee-track--right gap-6">
+                        @foreach ($row2 as $shop)
+                            @include('partials.landing.shop-carousel-card', ['shop' => $shop])
+                        @endforeach
+                        @foreach ($row2 as $shop)
+                            @include('partials.landing.shop-carousel-card', ['shop' => $shop, 'ariaHidden' => true])
+                        @endforeach
                     </div>
                 </div>
+                @endif
+                @endif
             </div>
 
             <!-- MODO FILTRADO (ESTÁTICO EN RECIPIENTE GRID) -->
@@ -680,7 +492,7 @@
                             <div class="p-1.5 pb-0">
                                 <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
                                     @if ($shop->cover_path)
-                                        <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/' . $shop->cover_path) }}"
+                                        <img src="{{ $shop->coverUrl() }}"
                                             alt="{{ $shop->name }}"
                                             class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
                                     @else
@@ -694,7 +506,7 @@
 
                                     <div
                                         class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
-                                        <img src="{{ filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : ($shop->logo_path ? asset('storage/' . $shop->logo_path) : 'https://ui-avatars.com/api/?name=' . urlencode($shop->name) . '&background=a855f7&color=fff') }}"
+                                        <img src="{{ $shop->logoUrl() ?? 'https://ui-avatars.com/api/?name=' . urlencode($shop->name) . '&background=a855f7&color=fff' }}"
                                             alt="Logo" class="w-full h-full object-cover">
                                     </div>
                                 </div>
@@ -744,21 +556,7 @@
         :class="openModal ? 'z-50' : 'z-10'" x-data="{
             openModal: false,
             selectedPlan: null,
-            billingPeriod: 'monthly',
-            exchangeRate: null,
-            loadingRate: true,
-            init() {
-                fetch('https://ve.dolarapi.com/v1/dolares/oficial')
-                    .then(r => r.json())
-                    .then(data => {
-                        this.exchangeRate = data.promedio;
-                        this.loadingRate = false;
-                    })
-                    .catch(err => {
-                        console.error('Error fetching BCV rate:', err);
-                        this.loadingRate = false;
-                    });
-            }
+            billingPeriod: 'monthly'
         }">
 
         <!-- Orbes de luz de fondo para el fondo oscuro -->
@@ -778,20 +576,19 @@
                     Planes
                 </span>
                 <h2 class="text-3xl md:text-4xl font-black text-white mt-4 tracking-tight">Elige tu plan</h2>
-                <p class="text-sm text-slate-400 mt-2 max-w-lg mx-auto">Resumen claro · precios <strong class="text-purple-300/90">muy pronto</strong>. Toca <strong class="text-slate-300 font-bold">Ver más detalle</strong> en cada plan.</p>
-
-                <div class="mt-6 max-w-2xl mx-auto rounded-2xl border border-purple-500/20 bg-purple-500/[0.06] px-4 py-3.5 text-left sm:text-center">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-purple-300/90">Estamos mejorando WIStore</p>
-                    <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
-                        Trabajamos en la <strong class="text-white font-semibold">reestructuración de precios, planes y servicios</strong> para ofrecerte lo mejor de WIStore, con la <strong class="text-white font-semibold">mejor relación calidad-precio del mercado</strong>.
-                    </p>
-                </div>
-
-                <p class="text-[10px] text-slate-500 mt-4">Cobertura: VE activo · CO próximamente</p>
+                <p class="text-sm text-slate-400 mt-2 max-w-lg mx-auto">
+                    <strong class="text-white">Emprendedor</strong> para arrancar · <strong class="text-white">Negocio</strong> con todo lo premium.
+                    Ahorra pagando anual.
+                </p>
             </div>
 
-            <!-- Grid: VIP al centro en desktop -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-stretch md:items-end justify-center max-w-5xl mx-auto">
+            @include('partials.landing.bcv-colombia-highlight')
+
+            <div class="max-w-4xl mx-auto mb-12 md:mb-14">
+                @include('partials.landing.pricing-table')
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch justify-center max-w-3xl mx-auto mt-6 md:mt-10 pt-2">
 
                 @include('partials.landing.pricing-cards')
 
@@ -884,9 +681,8 @@
             <!-- Cláusula de Limitación -->
             <div class="mt-16 text-center max-w-4xl mx-auto">
                 <p class="text-[10px] md:text-xs text-slate-500 leading-relaxed font-semibold px-4">
-                    ⚠️ El plan Premium incluye 7 días de prueba gratuita. Estos planes cubren soporte
-                    operativo del sistema base y no incluyen funciones personalizadas. El desarrollo a medida se
-                    gestiona exclusivamente bajo el plan Custom previo acuerdo comercial.
+                    ⚠️ Incluye 7 días de prueba gratuita en plan Negocio. Los precios anuales aplican el descuento indicado en la tabla.
+                    Desarrollo a medida solo bajo plan Custom con acuerdo comercial.
                 </p>
             </div>
 
@@ -974,7 +770,7 @@
                         </div>
                     </div>
 
-                    <!-- CONTENIDO PLAN STANDARD -->
+                    <!-- CONTENIDO PLAN EMPRENDEDOR -->
                     <div x-show="selectedPlan === 'standard'" class="p-6 md:p-10 space-y-6">
                         <div class="flex items-center gap-3">
                             <div
@@ -983,9 +779,9 @@
                             </div>
                             <div>
                                 <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Standard</span>
+                                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Emprendedor</span>
                                 </h3>
-                                <p class="text-xs text-purple-300/80 font-bold uppercase tracking-wider">Plan Emprendedor · <span class="text-cyan-300/90">Muy pronto</span></p>
+                                <p class="text-xs text-purple-300/80 font-bold uppercase tracking-wider">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['standard']['monthly']) }} / mes · 15% dto. anual</p>
                             </div>
                         </div>
 
@@ -1027,19 +823,20 @@
                         </div>
 
                         <div
-                            class="bg-white/[0.03] border border-purple-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            class="bg-white/[0.03] border border-purple-500/20 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-purple-300/80 font-semibold">Precio</p>
-                                <p class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Muy pronto</p>
+                                <p class="text-xs text-purple-300/80 font-semibold">Mensual · Anual</p>
+                                <p class="text-xl font-black text-white">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['standard']['monthly']) }}/mes</p>
+                                <p class="text-sm text-slate-400">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['standard']['annual_total']) }}/año ({{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['standard']['annual_monthly_equivalent']) }}/mes)</p>
                             </div>
                             <a href="/register"
-                                class="landing-plan-btn text-white font-black px-6 py-3 rounded-xl text-xs transition-all">
-                                Adquirir Standard
+                                class="landing-plan-btn text-white font-black px-6 py-3 rounded-xl text-xs transition-all shrink-0">
+                                Adquirir Emprendedor
                             </a>
                         </div>
                     </div>
 
-                    <!-- CONTENIDO PLAN PREMIUM -->
+                    <!-- CONTENIDO PLAN NEGOCIO -->
                     <div x-show="selectedPlan === 'premium'" class="p-6 md:p-10 space-y-6">
                         <div class="flex items-center gap-3">
                             <div
@@ -1048,17 +845,15 @@
                             </div>
                             <div>
                                 <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Premium</span>
+                                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Negocio</span>
                                 </h3>
-                                <p class="text-xs text-purple-400 font-bold uppercase tracking-wider">Plan avanzado · <span class="text-cyan-300/90">Muy pronto</span></p>
+                                <p class="text-xs text-cyan-300 font-bold uppercase tracking-wider">14 días gratis · luego {{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes</p>
                             </div>
                         </div>
 
                         <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
-                            Nuestra solución VIP definitiva. Oculta las marcas de WIStore con una experiencia
-                            completamente limpia e integra métodos de pago inteligentes venezolanos y extranjeros (Pago
-                            Móvil, Zelle). Cuenta con un canal exclusivo de soporte técnico corporativo 24/7 y la
-                            prestigiosa Insignia Corona VIP.
+                            Nuestro plan más completo (antes VIP). Experiencia limpia sin marcas de plataforma, pagos integrados
+                            (Pago Móvil, Zelle), insignia premium en tu tienda y soporte prioritario 24/7.
                         </p>
 
                         <div class="border-t border-white/5 pt-6 space-y-4">
@@ -1067,11 +862,11 @@
                             <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Todo lo incluido en el Plan Standard</span>
+                                    <span>Todo lo incluido en el Plan Emprendedor</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span><strong>Insignia VIP Corona Premium</strong> en tienda</span>
+                                    <span><strong>Insignia premium</strong> en tu tienda</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
@@ -1079,7 +874,7 @@
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span><strong>Soporte VIP corporativo 24/7</strong> dedicado</span>
+                                    <span><strong>Soporte prioritario 24/7</strong> dedicado</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-purple-400 mt-0.5"></i>
@@ -1093,71 +888,15 @@
                         </div>
 
                         <div
-                            class="bg-purple-900/15 border border-purple-500/20 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            class="bg-purple-900/15 border border-purple-500/20 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-purple-300 font-semibold">Precio</p>
-                                <p class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Muy pronto</p>
+                                <p class="text-xs text-purple-300 font-semibold">Mensual · Anual</p>
+                                <p class="text-xl font-black text-white">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes</p>
+                                <p class="text-sm text-slate-400">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['annual_total']) }}/año · ahorro {{ \App\Support\PlanPricing::PLANS['premium']['annual_savings_label'] }}</p>
                             </div>
                             <a href="/register"
-                                class="landing-plan-btn text-white font-black px-6 py-3 rounded-xl text-xs transition-all">
-                                Adquirir Premium
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- CONTENIDO PLAN VIP -->
-                    <div x-show="selectedPlan === 'vip'" class="p-6 md:p-10 space-y-6">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-300/80">
-                                <i class="fas fa-crown text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200/90 to-purple-300">VIP</span>
-                                </h3>
-                                <p class="text-xs text-amber-200/80 font-bold uppercase tracking-wider">Experiencia exclusiva · <span class="text-amber-100">Muy pronto</span></p>
-                            </div>
-                        </div>
-
-                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
-                            El Plan VIP está diseñado para marcas que desean distinción máxima, presencia dorada y
-                            funciones exclusivas con soporte prioritario y una identidad visual premium.
-                        </p>
-
-                        <div class="border-t border-white/10 pt-6 space-y-4">
-                            <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">Incluye en el plan
-                                VIP</h4>
-                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Insignia Corona VIP dorada en tienda</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Marca blanca premium y diseño dorado</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Soporte VIP prioritario 24/7</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Integración con soluciones a medida</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div
-                            class="bg-gradient-to-br from-amber-500/10 via-purple-500/8 to-transparent border border-amber-400/25 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
-                            <div>
-                                <p class="text-xs text-amber-200/80 font-semibold">Precio</p>
-                                <p class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-fuchsia-200 to-purple-200">Muy pronto</p>
-                            </div>
-                            <a href="https://wa.me/584121305420?text=Hola,%20quiero%20el%20Plan%20VIP%20de%20WIStore"
-                                target="_blank"
-                                class="landing-plan-btn landing-plan-btn--vip text-white font-black px-6 py-3 rounded-xl text-xs transition-all">
-                                Reservar interés VIP
+                                class="landing-plan-btn landing-plan-btn--negocio text-white font-black px-6 py-3 rounded-xl text-xs transition-all shrink-0">
+                                Probar 14 días gratis
                             </a>
                         </div>
                     </div>

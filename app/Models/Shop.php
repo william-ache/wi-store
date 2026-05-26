@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\MediaUrl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +20,13 @@ class Shop extends Model
         'address',
         'payment_methods',
         'logo_path',
+        'logo_webp_path',
+        'logo_width',
+        'logo_height',
         'cover_path',
+        'cover_webp_path',
+        'cover_width',
+        'cover_height',
         'color_primary',
         'color_secondary',
         'color_background',
@@ -111,6 +118,16 @@ class Shop extends Model
         'krece_enabled' => 'boolean',
         'krece_link_enabled' => 'boolean',
     ];
+
+    public function logoUrl(): ?string
+    {
+        return MediaUrl::displayUrl($this->logo_path, $this->logo_webp_path);
+    }
+
+    public function coverUrl(): ?string
+    {
+        return MediaUrl::displayUrl($this->cover_path, $this->cover_webp_path);
+    }
 
     public function hasCasheaAvailable(): bool
     {

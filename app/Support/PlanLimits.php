@@ -13,17 +13,17 @@ class PlanLimits
         return match ($plan ?? 'free_trial') {
             'standard' => [
                 'key' => 'standard',
-                'name' => 'Pro',
+                'name' => 'Emprendedor',
                 'max_products' => 150,
                 'max_categories' => 15,
-                'price' => 'Bs 220/mes',
+                'price' => PlanPricing::formatUsd(PlanPricing::PLANS['standard']['monthly']) . '/mes',
             ],
             'premium' => [
                 'key' => 'premium',
                 'name' => 'Negocio',
                 'max_products' => null,
                 'max_categories' => null,
-                'price' => 'Bs 400/mes',
+                'price' => PlanPricing::formatUsd(PlanPricing::PLANS['premium']['monthly']) . '/mes',
             ],
             default => [
                 'key' => 'free_trial',

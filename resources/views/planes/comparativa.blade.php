@@ -49,12 +49,16 @@
             </span>
             <h1 class="text-3xl md:text-4xl font-black text-white mt-4 tracking-tight">Comparativa de planes</h1>
             <p class="text-sm text-slate-400 mt-2 max-w-xl mx-auto leading-relaxed">
-                Vista resumida. Expande para ver todas las características. Precios <strong class="text-purple-300/90 font-semibold">muy pronto</strong>.
+                Vista resumida. Expande para ver todas las características. Precios en USD.
             </p>
+        </div>
 
-            <div class="mt-5 max-w-2xl mx-auto rounded-2xl border border-purple-500/20 bg-purple-500/[0.06] px-4 py-3 text-sm text-slate-300 leading-relaxed">
-                Estamos reestructurando precios y servicios para ofrecerte lo mejor de WIStore, con la mejor relación calidad-precio del mercado.
-            </div>
+        <div class="mb-10">
+            @include('partials.landing.bcv-colombia-highlight')
+        </div>
+
+        <div class="mb-10">
+            @include('partials.landing.pricing-table')
         </div>
 
         @include('partials.planes.comparativa-table')

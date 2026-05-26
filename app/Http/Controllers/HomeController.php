@@ -11,7 +11,9 @@ class HomeController extends Controller
     {
         $shops = ShopCatalog::activeShopsQuery()->get();
         $shopsWithCategories = $shops->map(fn ($shop) => ShopCatalog::enrich($shop));
+        $featuredCarouselShops = ShopCatalog::featuredPremiumCarousel(10)
+            ->map(fn ($shop) => ShopCatalog::enrich($shop));
 
-        return view('home', compact('shops', 'shopsWithCategories'));
+        return view('home', compact('shops', 'shopsWithCategories', 'featuredCarouselShops'));
     }
 }

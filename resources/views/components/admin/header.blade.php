@@ -273,8 +273,8 @@
                         :class="$store.connection.online ? 'admin-avatar-status--online' : 'admin-avatar-status--offline'"
                         :title="$store.connection.online ? 'Conectado a internet' : 'Sin conexión a internet'"
                     >
-                        @if(config('current_shop') && config('current_shop')->logo_path)
-                            <img src="{{ filter_var(config('current_shop')->logo_path, FILTER_VALIDATE_URL) ? config('current_shop')->logo_path : asset('storage/' . config('current_shop')->logo_path) }}" alt="" class="w-9 h-9 md:w-9 md:h-9 rounded-full object-cover block shadow-sm">
+                        @if(config('current_shop') && config('current_shop')->logoUrl())
+                            <img src="{{ config('current_shop')->logoUrl() }}" alt="" class="w-9 h-9 md:w-9 md:h-9 rounded-full object-cover block shadow-sm" loading="lazy" decoding="async">
                         @else
                             <span class="w-9 h-9 md:w-9 md:h-9 rounded-full bg-[rgba(var(--color-on-primary-rgb),0.2)] flex items-center justify-center font-black text-sm shadow-sm">A</span>
                         @endif

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Review;
+use App\Support\SeoMeta;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -36,7 +37,7 @@ class StoreController extends Controller
                     'id' => $announcement->id,
                     'title' => $announcement->title,
                     'content' => $announcement->content,
-                    'image_path' => $announcement->image_path ? asset('storage/' . $announcement->image_path) : null,
+                    'image_path' => $announcement->image_url,
                     'button_text' => $announcement->button_text,
                     'button_link' => $announcement->button_link,
                 ];
@@ -69,8 +70,8 @@ class StoreController extends Controller
                 'secondary' => $shop->color_secondary ?? '#0B132B',
                 'bg_light' => $shop->color_background ?? '#FFFFFF',
             ],
-            'logo' => $shop->logo_path ? (filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : asset('storage/'.$shop->logo_path)) : null,
-            'cover' => $shop->cover_path ? (filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path)) : null,
+            'logo' => $shop->logoUrl(),
+            'cover' => $shop->coverUrl(),
             'facebook' => $shop->facebook,
             'instagram' => $shop->instagram,
             'tiktok' => $shop->tiktok,
@@ -103,7 +104,17 @@ class StoreController extends Controller
             'subscription_plan' => $shop->plan ?? 'standard',
         ];
 
-        return view('store.index', compact('categories', 'reviews', 'averageRating', 'branches', 'company', 'announcements'));
+        $seo = SeoMeta::forShop($shop);
+
+        return view('store.index', compact(
+            'categories',
+            'reviews',
+            'averageRating',
+            'branches',
+            'company',
+            'announcements',
+            'seo',
+        ));
     }
 
     public function storeReview(Request $request)
@@ -321,7 +332,7 @@ class StoreController extends Controller
         $isCustomDomain = !str_ends_with($host, 'wistore.com') && $host !== 'localhost' && $host !== '127.0.0.1' && $shop->custom_domain === $host;
         $startUrl = $isCustomDomain ? '/' : '/' . $shop->slug;
 
-        $logoUrl = $shop->logo_path ? (filter_var($shop->logo_path, FILTER_VALIDATE_URL) ? $shop->logo_path : asset('storage/'.$shop->logo_path)) : 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=1A1A1A&color=fff';
+        $logoUrl = $shop->logoUrl() ?? 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=1A1A1A&color=fff';
 
         $manifest = [
             'name' => $shop->name,

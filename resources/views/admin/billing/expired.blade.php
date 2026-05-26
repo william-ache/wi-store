@@ -102,13 +102,12 @@
               cycle: '{{ $shop->pending_billing_cycle ?: 'mensual' }}',
               exchangeRate: {{ $rate }},
               receiptPreview: null,
+              pricing: @json(\App\Support\PlanPricing::PLANS),
               
               get planPrice() {
-                  if (this.plan === 'premium') {
-                      return this.cycle === 'anual' ? 224.90 : 24.99;
-                  } else {
-                      return this.cycle === 'anual' ? 152.90 : 14.99;
-                  }
+                  const p = this.pricing[this.plan];
+                  if (!p) return 0;
+                  return this.cycle === 'anual' ? p.annual_total : p.monthly;
               },
               
               get planPriceBs() {
@@ -116,7 +115,7 @@
               },
               
               get planName() {
-                  return this.plan === 'premium' ? 'Premium 👑' : 'Standard ⚡';
+                  return this.plan === 'premium' ? 'Negocio 👑' : 'Emprendedor ⚡';
               },
 
               get billingCycleName() {
@@ -193,12 +192,12 @@
                                                 ? 'bg-sky-500/5 border-sky-500/50 shadow-[0_0_20px_rgba(14,165,233,0.15)]' 
                                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10'">
                                         <div class="flex items-center justify-between mb-2">
-                                            <span class="text-xs font-black text-white">Plan Standard</span>
+                                            <span class="text-xs font-black text-white">Plan Emprendedor</span>
                                             <i class="fas fa-check-circle text-sky-400" x-show="plan === 'standard'"></i>
                                         </div>
                                         <p class="text-[10px] text-slate-400 leading-tight">Ideal para comenzar tu negocio.</p>
                                         <div class="mt-4 text-sm font-black text-white">
-                                            $14.99 <span class="text-[9px] font-normal text-slate-450">/ mes</span>
+                                            ${{ number_format(\App\Support\PlanPricing::PLANS['standard']['monthly'], 2) }} <span class="text-[9px] font-normal text-slate-450">/ mes</span>
                                         </div>
                                     </button>
 
@@ -212,12 +211,12 @@
                                             Ideal 👑
                                         </div>
                                         <div class="flex items-center justify-between mb-2">
-                                            <span class="text-xs font-black text-white">Plan Premium</span>
+                                            <span class="text-xs font-black text-white">Plan Negocio</span>
                                             <i class="fas fa-check-circle text-purple-400" x-show="plan === 'premium'"></i>
                                         </div>
-                                        <p class="text-[10px] text-slate-400 leading-tight">Máximo alcance y control visual.</p>
+                                        <p class="text-[10px] text-slate-400 leading-tight">Máximo alcance y beneficios premium.</p>
                                         <div class="mt-4 text-sm font-black text-white">
-                                            $24.99 <span class="text-[9px] font-normal text-slate-450">/ mes</span>
+                                            ${{ number_format(\App\Support\PlanPricing::PLANS['premium']['monthly'], 2) }} <span class="text-[9px] font-normal text-slate-450">/ mes</span>
                                         </div>
                                     </button>
                                 </div>
@@ -448,7 +447,7 @@
                     <h1 class="text-2xl font-black text-white tracking-tight">Estamos Validando tu Transacción</h1>
                     
                     <p class="text-xs text-slate-400 mt-3 leading-relaxed max-w-sm mx-auto">
-                        Tu reporte de pago móvil por el plan <strong class="text-white">{{ $shop->pending_plan === 'premium' ? 'Premium 👑' : 'Standard ⚡' }}</strong> (<span class="text-slate-300 font-bold">{{ ucfirst($shop->pending_billing_cycle) }}</span>) está siendo validado por nuestro equipo de soporte.
+                        Tu reporte de pago móvil por el plan <strong class="text-white">{{ $shop->pending_plan === 'premium' ? 'Negocio 👑' : 'Emprendedor ⚡' }}</strong> (<span class="text-slate-300 font-bold">{{ ucfirst($shop->pending_billing_cycle) }}</span>) está siendo validado por nuestro equipo de soporte.
                     </p>
 
                     <!-- Resumen del Pago -->
@@ -456,10 +455,10 @@
                         <div class="flex justify-between items-center">
                             <span class="text-slate-500 font-bold">Monto Reportado:</span>
                             <strong class="text-white font-extrabold">
-                                @if($shop->pending_plan === 'premium')
-                                    ${{ $shop->pending_billing_cycle === 'anual' ? '224.90' : '24.99' }} USD
+                                @if(in_array($shop->pending_plan, ['standard', 'premium'], true))
+                                    ${{ number_format(\App\Support\PlanPricing::amount($shop->pending_plan, $shop->pending_billing_cycle === 'anual' ? 'anual' : 'mensual'), 2) }} USD
                                 @else
-                                    ${{ $shop->pending_billing_cycle === 'anual' ? '152.90' : '14.99' }} USD
+                                    $0.00 USD
                                 @endif
                             </strong>
                         </div>
@@ -506,7 +505,8 @@
                     <!-- WhatsApp Notification button -->
                     <div class="pt-2 border-t border-white/5 max-w-sm mx-auto">
                         @php
-                            $planLabel = $shop->pending_plan === 'premium' ? 'Premium ($' . ($shop->pending_billing_cycle === 'anual' ? '224.90' : '24.99') . ')' : 'Standard ($' . ($shop->pending_billing_cycle === 'anual' ? '152.90' : '14.99') . ')';
+                            $pendingPlan = in_array($shop->pending_plan, ['standard', 'premium'], true) ? $shop->pending_plan : 'standard';
+                            $planLabel = \App\Support\PlanPricing::displayName($pendingPlan) . ' ($' . number_format(\App\Support\PlanPricing::amount($pendingPlan, $shop->pending_billing_cycle === 'anual' ? 'anual' : 'mensual'), 2) . ')';
                             $messageText = "Hola! He realizado el pago para activar mi tienda en WIStore.\n\n"
                                          . "• Empresa: " . ($shop->payment_company_name ?: $shop->name) . "\n"
                                          . "• Correo: " . ($shop->payment_company_email ?: (Auth::user()->email ?? '')) . "\n"

@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'tenant' => \App\Http\Middleware\IdentifyTenant::class,
             'super_admin_auth' => \App\Http\Middleware\SuperAdminAuth::class,
+            'cache.store' => \App\Http\Middleware\CacheStoreResponse::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

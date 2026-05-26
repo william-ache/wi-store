@@ -5,10 +5,13 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\Admin\ShopSettingsController;
 use App\Http\Controllers\ShortLinkController;
+use App\Http\Controllers\SeoController;
 
 // 1. RUTAS ESTÁTICAS DE LA PLATAFORMA SAAS (WIStore)
 // Definidas en el primer nivel para evitar que colisionen con las rutas dinámicas.
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('platform.robots');
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('platform.sitemap');
 
 Route::get('/login', function () {
     if (Illuminate\Support\Facades\Auth::check()) {
@@ -184,7 +187,9 @@ $tenantPrefix = $isCustomDomain ? '' : '/{shop_slug}';
 Route::middleware(['tenant'])->prefix($tenantPrefix)->group(function () {
 
     // Frontend del Cliente (Público)
-    Route::get('/', [StoreController::class, 'index'])->name('store.index');
+    Route::get('/robots.txt', [SeoController::class, 'robots'])->name('store.robots');
+    Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('store.sitemap');
+    Route::get('/', [StoreController::class, 'index'])->middleware('cache.store')->name('store.index');
     Route::post('/reviews', [StoreController::class, 'storeReview'])->name('reviews.store');
     Route::post('/clients/quick-register', [StoreController::class, 'registerClient'])->name('clients.quick-register');
     Route::post('/orders/notify', [StoreController::class, 'notifyOrder'])->name('orders.notify');

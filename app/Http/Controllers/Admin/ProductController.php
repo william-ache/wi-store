@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
+use App\Services\ImageOptimizer;
 use App\Support\PlanLimits;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        private readonly ImageOptimizer $imageOptimizer,
+    ) {}
     /**
      * Display a listing of the resource.
      */
@@ -51,9 +55,9 @@ class ProductController extends Controller
             'preparation_time' => 'nullable|string|max:50',
         ]);
 
-        $imagePath = null;
+        $imageFields = [];
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
+            $imageFields = $this->imageOptimizer->storeProductImage($request->file('image'));
         }
 
         $features = null;
@@ -61,21 +65,20 @@ class ProductController extends Controller
             $features = json_decode($request->input('features'), true);
         }
 
-        $product = Product::create([
+        $product = Product::create(array_merge([
             'category_id' => $request->category_id,
             'name' => $request->name,
             'seo_title' => $request->seo_title,
             'seo_description' => $request->seo_description,
             'description' => $request->description,
             'price' => $request->price,
-            'image_path' => $imagePath,
             'is_available' => $request->is_available,
             'features' => $features,
             'preparation_time' => $request->preparation_time,
-        ]);
+        ], $imageFields));
 
-        // Load relation for response
         $product->load('category');
+        $this->forgetShopSitemapCache($product->shop_id);
 
         return response()->json([
             'success' => true,
@@ -113,13 +116,10 @@ class ProductController extends Controller
             'preparation_time' => 'nullable|string|max:50',
         ]);
 
-        $imagePath = $product->image_path;
+        $imageFields = [];
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-                Storage::disk('public')->delete($imagePath);
-            }
-            $imagePath = $request->file('image')->store('products', 'public');
+            $this->imageOptimizer->deleteProductImages($product->image_path, $product->image_webp_path);
+            $imageFields = $this->imageOptimizer->storeProductImage($request->file('image'));
         }
 
         $features = $product->features;
@@ -127,20 +127,20 @@ class ProductController extends Controller
             $features = $request->filled('features') ? json_decode($request->input('features'), true) : null;
         }
 
-        $product->update([
+        $product->update(array_merge([
             'category_id' => $request->category_id,
             'name' => $request->name,
             'seo_title' => $request->seo_title,
             'seo_description' => $request->seo_description,
             'description' => $request->description,
             'price' => $request->price,
-            'image_path' => $imagePath,
             'is_available' => $request->is_available,
             'features' => $features,
             'preparation_time' => $request->preparation_time,
-        ]);
+        ], $imageFields));
 
         $product->load('category');
+        $this->forgetShopSitemapCache($product->shop_id);
 
         return response()->json([
             'success' => true,
@@ -154,15 +154,21 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        if ($product->image_path && Storage::disk('public')->exists($product->image_path)) {
-            Storage::disk('public')->delete($product->image_path);
-        }
-
+        $this->imageOptimizer->deleteProductImages($product->image_path, $product->image_webp_path);
+        $shopId = $product->shop_id;
         $product->delete();
+        $this->forgetShopSitemapCache($shopId);
 
         return response()->json([
             'success' => true,
             'message' => 'Producto eliminado exitosamente.'
         ]);
+    }
+
+    private function forgetShopSitemapCache(?int $shopId): void
+    {
+        if ($shopId) {
+            Cache::forget("sitemap.shop.{$shopId}");
+        }
     }
 }

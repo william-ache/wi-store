@@ -8,14 +8,14 @@
         ['Personalización de marca', ['Básica', 'Completa', 'Completa', 'A medida']],
         ['Métodos de pago (Pago Móvil / Zelle)', [$cross, $cross, $check, $check]],
         ['Tasa BCV automática', [$cross, $check, $check, $check]],
-        ['Soporte técnico', ['48h', '24h', 'VIP 12h', '24/7 dedicado']],
+        ['Soporte técnico', ['48h', '24h', '12h', '24/7 dedicado']],
     ];
     $detailRows = [
         ['Enlace corto personalizado', [$check, $check, $check, $check]],
         ['Categorías de productos', ['Hasta 3', 'Ilimitadas', 'Ilimitadas', 'Ilimitadas']],
         ['Comisiones por venta', ['0%', '0%', '0%', '0%']],
         ['Logo y portada', [$check, $check, $check, $check]],
-        ['Insignia VIP en tienda', [$cross, $cross, $check, 'Opcional']],
+        ['Insignia premium en tienda', [$cross, $cross, $check, 'Opcional']],
         ['Dominio propio', [$cross, $cross, $cross, $check]],
         ['Infraestructura', ['SaaS', 'SaaS', 'SaaS', 'Servidor dedicado']],
         ['Panel super admin', [$cross, $cross, $cross, 'Opcional']],
@@ -35,14 +35,15 @@
                     <p class="text-[10px] text-slate-500 mt-1">7 días gratis</p>
                 </th>
                 <th class="p-4 border-l border-white/5 text-center">
-                    <span class="text-xs font-black text-white uppercase">Standard</span>
-                    <p class="text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-300/90 to-cyan-300/90 mt-1">Muy pronto</p>
+                    <span class="text-xs font-black text-white uppercase">Emprendedor</span>
+                    <p class="text-sm font-black text-white mt-1">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['standard']['monthly']) }}<span class="text-[10px] text-slate-500 font-semibold">/mes</span></p>
                 </th>
                 <th class="p-4 border-l border-purple-500/20 text-center bg-purple-500/[0.06] relative">
                     <span class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-purple-500/50 via-fuchsia-500/40 to-cyan-400/50"></span>
-                    <span class="landing-plan-badge landing-plan-badge--vip-premium text-[8px] px-2 py-0.5 rounded-full inline-block mb-1">Recomendado</span>
-                    <span class="text-xs font-black text-white uppercase block">Premium</span>
-                    <p class="text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300 mt-1">Muy pronto</p>
+                    <span class="landing-plan-badge text-[8px] px-2 py-0.5 rounded-full inline-block mb-1">Recomendado</span>
+                    <span class="text-xs font-black text-white uppercase block">Negocio</span>
+                    <p class="text-[10px] font-bold text-cyan-300 mt-1">14 días gratis</p>
+                    <p class="text-sm font-black text-white mt-0.5">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}<span class="text-[10px] text-slate-500 font-semibold">/mes después</span></p>
                 </th>
                 <th class="p-4 border-l border-white/5 text-center">
                     <span class="text-xs font-black text-white uppercase">Custom</span>
