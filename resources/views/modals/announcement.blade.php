@@ -13,7 +13,7 @@
           x-transition:leave="transition ease-in duration-200"
           x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
           x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          class="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col transition-colors duration-300 max-h-[90vh]">
+          class="relative ui-card rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col transition-colors duration-300 max-h-[90vh]">
         
         <!-- Encabezado -->
         <div class="px-6 py-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between sticky top-0 z-10 bg-primary text-white transition-colors duration-300 shadow-md">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="flex-grow w-full">
                         <input type="file" id="image" accept="image/*" @change="handleImageChange" class="hidden">
-                        <label for="image" class="w-full bg-slate-50 dark:bg-slate-850 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 text-slate-700 dark:text-slate-300 font-extrabold text-[11px] uppercase tracking-wider px-5 py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 border-dashed transition active:scale-98">
+                        <label for="image" class="w-full ui-inset hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 text-slate-700 dark:text-slate-300 font-extrabold text-[11px] uppercase tracking-wider px-5 py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 border-dashed transition active:scale-98">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                             Cargar Imagen
                         </label>

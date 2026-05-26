@@ -32,7 +32,7 @@
 </style>
 
 <div id="admin-request-loader"
-     class="hidden opacity-0 fixed inset-0 bg-white/95 dark:bg-slate-950/95 flex flex-col justify-center items-center z-[99999] transition-opacity duration-300 backdrop-blur-sm"
+     class="hidden opacity-0 fixed inset-0 ui-overlay flex flex-col justify-center items-center z-[99999] transition-opacity duration-300 backdrop-blur-sm"
      aria-hidden="true"
      role="status">
     <div class="relative w-24 h-24 flex justify-center items-center">
@@ -44,7 +44,7 @@
         @endif
         <div class="absolute inset-0 border-4 {{ $isPremiumPlan ? 'border-yellow-100/50 dark:border-yellow-900/30' : 'border-slate-100 dark:border-slate-800' }} rounded-full animate-spin"
              style="border-top-color: {{ $isPremiumPlan ? '#F59E0B' : (config('current_shop')->color_primary ?? '#E60067') }};"></div>
-        <div class="w-20 h-20 rounded-full {{ $isPremiumPlan ? 'wi-loader-premium-ring border-2 border-yellow-400 bg-white dark:bg-slate-900' : 'bg-slate-200 dark:bg-slate-800 text-slate-400 shadow-sm' }} overflow-hidden flex items-center justify-center text-xs font-bold relative z-10">
+        <div class="w-20 h-20 rounded-full {{ $isPremiumPlan ? 'wi-loader-premium-ring border-2 border-yellow-400 ui-surface' : 'bg-slate-200 dark:bg-slate-800 text-slate-400 shadow-sm' }} overflow-hidden flex items-center justify-center text-xs font-bold relative z-10">
             @if ($logoUrl)
                 <img src="{{ $logoUrl }}" alt="Logo" class="w-full h-full object-cover"
                      id="admin-loader-logo-img"

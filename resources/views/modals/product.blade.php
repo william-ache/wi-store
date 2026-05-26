@@ -12,7 +12,7 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            class="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col transition-colors duration-300 max-h-[90vh]">
+            class="relative ui-card rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col transition-colors duration-300 max-h-[90vh]">
 
             <!-- Encabezado (Header Sticky con color primario) -->
             <div
@@ -192,7 +192,7 @@
                             de Medida</label>
                         <select id="selectedMedidaPreset" x-model="selectedMedidaPreset"
                             @change="handleMedidaSelect()"
-                            class="select2-enable w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
+                            class="select2-enable w-full ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
                             <option value="">-- Selecciona Medida --</option>
                             <option value="Unidad">Unidad</option>
                             <option value="1 Kg">1 Kg</option>
@@ -206,7 +206,7 @@
                         </select>
                         <div x-show="showCustomMedida" x-cloak class="flex gap-2 mt-2">
                             <input type="text" x-model="tempMedida" @keydown.enter.prevent="addMedida()"
-                                class="flex-grow bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
+                                class="flex-grow ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
                                 placeholder="Medida personalizada...">
                             <button type="button" @click="addMedida()"
                                 class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-655 text-slate-750 dark:text-slate-200 px-4 rounded-xl text-xs font-bold transition cursor-pointer"><i
@@ -215,7 +215,7 @@
                         <div class="flex flex-wrap gap-1.5 pt-1">
                             <template x-for="(medida, index) in productFeatures.medidas" :key="index">
                                 <span
-                                    class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[10px] font-bold pl-3 pr-2 py-1 rounded-xl flex items-center gap-1.5 shadow-sm">
+                                    class="ui-field border text-slate-700 dark:text-slate-300 text-[10px] font-bold pl-3 pr-2 py-1 rounded-xl flex items-center gap-1.5 shadow-sm">
                                     <span x-text="medida"></span>
                                     <button type="button" @click="removeMedida(index)"
                                         class="text-slate-400 hover:text-rose-500 text-xs cursor-pointer"><i
@@ -231,7 +231,7 @@
                         <label class="block text-[9px] font-extrabold text-primary uppercase tracking-widest">Sabores
                             Disponibles</label>
                         <select id="selectedSaborPreset" x-model="selectedSaborPreset" @change="handleSaborSelect()"
-                            class="select2-enable w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
+                            class="select2-enable w-full ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
                             <option value="">-- Selecciona Sabor --</option>
                             <option value="Chocolate">Chocolate</option>
                             <option value="Vainilla">Vainilla</option>
@@ -245,7 +245,7 @@
                         </select>
                         <div x-show="showCustomSabor" x-cloak class="flex gap-2 mt-2">
                             <input type="text" x-model="tempSabor" @keydown.enter.prevent="addSabor()"
-                                class="flex-grow bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
+                                class="flex-grow ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
                                 placeholder="Sabor personalizado...">
                             <button type="button" @click="addSabor()"
                                 class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-655 text-slate-750 dark:text-slate-200 px-4 rounded-xl text-xs font-bold transition cursor-pointer"><i
@@ -254,7 +254,7 @@
                         <div class="flex flex-wrap gap-1.5 pt-1">
                             <template x-for="(sabor, index) in productFeatures.sabores" :key="index">
                                 <span
-                                    class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[10px] font-bold pl-3 pr-2 py-1 rounded-xl flex items-center gap-1.5 shadow-sm">
+                                    class="ui-field border text-slate-700 dark:text-slate-300 text-[10px] font-bold pl-3 pr-2 py-1 rounded-xl flex items-center gap-1.5 shadow-sm">
                                     <span x-text="sabor"></span>
                                     <button type="button" @click="removeSabor(index)"
                                         class="text-slate-400 hover:text-rose-500 text-xs cursor-pointer"><i
@@ -270,7 +270,7 @@
                         <label class="block text-[9px] font-extrabold text-primary uppercase tracking-widest">Gama de
                             Colores</label>
                         <select id="selectedColorPreset" x-model="selectedColorPreset" @change="handleColorSelect()"
-                            class="select2-enable w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
+                            class="select2-enable w-full ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
                             <option value="">-- Selecciona Color --</option>
                             <option value="Negro|#000000">Negro</option>
                             <option value="Blanco|#FFFFFF">Blanco</option>
@@ -283,7 +283,7 @@
                         </select>
                         <div x-show="showCustomColor" x-cloak class="flex gap-2 items-center mt-2">
                             <input type="text" x-model="tempColorName"
-                                class="flex-grow bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
+                                class="flex-grow ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
                                 placeholder="Nombre (ej: Rojo)...">
                             <div
                                 class="w-10 h-10 shrink-0 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden relative">
@@ -297,7 +297,7 @@
                         <div class="flex flex-wrap gap-1.5 pt-1">
                             <template x-for="(color, index) in productFeatures.colores" :key="index">
                                 <span
-                                    class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[10px] font-bold pl-3 pr-2 py-1 rounded-xl flex items-center gap-2 shadow-sm">
+                                    class="ui-field border text-slate-700 dark:text-slate-300 text-[10px] font-bold pl-3 pr-2 py-1 rounded-xl flex items-center gap-2 shadow-sm">
                                     <span class="w-2.5 h-2.5 rounded-full inline-block border border-black/10"
                                         :style="'background-color: ' + color.hex"></span>
                                     <span x-text="color.nombre"></span>
@@ -316,7 +316,7 @@
                             Tallas</label>
                         <select id="selectedTamanoPreset" x-model="selectedTamanoPreset"
                             @change="handleTamanoSelect()"
-                            class="select2-enable w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
+                            class="select2-enable w-full ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
                             <option value="">-- Selecciona Tamaño --</option>
                             <option value="Chico">Chico</option>
                             <option value="Mediano">Mediano</option>
@@ -329,7 +329,7 @@
                         </select>
                         <div x-show="showCustomTamano" x-cloak class="flex gap-2 mt-2">
                             <input type="text" x-model="tempTamano" @keydown.enter.prevent="addTamano()"
-                                class="flex-grow bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
+                                class="flex-grow ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
                                 placeholder="Tamaño personalizado...">
                             <button type="button" @click="addTamano()"
                                 class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-655 text-slate-750 dark:text-slate-200 px-4 rounded-xl text-xs font-bold transition cursor-pointer"><i
@@ -338,7 +338,7 @@
                         <div class="flex flex-wrap gap-1.5 pt-1">
                             <template x-for="(tamano, index) in productFeatures.tamanos" :key="index">
                                 <span
-                                    class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[10px] font-bold pl-3 pr-2 py-1 rounded-xl flex items-center gap-1.5 shadow-sm">
+                                    class="ui-field border text-slate-700 dark:text-slate-300 text-[10px] font-bold pl-3 pr-2 py-1 rounded-xl flex items-center gap-1.5 shadow-sm">
                                     <span x-text="tamano"></span>
                                     <button type="button" @click="removeTamano(index)"
                                         class="text-slate-400 hover:text-rose-500 text-xs cursor-pointer"><i
@@ -360,7 +360,7 @@
                                 de Característica</span>
                             <select id="selectedOtroPreset" x-model="selectedOtroPreset"
                                 @change="handleOtroPresetSelect()"
-                                class="select2-enable w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
+                                class="select2-enable w-full ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none">
                                 <option value="">-- Selecciona Tipo --</option>
                                 <option value="Adicionales">Adicionales</option>
                                 <option value="Salsas">Salsas</option>
@@ -376,7 +376,7 @@
                             <span class="block text-[9px] font-bold text-primary/80 uppercase tracking-wider">Nombre
                                 Seleccionado</span>
                             <input type="text" x-model="tempOtroName"
-                                class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
+                                class="w-full ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
                                 placeholder="Ej: Tipo de Pan, Adicionales...">
                         </div>
 
@@ -405,7 +405,7 @@
                                     <div class="flex gap-2">
                                         <input type="text" x-model="tempOtroSingleValue"
                                             @keydown.enter.prevent="addOtroValue()"
-                                            class="flex-grow bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
+                                            class="flex-grow ui-field border text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none"
                                             placeholder="Ej: Integral, Brioche, Sin Queso...">
                                         <button type="button" @click="addOtroValue()"
                                             class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-655 text-slate-750 dark:text-slate-200 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center cursor-pointer">
@@ -447,7 +447,7 @@
                                 Registradas:</span>
                             <template x-for="(otro, index) in productFeatures.otros" :key="index">
                                 <div
-                                    class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-xl flex items-center justify-between text-xs shadow-sm">
+                                    class="ui-field border p-3 rounded-xl flex items-center justify-between text-xs shadow-sm">
                                     <div>
                                         <span class="font-extrabold text-slate-750 dark:text-slate-355"
                                             x-text="otro.nombre + ': '"></span>

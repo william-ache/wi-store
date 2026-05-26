@@ -53,7 +53,7 @@
             @endphp
 
             @foreach($videos as $video)
-            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:scale-[1.02] group cursor-pointer"
+            <div class="ui-card rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:scale-[1.02] group cursor-pointer"
                  onclick="Swal.fire({
                      title: '{{ $video['title'] }}',
                      html: '<div class=\'rounded-2xl overflow-hidden bg-slate-950 aspect-video flex items-center justify-center border border-white/10 shadow-inner\'><div class=\'text-center\'><i class=\'fas fa-play text-4xl text-purple-400 animate-pulse\'></i><p class=\'text-[10px] text-slate-450 mt-3 font-semibold uppercase tracking-wider\'>Cargando Sesión de Video Entrenamiento...</p></div></div><p class=\'text-xs text-slate-400 mt-4 leading-relaxed\'>Estamos preparando tu lección práctica guiada de <strong>{{ $video['topic'] }}</strong>. ¡Prepara tus audífonos!</p>',
@@ -114,7 +114,7 @@
             Preguntas Frecuentes (FAQ)
         </h3>
 
-        <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[28px] overflow-hidden shadow-sm transition-colors duration-300">
+        <div class="ui-card rounded-[28px] overflow-hidden shadow-sm transition-colors duration-300">
             @php
                 $faqs = [
                     [

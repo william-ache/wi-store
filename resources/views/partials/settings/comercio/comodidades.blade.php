@@ -1,5 +1,5 @@
                     <!-- Servicios y Comodidades (Amenities) -->
-                    <div class="bg-white dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-150 dark:border-slate-800 space-y-2.5 shadow-sm mt-3">
+                    <div class="ui-surface/60 p-3.5 rounded-xl border border-slate-150 dark:border-slate-800 space-y-2.5 shadow-sm mt-3">
                         <span class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">Servicios & Comodidades del Local</span>
                         
                         <div class="grid grid-cols-1 gap-2.5">
@@ -94,7 +94,7 @@
                                     <div class="flex items-center gap-2 pl-9">
                                         <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 shrink-0">Etiqueta:</span>
                                         <input type="text" name="amenities[{{ $key }}][value]" value="{{ $value }}" placeholder="Ej: {{ $item['default'] }}"
-                                               class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-lg px-2 py-0.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold shadow-inner">
+                                               class="w-full ui-field border rounded-lg px-2 py-0.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold shadow-inner">
                                     </div>
                                 </div>
                             @endforeach

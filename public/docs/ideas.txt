@@ -1,5 +1,3 @@
-poner el progreso del consumo en productos y categorias, y el reduseño de KATALO
-
 ceo de https://www.zenifi.app/
 
 incluird chat para poder hablar con el cliente desde el panel admin y que el cliente pueda escribir desde el carrito de compra si asi lo desea 

@@ -32,7 +32,7 @@
     @endif
 
     <!-- FORMULARIO NUEVO CUPÓN (Oculto por defecto, se revela al pulsar el botón) -->
-    <div id="new-coupon-card" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[28px] p-6 sm:p-8 shadow-sm transition-colors duration-300 hidden">
+    <div id="new-coupon-card" class="ui-card rounded-[28px] p-6 sm:p-8 shadow-sm transition-colors duration-300 hidden">
         <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800/40 mb-6">
             <h3 class="text-sm font-black text-slate-850 dark:text-white uppercase tracking-wider">Crear Nuevo Cupón de Descuento</h3>
             <button type="button" @click="document.getElementById('new-coupon-card').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors cursor-pointer">
@@ -135,7 +135,7 @@
 
         @if($coupons->isEmpty())
             <!-- ESTADO VACÍO CARD -->
-            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[28px] p-12 text-center shadow-sm transition-colors duration-300 select-none">
+            <div class="ui-card rounded-[28px] p-12 text-center shadow-sm transition-colors duration-300 select-none">
                 <div class="w-16 h-16 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center mx-auto mb-4 text-slate-350 dark:text-slate-600 shadow-inner">
                     <i class="fa-solid fa-tags text-2xl"></i>
                 </div>
@@ -150,7 +150,7 @@
             <!-- LISTADO DE CUPONES -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @foreach($coupons as $coupon)
-                    <div class="bg-white dark:bg-slate-900 border {{ $coupon->is_active ? 'border-slate-100 dark:border-slate-850/80' : 'border-slate-200/50 dark:border-slate-800/40 opacity-75' }} rounded-[24px] p-5 shadow-sm transition-colors duration-300 flex flex-col justify-between gap-4">
+                    <div class="ui-surface border {{ $coupon->is_active ? 'border-slate-100 dark:border-slate-850/80' : 'border-slate-200/50 dark:border-slate-800/40 opacity-75' }} rounded-[24px] p-5 shadow-sm transition-colors duration-300 flex flex-col justify-between gap-4">
                         
                         <!-- Top Row: Code & Toggle -->
                         <div class="flex items-start justify-between gap-3">

@@ -16,10 +16,10 @@
     </div>
 
     @if($shortLink = $shop->shortLinks()->first())
-        <div class="rounded-xl border border-slate-200/80 dark:border-slate-750 bg-slate-50/80 dark:bg-slate-950/50 p-2.5 space-y-2">
+        <div class="rounded-xl border border-slate-200/80 dark:border-slate-750 ui-inset p-2.5 space-y-2">
             <span class="text-[9px] uppercase font-extrabold text-slate-400 dark:text-slate-500 tracking-wider">Enlace activo</span>
             <div class="flex flex-col sm:flex-row items-stretch gap-2">
-                <div class="flex-grow bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-lg px-2.5 py-1.5 flex items-center justify-between text-[10px] text-slate-800 dark:text-slate-200 font-bold select-all overflow-x-auto">
+                <div class="flex-grow ui-surface border border-slate-200 dark:border-slate-750 rounded-lg px-2.5 py-1.5 flex items-center justify-between text-[10px] text-slate-800 dark:text-slate-200 font-bold select-all overflow-x-auto">
                     <span>{{ $shortLinkHost }}/l/{{ $shortLink->code }}</span>
                     <span class="text-[8px] bg-slate-100 dark:bg-slate-800 text-slate-500 px-1.5 py-0.5 rounded font-semibold shrink-0 ml-2">Activo</span>
                 </div>
@@ -30,7 +30,7 @@
                     Copiar
                 </button>
             </div>
-            <span class="inline-flex items-center gap-1 text-[9px] text-slate-500 dark:text-slate-400 font-bold py-0.5 px-2 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <span class="inline-flex items-center gap-1 text-[9px] text-slate-500 dark:text-slate-400 font-bold py-0.5 px-2 rounded ui-surface border border-slate-200 dark:border-slate-700">
                 📊 {{ $shortLink->clicks_count }} {{ $shortLink->clicks_count == 1 ? 'visita' : 'visitas' }}
             </span>
         </div>
@@ -39,7 +39,7 @@
     <div class="space-y-2">
         <div class="space-y-0.5">
             <label for="code" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Palabra clave o prefijo corto</label>
-            <div class="flex items-stretch rounded-xl border border-slate-200 dark:border-slate-750 overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/15 transition shadow-sm bg-slate-50 dark:bg-slate-850">
+            <div class="flex items-stretch rounded-xl border border-slate-200 dark:border-slate-750 overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/15 transition shadow-sm ui-inset">
                 <span class="bg-slate-100 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 px-2.5 py-1.5 flex items-center text-[10px] font-bold select-none shrink-0">
                     {{ $shortLinkHost }}/l/
                 </span>

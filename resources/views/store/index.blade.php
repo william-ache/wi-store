@@ -144,10 +144,24 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
+        @php
+            $storePrimary = \App\Support\BrandColor::normalizeHex($company['colors']['primary'] ?? '#E60067');
+            $storeOnPrimary = \App\Support\BrandColor::onPrimary($storePrimary);
+            $storePrimaryRgb = \App\Support\BrandColor::rgb($storePrimary);
+            $storeOnPrimaryRgb = \App\Support\BrandColor::onPrimaryRgb($storePrimary);
+        @endphp
         :root {
-            --color-primary: {{ $company['colors']['primary'] }};
+            --color-primary: {{ $storePrimary }};
+            --color-primary-rgb: {{ $storePrimaryRgb['r'] }}, {{ $storePrimaryRgb['g'] }}, {{ $storePrimaryRgb['b'] }};
+            --color-on-primary: {{ $storeOnPrimary }};
+            --color-on-primary-rgb: {{ $storeOnPrimaryRgb['r'] }}, {{ $storeOnPrimaryRgb['g'] }}, {{ $storeOnPrimaryRgb['b'] }};
             --color-secondary: {{ $company['colors']['secondary'] }};
             --color-bg: {{ $company['colors']['bg_light'] }};
+        }
+
+        .store-accent-fill {
+            background-color: var(--color-primary);
+            color: var(--color-on-primary);
         }
 
         html {

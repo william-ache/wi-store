@@ -1,19 +1,28 @@
     html.wistore-ui.wistore-admin {
         scrollbar-width: thin;
         scrollbar-color: var(--color-primary) transparent;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     html.wistore-ui.wistore-admin ::-webkit-scrollbar,
     html.wistore-ui.wistore-admin .wistore-scrollbar::-webkit-scrollbar,
     html.wistore-ui.wistore-admin .custom-scrollbar::-webkit-scrollbar {
         width: 4px;
-        height: 4px;
+        height: 0;
+    }
+
+    html.wistore-ui.wistore-admin ::-webkit-scrollbar:horizontal,
+    html.wistore-ui.wistore-admin .wistore-scrollbar::-webkit-scrollbar:horizontal,
+    html.wistore-ui.wistore-admin .custom-scrollbar::-webkit-scrollbar:horizontal {
+        height: 0;
+        display: none;
     }
 
     html.wistore-ui.wistore-admin ::-webkit-scrollbar-track,
     html.wistore-ui.wistore-admin .wistore-scrollbar::-webkit-scrollbar-track,
     html.wistore-ui.wistore-admin .custom-scrollbar::-webkit-scrollbar-track {
-        background: rgba(var(--color-primary-rgb), 0.08);
+        background: transparent;
     }
 
     html.wistore-ui.wistore-admin ::-webkit-scrollbar-thumb,

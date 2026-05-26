@@ -103,7 +103,7 @@
     </div>
 
     <!-- Tarjeta Principal de Control -->
-    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] p-6 md:p-8 transition-all duration-300">
+    <div class="ui-card rounded-3xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] p-6 md:p-8 transition-all duration-300">
         
         <!-- Encabezado de la Sección -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
@@ -120,7 +120,7 @@
                 <x-admin.excel-toolbar entity="announcements" />
                 <button :disabled="announcementCount >= 3" 
                         @click="openCreate()" 
-                        :class="announcementCount >= 3 ? 'bg-slate-200 dark:bg-slate-850 text-slate-400 dark:text-slate-600 cursor-not-allowed border border-slate-300/20' : 'bg-primary hover:bg-primary/90 text-white active:scale-95 shadow-md hover:shadow-lg shadow-black/5 dark:shadow-black/20'"
+                        :class="announcementCount >= 3 ? 'ui-inset opacity-80 text-slate-400 dark:text-slate-600 cursor-not-allowed border border-slate-300/20' : 'bg-primary hover:bg-primary/90 text-white active:scale-95 shadow-md hover:shadow-lg shadow-black/5 dark:shadow-black/20'"
                         class="font-extrabold text-xs px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     <span x-text="announcementCount >= 3 ? 'Límite de 3 Alcanzado 🔒' : 'Registrar Anuncio'">Registrar Anuncio</span>

@@ -26,7 +26,7 @@
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-    .tab-btn.active { background-color: var(--color-primary); color: white; }
+    .tab-btn.active { background-color: var(--color-primary); color: var(--color-on-primary); }
 
     .settings-save-bar {
         position: sticky;
@@ -35,7 +35,7 @@
         background: linear-gradient(to top, rgba(255,255,255,0.98) 70%, transparent);
     }
     .dark .settings-save-bar {
-        background: linear-gradient(to top, rgba(15,23,42,0.98) 70%, transparent);
+        background: linear-gradient(to top, rgba(18,18,18,0.98) 70%, transparent);
     }
 
     /* Escritorio: contenido de configuración un poco más grande */

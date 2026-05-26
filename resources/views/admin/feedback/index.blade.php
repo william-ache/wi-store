@@ -14,7 +14,7 @@
     </div>
 
     <!-- TARJETA DEL FORMULARIO -->
-    <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[28px] p-6 sm:p-8 shadow-sm transition-colors duration-300"
+    <div class="ui-card rounded-[28px] p-6 sm:p-8 shadow-sm transition-colors duration-300"
          x-data="{ type: 'comentario', charCount: 0 }">
         
         <form action="{{ route('admin.feedback.store', ['shop_slug' => config('current_shop')->slug]) }}" method="POST" class="space-y-6">
@@ -117,7 +117,7 @@
 
         @if($feedbacks->isEmpty())
         <!-- Estado Vacío Card -->
-        <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[28px] p-12 text-center shadow-sm transition-colors duration-300 select-none">
+        <div class="ui-card rounded-[28px] p-12 text-center shadow-sm transition-colors duration-300 select-none">
             <div class="w-16 h-16 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center mx-auto mb-4 text-slate-350 dark:text-slate-600 shadow-inner">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
             </div>
@@ -129,7 +129,7 @@
         <!-- Listado de Envíos -->
         <div class="space-y-4">
             @foreach($feedbacks as $item)
-            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-850/80 rounded-[24px] p-5 shadow-sm transition-colors duration-300 space-y-3">
+            <div class="ui-surface border border-slate-100 dark:border-slate-850/80 rounded-[24px] p-5 shadow-sm transition-colors duration-300 space-y-3">
                 <div class="flex items-center justify-between gap-3">
                     <div class="flex items-center gap-2.5 min-w-0">
                         <!-- Type Badge -->

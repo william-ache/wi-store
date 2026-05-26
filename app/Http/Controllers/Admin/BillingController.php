@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
 use App\Models\Notification;
+use App\Support\PlanLimits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -47,25 +48,11 @@ class BillingController extends Controller
         $productsCount = \App\Models\Product::where('shop_id', $shop->id)->count();
         $categoriesCount = \App\Models\Category::where('shop_id', $shop->id)->count();
 
-        $plan = $shop->plan ?? 'free_trial';
-
-        // Plan details mapping
-        if ($plan === 'free_trial') {
-            $maxProducts = 25;
-            $maxCategories = 5;
-            $planName = 'Básico';
-            $planPrice = 'Bs 0/mes';
-        } elseif ($plan === 'standard') {
-            $maxProducts = 150;
-            $maxCategories = 15;
-            $planName = 'Pro';
-            $planPrice = 'Bs 220/mes';
-        } else {
-            $maxProducts = 'Ilimitados';
-            $maxCategories = 'Ilimitados';
-            $planName = 'Negocio';
-            $planPrice = 'Bs 400/mes';
-        }
+        $planConfig = PlanLimits::forShop($shop);
+        $planName = $planConfig['name'];
+        $planPrice = $planConfig['price'];
+        $maxProducts = $planConfig['max_products'] ?? 'Ilimitados';
+        $maxCategories = $planConfig['max_categories'] ?? 'Ilimitados';
 
         // Expiration telemetry
         $daysRemaining = 0;

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full wistore-ui wistore-admin">
+<html lang="es" class="h-full wistore-ui wistore-admin" x-data="adminLayout" :class="{ 'dark': darkMode, 'admin-sidebar-open': sidebarOpen }">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Panel de Administración') - {{ config('current_shop')->name ?? 'Mi Tienda' }}</title>
     
@@ -61,21 +61,29 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="text-slate-800 pb-20 md:pb-0 select-none bg-slate-50 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-200 min-h-full flex flex-col" 
-      x-data="adminLayout" 
-      :class="{ 'dark': darkMode }">
+<body class="wistore-admin-body select-none transition-colors duration-300">
 
-    <!-- 1. LAYOUT DE ESCRITORIO CON SIDEBAR (md:flex) -->
-    <div class="min-h-screen md:flex flex-grow">
-        
-        <!-- Sidebar Navigation -->
+    <div class="admin-viewport">
+        <div
+            class="admin-sidebar-backdrop md:hidden"
+            x-show="sidebarOpen"
+            x-cloak
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @click="closeSidebar()"
+            aria-hidden="true"
+        ></div>
+
         @include('components.admin.sidebar')
 
-        <!-- ÁREA CENTRAL DE CONTENIDO (Móvil full, Escritorio flex-1) -->
-        <div class="flex-grow flex flex-col min-h-screen">
-            
-            <!-- Top Header Navbar -->
+        <div class="admin-main-column">
             @include('components.admin.header')
+
+            <div class="admin-topbar-spacer" aria-hidden="true"></div>
 
             @if(isset($shopIsInactive) && $shopIsInactive)
             <div class="max-w-7xl mx-auto w-full px-4 md:px-8 pt-4">
@@ -120,14 +128,11 @@
             @endif
 
             <!-- CORE DASHBOARD BODY -->
-            <main class="max-w-7xl mx-auto w-full px-4 md:px-8 py-6 space-y-6 flex-grow">
+            <main class="admin-main-content max-w-7xl mx-auto w-full px-4 md:px-8 py-6 space-y-6">
                 @yield('content')
             </main>
         </div>
     </div>
-
-    <!-- Mobile Navigation Tabbar -->
-    @include('components.admin.mobile-navbar')
 
     <!-- Modal Notifications List -->
     @include('modals.admin.all-notifications')

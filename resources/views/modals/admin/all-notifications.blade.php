@@ -8,7 +8,7 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
          x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-         class="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[85vh] transition-colors duration-300">
+         class="relative ui-card rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[85vh] transition-colors duration-300">
         
         <!-- Modal Header -->
         <div class="px-6 py-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between bg-primary text-white sticky top-0 z-10 transition-colors duration-300 shadow-md">

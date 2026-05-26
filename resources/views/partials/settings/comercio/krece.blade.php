@@ -10,7 +10,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div class="bg-white dark:bg-slate-900 border krece-brand-border rounded-2xl p-3.5 space-y-3">
+        <div class="ui-surface border krece-brand-border rounded-2xl p-3.5 space-y-3">
             <div class="flex items-center justify-between gap-2">
                 <span class="text-[11px] font-black text-slate-800 dark:text-slate-200">Krece (QR en tienda)</span>
                 <label class="relative inline-flex items-center cursor-pointer select-none shrink-0">
@@ -20,7 +20,7 @@
             </div>
             <p class="text-[9px] text-slate-500 leading-normal">Sube el QR que te da Krece para que el cliente lo escanee al pagar.</p>
             @if ($shop->kreceQrUrl())
-                <div class="flex items-start gap-2 p-2 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-100 dark:border-slate-800">
+                <div class="flex items-start gap-2 p-2 ui-inset rounded-xl border border-slate-100 dark:border-slate-800">
                     <img src="{{ $shop->kreceQrUrl() }}" alt="QR Krece" class="w-20 h-20 object-contain rounded-lg bg-white border border-slate-100">
                     <label class="flex items-center gap-1.5 text-[10px] font-bold text-rose-600 cursor-pointer">
                         <input type="checkbox" name="remove_krece_qr" value="1" class="rounded border-rose-300 text-rose-500">
@@ -32,7 +32,7 @@
                 class="w-full text-[10px] text-slate-600 dark:text-slate-300 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-black file:krece-brand-bg file:text-black">
         </div>
 
-        <div class="bg-white dark:bg-slate-900 border krece-brand-border rounded-2xl p-3.5 space-y-3">
+        <div class="ui-surface border krece-brand-border rounded-2xl p-3.5 space-y-3">
             <div class="flex items-center justify-between gap-2">
                 <span class="text-[11px] font-black text-slate-800 dark:text-slate-200">Krece Link</span>
                 <label class="relative inline-flex items-center cursor-pointer select-none shrink-0">
@@ -44,7 +44,7 @@
             <div class="space-y-1">
                 <label for="krece_link_url" class="text-[9px] font-bold text-slate-600 dark:text-slate-400">URL del enlace</label>
                 <input type="url" id="krece_link_url" name="krece_link_url"
-                    class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-[10px] text-slate-800 dark:text-slate-200 focus:outline-none focus:border-sky-300 focus:ring-1 focus:ring-sky-300/40 font-semibold"
+                    class="w-full ui-inset border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-[10px] text-slate-800 dark:text-slate-200 focus:outline-none focus:border-sky-300 focus:ring-1 focus:ring-sky-300/40 font-semibold"
                     value="{{ old('krece_link_url', $shop->krece_link_url) }}" placeholder="https://...">
             </div>
         </div>

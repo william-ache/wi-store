@@ -1,14 +1,144 @@
 <!-- Alpine.js layout data structure -->
 <script>
     document.addEventListener('alpine:init', () => {
+        Alpine.store('connection', {
+            online: typeof navigator !== 'undefined' ? navigator.onLine : true,
+        });
+
+        window.addEventListener('online', () => {
+            Alpine.store('connection').online = true;
+        });
+        window.addEventListener('offline', () => {
+            Alpine.store('connection').online = false;
+        });
+
         Alpine.data('adminLayout', () => ({
             showFeedbackModal: {{ (session('open_feedback_modal') || $errors->has('title') || $errors->has('description') || $errors->has('type')) ? 'true' : 'false' }},
             showAllNotifs: false,
+            sidebarOpen: false,
+            profileMenuOpen: false,
+            searchModalOpen: false,
+            notifOpen: false,
+            searchQuery: '',
+            searchResults: { categories: [], products: [], orders: [], clients: [] },
+            searchPanelOpen: false,
+            searchLoading: false,
             darkMode: localStorage.getItem('admin-dark-mode') === 'true',
             unreadCount: 0,
             notifications: [],
             shopSlug: '{{ config('current_shop')->slug }}',
+            toggleSidebar() {
+                this.sidebarOpen = !this.sidebarOpen;
+            },
+            closeSidebar() {
+                this.sidebarOpen = false;
+            },
+            onSidebarNavClick(event) {
+                if (window.innerWidth >= 768) return;
+                const link = event.target.closest('a[href]');
+                if (link && !link.getAttribute('href')?.startsWith('#')) {
+                    this.closeSidebar();
+                }
+            },
+            toggleProfileMenu() {
+                this.profileMenuOpen = !this.profileMenuOpen;
+                if (!this.profileMenuOpen) {
+                    this.notifOpen = false;
+                }
+            },
+            closeProfileMenu() {
+                this.profileMenuOpen = false;
+                this.notifOpen = false;
+            },
+            openSearchModal() {
+                this.searchModalOpen = true;
+                this.searchPanelOpen = true;
+                this.$nextTick(() => {
+                    document.getElementById('mobile-search-input')?.focus();
+                });
+            },
+            closeSearchModal() {
+                this.searchModalOpen = false;
+                this.clearSearch();
+            },
+            hasSearchResults() {
+                return (this.searchResults.categories?.length > 0)
+                    || (this.searchResults.products?.length > 0)
+                    || (this.searchResults.orders?.length > 0)
+                    || (this.searchResults.clients?.length > 0);
+            },
+            clearSearch() {
+                this.searchQuery = '';
+                this.searchResults = { categories: [], products: [], orders: [], clients: [] };
+                this.searchPanelOpen = false;
+            },
+            async runSearch() {
+                if (this.searchQuery.trim().length < 2) {
+                    this.clearSearch();
+                    return;
+                }
+                this.searchLoading = true;
+                try {
+                    const res = await fetch(`/${this.shopSlug}/admin/search?query=` + encodeURIComponent(this.searchQuery));
+                    const data = await res.json();
+                    if (data.success) {
+                        this.searchResults = data.data;
+                        this.searchPanelOpen = true;
+                    }
+                } catch (e) {
+                    console.error(e);
+                } finally {
+                    this.searchLoading = false;
+                }
+            },
+            handleSearchSelect(type, item) {
+                const currentPath = window.location.pathname;
+                const shopSlug = this.shopSlug;
+
+                if (type === 'category') {
+                    if (currentPath.includes('/admin/categories')) {
+                        this.clearSearch();
+                        this.closeSearchModal();
+                        editCategory(item.id, item.name, item.status);
+                    } else {
+                        window.location.href = `/${shopSlug}/admin/categories?edit_id=${item.id}`;
+                    }
+                } else if (type === 'product') {
+                    if (currentPath.includes('/admin/products')) {
+                        this.clearSearch();
+                        this.closeSearchModal();
+                        editProduct(item.id, item.name, item.category_id, item.price, item.description || '', item.is_available, item.image_path || '', encodeURIComponent(JSON.stringify(item.features || null)));
+                    } else {
+                        window.location.href = `/${shopSlug}/admin/products?edit_id=${item.id}`;
+                    }
+                } else if (type === 'client') {
+                    if (currentPath.includes('/admin/clients')) {
+                        this.clearSearch();
+                        this.closeSearchModal();
+                        editClient(item.id, item.name, item.phone, item.email || '', item.status);
+                    } else {
+                        window.location.href = `/${shopSlug}/admin/clients?edit_id=${item.id}`;
+                    }
+                } else if (type === 'order') {
+                    if (currentPath.includes('/admin/orders')) {
+                        this.clearSearch();
+                        this.closeSearchModal();
+                        editOrder(item.id, item.client_id || '', item.customer_name, item.customer_phone, item.total, item.status, item.payment_method, item.payment_status);
+                    } else {
+                        window.location.href = `/${shopSlug}/admin/orders?edit_id=${item.id}`;
+                    }
+                }
+            },
             init() {
+                this.syncConnectionStatus();
+
+                window.addEventListener('online', () => {
+                    this.syncConnectionStatus();
+                });
+                window.addEventListener('offline', () => {
+                    Alpine.store('connection').online = false;
+                });
+
                 // Apply theme instantly on boot
                 if (this.darkMode) {
                     document.documentElement.classList.add('dark');
@@ -29,6 +159,33 @@
                 setInterval(() => {
                     this.fetchNotifications();
                 }, 30000);
+
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth >= 768) {
+                        this.closeSidebar();
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                this.$watch('sidebarOpen', (open) => {
+                    if (window.innerWidth < 768) {
+                        document.body.style.overflow = open ? 'hidden' : '';
+                    }
+                });
+
+                this.$watch('searchModalOpen', (open) => {
+                    if (window.innerWidth < 768) {
+                        document.body.style.overflow = open ? 'hidden' : (this.sidebarOpen ? 'hidden' : '');
+                    }
+                });
+            },
+            syncConnectionStatus() {
+                const store = Alpine.store('connection');
+                if (typeof navigator !== 'undefined' && !navigator.onLine) {
+                    store.online = false;
+                    return;
+                }
+                store.online = true;
             },
             async fetchNotifications() {
                 try {
@@ -37,9 +194,13 @@
                     if (data.success) {
                         this.notifications = data.notifications;
                         this.unreadCount = data.unreadCount;
+                        Alpine.store('connection').online = true;
                     }
                 } catch (e) {
                     console.error('Error fetching notifications:', e);
+                    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+                        Alpine.store('connection').online = false;
+                    }
                 }
             },
             async markAsRead(notif) {
@@ -271,7 +432,7 @@
         $('#preview-record-count').text(rows.length);
         
         // Genero la tabla HTML limpia
-        let tableHtml = '<thead><tr class="text-white border-b border-slate-400 font-extrabold uppercase tracking-wider text-[10px]" style="background-color: var(--color-primary, #E60067) !important;">';
+        let tableHtml = '<thead><tr class="border-b border-slate-400 font-extrabold uppercase tracking-wider text-[10px]" style="background-color: var(--color-primary, #E60067) !important; color: var(--color-on-primary, #FFFFFF) !important;">';
         headers.forEach(h => {
             tableHtml += `<th class="px-4 py-3 border border-slate-300">${h}</th>`;
         });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
+use App\Support\PlanLimits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,7 +25,12 @@ class ProductController extends Controller
         }
 
         $categories = Category::where('status', true)->get();
-        return view('admin.products.index', compact('categories'));
+
+        return view('admin.products.index', [
+            'categories' => $categories,
+            'usage' => PlanLimits::productsUsage(),
+            'activeProductsCount' => Product::where('is_available', true)->count(),
+        ]);
     }
 
     /**

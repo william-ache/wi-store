@@ -1,14 +1,27 @@
-<!-- SIDEBAR DE ESCRITORIO (Fijo a la izquierda, oculto en móvil) -->
-<aside class="hidden md:flex md:w-64 bg-slate-900 text-slate-300 flex-col justify-between border-r border-slate-800 shrink-0 sticky top-0 h-screen">
+<!-- SIDEBAR (overlay en móvil, fijo en escritorio) -->
+<aside
+    class="admin-sidebar flex flex-col md:w-64 w-0 max-md:overflow-visible max-md:border-0 bg-slate-900 text-slate-300 justify-between border-r border-slate-800 shrink-0 self-stretch"
+    :class="{ 'admin-sidebar--open': sidebarOpen }"
+>
     <div>
         <!-- Brand Logo Header -->
         <div class="h-16 px-6 border-b border-slate-800/80 flex items-center justify-between">
             <span class="text-xl font-black text-white">WI<span class="text-primary">Store</span></span>
-            <span class="bg-primary/10 text-primary text-[9px] uppercase font-bold px-2 py-0.5 rounded-full border border-primary/20">Admin</span>
+            <div class="flex items-center gap-2">
+                <span class="bg-primary/10 text-primary text-[9px] uppercase font-bold px-2 py-0.5 rounded-full border border-primary/20">Admin</span>
+                <button
+                    type="button"
+                    class="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                    @click="closeSidebar()"
+                    aria-label="Cerrar menú"
+                >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
         </div>
 
         <!-- Navlinks -->
-        <nav class="p-3.5 space-y-1.5 custom-scrollbar overflow-y-auto max-h-[calc(100vh-140px)]">
+        <nav class="p-3.5 space-y-1.5 custom-scrollbar overflow-y-auto max-h-[calc(100vh-140px)]" @click="onSidebarNavClick($event)">
             <!-- Inicio -->
             <a href="/{{ config('current_shop')->slug }}/admin/dashboard" 
                class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition text-sm font-semibold {{ request()->is('*/admin/dashboard') ? 'bg-slate-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
@@ -196,7 +209,6 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         <span class="flex items-center gap-1.5">
                             <span>Sistema</span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse shrink-0" x-show="!open"></span>
                         </span>
                     </div>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="open ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>

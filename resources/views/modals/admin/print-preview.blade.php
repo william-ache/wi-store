@@ -1,7 +1,7 @@
 <!-- PRINT PREVIEW OVERLAY -->
 <div id="print-preview-modal" class="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/60 backdrop-blur-sm hidden flex-col select-text">
     <!-- Top Bar -->
-    <div class="text-white px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-md" style="background-color: var(--color-primary, #E60067) !important;">
+    <div class="px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-md" style="background-color: var(--color-primary, #E60067) !important; color: var(--color-on-primary) !important;">
         <div class="flex items-center gap-2.5 font-bold">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             <span class="text-sm tracking-wide">Vista Previa de Impresión</span>

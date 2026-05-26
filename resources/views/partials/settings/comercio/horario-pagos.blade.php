@@ -38,13 +38,13 @@
                         <div id="work-hours-simple" style="display: {{ $isCustom ? 'none' : 'block' }};">
                             <input type="text" name="work_hours_simple"
                                    value="{{ $simpleText }}"
-                                   class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-medium"
+                                   class="w-full ui-field border rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-medium"
                                    placeholder="Ej: Lun - Sab, 8am a 6pm">
                         </div>
 
                         <!-- Constructor Custom -->
                         <div id="work-hours-custom" style="display: {{ $isCustom ? 'block' : 'none' }};"
-                             class="bg-slate-50 dark:bg-slate-950 rounded-xl p-2.5 shadow-inner border border-slate-200 dark:border-slate-850 mt-1 transition-colors max-h-[140px] overflow-y-auto custom-scrollbar">
+                             class="ui-inset rounded-xl p-2.5 shadow-inner border border-slate-200 dark:border-slate-850 mt-1 transition-colors max-h-[140px] overflow-y-auto custom-scrollbar">
                             <div class="space-y-1.5">
                                 @foreach(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] as $day)
                                     @php
@@ -55,13 +55,13 @@
                                             <span class="text-[10px] font-bold text-slate-800 dark:text-slate-250">{{ $day }}</span>
                                         </div>
                                         <label class="flex items-center gap-1 cursor-pointer shrink-0">
-                                            <input type="checkbox" name="schedule[{{ $day }}][closed]" value="1" {{ $daySchedule['closed'] ? 'checked' : '' }} class="w-3 h-3 rounded border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 cursor-pointer">
+                                            <input type="checkbox" name="schedule[{{ $day }}][closed]" value="1" {{ $daySchedule['closed'] ? 'checked' : '' }} class="w-3 h-3 rounded border-slate-300 text-primary focus:ring-primary ui-field cursor-pointer">
                                             <span class="text-[9px] font-semibold text-slate-450 dark:text-slate-500">Cerrado</span>
                                         </label>
                                         <div class="flex items-center gap-1 flex-grow {{ $daySchedule['closed'] ? 'opacity-30 pointer-events-none' : '' }}">
-                                            <input type="time" name="schedule[{{ $day }}][open]" value="{{ $daySchedule['open'] }}" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
+                                            <input type="time" name="schedule[{{ $day }}][open]" value="{{ $daySchedule['open'] }}" class="ui-surface border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
                                             <span class="text-slate-400 text-[9px] font-bold">-</span>
-                                            <input type="time" name="schedule[{{ $day }}][close]" value="{{ $daySchedule['close'] }}" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
+                                            <input type="time" name="schedule[{{ $day }}][close]" value="{{ $daySchedule['close'] }}" class="ui-surface border border-slate-200 dark:border-slate-850 rounded px-1 py-0.5 text-[9px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
                                         </div>
                                     </div>
                                 @endforeach
@@ -98,7 +98,7 @@
                                 @endphp
                                 <button type="button"
                                         onclick="togglePaymentMethod('{{ $name }}')"
-                                        class="{{ $isActive ? $config['color'] : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm' }} px-2 py-0.5 rounded-lg border text-[9px] font-bold transition-all duration-300 select-none flex items-center gap-1 focus:outline-none">
+                                        class="{{ $isActive ? $config['color'] : 'ui-surface text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm' }} px-2 py-0.5 rounded-lg border text-[9px] font-bold transition-all duration-300 select-none flex items-center gap-1 focus:outline-none">
                                     @if($isActive)
                                         <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     @endif
@@ -116,12 +116,12 @@
                                         $isActive = isset($paymentMethods[$name]) && $paymentMethods[$name]['active'];
                                         $details = isset($paymentMethods[$name]) ? ($paymentMethods[$name]['details'] ?? '') : '';
                                     @endphp
-                                    <div id="payment-{{ $name }}" class="{{ $isActive ? '' : 'hidden' }} bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2.5 rounded-xl space-y-1 shadow-sm transition hover:shadow-md">
+                                    <div id="payment-{{ $name }}" class="{{ $isActive ? '' : 'hidden' }} ui-card border p-2.5 rounded-xl space-y-1 shadow-sm transition hover:shadow-md">
                                         <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 block">{{ $name }}</span>
                                         <textarea
                                             name="payment_details[{{ $name }}]"
                                             placeholder="{{ $config['placeholder'] }}"
-                                            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg px-2 py-1 text-[10px] text-slate-800 dark:text-slate-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold"
+                                            class="w-full ui-inset border border-slate-200 dark:border-slate-850 rounded-lg px-2 py-1 text-[10px] text-slate-800 dark:text-slate-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold"
                                             rows="2"
                                         >{{ $details }}</textarea>
                                     </div>

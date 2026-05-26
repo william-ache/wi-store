@@ -3,7 +3,7 @@
                         <div class="space-y-0.5">
                             <label for="delivery_rate_per_km" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Delivery por Km</label>
                             <input type="number" step="0.01" id="delivery_rate_per_km" name="delivery_rate_per_km" 
-                                   class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-medium" 
+                                   class="w-full ui-field border rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-medium" 
                                    placeholder="0.00" value="{{ old('delivery_rate_per_km', $shop->delivery_rate_per_km) }}">
                         </div>
 
@@ -12,7 +12,7 @@
                             <div class="flex gap-2 items-center">
                                 <div class="w-[45%]">
                                     <select id="base_currency" name="base_currency"
-                                            class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2 py-1.5 text-[11px] text-slate-800 dark:text-slate-250 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold select2-enable"
+                                            class="w-full ui-field border rounded-xl px-2 py-1.5 text-[11px] text-slate-800 dark:text-slate-250 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold select2-enable"
                                             onchange="fetchExchangeRate()">
                                         <option value="USD" {{ old('base_currency', $shop->base_currency) === 'USD' ? 'selected' : '' }}>USD</option>
                                         <option value="EUR" {{ old('base_currency', $shop->base_currency) === 'EUR' ? 'selected' : '' }}>EUR</option>
@@ -21,7 +21,7 @@
                                 <div class="relative w-[55%] flex items-center">
                                     <input type="text" name="exchange_rate" id="exchange_rate"
                                            value="{{ old('exchange_rate', $shop->exchange_rate) }}"
-                                           class="w-full border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] transition-all shadow-sm font-bold h-[32px] bg-slate-50 dark:bg-slate-850/80 text-slate-500 dark:text-slate-400 cursor-not-allowed select-none focus:outline-none"
+                                           class="w-full border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[11px] transition-all shadow-sm font-bold h-[32px] ui-inset/80 text-slate-500 dark:text-slate-400 cursor-not-allowed select-none focus:outline-none"
                                            placeholder="Tasa oficial" readonly>
                                     <div id="exchange-loading" class="absolute right-2 top-2" style="display: none;">
                                         <svg class="animate-spin h-3.5 w-3.5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -32,7 +32,7 @@
                     </div>
 
                     <!-- Coordenadas del Local (Lat / Lng) para cálculo de distancia -->
-                    <div class="bg-white dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-150 dark:border-slate-800 space-y-1.5 shadow-sm">
+                    <div class="ui-surface/60 p-2.5 rounded-xl border border-slate-150 dark:border-slate-800 space-y-1.5 shadow-sm">
                         <div class="flex items-center justify-between">
                             <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Geolocalización (Distancia Delivery)</span>
                             <button type="button" onclick="getGPSLocation()"
@@ -48,14 +48,14 @@
                             </button>
                         </div>
                         <div class="grid grid-cols-2 gap-2.5">
-                            <div class="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-850 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-750">
+                            <div class="flex items-center gap-1.5 ui-inset px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-750">
                                 <span class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase shrink-0">LAT</span>
                                 <input type="text" id="latitude" name="latitude"
                                        value="{{ old('latitude', $shop->latitude ?? '') }}"
                                        class="w-full bg-transparent border-0 p-0 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-0 font-medium"
                                        placeholder="10.4806">
                             </div>
-                            <div class="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-850 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-750">
+                            <div class="flex items-center gap-1.5 ui-inset px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-750">
                                 <span class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase shrink-0">LNG</span>
                                 <input type="text" id="longitude" name="longitude"
                                        value="{{ old('longitude', $shop->longitude ?? '') }}"
@@ -66,7 +66,7 @@
                     </div>
 
                     <!-- Opciones de Servicio -->
-                    <div class="bg-white dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-150 dark:border-slate-800 space-y-2.5 shadow-sm mt-3">
+                    <div class="ui-surface/60 p-3.5 rounded-xl border border-slate-150 dark:border-slate-800 space-y-2.5 shadow-sm mt-3">
                         <span class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">Opciones de Servicio Disponibles</span>
                         
                         <div class="grid grid-cols-1 gap-2">
@@ -148,7 +148,7 @@
                                     <div class="relative flex items-center">
                                         <span class="absolute left-2.5 text-slate-450 text-[10px] font-black">$</span>
                                         <input type="number" step="0.01" id="free_shipping_min_amount" name="free_shipping_min_amount" 
-                                               class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-lg pl-6 pr-2 py-1 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all font-semibold" 
+                                               class="w-full ui-field border rounded-lg pl-6 pr-2 py-1 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all font-semibold" 
                                                placeholder="10.00" value="{{ old('free_shipping_min_amount', $shop->free_shipping_min_amount) }}">
                                     </div>
                                 </div>

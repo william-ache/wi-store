@@ -26,7 +26,7 @@
                                 @endphp
                                 <button type="button"
                                         onclick="togglePaymentMethod('{{ $name }}')"
-                                        class="{{ $isActive ? $config['color'] : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm' }} px-2 py-0.5 rounded-lg border text-[9px] font-bold transition-all duration-300 select-none flex items-center gap-1 focus:outline-none">
+                                        class="{{ $isActive ? $config['color'] : 'ui-surface text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm' }} px-2 py-0.5 rounded-lg border text-[9px] font-bold transition-all duration-300 select-none flex items-center gap-1 focus:outline-none">
                                     @if($isActive)
                                         <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     @endif
@@ -44,12 +44,12 @@
                                         $isActive = isset($paymentMethods[$name]) && $paymentMethods[$name]['active'];
                                         $details = isset($paymentMethods[$name]) ? ($paymentMethods[$name]['details'] ?? '') : '';
                                     @endphp
-                                    <div id="payment-{{ $name }}" class="{{ $isActive ? '' : 'hidden' }} bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2.5 rounded-xl space-y-1 shadow-sm transition hover:shadow-md">
+                                    <div id="payment-{{ $name }}" class="{{ $isActive ? '' : 'hidden' }} ui-card border p-2.5 rounded-xl space-y-1 shadow-sm transition hover:shadow-md">
                                         <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 block">{{ $name }}</span>
                                         <textarea
                                             name="payment_details[{{ $name }}]"
                                             placeholder="{{ $config['placeholder'] }}"
-                                            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg px-2 py-1 text-[10px] text-slate-800 dark:text-slate-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold"
+                                            class="w-full ui-inset border border-slate-200 dark:border-slate-850 rounded-lg px-2 py-1 text-[10px] text-slate-800 dark:text-slate-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold"
                                             rows="2"
                                         >{{ $details }}</textarea>
                                     </div>

@@ -81,7 +81,7 @@
                         @click="sections[item.id] ? (openPanel = item.id) : enableSection(item.id)"
                         class="text-[10px] md:text-xs font-bold px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg border transition-all"
                         :class="sections[item.id]
-                            ? (openPanel === item.id ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700')
+                            ? (openPanel === item.id ? 'bg-primary text-white border-primary' : 'ui-surface text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700')
                             : 'bg-slate-100 dark:bg-slate-800 text-slate-400 border-transparent'">
                     <span x-text="item.label"></span>
                 </button>

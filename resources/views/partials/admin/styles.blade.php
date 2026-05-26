@@ -1,11 +1,12 @@
 <style>
     @include('partials.admin.css-vars')
+    @include('partials.admin.theme-base')
     html {
         scroll-behavior: smooth;
     }
     body {
         font-family: 'Outfit', sans-serif;
-        background-color: #f8fafc;
+        color: var(--ui-text);
         -webkit-tap-highlight-color: transparent;
     }
     [x-cloak] { display: none !important; }
@@ -38,9 +39,9 @@
         color: #475569;
     }
     .dark .dataTables_wrapper .dataTables_length select {
-        background-color: #1e293b;
-        border-color: #334155;
-        color: #cbd5e1;
+        background-color: var(--ui-surface);
+        border-color: var(--ui-border);
+        color: var(--ui-text);
     }
     .dataTables_wrapper .dataTables_filter {
         margin-bottom: 0 !important;
@@ -73,9 +74,9 @@
         box-shadow: 0 0 0 3px rgba(51, 65, 85, 0.4);
     }
     .dark .dataTables_wrapper .dataTables_filter input {
-        background-color: #1e293b;
-        border-color: #334155;
-        color: #f1f5f9;
+        background-color: var(--ui-surface);
+        border-color: var(--ui-border);
+        color: var(--ui-text);
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
     }
     table.dataTable {

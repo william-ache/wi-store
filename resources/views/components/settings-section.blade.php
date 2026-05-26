@@ -8,8 +8,8 @@
 
 <div {{ $attributes->merge(['class' => 'rounded-2xl border transition-all duration-300 overflow-hidden']) }}
      x-bind:class="sections['{{ $id }}']
-         ? 'border-primary/25 bg-white dark:bg-slate-900/50 shadow-sm'
-         : 'border-slate-200/80 dark:border-slate-800/80 bg-slate-50/40 dark:bg-slate-950/30'">
+         ? 'border-primary/25 ui-card shadow-sm'
+         : 'border-slate-200/80 dark:border-slate-800/80 ui-inset'">
 
     <div class="settings-section-header flex items-center gap-3 p-3.5 sm:p-4 md:p-5 cursor-pointer select-none"
          x-on:click="sections['{{ $id }}'] ? togglePanel('{{ $id }}') : enableSection('{{ $id }}')">

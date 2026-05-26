@@ -9,7 +9,7 @@
                                 <div class="relative flex items-center">
                                     <span class="absolute left-3 text-slate-400 text-xs"><i class="fab fa-facebook-f"></i></span>
                                     <input type="text" id="facebook" name="facebook" 
-                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                            value="{{ old('facebook', $shop->facebook) }}" placeholder="https://facebook.com/pagina">
                                 </div>
                             </div>
@@ -19,7 +19,7 @@
                                 <div class="relative flex items-center">
                                     <span class="absolute left-3 text-slate-400 text-xs"><i class="fab fa-instagram"></i></span>
                                     <input type="text" id="instagram" name="instagram" 
-                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                            value="{{ old('instagram', $shop->instagram) }}" placeholder="https://instagram.com/usuario">
                                 </div>
                             </div>
@@ -29,7 +29,7 @@
                                 <div class="relative flex items-center">
                                     <span class="absolute left-3 text-slate-400 text-xs"><i class="fab fa-tiktok"></i></span>
                                     <input type="text" id="tiktok" name="tiktok" 
-                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                            value="{{ old('tiktok', $shop->tiktok) }}" placeholder="https://tiktok.com/@usuario">
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                                         </svg>
                                     </span>
                                     <input type="text" id="x_twitter" name="x_twitter" 
-                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                            value="{{ old('x_twitter', $shop->x_twitter) }}" placeholder="https://x.com/usuario">
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                                 <div class="relative flex items-center">
                                     <span class="absolute left-3 text-slate-400 text-xs"><i class="fab fa-telegram-plane"></i></span>
                                     <input type="text" id="telegram" name="telegram" 
-                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                            value="{{ old('telegram', $shop->telegram) }}" placeholder="https://t.me/usuario o @usuario">
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
                                 <div class="relative flex items-center">
                                     <span class="absolute left-3 text-slate-400 text-xs"><i class="fas fa-phone-alt"></i></span>
                                     <input type="text" id="contact_phone" name="contact_phone" 
-                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                            value="{{ old('contact_phone', $shop->contact_phone) }}" placeholder="e.g. +584120000000">
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                 <div class="relative flex items-center">
                                     <span class="absolute left-3 text-slate-400 text-xs"><i class="fas fa-comment-sms"></i></span>
                                     <input type="text" id="contact_sms" name="contact_sms" 
-                                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                           class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                            value="{{ old('contact_sms', $shop->contact_sms) }}" placeholder="e.g. +584120000000">
                                 </div>
                             </div>

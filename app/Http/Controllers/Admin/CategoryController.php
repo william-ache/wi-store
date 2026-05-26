@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
+use App\Support\PlanLimits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -22,7 +24,11 @@ class CategoryController extends Controller
             ]);
         }
 
-        return view('admin.categories.index');
+        return view('admin.categories.index', [
+            'usage' => PlanLimits::categoriesUsage(),
+            'activeCategoriesCount' => Category::where('status', true)->count(),
+            'productsTotal' => Product::count(),
+        ]);
     }
 
     /**

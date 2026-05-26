@@ -118,7 +118,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <!-- 1. PLAN BÁSICO CARD -->
-            <div class="bg-white dark:bg-slate-900 border-2 rounded-[24px] p-6 shadow-sm flex flex-col justify-between relative transition-all duration-300 hover:shadow-md
+            <div class="ui-surface border-2 rounded-[24px] p-6 shadow-sm flex flex-col justify-between relative transition-all duration-300 hover:shadow-md
                         {{ $shop->plan === 'free_trial' ? 'border-purple-600/60 dark:border-purple-500/50 ring-4 ring-purple-500/10' : 'border-slate-100 dark:border-slate-800/80' }}">
                 
                 @if($shop->plan === 'free_trial')
@@ -196,7 +196,7 @@
             </div>
 
             <!-- 2. PLAN PRO CARD -->
-            <div class="bg-white dark:bg-slate-900 border-2 rounded-[24px] p-6 shadow-sm flex flex-col justify-between relative transition-all duration-300 hover:shadow-md
+            <div class="ui-surface border-2 rounded-[24px] p-6 shadow-sm flex flex-col justify-between relative transition-all duration-300 hover:shadow-md
                         {{ $shop->plan === 'standard' ? 'border-purple-600/60 dark:border-purple-500/50 ring-4 ring-purple-500/10' : 'border-slate-100 dark:border-slate-800/80' }}">
                 
                 @if($shop->plan === 'standard')
@@ -278,7 +278,7 @@
             </div>
 
             <!-- 3. PLAN NEGOCIO CARD -->
-            <div class="bg-white dark:bg-slate-900 border-2 rounded-[24px] p-6 shadow-sm flex flex-col justify-between relative transition-all duration-300 hover:shadow-md
+            <div class="ui-surface border-2 rounded-[24px] p-6 shadow-sm flex flex-col justify-between relative transition-all duration-300 hover:shadow-md
                         {{ $shop->plan === 'premium' ? 'border-purple-600/60 dark:border-purple-500/50 ring-4 ring-purple-500/10' : 'border-slate-100 dark:border-slate-800/80' }}">
                 
                 @if($shop->plan === 'premium')

@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('title', 'Configuración Visual')
 @section('subtitle', 'Configuración')
@@ -21,19 +21,19 @@
             Datos Comerciales
         </button>
         <button type="button" onclick="showTab('colores')" id="tab-colores"
-                class="tab-btn px-4 py-2.5 md:px-5 md:py-3 rounded-xl text-xs md:text-sm transition-all whitespace-nowrap border flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm">
+                class="tab-btn px-4 py-2.5 md:px-5 md:py-3 rounded-xl text-xs md:text-sm transition-all whitespace-nowrap border flex items-center gap-2 ui-surface text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm">
             <svg class="w-4 h-4 md:w-[1.125rem] md:h-[1.125rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
             Apariencia & Activos
         </button>
         @if($showAdvancedSettings)
         <button type="button" onclick="showTab('avanzado')" id="tab-avanzado"
-                class="tab-btn px-4 py-2.5 md:px-5 md:py-3 rounded-xl text-xs md:text-sm transition-all whitespace-nowrap border flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm">
+                class="tab-btn px-4 py-2.5 md:px-5 md:py-3 rounded-xl text-xs md:text-sm transition-all whitespace-nowrap border flex items-center gap-2 ui-surface text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm">
             <svg class="w-4 h-4 md:w-[1.125rem] md:h-[1.125rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             Ajustes Avanzados
         </button>
         @endif
         <button type="button" onclick="showTab('seguridad')" id="tab-seguridad"
-                class="tab-btn px-4 py-2.5 md:px-5 md:py-3 rounded-xl text-xs md:text-sm transition-all whitespace-nowrap border flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm">
+                class="tab-btn px-4 py-2.5 md:px-5 md:py-3 rounded-xl text-xs md:text-sm transition-all whitespace-nowrap border flex items-center gap-2 ui-surface text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800/50 shadow-sm">
             <svg class="w-4 h-4 md:w-[1.125rem] md:h-[1.125rem]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             Seguridad
         </button>
@@ -43,7 +43,7 @@
 
     <!-- Formulario de Configuración Principal -->
     <form action="/{{ $shop->slug }}/admin/settings" method="POST" enctype="multipart/form-data"
-          class="settings-form-card bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-4 md:p-6 lg:p-7 shadow-sm space-y-3.5 md:space-y-5 transition-colors duration-300">
+          class="settings-form-card ui-card rounded-3xl p-4 md:p-6 lg:p-7 shadow-sm space-y-3.5 md:space-y-5 transition-colors duration-300">
         @csrf
         @method('PUT')
 
@@ -59,7 +59,7 @@
             <x-settings-section id="colores" title="Colores de marca" subtitle="Primario, secundario y fondo del catálogo." icon="🎨" :optional="false">
                     <div class="grid grid-cols-3 gap-3 md:gap-4 max-w-lg lg:max-w-xl">
                         <!-- Color Primario -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
+                        <div class="ui-card border rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
                             <span class="text-[9px] font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest">Primario</span>
                             <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
                                 <div class="absolute inset-0" id="preview-primary" style="background-color: {{ $shop->color_primary ?? '#E60067' }}"></div>
@@ -71,7 +71,7 @@
                         </div>
 
                         <!-- Color Secundario -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
+                        <div class="ui-card border rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
                             <span class="text-[9px] font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest">Secundario</span>
                             <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
                                 <div class="absolute inset-0" id="preview-secondary" style="background-color: {{ $shop->color_secondary ?? '#C6A100' }}"></div>
@@ -83,7 +83,7 @@
                         </div>
 
                         <!-- Color de Fondo -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
+                        <div class="ui-card border rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
                             <span class="text-[9px] font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest">Fondo</span>
                             <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
                                 <div class="absolute inset-0" id="preview-background" style="background-color: {{ $shop->color_background ?? '#0b0f19' }}"></div>
@@ -102,7 +102,7 @@
                     @endphp
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <!-- Categorías -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                    <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
                                 📦
@@ -119,7 +119,7 @@
                     </div>
 
                     <!-- Productos -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                    <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
                                 🍔
@@ -136,7 +136,7 @@
                     </div>
 
                     <!-- Pedidos -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                    <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
                                 📋
@@ -153,7 +153,7 @@
                     </div>
 
                     <!-- Clientes -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                    <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
                                 👥
@@ -170,7 +170,7 @@
                     </div>
 
                     <!-- Facturas -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                    <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
                                 🧾
@@ -187,7 +187,7 @@
                     </div>
 
                     <!-- Delivery -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                    <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
                                 🛵
@@ -204,7 +204,7 @@
                     </div>
 
                     <!-- Analítica -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                    <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
                                 📊
@@ -221,7 +221,7 @@
                     </div>
 
                     <!-- Referidos -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                    <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
                                 🔗
@@ -238,7 +238,7 @@
                     </div>
 
                     <!-- Marketing -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm animate-fade-in">
+                    <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xs">
                                 📢
@@ -273,7 +273,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Columna Izquierda: Dominio Personalizado -->
-                <div class="space-y-3.5 bg-slate-50/50 dark:bg-slate-950/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between">
+                <div class="space-y-3.5 ui-inset p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between">
                     <div class="space-y-3.5">
                         <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
                             <span class="w-1.5 h-1.5 rounded-full bg-primary/80"></span>Dominio Personalizado
@@ -283,7 +283,7 @@
                             <div class="relative flex items-center">
                                 <span class="absolute left-3 text-slate-400 text-xs"><i class="fas fa-globe"></i></span>
                                 <input type="text" id="custom_domain" name="custom_domain" 
-                                       class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                       class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                        value="{{ old('custom_domain', $shop->custom_domain) }}" placeholder="e.g. mi-tienda.com">
                             </div>
                             <span class="text-[9px] text-slate-400 dark:text-slate-500 block leading-normal mt-1">
@@ -294,7 +294,7 @@
                 </div>
 
                 <!-- Columna Derecha: Pixeles de Seguimiento -->
-                <div class="space-y-3.5 bg-slate-50/50 dark:bg-slate-950/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80">
+                <div class="space-y-3.5 ui-inset p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80">
                     <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-secondary/80"></span>Tracking & Analítica Pixels
                     </h4>
@@ -305,7 +305,7 @@
                         <div class="relative flex items-center">
                             <span class="absolute left-3 text-slate-450 text-xs"><i class="fab fa-facebook-f"></i></span>
                             <input type="text" id="facebook_pixel_id" name="facebook_pixel_id" 
-                                   class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                   class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                    value="{{ old('facebook_pixel_id', $shop->facebook_pixel_id) }}" placeholder="e.g. 123456789012345">
                         </div>
                     </div>
@@ -316,7 +316,7 @@
                         <div class="relative flex items-center">
                             <span class="absolute left-3 text-slate-450 text-xs"><i class="fab fa-tiktok"></i></span>
                             <input type="text" id="tiktok_pixel_id" name="tiktok_pixel_id" 
-                                   class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                   class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                    value="{{ old('tiktok_pixel_id', $shop->tiktok_pixel_id) }}" placeholder="e.g. C1234567890ABC">
                         </div>
                     </div>
@@ -327,7 +327,7 @@
                         <div class="relative flex items-center">
                             <span class="absolute left-3 text-slate-450 text-xs"><i class="fab fa-google"></i></span>
                             <input type="text" id="google_analytics_id" name="google_analytics_id" 
-                                   class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
+                                   class="w-full ui-field border rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm font-semibold" 
                                    value="{{ old('google_analytics_id', $shop->google_analytics_id) }}" placeholder="e.g. G-ABC123XYZ">
                         </div>
                     </div>
@@ -348,7 +348,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <!-- Stripe Card -->
-                    <div class="bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-3xl border border-slate-100 dark:border-slate-800/80 space-y-4 flex flex-col justify-between">
+                    <div class="ui-inset p-5 rounded-3xl border border-slate-100 dark:border-slate-800/80 space-y-4 flex flex-col justify-between">
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-black text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
@@ -366,17 +366,17 @@
                         <div class="space-y-2">
                             <div class="space-y-1">
                                 <label for="stripe_publishable_key" class="text-[9px] font-bold text-slate-655 dark:text-slate-350">Stripe Publishable Key</label>
-                                <input type="text" id="stripe_publishable_key" name="stripe_publishable_key" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('stripe_publishable_key', $shop->stripe_publishable_key) }}" placeholder="pk_test_...">
+                                <input type="text" id="stripe_publishable_key" name="stripe_publishable_key" class="w-full ui-field border rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('stripe_publishable_key', $shop->stripe_publishable_key) }}" placeholder="pk_test_...">
                             </div>
                             <div class="space-y-1">
                                 <label for="stripe_secret_key" class="text-[9px] font-bold text-slate-655 dark:text-slate-350">Stripe Secret Key</label>
-                                <input type="password" id="stripe_secret_key" name="stripe_secret_key" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('stripe_secret_key', $shop->stripe_secret_key) }}" placeholder="sk_test_...">
+                                <input type="password" id="stripe_secret_key" name="stripe_secret_key" class="w-full ui-field border rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('stripe_secret_key', $shop->stripe_secret_key) }}" placeholder="sk_test_...">
                             </div>
                         </div>
                     </div>
 
                     <!-- Binance Pay Card -->
-                    <div class="bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-3xl border border-slate-100 dark:border-slate-800/80 space-y-4 flex flex-col justify-between">
+                    <div class="ui-inset p-5 rounded-3xl border border-slate-100 dark:border-slate-800/80 space-y-4 flex flex-col justify-between">
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-black text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
@@ -394,17 +394,17 @@
                         <div class="space-y-2">
                             <div class="space-y-1">
                                 <label for="binance_api_key" class="text-[9px] font-bold text-slate-655 dark:text-slate-350">Binance API Key</label>
-                                <input type="text" id="binance_api_key" name="binance_api_key" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('binance_api_key', $shop->binance_api_key) }}" placeholder="API Key...">
+                                <input type="text" id="binance_api_key" name="binance_api_key" class="w-full ui-field border rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('binance_api_key', $shop->binance_api_key) }}" placeholder="API Key...">
                             </div>
                             <div class="space-y-1">
                                 <label for="binance_secret_key" class="text-[9px] font-bold text-slate-655 dark:text-slate-350">Binance Secret Key</label>
-                                <input type="password" id="binance_secret_key" name="binance_secret_key" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('binance_secret_key', $shop->binance_secret_key) }}" placeholder="Secret Key...">
+                                <input type="password" id="binance_secret_key" name="binance_secret_key" class="w-full ui-field border rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('binance_secret_key', $shop->binance_secret_key) }}" placeholder="Secret Key...">
                             </div>
                         </div>
                     </div>
 
                     <!-- Pago Móvil Direct Card -->
-                    <div class="bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-3xl border border-slate-100 dark:border-slate-800/80 space-y-4 flex flex-col justify-between">
+                    <div class="ui-inset p-5 rounded-3xl border border-slate-100 dark:border-slate-800/80 space-y-4 flex flex-col justify-between">
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-black text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
@@ -423,16 +423,16 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <div class="space-y-1">
                                     <label for="pagomovil_bank" class="text-[9px] font-bold text-slate-655 dark:text-slate-350">Banco</label>
-                                    <input type="text" id="pagomovil_bank" name="pagomovil_bank" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('pagomovil_bank', $shop->pagomovil_bank) }}" placeholder="e.g. Banesco">
+                                    <input type="text" id="pagomovil_bank" name="pagomovil_bank" class="w-full ui-field border rounded-xl px-2.5 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('pagomovil_bank', $shop->pagomovil_bank) }}" placeholder="e.g. Banesco">
                                 </div>
                                 <div class="space-y-1">
                                     <label for="pagomovil_id" class="text-[9px] font-bold text-slate-655 dark:text-slate-350">Cédula / RIF</label>
-                                    <input type="text" id="pagomovil_id" name="pagomovil_id" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-2.5 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('pagomovil_id', $shop->pagomovil_id) }}" placeholder="e.g. V-12345678">
+                                    <input type="text" id="pagomovil_id" name="pagomovil_id" class="w-full ui-field border rounded-xl px-2.5 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('pagomovil_id', $shop->pagomovil_id) }}" placeholder="e.g. V-12345678">
                                 </div>
                             </div>
                             <div class="space-y-1">
                                 <label for="pagomovil_phone" class="text-[9px] font-bold text-slate-655 dark:text-slate-350">Teléfono Pago Móvil</label>
-                                <input type="text" id="pagomovil_phone" name="pagomovil_phone" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('pagomovil_phone', $shop->pagomovil_phone) }}" placeholder="e.g. 04125556677">
+                                <input type="text" id="pagomovil_phone" name="pagomovil_phone" class="w-full ui-field border rounded-xl px-3 py-1.5 text-[10px] text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-semibold" value="{{ old('pagomovil_phone', $shop->pagomovil_phone) }}" placeholder="e.g. 04125556677">
                             </div>
                         </div>
                     </div>
@@ -461,7 +461,7 @@
                 <div class="space-y-1.5">
                     <label for="password" class="text-xs font-bold text-slate-700 dark:text-slate-300">Nueva Contraseña</label>
                     <input type="password" id="password" name="password" 
-                           class="w-full bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-semibold @error('password') border-red-500 @enderror" 
+                           class="w-full ui-inset border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-semibold @error('password') border-red-500 @enderror" 
                            placeholder="Mínimo 8 caracteres">
                     @error('password')
                         <span class="text-red-500 text-[10px] font-bold block mt-1">{{ $message }}</span>
@@ -472,7 +472,7 @@
                 <div class="space-y-1.5">
                     <label for="password_confirmation" class="text-xs font-bold text-slate-700 dark:text-slate-300">Confirmar Nueva Contraseña</label>
                     <input type="password" id="password_confirmation" name="password_confirmation" 
-                           class="w-full bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-semibold" 
+                           class="w-full ui-inset border border-slate-200 dark:border-slate-750 rounded-2xl px-4 py-3 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-inner font-semibold" 
                            placeholder="Repite la contraseña">
                 </div>
             </div>

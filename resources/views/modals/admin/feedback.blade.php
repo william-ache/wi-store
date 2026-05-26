@@ -44,7 +44,7 @@ class="fixed inset-0 z-[100] flex items-center justify-center p-4">
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
          x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-         class="relative bg-white dark:bg-slate-900 rounded-[32px] shadow-2xl w-full max-w-lg overflow-hidden flex flex-col p-6 sm:p-8 transition-colors duration-300 z-10 border border-slate-100 dark:border-slate-800">
+         class="relative ui-card rounded-[32px] shadow-2xl w-full max-w-lg overflow-hidden flex flex-col p-6 sm:p-8 transition-colors duration-300 z-10 border border-slate-100 dark:border-slate-800">
         
         <!-- Botón de Cerrar (X) -->
         <button @click="showFeedbackModal = false" 
