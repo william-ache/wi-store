@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @php($seo = \App\Support\SeoMeta::admin())
-    @include('partials.seo.head', ['seo' => $seo])
+    @include('partials.seo.head', ['seo' => \App\Support\SeoMeta::admin()])
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>

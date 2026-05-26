@@ -289,4 +289,34 @@
         background: rgba(255, 255, 255, 0.12);
         border-color: rgba(245, 158, 11, 0.25);
     }
+
+    /* WCAG AA — texto secundario sobre fondo #0e1228 (no aplica dentro de tarjetas claras) */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .wistore-landing :where(.text-slate-500):not(:where(.bg-white *, .bg-emerald-50 *, .bg-white, .bg-emerald-50)) {
+        color: #b8c5d6;
+    }
+
+    .wistore-landing :where(.text-slate-400):not(:where(.bg-white *, .bg-emerald-50 *, .bg-white, .bg-emerald-50)) {
+        color: #cbd5e1;
+    }
+
+    .wistore-landing :where(.text-purple-400):not(:where(.bg-white *, .bg-emerald-50 *)) {
+        color: #d8b4fe;
+    }
+
+    .wistore-landing :where(.placeholder-slate-500)::placeholder {
+        color: #94a3b8;
+        opacity: 1;
+    }
 </style>

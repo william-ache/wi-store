@@ -1,0 +1,51 @@
+@import 'tailwindcss';
+
+@source '../views/home.blade.php';
+@source '../views/partials/landing/**/*.blade.php';
+@source '../views/partials/public/chat.blade.php';
+@source '../views/partials/public/chat-bot-face.blade.php';
+@source '../views/partials/global/**/*.blade.php';
+@source '../views/marketplace/**/*.blade.php';
+@source '../views/contacto.blade.php';
+
+@theme {
+    --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+    --color-brand-50: #f5f3ff;
+    --color-brand-100: #ede9fe;
+    --color-brand-500: #6366f1;
+    --color-brand-600: #4f46e5;
+    --color-brand-700: #4338ca;
+    --color-brand-900: #312e81;
+}
+
+@keyframes marquee-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+}
+
+.landing-marquee-track {
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
+    will-change: transform;
+}
+
+.landing-marquee-track--left {
+    animation: marquee-left 50s linear infinite;
+}
+
+.landing-marquee-track--right {
+    animation: marquee-right 50s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .landing-marquee-track--left,
+    .landing-marquee-track--right {
+        animation-duration: 80s;
+    }
+}

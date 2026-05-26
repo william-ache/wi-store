@@ -4,14 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Support\ShopCatalog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class MarketplaceController extends Controller
 {
     public function index(Request $request): View
     {
-        $shops = ShopCatalog::activeShopsQuery()->get();
-        $catalog = ShopCatalog::mapForDisplay($shops);
+        /** @var array<int, array<string, mixed>> $shopsData */
+        $shopsData = Cache::remember('marketplace.catalog.v2', 600, function () {
+            $shops = ShopCatalog::activeShopsQuery()->get();
+
+            return ShopCatalog::mapForDisplay($shops)->values()->all();
+        });
+
+        $catalog = collect($shopsData);
 
         return view('marketplace.index', [
             'shopsJson' => $catalog->values(),

@@ -12,15 +12,21 @@
      x-transition:leave="transition ease-in duration-150"
      x-transition:leave-start="opacity-100"
      x-transition:leave-end="opacity-0"
-     class="fixed inset-0 z-[55] md:hidden">
-    <div class="absolute inset-0 bg-[#0e1228]/85 backdrop-blur-md" @click="isMobileMenuOpen = false"></div>
-    <nav class="absolute right-0 top-0 bottom-0 w-[min(100%,320px)] bg-slate-950 border-l border-white/10 p-6 flex flex-col gap-2 shadow-2xl">
+     class="fixed inset-0 z-[55] md:hidden"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="landing-mobile-nav-title"
+     @keydown.escape.window="isMobileMenuOpen = false">
+    <div class="absolute inset-0 bg-[#0e1228]/85 backdrop-blur-md" @click="isMobileMenuOpen = false" aria-hidden="true"></div>
+    <nav id="landing-mobile-nav"
+         class="absolute right-0 top-0 bottom-0 w-[min(100%,320px)] bg-slate-950 border-l border-white/10 p-6 flex flex-col gap-2 shadow-2xl"
+         aria-label="Menú de navegación móvil">
         <div class="flex items-center justify-between mb-4">
-            <span class="text-lg font-black text-white">Menú</span>
+            <span id="landing-mobile-nav-title" class="text-lg font-black text-white">Menú</span>
             <button type="button" @click="isMobileMenuOpen = false"
                     class="w-10 h-10 rounded-xl border border-white/10 text-slate-300 hover:text-white flex items-center justify-center"
-                    aria-label="Cerrar menú">
-                <i class="fas fa-times"></i>
+                    aria-label="Cerrar menú de navegación">
+                <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
         <button type="button" @click="scrollTo('explorar')"

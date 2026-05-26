@@ -139,7 +139,7 @@
         <div class="flex items-start justify-between gap-3">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-[0.18em] text-yellow-300/90">Expansión regional</p>
-                <h3 class="text-xl font-black text-white leading-tight mt-0.5">Colombia</h3>
+                <p class="text-xl font-black text-white leading-tight mt-0.5">Colombia</p>
             </div>
             <span class="shrink-0 px-2.5 py-1 rounded-full bg-yellow-400 text-yellow-950 text-[9px] font-black uppercase tracking-wider">
                 Próximamente

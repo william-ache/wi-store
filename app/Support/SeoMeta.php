@@ -62,6 +62,100 @@ final class SeoMeta
         );
     }
 
+    public static function forMarketplace(): self
+    {
+        $canonical = route('tiendas.index');
+
+        return new self(
+            title: 'Marketplace de tiendas — WIStore',
+            description: 'Explora menús digitales por categoría y zona. Filtra comercios en WIStore y entra al catálogo en un clic.',
+            canonical: $canonical,
+            ogType: 'website',
+            noindex: false,
+            jsonLd: [
+                '@context' => 'https://schema.org',
+                '@graph' => [
+                    [
+                        '@type' => 'WebPage',
+                        '@id' => $canonical . '#webpage',
+                        'url' => $canonical,
+                        'name' => 'Marketplace de tiendas — WIStore',
+                        'description' => 'Directorio de tiendas con menús digitales y pedidos por WhatsApp.',
+                        'isPartOf' => [
+                            '@type' => 'WebSite',
+                            'name' => 'WIStore',
+                            'url' => url('/'),
+                        ],
+                    ],
+                ],
+            ],
+        );
+    }
+
+    public static function forContacto(): self
+    {
+        $canonical = route('contacto');
+
+        return new self(
+            title: 'Contacto y soporte — WIStore',
+            description: 'Escríbenos por WhatsApp o correo. Te ayudamos con planes, demos y el plan personalizado de WIStore.',
+            canonical: $canonical,
+            ogType: 'website',
+            noindex: false,
+            jsonLd: [
+                '@context' => 'https://schema.org',
+                '@graph' => [
+                    [
+                        '@type' => 'ContactPage',
+                        '@id' => $canonical . '#webpage',
+                        'url' => $canonical,
+                        'name' => 'Contacto — WIStore',
+                        'description' => 'Canales de atención y soporte para comercios WIStore.',
+                    ],
+                ],
+            ],
+        );
+    }
+
+    public static function forLanding(): self
+    {
+        return new self(
+            title: 'WIStore — Catálogos digitales para WhatsApp y Telegram',
+            description: 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis 7 días. Sin comisiones por cada venta.',
+            canonical: url('/'),
+            ogImage: null,
+            ogType: 'website',
+            noindex: false,
+            jsonLd: [
+                '@context' => 'https://schema.org',
+                '@graph' => [
+                    [
+                        '@type' => 'Organization',
+                        '@id' => url('/') . '#organization',
+                        'name' => 'WIStore',
+                        'url' => url('/'),
+                    ],
+                    [
+                        '@type' => 'WebSite',
+                        '@id' => url('/') . '#website',
+                        'name' => 'WIStore',
+                        'url' => url('/'),
+                        'description' => 'Catálogos digitales y pedidos por WhatsApp o Telegram para comercios en Venezuela.',
+                        'publisher' => ['@id' => url('/') . '#organization'],
+                    ],
+                    [
+                        '@type' => 'WebPage',
+                        '@id' => url('/') . '#webpage',
+                        'url' => url('/'),
+                        'name' => 'WIStore — Catálogos digitales para WhatsApp y Telegram',
+                        'description' => 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis 7 días.',
+                        'isPartOf' => ['@id' => url('/') . '#website'],
+                    ],
+                ],
+            ],
+        );
+    }
+
     public static function admin(): self
     {
         $shop = config('current_shop');

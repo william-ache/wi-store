@@ -9,10 +9,12 @@
 
     <div class="w-full max-w-3xl space-y-4">
         <div class="relative">
-            <input type="search" x-model="searchQuery"
+            <label for="landing-shop-search" class="sr-only">Buscar tienda por nombre</label>
+            <input id="landing-shop-search" type="search" x-model="searchQuery"
                    placeholder="¿Qué tienda buscas? Ej: sabores, regalos..."
+                   autocomplete="off"
                    class="w-full bg-slate-900/90 border border-slate-700 rounded-2xl px-5 py-4 pl-12 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all shadow-inner">
-            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" aria-hidden="true"></i>
             <button type="button" x-show="searchQuery.trim() !== ''" @click="searchQuery = ''"
                     class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs font-bold px-2 py-1 rounded-lg bg-slate-800">
                 Borrar

@@ -2,36 +2,14 @@
 <html lang="es" class="wistore-ui wistore-landing">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Contacto y Soporte - WIStore</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    @include('partials.seo.head', ['seo' => \App\Support\SeoMeta::forContacto()])
 
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @include('partials.landing.head-assets')
 
     @include('partials.global.wistore-scrollbar')
     @include('partials.landing.landing-scrollbar')
+    @include('partials.landing.ux-styles')
     <style>
 body {
             font-family: 'Outfit', sans-serif;
@@ -79,8 +57,8 @@ body {
     </div>
 
     <!-- Botón Flotante Volver -->
-    <a href="{{ route('home') }}" class="fixed top-6 left-6 md:top-8 md:left-8 z-50 bg-[#0d1127]/80 backdrop-blur-md border border-white/10 hover:border-purple-500/50 text-white font-bold px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 transition-all duration-300 text-xs md:text-sm group">
-        <i class="fas fa-arrow-left text-purple-400 group-hover:-translate-x-1 transition-transform"></i>
+    <a href="{{ route('home') }}" class="fixed top-6 left-6 md:top-8 md:left-8 z-50 bg-[#0d1127]/80 backdrop-blur-md border border-white/10 hover:border-purple-500/50 text-white font-bold px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 transition-all duration-300 text-xs md:text-sm group" aria-label="Volver al inicio de WIStore">
+        <i class="fas fa-arrow-left text-purple-300 group-hover:-translate-x-1 transition-transform" aria-hidden="true"></i>
         <span>Volver al Inicio</span>
     </a>
 
@@ -102,33 +80,33 @@ body {
             
             <!-- Columna Formulario (Izquierda 7/12) -->
             <div class="lg:col-span-7 bg-[#0d1127]/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl">
-                <h3 class="text-xl font-black text-white mb-6">Envíanos un Mensaje</h3>
+                <h2 id="contact-form-heading" class="text-xl font-black text-white mb-6">Envíanos un mensaje</h2>
                 
-                <form action="#" method="POST" class="space-y-6">
+                <form action="#" method="POST" class="space-y-6" aria-labelledby="contact-form-heading">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
-                            <label for="name" class="block text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Nombre Completo</label>
+                            <label for="name" class="block text-xs text-slate-300 uppercase font-bold tracking-wider mb-2">Nombre completo</label>
                             <input type="text" id="name" name="name" required class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors placeholder:text-slate-600" placeholder="Ej: Juan Pérez">
                         </div>
                         <div>
-                            <label for="shop_name" class="block text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Nombre de tu Comercio</label>
+                            <label for="shop_name" class="block text-xs text-slate-300 uppercase font-bold tracking-wider mb-2">Nombre de tu comercio</label>
                             <input type="text" id="shop_name" name="shop_name" class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors placeholder:text-slate-600" placeholder="Ej: Tienda Click">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
-                            <label for="email" class="block text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Correo Electrónico</label>
+                            <label for="email" class="block text-xs text-slate-300 uppercase font-bold tracking-wider mb-2">Correo electrónico</label>
                             <input type="email" id="email" name="email" required class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors placeholder:text-slate-600" placeholder="juan@correo.com">
                         </div>
                         <div>
-                            <label for="phone" class="block text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Teléfono (WhatsApp / Telegram)</label>
+                            <label for="phone" class="block text-xs text-slate-300 uppercase font-bold tracking-wider mb-2">Teléfono (WhatsApp / Telegram)</label>
                             <input type="tel" id="phone" name="phone" required class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors placeholder:text-slate-600" placeholder="Ej: +58 412-0000000">
                         </div>
                     </div>
 
                     <div>
-                        <label for="plan" class="block text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Plan de Interés</label>
+                        <label for="plan" class="block text-xs text-slate-300 uppercase font-bold tracking-wider mb-2">Plan de interés</label>
                         <select id="plan" name="plan" class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors">
                             <option value="standard" class="bg-[#0b0d19]">Plan Emprendedor ($8.99/mes)</option>
                             <option value="premium" class="bg-[#0b0d19]" selected>Plan Negocio (7 días gratis • $14.99/mes)</option>
@@ -138,7 +116,7 @@ body {
                     </div>
 
                     <div>
-                        <label for="message" class="block text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Mensaje o Requerimientos</label>
+                        <label for="message" class="block text-xs text-slate-300 uppercase font-bold tracking-wider mb-2">Mensaje o requerimientos</label>
                         <textarea id="message" name="message" rows="4" required class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors placeholder:text-slate-600 resize-none" placeholder="Cuéntanos un poco sobre tu negocio y cómo podemos ayudarte..."></textarea>
                     </div>
 
@@ -156,11 +134,11 @@ body {
             <div class="lg:col-span-5 flex flex-col justify-between gap-6">
                 <!-- Información Directa de Contacto -->
                 <div class="bg-[#0d1127]/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 space-y-6">
-                    <h3 class="text-xl font-black text-white mb-2">Soporte Inmediato</h3>
+                    <h2 class="text-xl font-black text-white mb-2">Soporte inmediato</h2>
                     
                     <div class="space-y-4">
                         <!-- Canal WhatsApp -->
-                        <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20más%20información%20sobre%20los%20planes%20de%20WIStore" target="_blank" class="flex items-center gap-4 bg-[#10b981]/10 hover:bg-[#10b981]/20 border border-[#10b981]/30 p-4 rounded-2xl transition-all duration-300 group">
+                        <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20más%20información%20sobre%20los%20planes%20de%20WIStore" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#10b981]/10 hover:bg-[#10b981]/20 border border-[#10b981]/30 p-4 rounded-2xl transition-all duration-300 group">
                             <div class="w-12 h-12 rounded-full bg-[#10b981]/20 flex items-center justify-center text-[#10b981]">
                                 <i class="fab fa-whatsapp text-2xl"></i>
                             </div>
@@ -187,38 +165,47 @@ body {
 
                 <!-- Acordeón FAQs Rápido (AlpineJS) -->
                 <div class="bg-[#0d1127]/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 flex-1" x-data="{ activeFaq: null }">
-                    <h3 class="text-lg font-black text-white mb-4">Preguntas Frecuentes</h3>
+                    <h2 class="text-lg font-black text-white mb-4">Preguntas frecuentes</h2>
                     
                     <div class="space-y-3">
                         <!-- FAQ 1 -->
                         <div class="border-b border-white/5 pb-3">
-                            <button @click="activeFaq = activeFaq === 1 ? null : 1" class="w-full flex items-center justify-between text-left text-xs font-bold text-slate-200 hover:text-white py-1.5 focus:outline-none">
+                            <button type="button" id="faq-btn-1" @click="activeFaq = activeFaq === 1 ? null : 1"
+                                :aria-expanded="activeFaq === 1"
+                                aria-controls="faq-panel-1"
+                                class="w-full flex items-center justify-between text-left text-xs font-bold text-slate-200 hover:text-white py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/80 rounded">
                                 <span>¿Hay cargos por instalación de catálogo?</span>
-                                <i class="fas" :class="activeFaq === 1 ? 'fa-minus text-purple-400' : 'fa-plus text-slate-500'"></i>
+                                <i class="fas" :class="activeFaq === 1 ? 'fa-minus text-purple-300' : 'fa-plus text-slate-400'" aria-hidden="true"></i>
                             </button>
-                            <div x-show="activeFaq === 1" x-transition.opacity class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+                            <div id="faq-panel-1" x-show="activeFaq === 1" x-transition.opacity role="region" aria-labelledby="faq-btn-1" class="text-[11px] text-slate-300 mt-2 leading-relaxed">
                                 No, el registro y la habilitación de tu tienda en cualquiera de nuestros planes es inmediato. Configuras tu catálogo interactivo y comienzas a vender el mismo día.
                             </div>
                         </div>
 
                         <!-- FAQ 2 -->
                         <div class="border-b border-white/5 pb-3">
-                            <button @click="activeFaq = activeFaq === 2 ? null : 2" class="w-full flex items-center justify-between text-left text-xs font-bold text-slate-200 hover:text-white py-1.5 focus:outline-none">
+                            <button type="button" id="faq-btn-2" @click="activeFaq = activeFaq === 2 ? null : 2"
+                                :aria-expanded="activeFaq === 2"
+                                aria-controls="faq-panel-2"
+                                class="w-full flex items-center justify-between text-left text-xs font-bold text-slate-200 hover:text-white py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/80 rounded">
                                 <span>¿Cobran comisiones por ventas en WhatsApp?</span>
-                                <i class="fas" :class="activeFaq === 2 ? 'fa-minus text-purple-400' : 'fa-plus text-slate-500'"></i>
+                                <i class="fas" :class="activeFaq === 2 ? 'fa-minus text-purple-300' : 'fa-plus text-slate-400'" aria-hidden="true"></i>
                             </button>
-                            <div x-show="activeFaq === 2" x-transition.opacity class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+                            <div id="faq-panel-2" x-show="activeFaq === 2" x-transition.opacity role="region" aria-labelledby="faq-btn-2" class="text-[11px] text-slate-300 mt-2 leading-relaxed">
                                 Absolutamente 0%. En WIStore creemos en el crecimiento de los comercios. Pagas únicamente tu suscripción fija al mes; todas tus ventas y transacciones van directamente a tus cuentas bancarias.
                             </div>
                         </div>
 
                         <!-- FAQ 3 -->
                         <div class="pb-2">
-                            <button @click="activeFaq = activeFaq === 3 ? null : 3" class="w-full flex items-center justify-between text-left text-xs font-bold text-slate-200 hover:text-white py-1.5 focus:outline-none">
+                            <button type="button" id="faq-btn-3" @click="activeFaq = activeFaq === 3 ? null : 3"
+                                :aria-expanded="activeFaq === 3"
+                                aria-controls="faq-panel-3"
+                                class="w-full flex items-center justify-between text-left text-xs font-bold text-slate-200 hover:text-white py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/80 rounded">
                                 <span>¿Cómo se realiza el pago a tasa BCV?</span>
-                                <i class="fas" :class="activeFaq === 3 ? 'fa-minus text-purple-400' : 'fa-plus text-slate-500'"></i>
+                                <i class="fas" :class="activeFaq === 3 ? 'fa-minus text-purple-300' : 'fa-plus text-slate-400'" aria-hidden="true"></i>
                             </button>
-                            <div x-show="activeFaq === 3" x-transition.opacity class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+                            <div id="faq-panel-3" x-show="activeFaq === 3" x-transition.opacity role="region" aria-labelledby="faq-btn-3" class="text-[11px] text-slate-300 mt-2 leading-relaxed">
                                 El sistema genera tu recibo mensual indexado en dólares ($) y calcula el total en Bolívares (Bs.) basándose en la tasa oficial del día emitida por el Banco Central de Venezuela. Puedes pagar con Pago Móvil o transferencia bancaria.
                             </div>
                         </div>
@@ -232,7 +219,7 @@ body {
     </main>
 
     <!-- FOOTER LIGERO -->
-    <footer class="border-t border-white/5 py-8 text-center text-xs text-slate-500 relative z-10">
+    <footer class="border-t border-white/5 py-8 text-center text-xs text-slate-400 relative z-10">
         <p>© 2026 WIStore. Todos los derechos reservados.</p>
     </footer>
 

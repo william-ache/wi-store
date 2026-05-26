@@ -2,17 +2,10 @@
 <html lang="es" class="wistore-ui wistore-landing">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Marketplace de Tiendas - WIStore</title>
-    <meta name="description" content="Explora menús digitales de comercios en WIStore. Filtra por categoría, zona y servicio.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    @include('partials.seo.head', ['seo' => \App\Support\SeoMeta::forMarketplace()])
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @include('partials.landing.head-assets')
 
     @include('partials.global.wistore-scrollbar')
     @include('partials.landing.landing-scrollbar')
@@ -37,7 +30,7 @@
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-white font-black uppercase tracking-tight shrink-0">
                 WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span>
             </a>
-            <nav class="hidden md:flex items-center gap-5 text-sm font-bold">
+            <nav class="hidden md:flex items-center gap-5 text-sm font-bold" aria-label="Navegación principal">
                 <a href="{{ route('tiendas.index') }}" class="text-cyan-300">Marketplace</a>
                 <a href="{{ route('home') }}#precios" class="text-slate-300 hover:text-white transition-colors">Precios</a>
                 <a href="{{ route('contacto') }}" class="text-slate-300 hover:text-white transition-colors">Contacto</a>
@@ -65,18 +58,19 @@
         <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 items-start">
 
             <!-- Filtros -->
-            <aside class="lg:sticky lg:top-24 space-y-5 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-5">
+            <aside class="lg:sticky lg:top-24 space-y-5 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-5" aria-label="Filtros del marketplace">
                 <div>
-                    <label for="marketplace-search" class="text-[10px] font-black uppercase tracking-widest text-slate-500">Buscar</label>
+                    <label for="marketplace-search" class="text-[10px] font-black uppercase tracking-widest text-slate-300">Buscar</label>
                     <div class="relative mt-2">
                         <input id="marketplace-search" type="search" x-model="searchQuery" placeholder="Nombre, zona, categoría..."
+                            autocomplete="off"
                             class="w-full bg-[#0c1024] border border-white/10 rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/40">
-                        <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                        <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm" aria-hidden="true"></i>
                     </div>
                 </div>
 
                 <div>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Categoría</p>
+                    <p id="marketplace-filter-category" class="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-2">Categoría</p>
                     <div class="flex flex-wrap gap-2">
                         @foreach (['Todos' => '✨', 'Gastronomía' => '🍽️', 'Moda y Estilo' => '👗', 'Detalles y Regalos' => '🎁', 'Servicios' => '🔧', 'Otros' => '📦'] as $cat => $icon)
                             <button type="button" @click="setCategory('{{ $cat }}')"
@@ -89,7 +83,7 @@
                 </div>
 
                 <div>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Zona</p>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-2">Zona</p>
                     <select x-model="activeZone"
                         class="w-full bg-[#0c1024] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500/40">
                         <option value="Todas">Todas las zonas</option>
@@ -100,7 +94,7 @@
                 </div>
 
                 <div>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Servicio</p>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-2">Servicio</p>
                     <div class="grid grid-cols-2 gap-2">
                         @foreach (['Todos' => 'Todos', 'delivery' => 'Delivery', 'pickup' => 'Retiro', 'dine_in' => 'En local'] as $key => $label)
                             <button type="button" @click="setService('{{ $key }}')"
@@ -111,7 +105,7 @@
                 </div>
 
                 <div>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Ordenar</p>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-2">Ordenar</p>
                     <select x-model="sortBy"
                         class="w-full bg-[#0c1024] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500/40">
                         <option value="recientes">Más recientes</option>
@@ -127,7 +121,8 @@
             </aside>
 
             <!-- Resultados -->
-            <section>
+            <section aria-labelledby="marketplace-results-heading">
+                <h2 id="marketplace-results-heading" class="sr-only">Tiendas disponibles</h2>
                 <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
                     <p class="text-sm text-slate-400">
                         <span class="text-white font-black" x-text="filteredShops.length"></span>
@@ -153,7 +148,7 @@
                                 </div>
                             </div>
                             <div class="p-4 flex flex-col flex-grow">
-                                <h2 class="text-lg font-black text-white leading-tight line-clamp-1" x-text="shop.name"></h2>
+                                <h3 class="text-lg font-black text-white leading-tight line-clamp-1" x-text="shop.name"></h3>
                                 <p class="text-[11px] text-cyan-300/80 font-semibold mt-1 flex items-center gap-1">
                                     <i class="fas fa-map-marker-alt text-[10px] opacity-70"></i>
                                     <span x-text="shop.zone"></span>
@@ -182,7 +177,7 @@
                 <div x-show="filteredShops.length === 0" x-cloak
                     class="text-center py-20 rounded-3xl border border-dashed border-slate-700 bg-slate-900/30">
                     <p class="text-4xl mb-3">🔍</p>
-                    <h2 class="text-white font-black text-lg">No hay tiendas con esos filtros</h2>
+                    <p class="text-white font-black text-lg" role="status">No hay tiendas con esos filtros</p>
                     <p class="text-slate-400 text-sm mt-2 max-w-sm mx-auto">Prueba otra categoría, zona o borra la búsqueda.</p>
                     <button type="button" @click="clearFilters()"
                         class="mt-6 landing-plan-btn text-white font-black px-6 py-3 rounded-xl text-sm">

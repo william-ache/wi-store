@@ -8,7 +8,7 @@
     <div class="relative w-14 h-14 shrink-0">
         {{-- Mensaje flotante de Wibi --}}
         <button type="button"
-                x-show="!chatOpen && teaserVisible"
+                x-show="showFloatingTeaser"
                 x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 translate-y-2 scale-95"
                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
@@ -144,10 +144,12 @@
         <!-- Input -->
         <div class="p-3 border-t border-purple-100/80 bg-white flex flex-col gap-2 shrink-0">
             <div class="flex items-center bg-slate-50 border border-purple-200/60 rounded-full px-4 py-2 focus-within:border-purple-400 focus-within:ring-2 focus-within:ring-purple-500/15 transition-all">
-                <input type="text"
+                <label for="wibi-chat-input" class="sr-only">Escribe tu mensaje a Wibi</label>
+                <input id="wibi-chat-input" type="text"
                        x-model="inputText"
                        @keydown.enter="sendUserMessage()"
                        placeholder="Escribe tu mensaje..."
+                       autocomplete="off"
                        class="flex-1 bg-transparent text-xs text-slate-700 placeholder-slate-400 focus:outline-none py-1">
                 <button @click="sendUserMessage()"
                         class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 hover:brightness-110 text-white flex items-center justify-center shadow-md active:scale-95 transition-all shrink-0 ml-2">
@@ -250,6 +252,10 @@
             teaserVisible: true,
             teaserTimer: null,
             teaserCycleDone: false,
+            teaserDismissed: false,
+            get showFloatingTeaser() {
+                return !this.chatOpen && !this.teaserDismissed && this.teaserVisible;
+            },
             quickChips: [
                 { label: 'Planes de Precios 💎', mobile: 'Planes 💎', short: 'Planes' },
                 { label: 'Probar 7 Días Gratis ⚡', mobile: '7 días gratis ⚡', short: '7 días' },
@@ -271,30 +277,41 @@
                 this.startTeaserRotation();
             },
 
+            stopTeaser() {
+                this.teaserDismissed = true;
+                this.teaserVisible = false;
+                this.teaserCycleDone = true;
+                if (this.teaserTimer) {
+                    clearInterval(this.teaserTimer);
+                    this.teaserTimer = null;
+                }
+            },
+
             startTeaserRotation() {
                 if (this.teaserTimer) {
                     clearInterval(this.teaserTimer);
                     this.teaserTimer = null;
                 }
-                if (this.teaserCycleDone) {
+                if (this.teaserDismissed || this.teaserCycleDone) {
                     return;
                 }
                 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 const intervalMs = reducedMotion ? 6000 : 3200;
                 const fadeMs = reducedMotion ? 0 : 260;
                 this.teaserTimer = setInterval(() => {
-                    if (this.chatOpen || this.teaserCycleDone) {
+                    if (this.chatOpen || this.teaserDismissed) {
                         return;
                     }
                     if (this.teaserIndex >= this.teaserMessages.length - 1) {
                         clearInterval(this.teaserTimer);
                         this.teaserTimer = null;
                         this.teaserCycleDone = true;
+                        setTimeout(() => this.stopTeaser(), intervalMs);
                         return;
                     }
                     this.teaserVisible = false;
                     setTimeout(() => {
-                        if (this.chatOpen || this.teaserCycleDone) {
+                        if (this.chatOpen || this.teaserDismissed) {
                             return;
                         }
                         this.teaserIndex += 1;
@@ -303,25 +320,21 @@
                             clearInterval(this.teaserTimer);
                             this.teaserTimer = null;
                             this.teaserCycleDone = true;
+                            setTimeout(() => this.stopTeaser(), intervalMs);
                         }
                     }, fadeMs);
                 }, intervalMs);
             },
 
             destroy() {
-                if (this.teaserTimer) {
-                    clearInterval(this.teaserTimer);
-                    this.teaserTimer = null;
-                }
+                this.stopTeaser();
             },
 
             toggleChat() {
                 this.chatOpen = !this.chatOpen;
                 if (this.chatOpen) {
-                    this.teaserVisible = false;
+                    this.stopTeaser();
                     this.$nextTick(() => this.scrollToBottom());
-                } else {
-                    this.teaserVisible = true;
                 }
             },
 

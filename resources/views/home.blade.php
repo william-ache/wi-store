@@ -3,119 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WIStore - La plataforma de catálogos digitales para WhatsApp y Telegram</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    @include('partials.seo.head', ['seo' => \App\Support\SeoMeta::forLanding()])
 
-    <!-- Marquee Animation Styles -->
-    <style>
-        @keyframes marquee-left {
-            0% {
-                transform: translateX(0);
-            }
+    @include('partials.landing.head-assets')
 
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        @keyframes marquee-right {
-            0% {
-                transform: translateX(-50%);
-            }
-
-            100% {
-                transform: translateX(0);
-            }
-        }
-
-        .landing-marquee-track {
-            display: flex;
-            flex-wrap: nowrap;
-            width: max-content;
-            will-change: transform;
-        }
-
-        .landing-marquee-track--left {
-            animation: marquee-left 50s linear infinite;
-        }
-
-        .landing-marquee-track--right {
-            animation: marquee-right 50s linear infinite;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .landing-marquee-track--left,
-            .landing-marquee-track--right {
-                animation-duration: 80s;
-            }
-        }
-    </style>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f5f3ff',
-                            100: '#ede9fe',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            900: '#312e81',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    @include('partials.landing.tutorial-video-script')
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @include('partials.global.wistore-scrollbar')
     @include('partials.landing.landing-scrollbar')
 
+    {{-- Estilos below-the-fold (ondas SVG, planes premium). No bloquean LCP del hero. --}}
     <style>
-        body {
-            font-family: 'Outfit', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .hero-gradient {
-            background: radial-gradient(circle at 50% 10%, rgba(99, 102, 241, 0.18) 0%, rgba(0, 0, 0, 0) 50%),
-                radial-gradient(circle at 10% 80%, rgba(79, 70, 229, 0.08) 0%, rgba(0, 0, 0, 0) 40%);
-        }
-
-        /* GPU hardware acceleration for ultra smooth scrolling on heavy blurs */
-        .gpu-accelerated {
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
-            will-change: transform;
-        }
-
         .blur-accelerated {
             transform: translate3d(0, 0, 0);
             backface-visibility: hidden;
             will-change: filter;
-        }
-
-        [x-cloak] {
-            display: none !important;
         }
 
         /* Animaciones fluidas de ondas/olas (morphing) para las curvas SVG del fondo */
@@ -339,7 +240,7 @@
                 </span>
             </a>
 
-            <nav class="hidden md:flex items-center gap-6">
+            <nav class="hidden md:flex items-center gap-6" aria-label="Navegación principal">
                 <button type="button" @click="scrollTo('explorar')"
                         :class="activeSection === 'explorar' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
                         class="landing-nav-link text-sm font-bold transition-colors">Tiendas</button>
@@ -360,8 +261,10 @@
 
             <button type="button" @click="isMobileMenuOpen = true"
                     class="md:hidden w-11 h-11 rounded-xl border border-white/10 text-white flex items-center justify-center hover:bg-white/5"
-                    aria-label="Abrir menú">
-                <i class="fas fa-bars"></i>
+                    :aria-expanded="isMobileMenuOpen"
+                    aria-controls="landing-mobile-nav"
+                    aria-label="Abrir menú de navegación">
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
         </div>
     </header>
@@ -495,6 +398,10 @@
                                     @if ($shop->cover_path)
                                         <img src="{{ $shop->coverUrl() }}"
                                             alt="{{ $shop->name }}"
+                                            width="400"
+                                            height="128"
+                                            loading="lazy"
+                                            decoding="async"
                                             class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
                                     @else
                                         <div
@@ -508,7 +415,12 @@
                                     <div
                                         class="absolute bottom-2 left-3 w-12 h-12 rounded-full border-2 border-slate-900 bg-white overflow-hidden shadow-lg z-10">
                                         <img src="{{ $shop->logoUrl() ?? 'https://ui-avatars.com/api/?name=' . urlencode($shop->name) . '&background=a855f7&color=fff' }}"
-                                            alt="Logo" class="w-full h-full object-cover">
+                                            alt="Logo de {{ $shop->name }}"
+                                            width="48"
+                                            height="48"
+                                            loading="lazy"
+                                            decoding="async"
+                                            class="w-full h-full object-cover">
                                     </div>
                                 </div>
                             </div>
@@ -1182,8 +1094,9 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="border-t border-white/5 bg-transparent relative z-10 pt-20 pb-10">
+    <footer class="border-t border-white/5 bg-transparent relative z-10 pt-20 pb-10" aria-labelledby="footer-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="footer-heading" class="sr-only">Información y enlaces de WIStore</h2>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
                 <!-- Columna 1: Brand & Bio -->
                 <div class="col-span-1 md:col-span-1 space-y-4">
@@ -1222,7 +1135,7 @@
 
                 <!-- Columna 2: Ecosistema -->
                 <div class="space-y-4">
-                    <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Ecosistema</h4>
+                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-200">Ecosistema</h3>
                     <ul class="space-y-2.5 text-xs">
                         <li><a href="{{ route('tiendas.index') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Marketplace de tiendas</a></li>
                         <li><a href="#explorar" class="text-slate-400 hover:text-cyan-400 transition-colors">Vista previa</a></li>
@@ -1238,7 +1151,7 @@
 
                 <!-- Columna 3: Administración -->
                 <div class="space-y-4">
-                    <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Administración</h4>
+                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-200">Administración</h3>
                     <div class="pt-1">
                         <a href="/login"
                             class="inline-flex items-center gap-1.5 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-extrabold px-3.5 py-2 rounded-xl border border-purple-500/30 hover:border-purple-500/50 hover:text-white transition-all duration-300 text-[10px] uppercase tracking-wider shadow-lg shadow-purple-500/5">
@@ -1249,7 +1162,7 @@
 
                 <!-- Columna 4: Contacto directo -->
                 <div class="space-y-4">
-                    <h4 class="text-xs uppercase font-black tracking-widest text-slate-200">Contacto Directo</h4>
+                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-200">Contacto directo</h3>
                     <ul class="space-y-3 text-xs text-slate-400">
                         <li class="flex items-center gap-2.5">
                             <i class="fas fa-envelope text-cyan-400 w-4 shrink-0"></i>

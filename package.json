@@ -1,4 +1,12 @@
 {
     "private": true,
-    "type": "module"
+    "type": "module",
+    "scripts": {
+        "build:landing": "tailwindcss -i ./resources/css/landing.css -o ./public/build/landing.css --minify",
+        "watch:landing": "tailwindcss -i ./resources/css/landing.css -o ./public/build/landing.css --watch"
+    },
+    "devDependencies": {
+        "@tailwindcss/cli": "^4.1.0",
+        "tailwindcss": "^4.1.0"
+    }
 }
