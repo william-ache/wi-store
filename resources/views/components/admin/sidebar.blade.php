@@ -198,6 +198,13 @@
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 shrink-0"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path></svg>
                         <span>Referidos</span>
                     </a>
+                    <a href="#"
+                       @click.prevent="showRateModal = true"
+                       class="flex items-center gap-2.5 px-3 py-2 rounded-md transition text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white"
+                       :class="{ 'bg-amber-500/20 text-amber-200 font-bold': showRateModal }">
+                        <i class="fas fa-star text-[13px] w-[15px] text-center shrink-0 text-amber-400"></i>
+                        <span>Calificar</span>
+                    </a>
                 </div>
             </div>
 
@@ -246,16 +253,16 @@
 
     <!-- Footer Sidebar -->
     <div class="p-4 border-t border-slate-800/60 space-y-2">
-        <a href="mailto:{{ $wistoreSupportEmail }}" class="w-full text-slate-500 hover:text-cyan-300 font-semibold py-1.5 text-[10px] flex items-center justify-center gap-1.5 transition-colors break-all">
+        <a href="mailto:{{ $wiStoreSupportEmail }}" class="w-full text-slate-500 hover:text-cyan-300 font-semibold py-1.5 text-[10px] flex items-center justify-center gap-1.5 transition-colors break-all">
             <i class="fas fa-envelope opacity-70"></i>
-            <span>{{ $wistoreSupportEmail }}</span>
+            <span>{{ $wiStoreSupportEmail }}</span>
         </a>
         <a href="/{{ config('current_shop')->slug }}" target="_blank" class="w-full bg-slate-800 hover:bg-primary hover:text-white text-slate-300 font-bold py-2.5 rounded-xl border border-slate-700/80 hover:border-primary transition text-xs flex items-center justify-center gap-2">
             Ver Menú Digital →
         </a>
         <a href="/" class="w-full bg-rose-600/10 hover:bg-rose-600 hover:text-white text-rose-400 font-bold py-2 rounded-xl border border-rose-500/20 hover:border-rose-600 transition text-[11px] flex items-center justify-center gap-1.5">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Volver a WIStore
+            Volver a WI-Store
         </a>
     </div>
 </aside>

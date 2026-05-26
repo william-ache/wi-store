@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth wistore-ui wistore-landing">
+<html lang="es" class="scroll-smooth wi-store-ui wi-store-landing">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión | WIStore Admin</title>
+    <title>Iniciar Sesión | WI-Store Admin</title>
 
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,7 +30,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     <style>
         [x-cloak] { display: none !important; }
@@ -263,9 +263,9 @@
     <!-- Footer -->
     <footer class="w-full py-6 text-xs text-slate-500 relative z-10 border-t border-white/5 bg-transparent">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>© 2026 WIStore. Todos los derechos reservados.</p>
+            <p>© 2026 WI-Store. Todos los derechos reservados.</p>
             <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                <a href="mailto:{{ $wistoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wistoreSupportEmail }}</a>
+                <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wiStoreSupportEmail }}</a>
                 <span class="hidden sm:inline">•</span>
                 <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
                 <span>•</span>

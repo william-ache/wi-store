@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="wistore-ui wistore-landing">
+<html lang="es" class="wi-store-ui wi-store-landing">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -7,7 +7,7 @@
 
     @include('partials.landing.head-assets')
 
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     @include('partials.landing.ux-styles')
     <style>
@@ -57,7 +57,7 @@ body {
     </div>
 
     <!-- Botón Flotante Volver -->
-    <a href="{{ route('home') }}" class="fixed top-6 left-6 md:top-8 md:left-8 z-50 bg-[#0d1127]/80 backdrop-blur-md border border-white/10 hover:border-purple-500/50 text-white font-bold px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 transition-all duration-300 text-xs md:text-sm group" aria-label="Volver al inicio de WIStore">
+    <a href="{{ route('home') }}" class="fixed top-6 left-6 md:top-8 md:left-8 z-50 bg-[#0d1127]/80 backdrop-blur-md border border-white/10 hover:border-purple-500/50 text-white font-bold px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 transition-all duration-300 text-xs md:text-sm group" aria-label="Volver al inicio de WI-Store">
         <i class="fas fa-arrow-left text-purple-300 group-hover:-translate-x-1 transition-transform" aria-hidden="true"></i>
         <span>Volver al Inicio</span>
     </a>
@@ -122,7 +122,7 @@ body {
 
                     <p class="text-[11px] text-slate-500 text-center">
                         También puedes escribirnos a
-                        <a href="mailto:{{ $wistoreSupportEmail }}" class="text-cyan-300/90 hover:text-cyan-200 font-bold">{{ $wistoreSupportEmail }}</a>
+                        <a href="mailto:{{ $wiStoreSupportEmail }}" class="text-cyan-300/90 hover:text-cyan-200 font-bold">{{ $wiStoreSupportEmail }}</a>
                     </p>
                     <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-extrabold py-4 rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.3)] text-xs md:text-sm tracking-widest uppercase">
                         Enviar Consulta <i class="fas fa-paper-plane ml-2"></i>
@@ -138,7 +138,7 @@ body {
                     
                     <div class="space-y-4">
                         <!-- Canal WhatsApp -->
-                        <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20más%20información%20sobre%20los%20planes%20de%20WIStore" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#10b981]/10 hover:bg-[#10b981]/20 border border-[#10b981]/30 p-4 rounded-2xl transition-all duration-300 group">
+                        <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20más%20información%20sobre%20los%20planes%20de%20WI-Store" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#10b981]/10 hover:bg-[#10b981]/20 border border-[#10b981]/30 p-4 rounded-2xl transition-all duration-300 group">
                             <div class="w-12 h-12 rounded-full bg-[#10b981]/20 flex items-center justify-center text-[#10b981]">
                                 <i class="fab fa-whatsapp text-2xl"></i>
                             </div>
@@ -150,13 +150,13 @@ body {
                         </a>
 
                         <!-- Canal Email -->
-                        <a href="mailto:{{ $wistoreSupportEmail }}" class="flex items-center gap-4 bg-cyan-500/5 hover:bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500/35 p-4 rounded-2xl transition-all duration-300 group">
+                        <a href="mailto:{{ $wiStoreSupportEmail }}" class="flex items-center gap-4 bg-cyan-500/5 hover:bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500/35 p-4 rounded-2xl transition-all duration-300 group">
                             <div class="w-12 h-12 rounded-full bg-cyan-500/15 flex items-center justify-center text-cyan-300">
                                 <i class="fas fa-envelope text-xl"></i>
                             </div>
                             <div class="min-w-0">
                                 <p class="text-xs text-slate-400 uppercase font-black tracking-widest">Correo de Soporte</p>
-                                <p class="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors break-all">{{ $wistoreSupportEmail }}</p>
+                                <p class="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors break-all">{{ $wiStoreSupportEmail }}</p>
                             </div>
                             <i class="fas fa-chevron-right ml-auto text-slate-500 group-hover:translate-x-1 transition-transform shrink-0"></i>
                         </a>
@@ -192,7 +192,7 @@ body {
                                 <i class="fas" :class="activeFaq === 2 ? 'fa-minus text-purple-300' : 'fa-plus text-slate-400'" aria-hidden="true"></i>
                             </button>
                             <div id="faq-panel-2" x-show="activeFaq === 2" x-transition.opacity role="region" aria-labelledby="faq-btn-2" class="text-[11px] text-slate-300 mt-2 leading-relaxed">
-                                Absolutamente 0%. En WIStore creemos en el crecimiento de los comercios. Pagas únicamente tu suscripción fija al mes; todas tus ventas y transacciones van directamente a tus cuentas bancarias.
+                                Absolutamente 0%. En WI-Store creemos en el crecimiento de los comercios. Pagas únicamente tu suscripción fija al mes; todas tus ventas y transacciones van directamente a tus cuentas bancarias.
                             </div>
                         </div>
 
@@ -220,7 +220,7 @@ body {
 
     <!-- FOOTER LIGERO -->
     <footer class="border-t border-white/5 py-8 text-center text-xs text-slate-400 relative z-10">
-        <p>© 2026 WIStore. Todos los derechos reservados.</p>
+        <p>© 2026 WI-Store. Todos los derechos reservados.</p>
     </footer>
 
     @include('partials.public.chat')

@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('wistoreSupportEmail', config('wistore.support_email'));
-        View::share('wistoreSupportName', config('wistore.support_name'));
+        View::share('wiStoreSupportEmail', config('wi-store.support_email'));
+        View::share('wiStoreSupportName', config('wi-store.support_name'));
     }
 }

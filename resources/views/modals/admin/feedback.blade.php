@@ -64,8 +64,8 @@ class="fixed inset-0 z-[100] flex items-center justify-center p-4">
                 <span>Feedback</span>
             </h3>
             <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-1">
-                Ayúdanos a mejorar {{ config('app.name', 'WIStore') }} compartiendo tu experiencia.
-                ¿Urgente? <a href="mailto:{{ $wistoreSupportEmail }}" class="text-primary hover:underline font-bold">{{ $wistoreSupportEmail }}</a>
+                Ayúdanos a mejorar {{ config('app.name', 'WI-Store') }} compartiendo tu experiencia.
+                ¿Urgente? <a href="mailto:{{ $wiStoreSupportEmail }}" class="text-primary hover:underline font-bold">{{ $wiStoreSupportEmail }}</a>
             </p>
         </div>
 

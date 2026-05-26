@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="wistore-ui wistore-landing">
+<html lang="es" class="wi-store-ui wi-store-landing">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tienda No Disponible - WIStore</title>
+    <title>Tienda No Disponible - WI-Store</title>
     
     <!-- Marquee Animation Styles -->
     <style>
@@ -62,7 +62,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     <style>
 body {
@@ -292,7 +292,7 @@ body {
             <div class="flex flex-col items-center justify-center mb-12 space-y-6">
                 <div class="text-center w-full">
                     <h2 class="text-3xl md:text-4xl font-black text-white tracking-tight">Explora Tiendas Afiliadas</h2>
-                    <p class="text-sm text-slate-400 mt-1.5">Compra de forma directa en los mejores catálogos de WIStore.</p>
+                    <p class="text-sm text-slate-400 mt-1.5">Compra de forma directa en los mejores catálogos de WI-Store.</p>
                 </div>
 
                 <div class="w-full max-w-4xl flex flex-col gap-5 items-center justify-center">
@@ -326,7 +326,7 @@ body {
                                             @if($shop->cover_path)
                                                 <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
                                             @else
-                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WI-STORE</div>
                                             @endif
                                             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
 
@@ -346,7 +346,7 @@ body {
                                                     @endfor
                                                 </div>
                                             </div>
-                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WI-Store.' }}</p>
                                         </div>
 
                                         <div class="mt-4">
@@ -366,7 +366,7 @@ body {
                                             @if($shop->cover_path)
                                                 <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
                                             @else
-                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WI-STORE</div>
                                             @endif
                                             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
 
@@ -386,7 +386,7 @@ body {
                                                     @endfor
                                                 </div>
                                             </div>
-                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WI-Store.' }}</p>
                                         </div>
 
                                         <div class="mt-4">
@@ -412,7 +412,7 @@ body {
                                             @if($shop->cover_path)
                                                 <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
                                             @else
-                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WI-STORE</div>
                                             @endif
                                             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
 
@@ -432,7 +432,7 @@ body {
                                                     @endfor
                                                 </div>
                                             </div>
-                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WI-Store.' }}</p>
                                         </div>
 
                                         <div class="mt-4">
@@ -452,7 +452,7 @@ body {
                                             @if($shop->cover_path)
                                                 <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
                                             @else
-                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                                <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WI-STORE</div>
                                             @endif
                                             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
 
@@ -472,7 +472,7 @@ body {
                                                     @endfor
                                                 </div>
                                             </div>
-                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                            <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WI-Store.' }}</p>
                                         </div>
 
                                         <div class="mt-4">
@@ -511,7 +511,7 @@ body {
                                     @if($shop->cover_path)
                                         <img src="{{ filter_var($shop->cover_path, FILTER_VALIDATE_URL) ? $shop->cover_path : asset('storage/'.$shop->cover_path) }}" alt="{{ $shop->name }}" class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700">
                                     @else
-                                        <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WISTORE</div>
+                                        <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">WI-STORE</div>
                                     @endif
                                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
 
@@ -531,7 +531,7 @@ body {
                                             @endfor
                                         </div>
                                     </div>
-                                    <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                    <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{{ $shop->description ?: 'Catálogo oficial de marca blanca en WI-Store.' }}</p>
                                 </div>
 
                                 <div class="mt-4">
@@ -623,7 +623,7 @@ body {
 
             <!-- Bottom Area -->
             <div class="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-                <p>© 2026 WIStore. Todos los derechos reservados.</p>
+                <p>© 2026 WI-Store. Todos los derechos reservados.</p>
                 <div class="flex items-center gap-6">
                     <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
                     <span>•</span>

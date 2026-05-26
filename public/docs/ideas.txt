@@ -8,7 +8,7 @@ https://treinta.co/ muy  similar a lo que quiero y https://clarito.app/
 
 hacer un canal de whatsapp y telegran para mandar noticias y anuncios por ahi 
 
-Recordatorios de pago por SMS (EnvíaTuSMS) y correo electrónico (Resend, Postmark o SMTP)
+Recordatorios de pago por SMS (Envimage.pngíaTuSMS) y correo electrónico (Resend, Postmark o SMTP)
 
 Escaneo inteligente de facturas de proveedores con Google Gemini: sube la factura y el sistema extrae los datos automáticamente
 

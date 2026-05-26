@@ -10,7 +10,7 @@
                      loading="lazy">
             @else
                 <div class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-300 text-sm font-black tracking-widest">
-                    WIStore
+                    WI-Store
                 </div>
             @endif
             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>

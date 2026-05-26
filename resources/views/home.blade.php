@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="wistore-ui wistore-landing">
+<html lang="es" class="wi-store-ui wi-store-landing">
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 
     @include('partials.landing.head-assets')
 
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
 
     {{-- Estilos below-the-fold (ondas SVG, planes premium). No bloquean LCP del hero. --}}
@@ -406,7 +406,7 @@
                                     @else
                                         <div
                                             class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">
-                                            WISTORE</div>
+                                            WI-STORE</div>
                                     @endif
                                     <div
                                         class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent">
@@ -440,7 +440,7 @@
                                         </div>
                                     </div>
                                     <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                                        {{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}</p>
+                                        {{ $shop->description ?: 'Catálogo oficial de marca blanca en WI-Store.' }}</p>
                                 </div>
 
                                 <div class="mt-4">
@@ -514,6 +514,8 @@
                 </a>
             </div>
 
+            @include('partials.landing.testimonials-carousel')
+
 
                 <!-- PLAN 4: Plan Custom / Personalizado -->
                 <div id="plan-custom"
@@ -577,7 +579,7 @@
 
                     <!-- CTA -->
                     <div class="mt-8 flex flex-col gap-2.5">
-                        <a href="https://wa.me/584121305420?text=Hola,%20deseo%20una%2520asesoría%20sobre%20el%20Plan%20Custom%20de%20WIStore"
+                        <a href="https://wa.me/584121305420?text=Hola,%20deseo%20una%2520asesoría%20sobre%20el%20Plan%20Custom%20de%20WI-Store"
                             target="_blank"
                             class="block w-full text-center bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-400 hover:to-rose-400 text-white font-extrabold py-3 rounded-xl transition-all duration-300 text-xs shadow-sm shadow-pink-500/30">
                             Cotizar Proyecto
@@ -653,7 +655,7 @@
                             <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-indigo-400 mt-0.5"></i>
-                                    <span>Enlace único corto (wistore.com/tu-marca)</span>
+                                    <span>Enlace único corto (wi-store.com/tu-marca)</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-indigo-400 mt-0.5"></i>
@@ -866,7 +868,7 @@
                                 </p>
                                 <p class="text-lg font-black text-white">Precio a convenir</p>
                             </div>
-                            <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20cotizar%20el%20plan%20Custom%20de%20WIStore%20para%20mi%20negocio"
+                            <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20cotizar%20el%20plan%20Custom%20de%20WI-Store%20para%20mi%20negocio"
                                 target="_blank"
                                 class="bg-pink-600 hover:bg-pink-500 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
                                 Cotizar por WhatsApp
@@ -879,7 +881,7 @@
         </div>
     </section>
 
-    <!-- VS COMPETENCIA (WIStore vs El Resto) -->
+    <!-- VS COMPETENCIA (WI-Store vs El Resto) -->
     <section id="vs-competencia" class="hidden py-20 md:py-28 border-t border-white/5 relative overflow-hidden z-10">
 
         <!-- Orbe de luz de fondo -->
@@ -893,9 +895,9 @@
             <div class="text-center mb-16 md:mb-20">
                 <span
                     class="bg-rose-600/20 text-rose-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-rose-500/30 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
-                    La Diferencia WIStore
+                    La Diferencia WI-Store
                 </span>
-                <h2 class="text-3xl md:text-5xl font-black text-white mt-5 tracking-tight">WIStore vs La Competencia
+                <h2 class="text-3xl md:text-5xl font-black text-white mt-5 tracking-tight">WI-Store vs La Competencia
                 </h2>
                 <p class="text-sm md:text-base text-slate-400 mt-3 max-w-2xl mx-auto leading-relaxed">No pagues por
                     funciones limitadas en plataformas extranjeras. Descubre por qué somos la opción más inteligente y
@@ -1096,7 +1098,7 @@
     <!-- FOOTER -->
     <footer class="border-t border-white/5 bg-transparent relative z-10 pt-20 pb-10" aria-labelledby="footer-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 id="footer-heading" class="sr-only">Información y enlaces de WIStore</h2>
+            <h2 id="footer-heading" class="sr-only">Información y enlaces de WI-Store</h2>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
                 <!-- Columna 1: Brand & Bio -->
                 <div class="col-span-1 md:col-span-1 space-y-4">
@@ -1183,9 +1185,9 @@
             <!-- Bottom Area -->
             <div
                 class="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-                <p>© 2026 WIStore. Todos los derechos reservados.</p>
+                <p>© 2026 WI-Store. Todos los derechos reservados.</p>
                 <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                    <a href="mailto:{{ $wistoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wistoreSupportEmail }}</a>
+                    <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wiStoreSupportEmail }}</a>
                     <span class="hidden sm:inline">•</span>
                     <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
                     <span>•</span>

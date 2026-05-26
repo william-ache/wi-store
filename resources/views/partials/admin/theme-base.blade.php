@@ -1,5 +1,5 @@
-    html.wistore-admin,
-    html.wistore-ui.wistore-admin {
+    html.wi-store-admin,
+    html.wi-store-ui.wi-store-admin {
         height: 100%;
         min-height: 100dvh;
         min-height: 100vh;
@@ -9,7 +9,7 @@
         overflow-x: hidden;
     }
 
-    body.wistore-admin-body {
+    body.wi-store-admin-body {
         display: flex;
         flex-direction: column;
         min-height: 100dvh;
@@ -22,7 +22,7 @@
         position: relative;
     }
 
-    body.wistore-admin-body::before {
+    body.wi-store-admin-body::before {
         content: '';
         position: fixed;
         inset: 0;
@@ -31,25 +31,25 @@
         pointer-events: none;
     }
 
-    .wistore-admin {
+    .wi-store-admin {
         --admin-sidebar-w: 16rem;
         --admin-topbar-h: 4.25rem;
         --admin-bottombar-h: 0px;
     }
 
     @media (min-width: 768px) {
-        .wistore-admin {
+        .wi-store-admin {
             --admin-topbar-h: 4.5rem;
         }
     }
 
     @media (max-width: 767.98px) {
-        .wistore-admin {
+        .wi-store-admin {
             --admin-topbar-h: 3.5rem;
         }
     }
 
-    .wistore-admin .admin-viewport {
+    .wi-store-admin .admin-viewport {
         display: flex;
         flex: 1 1 auto;
         flex-direction: row;
@@ -63,7 +63,7 @@
         overflow-x: hidden;
     }
 
-    .wistore-admin .admin-main-column {
+    .wi-store-admin .admin-main-column {
         display: flex;
         flex: 1 1 auto;
         flex-direction: column;
@@ -77,7 +77,7 @@
         background-color: var(--ui-bg);
     }
 
-    .wistore-admin .admin-sidebar {
+    .wi-store-admin .admin-sidebar {
         flex-shrink: 0;
         display: flex;
         width: var(--admin-sidebar-w);
@@ -89,7 +89,7 @@
 
     /* Móvil: sidebar oculto por defecto, overlay al abrir */
     @media (max-width: 767.98px) {
-        .wistore-admin .admin-sidebar {
+        .wi-store-admin .admin-sidebar {
             position: fixed;
             top: 0;
             left: 0;
@@ -105,13 +105,13 @@
             box-shadow: none;
         }
 
-        .wistore-admin .admin-sidebar.admin-sidebar--open,
-        .wistore-admin.admin-sidebar-open .admin-sidebar {
+        .wi-store-admin .admin-sidebar.admin-sidebar--open,
+        .wi-store-admin.admin-sidebar-open .admin-sidebar {
             transform: translateX(0);
             box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35);
         }
 
-        .wistore-admin .admin-sidebar-backdrop {
+        .wi-store-admin .admin-sidebar-backdrop {
             position: fixed;
             inset: 0;
             z-index: 45;
@@ -121,7 +121,7 @@
     }
 
     /* Topbar fijo */
-    .wistore-admin .admin-topbar {
+    .wi-store-admin .admin-topbar {
         position: fixed;
         top: 0;
         left: 0;
@@ -139,7 +139,7 @@
     }
 
     @media (min-width: 768px) {
-        .wistore-admin .admin-topbar {
+        .wi-store-admin .admin-topbar {
             left: var(--admin-sidebar-w);
             width: calc(100% - var(--admin-sidebar-w));
             padding-top: 1rem;
@@ -147,7 +147,7 @@
         }
     }
 
-    .wistore-admin .admin-topbar-inner {
+    .wi-store-admin .admin-topbar-inner {
         width: 100%;
         max-width: 80rem;
         margin-left: auto;
@@ -160,12 +160,12 @@
     }
 
     @media (min-width: 768px) {
-        .wistore-admin .admin-topbar-inner {
+        .wi-store-admin .admin-topbar-inner {
             gap: 1.25rem;
         }
     }
 
-    .wistore-admin .admin-topbar-brand {
+    .wi-store-admin .admin-topbar-brand {
         display: flex;
         align-items: center;
         gap: 0.625rem;
@@ -173,7 +173,7 @@
         flex: 1 1 auto;
     }
 
-    .wistore-admin .admin-topbar-actions {
+    .wi-store-admin .admin-topbar-actions {
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -181,12 +181,12 @@
     }
 
     @media (min-width: 768px) {
-        .wistore-admin .admin-topbar-actions {
+        .wi-store-admin .admin-topbar-actions {
             gap: 1.25rem;
         }
     }
 
-    .wistore-admin .admin-topbar-spacer {
+    .wi-store-admin .admin-topbar-spacer {
         flex-shrink: 0;
         height: calc(var(--admin-topbar-h) + env(safe-area-inset-top, 0px));
         margin: 0;
@@ -196,216 +196,216 @@
     }
 
     @media (min-width: 768px) {
-        .wistore-admin .admin-topbar-spacer {
+        .wi-store-admin .admin-topbar-spacer {
             height: var(--admin-topbar-h);
         }
     }
 
-    .wistore-admin .admin-main-content {
+    .wi-store-admin .admin-main-content {
         flex: 1 1 auto;
     }
 
-    .wistore-admin header.accent-surface,
-    .wistore-admin nav.accent-surface {
+    .wi-store-admin header.accent-surface,
+    .wi-store-admin nav.accent-surface {
         background-color: var(--color-primary);
         color: var(--color-on-primary);
     }
 
-  .dark .wistore-admin .dark\:bg-slate-900 {
+  .dark .wi-store-admin .dark\:bg-slate-900 {
       background-color: var(--ui-surface) !important;
   }
 
-  .dark .wistore-admin .dark\:bg-slate-850 {
+  .dark .wi-store-admin .dark\:bg-slate-850 {
       background-color: #2A2A2A !important;
   }
 
-  .wistore-admin .ui-overlay {
+  .wi-store-admin .ui-overlay {
       background-color: color-mix(in srgb, var(--ui-surface) 95%, transparent);
   }
 
-  .dark .wistore-admin .dark\:border-slate-800,
-  .dark .wistore-admin .dark\:border-slate-850 {
+  .dark .wi-store-admin .dark\:border-slate-800,
+  .dark .wi-store-admin .dark\:border-slate-850 {
       border-color: var(--ui-border) !important;
   }
 
-  .wistore-admin .ui-surface {
+  .wi-store-admin .ui-surface {
       background-color: var(--ui-surface);
       color: var(--ui-text);
   }
 
-  .wistore-admin .ui-card {
+  .wi-store-admin .ui-card {
       background-color: var(--ui-surface);
       color: var(--ui-text);
       border: 1px solid var(--ui-border);
   }
 
-  .wistore-admin .ui-field {
+  .wi-store-admin .ui-field {
       background-color: var(--ui-surface);
       color: var(--ui-text);
       border-color: var(--ui-border);
   }
 
-  .wistore-admin .ui-field::placeholder {
+  .wi-store-admin .ui-field::placeholder {
       color: var(--ui-text-muted);
   }
 
-  .wistore-admin .ui-inset {
+  .wi-store-admin .ui-inset {
       background-color: #ECEEF1;
       color: var(--ui-text);
       border-color: var(--ui-border);
   }
 
-  .dark .wistore-admin .ui-inset {
+  .dark .wi-store-admin .ui-inset {
       background-color: #161616;
   }
 
   /* Modo claro: tarjetas oscuras legacy → superficie off-white */
-  html:not(.dark) .wistore-admin main .bg-slate-900 {
+  html:not(.dark) .wi-store-admin main .bg-slate-900 {
       background-color: var(--ui-surface) !important;
       border-color: var(--ui-border) !important;
   }
 
-  html:not(.dark) .wistore-admin main .bg-slate-900 .text-white,
-  html:not(.dark) .wistore-admin main .bg-slate-900 .text-slate-100 {
+  html:not(.dark) .wi-store-admin main .bg-slate-900 .text-white,
+  html:not(.dark) .wi-store-admin main .bg-slate-900 .text-slate-100 {
       color: var(--ui-text) !important;
   }
 
-  html:not(.dark) .wistore-admin main .from-slate-900 {
+  html:not(.dark) .wi-store-admin main .from-slate-900 {
       --tw-gradient-from: var(--ui-surface) var(--tw-gradient-from-position) !important;
       --tw-gradient-to: rgb(250 251 252 / 0) var(--tw-gradient-to-position) !important;
       --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
   }
 
-  .dark .wistore-admin .dark\:bg-slate-950,
-  .dark .wistore-admin .dark\:bg-slate-800,
-  .dark .wistore-admin .dark\:bg-slate-800\/50,
-  .dark .wistore-admin .dark\:bg-slate-800\/40 {
+  .dark .wi-store-admin .dark\:bg-slate-950,
+  .dark .wi-store-admin .dark\:bg-slate-800,
+  .dark .wi-store-admin .dark\:bg-slate-800\/50,
+  .dark .wi-store-admin .dark\:bg-slate-800\/40 {
       background-color: var(--ui-inset, #161616) !important;
   }
 
-  .dark .wistore-admin .bg-slate-900 {
+  .dark .wi-store-admin .bg-slate-900 {
       background-color: var(--ui-surface) !important;
   }
 
-  .dark .wistore-admin .border-slate-800 {
+  .dark .wi-store-admin .border-slate-800 {
       border-color: var(--ui-border) !important;
   }
 
-  .dark .wistore-admin .dark\:text-slate-200,
-  .dark .wistore-admin .dark\:text-slate-300 {
+  .dark .wi-store-admin .dark\:text-slate-200,
+  .dark .wi-store-admin .dark\:text-slate-300 {
       color: var(--ui-text);
   }
 
-  .dark .wistore-admin .dark\:text-slate-400,
-  .dark .wistore-admin .dark\:text-slate-500 {
+  .dark .wi-store-admin .dark\:text-slate-400,
+  .dark .wi-store-admin .dark\:text-slate-500 {
       color: var(--ui-text-muted);
   }
 
-  .dark .wistore-admin .dark\:border-slate-750,
-  .dark .wistore-admin .dark\:border-slate-700,
-  .dark .wistore-admin .dark\:border-slate-800\/80,
-  .dark .wistore-admin .dark\:border-slate-800\/50,
-  .dark .wistore-admin .dark\:border-slate-850\/80 {
+  .dark .wi-store-admin .dark\:border-slate-750,
+  .dark .wi-store-admin .dark\:border-slate-700,
+  .dark .wi-store-admin .dark\:border-slate-800\/80,
+  .dark .wi-store-admin .dark\:border-slate-800\/50,
+  .dark .wi-store-admin .dark\:border-slate-850\/80 {
       border-color: var(--ui-border) !important;
   }
 
   /* Superficies con color de acento sólido (header, nav móvil) */
-  .wistore-admin .accent-surface {
+  .wi-store-admin .accent-surface {
       background-color: var(--color-primary);
       color: var(--color-on-primary);
       border-color: rgba(var(--color-on-primary-rgb), 0.1);
   }
 
-  .wistore-admin .accent-surface .accent-muted {
+  .wi-store-admin .accent-surface .accent-muted {
       color: rgba(var(--color-on-primary-rgb), 0.6);
   }
 
-  .wistore-admin .accent-surface .accent-subtle-bg {
+  .wi-store-admin .accent-surface .accent-subtle-bg {
       background-color: rgba(var(--color-on-primary-rgb), 0.12);
   }
 
-  .wistore-admin .accent-surface .accent-subtle-bg-active {
+  .wi-store-admin .accent-surface .accent-subtle-bg-active {
       background-color: rgba(var(--color-on-primary-rgb), 0.18);
   }
 
-  .wistore-admin .accent-surface-input {
+  .wi-store-admin .accent-surface-input {
       background-color: rgba(var(--color-on-primary-rgb), 0.1);
       border-color: rgba(var(--color-on-primary-rgb), 0.12);
       color: var(--color-on-primary);
   }
 
-  .wistore-admin .accent-surface-input::placeholder {
+  .wi-store-admin .accent-surface-input::placeholder {
       color: rgba(var(--color-on-primary-rgb), 0.55);
   }
 
-  .wistore-admin .accent-surface-input:focus {
+  .wi-store-admin .accent-surface-input:focus {
       background-color: rgba(var(--color-on-primary-rgb), 0.16);
       border-color: rgba(var(--color-on-primary-rgb), 0.28);
       outline: none;
       box-shadow: 0 0 0 1px rgba(var(--color-on-primary-rgb), 0.2);
   }
 
-  .wistore-admin .accent-icon-btn {
+  .wi-store-admin .accent-icon-btn {
       color: var(--color-on-primary);
       opacity: 0.85;
   }
 
-  .wistore-admin .accent-icon-btn:hover {
+  .wi-store-admin .accent-icon-btn:hover {
       opacity: 1;
       background-color: rgba(var(--color-on-primary-rgb), 0.12);
   }
 
-  .wistore-admin .accent-nav-link {
+  .wi-store-admin .accent-nav-link {
       color: rgba(var(--color-on-primary-rgb), 0.65);
   }
 
-  .wistore-admin .accent-nav-link:hover,
-  .wistore-admin .accent-nav-link--active {
+  .wi-store-admin .accent-nav-link:hover,
+  .wi-store-admin .accent-nav-link--active {
       color: var(--color-on-primary);
   }
 
-  .wistore-admin .accent-nav-link--active {
+  .wi-store-admin .accent-nav-link--active {
       background-color: rgba(var(--color-on-primary-rgb), 0.18);
   }
 
   /* Avatar de perfil: borde según conexión a internet */
-  .wistore-admin .admin-avatar-status {
+  .wi-store-admin .admin-avatar-status {
       display: inline-flex;
       border-radius: 9999px;
       padding: 2px;
       transition: box-shadow 0.2s ease, outline-color 0.2s ease;
   }
 
-  .wistore-admin .admin-avatar-status--online {
+  .wi-store-admin .admin-avatar-status--online {
       outline: 2.5px solid #22c55e;
       outline-offset: 1px;
       box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.45);
   }
 
-  .wistore-admin .admin-avatar-status--offline {
+  .wi-store-admin .admin-avatar-status--offline {
       outline: 2.5px solid #ef4444;
       outline-offset: 1px;
       box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.45);
   }
 
   /* Botones principales con contraste automático */
-  .wistore-admin .btn-accent,
-  .wistore-admin .settings-save-btn,
-  .wistore-admin .tab-btn.active,
-  .wistore-admin button.bg-primary:not([class*="bg-primary/"]),
-  .wistore-admin a.bg-primary:not([class*="bg-primary/"]) {
+  .wi-store-admin .btn-accent,
+  .wi-store-admin .settings-save-btn,
+  .wi-store-admin .tab-btn.active,
+  .wi-store-admin button.bg-primary:not([class*="bg-primary/"]),
+  .wi-store-admin a.bg-primary:not([class*="bg-primary/"]) {
       color: var(--color-on-primary) !important;
   }
 
-  .wistore-admin .btn-accent {
+  .wi-store-admin .btn-accent {
       background-color: var(--color-primary);
       border-color: transparent;
   }
 
-  .wistore-admin .btn-accent:hover {
+  .wi-store-admin .btn-accent:hover {
       filter: brightness(0.95);
   }
 
-  .wistore-admin .swal2-confirm {
+  .wi-store-admin .swal2-confirm {
       color: var(--color-on-primary) !important;
   }

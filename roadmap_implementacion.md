@@ -1,6 +1,6 @@
-# Plan Estratégico de Implementación de Nuevos Módulos - WIStore
+# Plan Estratégico de Implementación de Nuevos Módulos - WI-Store
 
-Este documento detalla el diagnóstico técnico, la arquitectura propuesta y el cronograma de fases para integrar las características solicitadas en la plataforma SaaS de catálogos digitales **WIStore**.
+Este documento detalla el diagnóstico técnico, la arquitectura propuesta y el cronograma de fases para integrar las características solicitadas en la plataforma SaaS de catálogos digitales **WI-Store**.
 
 ---
 
@@ -77,20 +77,20 @@ Enfocada en incentivar al usuario a pagar por planes Premium o Gold.
 
 ### 3.1. Módulo de Dominios Personalizados (Custom Domains)
 *   **Arquitectura de Infraestructura:**
-    1. El cliente apunta un CNAME de su dominio (ej. `tienda.com`) al dominio raíz de la plataforma (ej. `cname.wistore.com`).
+    1. El cliente apunta un CNAME de su dominio (ej. `tienda.com`) al dominio raíz de la plataforma (ej. `cname.wi-store.com`).
     2. El servidor Nginx/Caddy está configurado para aceptar tráfico en puertos `80` y `443` con SSL automático wildcard (ej. Let's Encrypt).
 *   **Resolución en Laravel:**
-    Modificar el Middleware de inquilinos (`IdentifyTenant.php`) para buscar la tienda por dominio si el host no termina en `wistore.com`:
+    Modificar el Middleware de inquilinos (`IdentifyTenant.php`) para buscar la tienda por dominio si el host no termina en `wi-store.com`:
     ```php
     $host = $request->getHost();
-    if (!str_ends_with($host, 'wistore.com')) {
+    if (!str_ends_with($host, 'wi-store.com')) {
         $shop = Shop::where('custom_domain', $host)->first();
     }
     ```
 
 ### 3.2. Gestión de Mesas (Dine-in) para Restaurantes
 *   **Arquitectura de Operación:**
-    1. Generar códigos QR con una variable adicional de consulta de URL: `https://wistore.com/restaurant-slug?mesa=4`
+    1. Generar códigos QR con una variable adicional de consulta de URL: `https://wi-store.com/restaurant-slug?mesa=4`
     2. El catálogo detecta la variable en la URL mediante AlpineJS y fija de manera persistente en la sesión: `mesaStatus = 4`.
     3. Al realizar el pedido, el JSON del carrito adjunta el número de mesa y se añade a la cabecera de la orden enviada al panel y a WhatsApp:
        *   *📝 Pedido desde Mesa #4 • Entregar en mesa.*

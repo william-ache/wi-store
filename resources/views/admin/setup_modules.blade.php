@@ -74,7 +74,7 @@
     ];
 @endphp
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth wistore-ui wistore-admin">
+<html lang="es" class="scroll-smooth wi-store-ui wi-store-admin">
 
 <head>
     <meta charset="UTF-8">
@@ -88,7 +88,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     <style>
     @include('partials.admin.css-vars')
     @include('partials.admin.scrollbar')
@@ -279,9 +279,9 @@
 
     <footer class="w-full py-5 text-[11px] text-slate-600 relative z-10 border-t border-white/[0.04]">
         <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p>© 2026 WIStore</p>
+            <p>© 2026 WI-Store</p>
             <div class="flex items-center gap-4">
-                <a href="mailto:{{ $wistoreSupportEmail }}" class="hover:text-cyan-300/90 transition-colors">{{ $wistoreSupportEmail }}</a>
+                <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-300/90 transition-colors">{{ $wiStoreSupportEmail }}</a>
                 <a href="{{ route('legal.privacidad') }}" class="hover:text-slate-400 transition-colors">Privacidad</a>
                 <a href="{{ route('contacto') }}" class="hover:text-slate-400 transition-colors">Contacto</a>
             </div>

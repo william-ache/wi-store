@@ -7,7 +7,7 @@
             ? $shop->logo_path
             : asset('storage/' . $shop->logo_path);
     }
-    $name = $shop->name ?? 'Wi Store';
+    $name = $shop->name ?? 'WI-Store';
     $initials = collect(preg_split('/\s+/', trim($name)))
         ->filter()
         ->take(2)

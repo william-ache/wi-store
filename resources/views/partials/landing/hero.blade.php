@@ -2,20 +2,6 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
 
         <div class="lg:col-span-6 text-center lg:text-left space-y-6">
-            <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-2">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/25">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="text-xs font-bold text-emerald-200">Sin comisiones por cada venta</span>
-                </div>
-                <div class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-slate-600/30 border border-slate-400/30">
-                    @include('partials.landing.bcv-logo', ['class' => 'w-6 h-6 text-white shrink-0'])
-                    <span class="text-xs font-bold text-slate-100">Tasa BCV · pagos en Bs.</span>
-                </div>
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-500/15 border border-yellow-400/40">
-                    <span class="text-xs font-black text-yellow-200">Colombia · <span class="text-yellow-300">muy pronto</span></span>
-                </div>
-            </div>
-
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
                 Tu negocio vende solo con un
                 <span class="block mt-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">

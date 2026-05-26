@@ -111,8 +111,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', env('WISTORE_SUPPORT_EMAIL', 'support@wi-store.com')),
-        'name' => env('MAIL_FROM_NAME', env('WISTORE_SUPPORT_NAME', env('APP_NAME', 'Laravel'))),
+        'address' => env('MAIL_FROM_ADDRESS', env('WI_STORE_SUPPORT_EMAIL', env('WISTORE_SUPPORT_EMAIL', 'support@wi-store.com'))),
+        'name' => env('MAIL_FROM_NAME', env('WI_STORE_SUPPORT_NAME', env('WISTORE_SUPPORT_NAME', env('APP_NAME', 'Laravel')))),
     ],
 
 ];

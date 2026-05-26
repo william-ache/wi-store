@@ -67,8 +67,8 @@ final class SeoMeta
         $canonical = route('tiendas.index');
 
         return new self(
-            title: 'Marketplace de tiendas — WIStore',
-            description: 'Explora menús digitales por categoría y zona. Filtra comercios en WIStore y entra al catálogo en un clic.',
+            title: 'Marketplace de tiendas — WI-Store',
+            description: 'Explora menús digitales por categoría y zona. Filtra comercios en WI-Store y entra al catálogo en un clic.',
             canonical: $canonical,
             ogType: 'website',
             noindex: false,
@@ -79,11 +79,11 @@ final class SeoMeta
                         '@type' => 'WebPage',
                         '@id' => $canonical . '#webpage',
                         'url' => $canonical,
-                        'name' => 'Marketplace de tiendas — WIStore',
+                        'name' => 'Marketplace de tiendas — WI-Store',
                         'description' => 'Directorio de tiendas con menús digitales y pedidos por WhatsApp.',
                         'isPartOf' => [
                             '@type' => 'WebSite',
-                            'name' => 'WIStore',
+                            'name' => 'WI-Store',
                             'url' => url('/'),
                         ],
                     ],
@@ -97,8 +97,8 @@ final class SeoMeta
         $canonical = route('contacto');
 
         return new self(
-            title: 'Contacto y soporte — WIStore',
-            description: 'Escríbenos por WhatsApp o correo. Te ayudamos con planes, demos y el plan personalizado de WIStore.',
+            title: 'Contacto y soporte — WI-Store',
+            description: 'Escríbenos por WhatsApp o correo. Te ayudamos con planes, demos y el plan personalizado de WI-Store.',
             canonical: $canonical,
             ogType: 'website',
             noindex: false,
@@ -109,8 +109,8 @@ final class SeoMeta
                         '@type' => 'ContactPage',
                         '@id' => $canonical . '#webpage',
                         'url' => $canonical,
-                        'name' => 'Contacto — WIStore',
-                        'description' => 'Canales de atención y soporte para comercios WIStore.',
+                        'name' => 'Contacto — WI-Store',
+                        'description' => 'Canales de atención y soporte para comercios WI-Store.',
                     ],
                 ],
             ],
@@ -120,7 +120,7 @@ final class SeoMeta
     public static function forLanding(): self
     {
         return new self(
-            title: 'WIStore — Catálogos digitales para WhatsApp y Telegram',
+            title: 'WI-Store — Catálogos digitales para WhatsApp y Telegram',
             description: 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis 7 días. Sin comisiones por cada venta.',
             canonical: url('/'),
             ogImage: null,
@@ -132,13 +132,13 @@ final class SeoMeta
                     [
                         '@type' => 'Organization',
                         '@id' => url('/') . '#organization',
-                        'name' => 'WIStore',
+                        'name' => 'WI-Store',
                         'url' => url('/'),
                     ],
                     [
                         '@type' => 'WebSite',
                         '@id' => url('/') . '#website',
-                        'name' => 'WIStore',
+                        'name' => 'WI-Store',
                         'url' => url('/'),
                         'description' => 'Catálogos digitales y pedidos por WhatsApp o Telegram para comercios en Venezuela.',
                         'publisher' => ['@id' => url('/') . '#organization'],
@@ -147,7 +147,7 @@ final class SeoMeta
                         '@type' => 'WebPage',
                         '@id' => url('/') . '#webpage',
                         'url' => url('/'),
-                        'name' => 'WIStore — Catálogos digitales para WhatsApp y Telegram',
+                        'name' => 'WI-Store — Catálogos digitales para WhatsApp y Telegram',
                         'description' => 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis 7 días.',
                         'isPartOf' => ['@id' => url('/') . '#website'],
                     ],
@@ -162,7 +162,7 @@ final class SeoMeta
 
         return new self(
             title: 'Panel de administración' . ($shop ? " | {$shop->name}" : ''),
-            description: 'Panel administrativo WIStore.',
+            description: 'Panel administrativo WI-Store.',
             canonical: url()->current(),
             noindex: true,
         );

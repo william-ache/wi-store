@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="wistore-ui wistore-landing">
+<html lang="es" class="wi-store-ui wi-store-landing">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Políticas y Privacidad - WIStore</title>
+    <title>Políticas y Privacidad - WI-Store</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,7 +27,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     <style>
 body {
@@ -91,7 +91,7 @@ body {
             </span>
             <h1 class="text-3xl md:text-5xl font-black text-white mt-5 tracking-tight">Políticas y Privacidad</h1>
             <p class="text-sm md:text-base text-slate-400 mt-3 max-w-2xl mx-auto leading-relaxed">
-                En WIStore nos tomamos muy en serio la seguridad y el tratamiento de los datos. Conoce las directrices y términos de servicio bajo los cuales opera nuestro ecosistema.
+                En WI-Store nos tomamos muy en serio la seguridad y el tratamiento de los datos. Conoce las directrices y términos de servicio bajo los cuales opera nuestro ecosistema.
             </p>
         </div>
 
@@ -120,7 +120,7 @@ body {
                         <span class="text-cyan-400">1.</span> Introducción y Aceptación
                     </h2>
                     <p>
-                        Bienvenido a WIStore, operado por Wydex. Al registrarte y utilizar nuestra plataforma de catálogos digitales interactivos y árbol de enlaces, declaras estar de acuerdo con las presentes políticas de privacidad y los términos de servicio expuestos en este documento.
+                        Bienvenido a WI-Store, operado por Wydex. Al registrarte y utilizar nuestra plataforma de catálogos digitales interactivos y árbol de enlaces, declaras estar de acuerdo con las presentes políticas de privacidad y los términos de servicio expuestos en este documento.
                     </p>
                     <p>
                         Nos comprometemos a garantizar que los datos de tu marca y de tus clientes finales se traten con la máxima confidencialidad bajo estándares modernos de encriptación y seguridad digital.
@@ -133,7 +133,7 @@ body {
                         <span class="text-cyan-400">2.</span> Datos que Recopilamos
                     </h2>
                     <p>
-                        Para que puedas disfrutar de la experiencia completa de WIStore, recopilamos información dividida en dos categorías primarias:
+                        Para que puedas disfrutar de la experiencia completa de WI-Store, recopilamos información dividida en dos categorías primarias:
                     </p>
                     <ul class="list-disc pl-5 space-y-2">
                         <li><strong>Datos del Comercio (Tus Datos):</strong> Nombre, Correo electrónico, número de teléfono asociado a WhatsApp, credenciales básicas para el Panel de Control y tokens de marca (logos, colores, banners de productos).</li>
@@ -170,7 +170,7 @@ body {
                         <span class="text-purple-400">5.</span> Términos de Servicio y 0% Comisiones
                     </h2>
                     <p>
-                        **WIStore** opera bajo un modelo de suscripción mensual basado en tarifas fijas indexadas al dólar estadounidense, pero pagadas exclusivamente en **Bolívares (Bs.) al tipo de cambio oficial publicado por el Banco Central de Venezuela (BCV)**.
+                        **WI-Store** opera bajo un modelo de suscripción mensual basado en tarifas fijas indexadas al dólar estadounidense, pero pagadas exclusivamente en **Bolívares (Bs.) al tipo de cambio oficial publicado por el Banco Central de Venezuela (BCV)**.
                     </p>
                     <p>
                         Garantizamos que **jamás cobraremos comisiones por las ventas que efectúes en tus catálogos**. Tus ganancias son 100% tuyas. Eres responsable de la veracidad y legalidad de los productos que ofrezcas en tu plataforma. Queda estrictamente prohibida la comercialización de artículos ilícitos, armas de fuego o sustancias controladas bajo leyes de la República Bolivariana de Venezuela.
@@ -190,9 +190,9 @@ body {
                             <p class="font-extrabold text-white">Wydex Ecosistemas Digitales</p>
                             <p class="text-slate-400 text-xs">Área de Cumplimiento Normativo y Privacidad</p>
                         </div>
-                        <a href="mailto:{{ $wistoreSupportEmail }}"
+                        <a href="mailto:{{ $wiStoreSupportEmail }}"
                             class="bg-purple-600/20 text-purple-300 border border-purple-500/25 font-extrabold px-6 py-2.5 rounded-lg text-xs hover:bg-purple-600/30 hover:text-white transition-colors break-all">
-                            {{ $wistoreSupportEmail }}
+                            {{ $wiStoreSupportEmail }}
                         </a>
                     </div>
                 </section>
@@ -204,7 +204,7 @@ body {
 
     <!-- FOOTER LIGERO -->
     <footer class="border-t border-white/5 py-8 text-center text-xs text-slate-500 relative z-10">
-        <p>© 2026 WIStore. Todos los derechos reservados.</p>
+        <p>© 2026 WI-Store. Todos los derechos reservados.</p>
     </footer>
 
     @include('partials.public.chat')

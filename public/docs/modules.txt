@@ -1,5 +1,5 @@
 ========================================================================
-             WISTORE - LISTADO COMPLETO DE MÓDULOS DEL SISTEMA
+             WI-STORE - LISTADO COMPLETO DE MÓDULOS DEL SISTEMA
 ========================================================================
 
 1. MÓDULOS DE OPERACIÓN COMERCIAL (ACTIVOS EN EL PANEL DE CONTROL)
@@ -84,5 +84,5 @@
   - Red de promotores de tu marca, cupones compartidos y recompensas automáticas.
 
 ========================================================================
-Creado por el equipo de ingeniería de Wydex (WIStore 2026)
+Creado por el equipo de ingeniería de Wydex (WI-Store 2026)
 ========================================================================

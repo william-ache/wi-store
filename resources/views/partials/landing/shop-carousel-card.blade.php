@@ -19,7 +19,7 @@
             @else
                 <div
                     class="w-full h-full bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center text-purple-400 text-sm font-black tracking-widest select-none">
-                    WISTORE</div>
+                    WI-STORE</div>
             @endif
             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
 
@@ -51,7 +51,7 @@
                 </div>
             </div>
             <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                {{ $shop->description ?: 'Catálogo oficial de marca blanca en WIStore.' }}
+                {{ $shop->description ?: 'Catálogo oficial de marca blanca en WI-Store.' }}
             </p>
         </div>
 

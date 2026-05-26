@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="wistore-ui wistore-landing">
+<html lang="es" class="wi-store-ui wi-store-landing">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Comparativa de Planes - WIStore</title>
+    <title>Comparativa de Planes - WI-Store</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     @include('partials.landing.ux-styles')
     <style>
@@ -77,7 +77,7 @@
             
             </div>
             <p class="text-xs text-slate-500 mt-4">
-                <a href="mailto:{{ $wistoreSupportEmail }}" class="text-cyan-300/90 hover:text-cyan-200 font-bold">{{ $wistoreSupportEmail }}</a>
+                <a href="mailto:{{ $wiStoreSupportEmail }}" class="text-cyan-300/90 hover:text-cyan-200 font-bold">{{ $wiStoreSupportEmail }}</a>
             </p>
         </div>
 

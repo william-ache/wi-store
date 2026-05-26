@@ -58,9 +58,15 @@
     <div class="lg:col-span-3 bg-gradient-to-br from-[#5A6370] to-[#3B424D] p-5 md:p-6 shadow-[inset_0_1px_2px_rgba(255,255,255,0.12)]">
         <div class="grid grid-cols-1 md:grid-cols-2 md:gap-5 md:items-end">
             <div>
-                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300/95 mb-2">
-                    Tasa oficial BCV (USD)
-                </p>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mb-2">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300/95">
+                        Tasa oficial BCV (USD)
+                    </p>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-[10px] font-bold text-emerald-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                        Sin comisiones por cada venta
+                    </span>
+                </div>
 
                 <template x-if="loadingRate">
                     <div class="flex items-center gap-2 text-slate-300 text-sm font-bold py-2">

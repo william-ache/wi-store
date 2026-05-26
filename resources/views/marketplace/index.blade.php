@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="wistore-ui wistore-landing">
+<html lang="es" class="wi-store-ui wi-store-landing">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -7,7 +7,7 @@
 
     @include('partials.landing.head-assets')
 
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     @include('partials.landing.ux-styles')
     @include('partials.marketplace.script')
@@ -44,7 +44,7 @@
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
             <div>
                 <span class="landing-plan-badge text-[10px] uppercase font-black tracking-widest px-3 py-1 rounded-full">Marketplace</span>
-                <h1 class="text-3xl md:text-4xl font-black text-white mt-3 tracking-tight">Descubre tiendas en WIStore</h1>
+                <h1 class="text-3xl md:text-4xl font-black text-white mt-3 tracking-tight">Descubre tiendas en WI-Store</h1>
                 <p class="text-sm text-slate-400 mt-2 max-w-xl">
                     Busca por nombre, filtra por categoría, zona o tipo de servicio y entra al menú digital.
                 </p>

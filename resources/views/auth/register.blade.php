@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth wistore-ui wistore-landing">
+<html lang="es" class="scroll-smooth wi-store-ui wi-store-landing">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Prueba Gratis 7 Días | WIStore</title>
+    <title>Iniciar Prueba Gratis 7 Días | WI-Store</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -25,7 +25,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     <style>
         [x-cloak] {
@@ -245,7 +245,7 @@
             this.nameStatus = 'checking';
             this._nameTimer = setTimeout(() => {
                 /* Simulación: nombres «tomados» de ejemplo */
-                const taken = ['wistore', 'demo', 'test', 'admin', 'tienda'];
+                const taken = ['wi-store', 'wistore', 'demo', 'test', 'admin', 'tienda'];
                 this.nameStatus = taken.includes(v.toLowerCase()) ? 'taken' : 'available';
             }, 800);
         },
@@ -746,9 +746,9 @@
     <!-- FOOTER -->
     <footer class="w-full py-6 text-xs text-slate-500 relative z-10 border-t border-white/5">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>© 2026 WIStore. Todos los derechos reservados.</p>
+            <p>© 2026 WI-Store. Todos los derechos reservados.</p>
             <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                <a href="mailto:{{ $wistoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wistoreSupportEmail }}</a>
+                <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wiStoreSupportEmail }}</a>
                 <span class="hidden sm:inline">•</span>
                 <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y
                     Privacidad</a>

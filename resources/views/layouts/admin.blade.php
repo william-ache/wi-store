@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full wistore-ui wistore-admin" x-data="adminLayout" :class="{ 'dark': darkMode, 'admin-sidebar-open': sidebarOpen }">
+<html lang="es" class="h-full wi-store-ui wi-store-admin" x-data="adminLayout" :class="{ 'dark': darkMode, 'admin-sidebar-open': sidebarOpen }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -37,7 +37,7 @@
 
     <!-- Custom layout styling -->
     @include('partials.admin.styles')
-    @include('partials.global.wistore-scrollbar')
+    @include('partials.global.wi-store-scrollbar')
     
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -61,7 +61,7 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="wistore-admin-body select-none transition-colors duration-300">
+<body class="wi-store-admin-body select-none transition-colors duration-300">
 
     <div class="admin-viewport">
         <div
@@ -145,6 +145,7 @@
 
     <!-- Modal de Feedback Global -->
     @include('modals.admin.feedback')
+    @include('modals.admin.rate-wi-store')
 
     @include('partials.admin.request-loader')
 

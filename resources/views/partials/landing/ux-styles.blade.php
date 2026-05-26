@@ -303,19 +303,19 @@
         border: 0;
     }
 
-    .wistore-landing :where(.text-slate-500):not(:where(.bg-white *, .bg-emerald-50 *, .bg-white, .bg-emerald-50)) {
+    .wi-store-landing :where(.text-slate-500):not(:where(.bg-white *, .bg-emerald-50 *, .bg-white, .bg-emerald-50)) {
         color: #b8c5d6;
     }
 
-    .wistore-landing :where(.text-slate-400):not(:where(.bg-white *, .bg-emerald-50 *, .bg-white, .bg-emerald-50)) {
+    .wi-store-landing :where(.text-slate-400):not(:where(.bg-white *, .bg-emerald-50 *, .bg-white, .bg-emerald-50)) {
         color: #cbd5e1;
     }
 
-    .wistore-landing :where(.text-purple-400):not(:where(.bg-white *, .bg-emerald-50 *)) {
+    .wi-store-landing :where(.text-purple-400):not(:where(.bg-white *, .bg-emerald-50 *)) {
         color: #d8b4fe;
     }
 
-    .wistore-landing :where(.placeholder-slate-500)::placeholder {
+    .wi-store-landing :where(.placeholder-slate-500)::placeholder {
         color: #94a3b8;
         opacity: 1;
     }

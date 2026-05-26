@@ -75,7 +75,7 @@
             </div>
             <div>
                 <h4 class="text-xs font-black text-purple-700">¡Hola! Soy tu asistente</h4>
-                <p class="text-[11px] text-slate-500 leading-normal">Pregúntame lo que quieras sobre WIStore.</p>
+                <p class="text-[11px] text-slate-500 leading-normal">Pregúntame lo que quieras sobre WI-Store.</p>
             </div>
         </div>
 
@@ -157,7 +157,7 @@
                 </button>
             </div>
             <div class="text-[9px] text-slate-400 text-center font-medium">
-                Powered by <span class="font-extrabold bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">WIStore</span>
+                Powered by <span class="font-extrabold bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">WI-Store</span>
             </div>
         </div>
     </div>
@@ -267,7 +267,7 @@
                 this.messages = [
                     {
                         sender: 'bot',
-                        text: '¡Hola! 👋 Soy <b>Wibi</b>, el asistente de <b>WIStore</b>. Estoy aquí para ayudarte paso a paso.'
+                        text: '¡Hola! 👋 Soy <b>Wibi</b>, el asistente de <b>WI-Store</b>. Estoy aquí para ayudarte paso a paso.'
                     },
                     {
                         sender: 'bot',
@@ -375,7 +375,7 @@
                 if (cleanQuery.includes('registro') || cleanQuery.includes('crear') || cleanQuery.includes('cuenta') || cleanQuery.includes('probar') || cleanQuery.includes('registrarse')) {
                     return `¡Crear tu tienda toma menos de 3 minutos! ⚡<br><br>` +
                            `Prueba premium <b>7 días gratis</b> sin tarjeta.<br><br>` +
-                           `👉 <a href="/register" class="${linkClass}">Registrarme en WIStore</a>`;
+                           `👉 <a href="/register" class="${linkClass}">Registrarme en WI-Store</a>`;
                 }
 
                 if (cleanQuery.includes('pago') || cleanQuery.includes('bcv') || cleanQuery.includes('banco') || cleanQuery.includes('pagar') || cleanQuery.includes('métodos')) {
@@ -386,8 +386,8 @@
 
                 if (cleanQuery.includes('contacto') || cleanQuery.includes('asesor') || cleanQuery.includes('soporte') || cleanQuery.includes('whatsapp') || cleanQuery.includes('humano') || cleanQuery.includes('correo') || cleanQuery.includes('email')) {
                     return `Te conecto con nuestro equipo:<br><br>` +
-                           `📧 <a href="mailto:{{ $wistoreSupportEmail }}" class="${linkClass}">{{ $wistoreSupportEmail }}</a><br>` +
-                           `📲 <a href="https://wa.me/584121305420?text=Hola!%20Necesito%20soporte%20sobre%20WIStore" target="_blank" class="${linkClass}">Chat de WhatsApp</a><br>` +
+                           `📧 <a href="mailto:{{ $wiStoreSupportEmail }}" class="${linkClass}">{{ $wiStoreSupportEmail }}</a><br>` +
+                           `📲 <a href="https://wa.me/584121305420?text=Hola!%20Necesito%20soporte%20sobre%20WI-Store" target="_blank" class="${linkClass}">Chat de WhatsApp</a><br>` +
                            `📞 <b>+58 (412) 130-5420</b>`;
                 }
 
@@ -396,7 +396,7 @@
                 }
 
                 return `Para esa consulta te recomiendo hablar con nuestro equipo:<br><br>` +
-                       `📧 <a href="mailto:{{ $wistoreSupportEmail }}" class="${linkClass}">{{ $wistoreSupportEmail }}</a><br>` +
+                       `📧 <a href="mailto:{{ $wiStoreSupportEmail }}" class="${linkClass}">{{ $wiStoreSupportEmail }}</a><br>` +
                        `📲 <a href="https://wa.me/584121305420?text=Hola!%20Tengo%20una%20duda:%20${encodeURIComponent(query)}" target="_blank" class="${linkClass}">Hablar con asesor</a><br><br>` +
                        `O elige una opción del menú de arriba.`;
             },

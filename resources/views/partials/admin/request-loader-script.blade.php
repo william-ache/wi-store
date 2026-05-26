@@ -4,7 +4,7 @@
     const SHOW_DELAY_MS = 120;
     const HIDE_FADE_MS = 280;
 
-    const WiStoreLoader = {
+    const Wi_StoreLoader = {
         count: 0,
         showTimer: null,
         hideTimer: null,
@@ -73,29 +73,29 @@
         },
     };
 
-    window.WiStoreLoader = WiStoreLoader;
+    window.Wi_StoreLoader = Wi_StoreLoader;
 
     const nativeFetch = window.fetch.bind(window);
     window.fetch = function (input, init) {
         const url = typeof input === 'string' ? input : (input && input.url) || '';
         const method = (init && init.method) || (input && input.method) || 'GET';
-        if (WiStoreLoader.shouldSkip(url, method)) {
+        if (Wi_StoreLoader.shouldSkip(url, method)) {
             return nativeFetch(input, init);
         }
-        WiStoreLoader.show();
+        Wi_StoreLoader.show();
         return nativeFetch(input, init)
-            .finally(() => WiStoreLoader.hide());
+            .finally(() => Wi_StoreLoader.hide());
     };
 
     if (window.jQuery) {
         jQuery(document).ajaxSend(function (_event, _xhr, settings) {
-            if (!WiStoreLoader.shouldSkip(settings.url, settings.type)) {
-                WiStoreLoader.show();
+            if (!Wi_StoreLoader.shouldSkip(settings.url, settings.type)) {
+                Wi_StoreLoader.show();
             }
         });
         jQuery(document).ajaxComplete(function (_event, _xhr, settings) {
-            if (!WiStoreLoader.shouldSkip(settings.url, settings.type)) {
-                WiStoreLoader.hide();
+            if (!Wi_StoreLoader.shouldSkip(settings.url, settings.type)) {
+                Wi_StoreLoader.hide();
             }
         });
     }
@@ -105,16 +105,16 @@
         if (!(form instanceof HTMLFormElement)) return;
         if (form.dataset.noLoader !== undefined) return;
         if (form.getAttribute('target') === '_blank') return;
-        WiStoreLoader.show();
+        Wi_StoreLoader.show();
     }, true);
 
     window.addEventListener('pageshow', function () {
-        WiStoreLoader.count = 0;
-        const el = WiStoreLoader.getEl();
+        Wi_StoreLoader.count = 0;
+        const el = Wi_StoreLoader.getEl();
         if (el) {
             el.classList.add('hidden', 'opacity-0');
             el.setAttribute('aria-hidden', 'true');
-            WiStoreLoader.visible = false;
+            Wi_StoreLoader.visible = false;
         }
     });
 })();

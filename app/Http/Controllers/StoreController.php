@@ -329,7 +329,7 @@ class StoreController extends Controller
         $shop = config('current_shop') ?: \App\Models\Shop::first();
         
         $host = request()->getHost();
-        $isCustomDomain = !str_ends_with($host, 'wistore.com') && $host !== 'localhost' && $host !== '127.0.0.1' && $shop->custom_domain === $host;
+        $isCustomDomain = !str_ends_with($host, 'wi-store.com') && $host !== 'localhost' && $host !== '127.0.0.1' && $shop->custom_domain === $host;
         $startUrl = $isCustomDomain ? '/' : '/' . $shop->slug;
 
         $logoUrl = $shop->logoUrl() ?? 'https://ui-avatars.com/api/?name='.urlencode($shop->name).'&background=1A1A1A&color=fff';
@@ -363,7 +363,7 @@ class StoreController extends Controller
     public function serviceWorker()
     {
         $js = <<<JS
-const CACHE_NAME = 'wistore-cache-v1';
+const CACHE_NAME = 'wi-store-cache-v1';
 const urlsToCache = [
     '/',
     '/css/app.css',

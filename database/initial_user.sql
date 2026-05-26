@@ -23,7 +23,7 @@ INSERT INTO shops (
     updated_at
 ) VALUES (
     1, 
-    'WIStore Landing Demo', 
+    'WI-Store Landing Demo', 
     'demo', 
     '+584121234567', 
     'Tienda demostrativa con diseño y colores de sistema modernos y elegantes.', 
@@ -51,7 +51,7 @@ INSERT INTO users (
     1, 
     1, 
     'Administrador Demo', 
-    'admin@wistore.com', 
+    'admin@wi-store.com', 
     '$2y$12$Mtvz4Hlw7gqSziXVvvgSGOKrJS5/XE.wQTgAwH5fnDxeDOVegpOzW', -- "password"
     NOW(), 
     NOW()

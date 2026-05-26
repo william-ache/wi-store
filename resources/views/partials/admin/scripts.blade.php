@@ -13,7 +13,8 @@
         });
 
         Alpine.data('adminLayout', () => ({
-            showFeedbackModal: {{ (session('open_feedback_modal') || $errors->has('title') || $errors->has('description') || $errors->has('type')) ? 'true' : 'false' }},
+            showFeedbackModal: {{ (session('open_feedback_modal') || ($errors->has('title') && $errors->has('type')) || $errors->has('description')) ? 'true' : 'false' }},
+            showRateModal: {{ (session('open_rate_modal') || old('rating') || $errors->has('rating') || $errors->has('comment')) ? 'true' : 'false' }},
             showAllNotifs: false,
             sidebarOpen: false,
             profileMenuOpen: false,

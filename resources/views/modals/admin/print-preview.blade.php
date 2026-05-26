@@ -46,7 +46,7 @@
             <!-- Footer Section -->
             <div class="border-t border-slate-200 pt-6 mt-12 flex justify-between items-center text-[10px] text-slate-400 font-bold uppercase tracking-wider">
                 <span>© {{ date('Y') }} {{ config('current_shop')->name }}. Todos los derechos reservados.</span>
-                <span>Reporte Autogenerado por WIStore SICA</span>
+                <span>Reporte Autogenerado por WI-Store SICA</span>
             </div>
         </div>
     </div>

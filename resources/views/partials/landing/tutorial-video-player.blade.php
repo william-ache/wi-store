@@ -1,6 +1,6 @@
 @php
     $shareUrl = $shareUrl ?? url('/') . '#como-funciona';
-    $shareTitle = $shareTitle ?? 'Tutorial WIStore — Así de fácil funciona';
+    $shareTitle = $shareTitle ?? 'Tutorial WI-Store — Así de fácil funciona';
     $poster = $poster ?? null;
     $sources = collect($sources ?? [
         ['label' => '1080p', 'src' => ''],
@@ -38,7 +38,7 @@
             @loadedmetadata="onLoaded()"
             @ended="playing = false"
             @timeupdate="progress = $refs.video.duration ? ($refs.video.currentTime / $refs.video.duration) * 100 : 0"
-            aria-label="Tutorial WIStore"></video>
+            aria-label="Tutorial WI-Store"></video>
 
         {{-- Placeholder sin video --}}
         <div

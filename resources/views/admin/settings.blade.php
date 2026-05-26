@@ -287,7 +287,7 @@
                                        value="{{ old('custom_domain', $shop->custom_domain) }}" placeholder="e.g. mi-tienda.com">
                             </div>
                             <span class="text-[9px] text-slate-400 dark:text-slate-500 block leading-normal mt-1">
-                                Apunta un CNAME de tu dominio a <strong class="text-primary">cname.wistore.com</strong> y regístralo aquí para personalizar la dirección de tu tienda digital.
+                                Apunta un CNAME de tu dominio a <strong class="text-primary">cname.wi-store.com</strong> y regístralo aquí para personalizar la dirección de tu tienda digital.
                             </span>
                         </div>
                     </div>

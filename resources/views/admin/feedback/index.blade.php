@@ -8,8 +8,8 @@
     <div>
         <h2 class="text-xl md:text-2xl font-black text-slate-800 dark:text-white tracking-tight">Feedback</h2>
         <p class="text-xs text-slate-450 dark:text-slate-500 font-semibold mt-0.5">
-            Reporta bugs, comparte ideas o déjanos un comentario sobre {{ config('app.name', 'WIStore') }}.
-            Soporte: <a href="mailto:{{ $wistoreSupportEmail }}" class="text-primary hover:underline font-bold">{{ $wistoreSupportEmail }}</a>
+            Reporta bugs, comparte ideas o déjanos un comentario sobre {{ config('app.name', 'WI-Store') }}.
+            Soporte: <a href="mailto:{{ $wiStoreSupportEmail }}" class="text-primary hover:underline font-bold">{{ $wiStoreSupportEmail }}</a>
         </p>
     </div>
 

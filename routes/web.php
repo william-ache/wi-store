@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\ShopSettingsController;
 use App\Http\Controllers\ShortLinkController;
 use App\Http\Controllers\SeoController;
 
-// 1. RUTAS ESTÁTICAS DE LA PLATAFORMA SAAS (WIStore)
+// 1. RUTAS ESTÁTICAS DE LA PLATAFORMA SAAS (WI-Store)
 // Definidas en el primer nivel para evitar que colisionen con las rutas dinámicas.
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('platform.robots');
@@ -122,7 +122,7 @@ Route::post('/register', function (Illuminate\Http\Request $request) {
     // Crear una notificación interna de bienvenida
     \App\Models\Notification::create([
         'shop_id' => $shop->id,
-        'title' => '¡Bienvenido a WIStore!',
+        'title' => '¡Bienvenido a WI-Store!',
         'content' => 'Tu tienda ha sido creada con éxito. Estás disfrutando de 7 días de prueba gratis del Plan Premium. Puedes personalizar tu tienda en Configuración.',
         'type' => 'billing',
         'is_read' => false,
@@ -181,7 +181,7 @@ Route::prefix('/wydex-super-admin')->name('super-admin.')->group(function () {
 // 2. RUTAS DINÁMICAS MULTI-TENANT (Tiendas Individuales)
 // Colocadas al final del archivo. La detección y el aislamiento ocurren mediante el Middleware 'tenant'.
 $host = request()->getHost();
-$isCustomDomain = !str_ends_with($host, 'wistore.com') && $host !== 'localhost' && $host !== '127.0.0.1' && \App\Models\Shop::where('custom_domain', $host)->exists();
+$isCustomDomain = !str_ends_with($host, 'wi-store.com') && $host !== 'localhost' && $host !== '127.0.0.1' && \App\Models\Shop::where('custom_domain', $host)->exists();
 $tenantPrefix = $isCustomDomain ? '' : '/{shop_slug}';
 
 Route::middleware(['tenant'])->prefix($tenantPrefix)->group(function () {
@@ -246,5 +246,8 @@ Route::middleware(['tenant'])->prefix($tenantPrefix)->group(function () {
         // Rutas de Feedback de Usuario
         Route::get('/feedback', [App\Http\Controllers\Admin\FeedbackController::class, 'index'])->name('feedback.index');
         Route::post('/feedback', [App\Http\Controllers\Admin\FeedbackController::class, 'store'])->name('feedback.store');
+
+        Route::get('/rate-wi-store', [App\Http\Controllers\Admin\PlatformTestimonialController::class, 'index'])->name('rate-wi-store.index');
+        Route::post('/rate-wi-store', [App\Http\Controllers\Admin\PlatformTestimonialController::class, 'store'])->name('rate-wi-store.store');
     });
 });

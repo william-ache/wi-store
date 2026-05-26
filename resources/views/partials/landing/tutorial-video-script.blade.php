@@ -4,7 +4,7 @@
         Alpine.data('landingTutorialPlayer', (config = {}) => ({
             qualities: config.qualities || [{ label: 'Auto', src: '' }],
             shareUrl: config.shareUrl || window.location.href,
-            shareTitle: config.shareTitle || 'Tutorial WIStore',
+            shareTitle: config.shareTitle || 'Tutorial WI-Store',
             hasVideo: config.hasVideo === true,
             playing: false,
             volume: 0.85,
