@@ -102,7 +102,7 @@ Route::post('/register', function (Illuminate\Http\Request $request) {
         'color_background' => $request->color_bg, // Map HTML color_bg to database color_background
         'plan' => 'premium', // Trial starts on Plan Premium
         'billing_cycle' => 'mensual',
-        'plan_expires_at' => now()->addDays(7)->format('Y-m-d'),
+        'plan_expires_at' => now()->addDays(\App\Support\PlanTrial::days())->format('Y-m-d'),
         'last_payment_date' => now()->format('Y-m-d'),
         'last_payment_amount' => 0.00,
         'is_active' => true,
@@ -123,7 +123,7 @@ Route::post('/register', function (Illuminate\Http\Request $request) {
     \App\Models\Notification::create([
         'shop_id' => $shop->id,
         'title' => '¡Bienvenido a WI-Store!',
-        'content' => 'Tu tienda ha sido creada con éxito. Estás disfrutando de 7 días de prueba gratis del Plan Premium. Puedes personalizar tu tienda en Configuración.',
+        'content' => 'Tu tienda ha sido creada con éxito. Estás disfrutando de ' . \App\Support\PlanTrial::days() . ' días de prueba gratis del Plan Premium. Puedes personalizar tu tienda en Configuración.',
         'type' => 'billing',
         'is_read' => false,
     ]);

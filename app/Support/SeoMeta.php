@@ -121,7 +121,7 @@ final class SeoMeta
     {
         return new self(
             title: 'WI-Store — Catálogos digitales para WhatsApp y Telegram',
-            description: 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis 7 días. Sin comisiones por cada venta.',
+            description: 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis ' . PlanTrial::days() . ' días. Sin comisiones por cada venta.',
             canonical: url('/'),
             ogImage: null,
             ogType: 'website',
@@ -148,7 +148,7 @@ final class SeoMeta
                         '@id' => url('/') . '#webpage',
                         'url' => url('/'),
                         'name' => 'WI-Store — Catálogos digitales para WhatsApp y Telegram',
-                        'description' => 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis 7 días.',
+                        'description' => 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis ' . PlanTrial::days() . ' días.',
                         'isPartOf' => ['@id' => url('/') . '#website'],
                     ],
                 ],

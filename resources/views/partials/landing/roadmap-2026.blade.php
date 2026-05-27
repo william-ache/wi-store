@@ -1,114 +1,186 @@
-<section id="roadmap" class="py-14 md:py-20 border-t border-white/5 relative z-10 overflow-hidden">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-cyan-500/8 rounded-full blur-[100px] pointer-events-none"></div>
+@php
+    $milestones = [
+        [
+            'tone' => 'purple',
+            'index' => 1,
+            'icon' => 'fa-screwdriver-wrench',
+            'holo_icon' => 'fa-screwdriver-wrench',
+            'quarter' => 'Q1 2026',
+            'status' => 'En desarrollo',
+            'status_class' => 'text-cyan-300/90',
+            'tag_bg' => 'bg-purple-500/15 border-purple-400/30 text-purple-200',
+            'title' => 'Nuevas funciones',
+            'desc' => 'Módulos y mejoras continuas en el panel: más herramientas para vender, gestionar pedidos y hacer crecer tu tienda sin depender de otras apps.',
+        ],
+        [
+            'tone' => 'cyan',
+            'index' => 2,
+            'icon' => 'fa-motorcycle',
+            'holo_icon' => 'fa-motorcycle',
+            'quarter' => 'Q2 2026',
+            'status' => 'Planificado',
+            'status_class' => 'text-slate-400',
+            'tag_bg' => 'bg-cyan-500/15 border-cyan-400/30 text-cyan-200',
+            'title' => 'Delivery integrado',
+            'desc' => 'Sistema de envíos dentro de la plataforma: zonas, tarifas, seguimiento y pedidos delivery conectados a tu menú y WhatsApp.',
+        ],
+        [
+            'tone' => 'indigo',
+            'index' => 3,
+            'icon' => 'fa-wand-magic-sparkles',
+            'holo_icon' => 'fa-wand-magic-sparkles',
+            'quarter' => 'Q3 2026',
+            'status' => 'Planificado',
+            'status_class' => 'text-slate-400',
+            'tag_bg' => 'bg-indigo-500/15 border-indigo-400/30 text-indigo-200',
+            'title' => 'Integración con IA',
+            'desc' => 'Asistente inteligente en tu panel: genera banners y anuncios, consulta estadísticas en lenguaje natural y recibe resúmenes automáticos de tu negocio.',
+        ],
+        [
+            'tone' => 'pink',
+            'index' => 4,
+            'icon' => 'fa-building-columns',
+            'holo_icon' => 'fa-building-columns',
+            'quarter' => 'Q4 2026',
+            'status' => 'Planificado',
+            'status_class' => 'text-slate-400',
+            'tag_bg' => 'bg-fuchsia-500/15 border-fuchsia-400/30 text-fuchsia-200',
+            'title' => 'Afiliación bancaria',
+            'desc' => 'Integración con banca nacional e internacional para cobrar con más métodos, validaciones automáticas y conciliación desde tu panel.',
+        ],
+        [
+            'tone' => 'yellow',
+            'index' => 5,
+            'icon' => 'fa-map-location-dot',
+            'holo_icon' => 'fa-map-location-dot',
+            'quarter' => 'Q1 2027',
+            'status' => 'Expansión',
+            'status_class' => 'text-yellow-200/90',
+            'tag_bg' => 'bg-yellow-500/15 border-yellow-400/30 text-yellow-200',
+            'title' => 'Colombia',
+            'desc' => 'Lanzamiento en el mercado colombiano: tiendas en COP, pagos locales, pedidos por WhatsApp y menú digital adaptado a la región.',
+            'extra' => true,
+        ],
+    ];
+@endphp
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div class="text-center mb-10 md:mb-14">
-            <span class="text-[10px] font-black uppercase tracking-widest text-purple-300/90 bg-purple-500/10 border border-purple-500/25 px-3 py-1 rounded-full">
-                Roadmap 2026
+@include('partials.landing.roadmap-styles')
+
+<section id="roadmap" class="py-16 md:py-24 mt-12 md:mt-16 relative z-10 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="text-center mb-10 md:mb-12">
+            <span class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-purple-200/90 bg-purple-500/10 border border-purple-400/30 px-4 py-1.5 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+                Roadmap 2026 – 2028
             </span>
-            <h2 class="text-2xl md:text-4xl font-black text-white tracking-tight mt-3">Lo que viene en WI-Store</h2>
-            <p class="text-sm text-slate-300 mt-2 max-w-xl mx-auto">Prioridades del equipo para hacer la plataforma más completa, conectada y regional.</p>
+            <h2 class="text-2xl md:text-4xl font-black text-white tracking-tight mt-4">
+                Lo que viene en WI-Store
+            </h2>
+            <p class="text-sm md:text-base text-slate-300 mt-3 max-w-xl mx-auto leading-relaxed">
+                Hoja de ruta 2026–2028: prioridades del equipo para hacer la plataforma más completa, conectada y regional.
+            </p>
         </div>
 
-        <div class="relative max-w-5xl mx-auto">
-            {{-- Línea central (desktop) --}}
-            <div class="hidden md:block absolute left-1/2 top-4 bottom-4 w-px -translate-x-1/2 bg-gradient-to-b from-purple-500/50 via-cyan-400/40 to-yellow-400/30" aria-hidden="true"></div>
+        <div class="roadmap-scene">
+            {{-- Escena desktop --}}
+            <div class="roadmap-desktop roadmap-path-wrap">
+                <svg class="roadmap-path-svg" viewBox="0 0 960 760" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="roadmapPathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#a855f7" />
+                            <stop offset="22%" stop-color="#22d3ee" />
+                            <stop offset="44%" stop-color="#818cf8" />
+                            <stop offset="66%" stop-color="#e879f9" />
+                            <stop offset="82%" stop-color="#facc15" />
+                            <stop offset="100%" stop-color="#94a3b8" />
+                        </linearGradient>
+                        <filter id="roadmapPathBlur" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="7" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    {{-- Ruta: púrpura → cyan → índigo → rosa → amarilla --}}
+                    <path class="roadmap-path-glow"
+                        d="M 100 95
+                           C 165 90, 205 175, 168 295
+                           C 135 415, 155 495, 215 515
+                           C 295 535, 375 375, 415 275
+                           C 515 155, 615 195, 695 295
+                           C 775 375, 815 515, 855 575
+                           C 885 635, 915 695, 935 715" />
+                    <path class="roadmap-path-core"
+                        d="M 100 95
+                           C 165 90, 205 175, 168 295
+                           C 135 415, 155 495, 215 515
+                           C 295 535, 375 375, 415 275
+                           C 515 155, 615 195, 695 295
+                           C 775 375, 815 515, 855 575
+                           C 885 635, 915 695, 935 715" />
+                </svg>
 
-            <ol class="space-y-6 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-                {{-- 1. Nuevas funciones --}}
-                <li class="md:col-start-1 md:row-start-1 md:pr-8 md:text-right">
-                    <article class="landing-plan-card rounded-2xl border border-purple-500/25 p-5 md:p-6 relative group hover:border-purple-400/40 transition-colors duration-300">
-                        <div class="hidden md:block absolute top-8 -right-[2.35rem] w-3 h-3 rounded-full bg-purple-400 ring-4 ring-[#0e1228] shadow-[0_0_12px_rgba(168,85,247,0.6)]"></div>
-                        <div class="flex md:flex-row-reverse items-start gap-4">
-                            <div class="w-11 h-11 shrink-0 rounded-xl bg-purple-500/20 border border-purple-400/30 flex items-center justify-center text-purple-300">
-                                <i class="fas fa-wand-magic-sparkles text-sm"></i>
-                            </div>
-                            <div class="min-w-0 flex-1 md:text-right">
-                                <div class="flex flex-wrap items-center gap-2 md:justify-end mb-2">
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-400/25 px-2 py-0.5 rounded-full">Q1–Q2 2026</span>
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-cyan-300/90">En desarrollo</span>
-                                </div>
-                                <h3 class="text-base md:text-lg font-black text-white">Nuevas funciones</h3>
-                                <p class="text-[11px] md:text-xs text-slate-400 mt-2 leading-relaxed">Módulos y mejoras continuas en el panel: más herramientas para vender, gestionar pedidos y hacer crecer tu tienda sin depender de otras apps.</p>
-                            </div>
-                        </div>
-                    </article>
-                </li>
+                @foreach ($milestones as $m)
+                    @include('partials.landing.roadmap-milestone-card', ['m' => $m])
+                @endforeach
+            </div>
 
-                {{-- 2. Delivery --}}
-                <li class="md:col-start-2 md:row-start-2 md:pl-8">
-                    <article class="landing-plan-card rounded-2xl border border-cyan-500/25 p-5 md:p-6 relative group hover:border-cyan-400/40 transition-colors duration-300">
-                        <div class="hidden md:block absolute top-8 -left-[2.35rem] w-3 h-3 rounded-full bg-cyan-400 ring-4 ring-[#0e1228] shadow-[0_0_12px_rgba(34,211,238,0.5)]"></div>
-                        <div class="flex items-start gap-4">
-                            <div class="w-11 h-11 shrink-0 rounded-xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-300">
-                                <i class="fas fa-motorcycle text-sm"></i>
-                            </div>
-                            <div class="min-w-0 flex-1">
-                                <div class="flex flex-wrap items-center gap-2 mb-2">
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-cyan-300/90 bg-cyan-500/10 border border-cyan-400/25 px-2 py-0.5 rounded-full">Q2 2026</span>
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Planificado</span>
-                                </div>
-                                <h3 class="text-base md:text-lg font-black text-white">Delivery integrado</h3>
-                                <p class="text-[11px] md:text-xs text-slate-400 mt-2 leading-relaxed">Sistema de envíos dentro de la plataforma: zonas, tarifas, seguimiento y pedidos delivery conectados a tu menú y WhatsApp.</p>
-                            </div>
-                        </div>
-                    </article>
-                </li>
+            {{-- Timeline móvil: ondas centrales + tarjetas alternadas --}}
+            <div class="roadmap-mobile">
+                <div class="roadmap-mobile-wave">
+                    <svg class="roadmap-mobile-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="roadmapMobileGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#a855f7" />
+                                <stop offset="20%" stop-color="#22d3ee" />
+                                <stop offset="40%" stop-color="#818cf8" />
+                                <stop offset="60%" stop-color="#e879f9" />
+                                <stop offset="80%" stop-color="#facc15" />
+                                <stop offset="100%" stop-color="#94a3b8" />
+                            </linearGradient>
+                            <filter id="roadmapMobileBlur" x="-20%" y="-5%" width="140%" height="110%">
+                                <feGaussianBlur stdDeviation="1.8" result="blur" />
+                                <feMerge>
+                                    <feMergeNode in="blur" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <path class="roadmap-mobile-path-glow"
+                            d="M 50 0.5
+                               C 16 3.5, 16 7.5, 50 11
+                               C 84 14.5, 84 18.5, 50 22
+                               C 16 25.5, 16 29.5, 50 33
+                               C 84 36.5, 84 40.5, 50 44
+                               C 16 47.5, 16 51.5, 50 55
+                               C 84 58.5, 84 62.5, 50 66
+                               C 16 69.5, 16 73.5, 50 77
+                               C 84 80.5, 84 84.5, 50 88
+                               C 16 91.5, 16 95.5, 50 99" />
+                        <path class="roadmap-mobile-path-core"
+                            d="M 50 0.5
+                               C 16 3.5, 16 7.5, 50 11
+                               C 84 14.5, 84 18.5, 50 22
+                               C 16 25.5, 16 29.5, 50 33
+                               C 84 36.5, 84 40.5, 50 44
+                               C 16 47.5, 16 51.5, 50 55
+                               C 84 58.5, 84 62.5, 50 66
+                               C 16 69.5, 16 73.5, 50 77
+                               C 84 80.5, 84 84.5, 50 88
+                               C 16 91.5, 16 95.5, 50 99" />
+                    </svg>
 
-                {{-- 3. Banca --}}
-                <li class="md:col-start-1 md:row-start-3 md:pr-8 md:text-right">
-                    <article class="landing-plan-card rounded-2xl border border-fuchsia-500/25 p-5 md:p-6 relative group hover:border-fuchsia-400/40 transition-colors duration-300">
-                        <div class="hidden md:block absolute top-8 -right-[2.35rem] w-3 h-3 rounded-full bg-fuchsia-400 ring-4 ring-[#0e1228] shadow-[0_0_12px_rgba(232,121,249,0.5)]"></div>
-                        <div class="flex md:flex-row-reverse items-start gap-4">
-                            <div class="w-11 h-11 shrink-0 rounded-xl bg-fuchsia-500/15 border border-fuchsia-400/30 flex items-center justify-center text-fuchsia-300">
-                                <i class="fas fa-building-columns text-sm"></i>
-                            </div>
-                            <div class="min-w-0 flex-1 md:text-right">
-                                <div class="flex flex-wrap items-center gap-2 md:justify-end mb-2">
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-fuchsia-300/90 bg-fuchsia-500/10 border border-fuchsia-400/25 px-2 py-0.5 rounded-full">Q3 2026</span>
-                                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Planificado</span>
-                                </div>
-                                <h3 class="text-base md:text-lg font-black text-white">Afiliación bancaria</h3>
-                                <p class="text-[11px] md:text-xs text-slate-400 mt-2 leading-relaxed">Integración con banca nacional e internacional para cobrar con más métodos, validaciones automáticas y conciliación desde tu panel.</p>
-                            </div>
-                        </div>
-                    </article>
-                </li>
-
-                {{-- 4. Colombia --}}
-                <li class="md:col-start-2 md:row-start-4 md:pl-8">
-                    <article class="landing-plan-card landing-plan-card--featured rounded-2xl p-[2px] relative overflow-hidden">
-                        <div class="landing-plan-inner rounded-[calc(1rem-2px)] p-5 md:p-6 h-full bg-gradient-to-br from-[#1a1520]/98 to-[#0d1127]/98">
-                            <div class="hidden md:block absolute top-8 -left-[2.35rem] w-3 h-3 rounded-full bg-yellow-400 ring-4 ring-[#0e1228] shadow-[0_0_12px_rgba(250,204,21,0.5)]"></div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-11 h-11 shrink-0 rounded-xl bg-yellow-500/15 border border-yellow-400/35 flex items-center justify-center text-yellow-300">
-                                    <i class="fas fa-globe-americas text-sm"></i>
-                                </div>
-                                <div class="min-w-0 flex-1">
-                                    <div class="flex flex-wrap items-center gap-2 mb-2">
-                                        <span class="text-[9px] font-black uppercase tracking-wider text-yellow-300 bg-yellow-500/15 border border-yellow-400/30 px-2 py-0.5 rounded-full">Q4 2026</span>
-                                        <span class="text-[9px] font-black uppercase tracking-wider text-yellow-200/90">Expansión</span>
-                                    </div>
-                                    <h3 class="text-base md:text-lg font-black text-white">Colombia</h3>
-                                    <p class="text-[11px] md:text-xs text-slate-400 mt-2 leading-relaxed">Lanzamiento en el mercado colombiano: tiendas en COP, pagos locales, pedidos por WhatsApp y menú digital adaptado a la región.</p>
-                                    <div class="flex flex-wrap gap-2 mt-3">
-                                        <span class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide text-emerald-300 bg-emerald-500/10 border border-emerald-500/25 px-2 py-1 rounded-lg">
-                                            <span class="w-1 h-1 rounded-full bg-emerald-400"></span> Venezuela · Activo
-                                        </span>
-                                        <span class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide text-yellow-200 bg-yellow-400/10 border border-yellow-400/25 px-2 py-1 rounded-lg">
-                                            <span class="w-1 h-1 rounded-full bg-yellow-400"></span> Colombia · 2026
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </li>
-            </ol>
+                    <div class="roadmap-mobile-steps">
+                        @foreach ($milestones as $m)
+                            @include('partials.landing.roadmap-milestone-card-mobile', ['m' => $m])
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <p class="text-center text-[10px] text-slate-500 mt-10 max-w-md mx-auto">
+        <p class="text-center text-[10px] md:text-[11px] text-slate-500 mt-8 max-w-lg mx-auto leading-relaxed">
             Fechas orientativas · el roadmap puede ajustarse según feedback de comercios WI-Store.
         </p>
     </div>

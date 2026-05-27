@@ -69,7 +69,7 @@ class SuperAdminController extends Controller
         }
 
         // Calcular valores por defecto para suscripción si no vienen
-        $defaultDays = $request->plan === 'free_trial' ? 7 : ($request->billing_cycle === 'anual' ? 365 : 30);
+        $defaultDays = $request->plan === 'free_trial' ? \App\Support\PlanTrial::days() : ($request->billing_cycle === 'anual' ? 365 : 30);
         $planExpiresAt = $request->filled('plan_expires_at') ? $request->plan_expires_at : now()->addDays($defaultDays)->format('Y-m-d');
         $lastPaymentDate = $request->filled('last_payment_date') ? $request->last_payment_date : now()->format('Y-m-d');
         

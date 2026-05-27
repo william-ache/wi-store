@@ -21,7 +21,7 @@
             </h3>
             <p class="text-xs {{ $isPremium ? 'text-cyan-300' : 'text-cyan-300/80' }} font-bold uppercase tracking-wider mt-0.5">
                 @if ($isPremium)
-                    14 días gratis · luego {{ PlanPricing::formatUsd($pricing['monthly']) }} / mes
+                    {{ $wiStoreTrialLabel }} · luego {{ PlanPricing::formatUsd($pricing['monthly']) }} / mes
                 @else
                     {{ PlanPricing::formatUsd($pricing['monthly']) }} / mes · {{ $pricing['annual_discount_percent'] }}% dto. anual
                 @endif
@@ -54,7 +54,7 @@
         </div>
         <a href="/register"
             class="{{ $isPremium ? 'landing-plan-btn landing-plan-btn--negocio' : 'landing-plan-btn' }} text-white font-black px-6 py-3 rounded-xl text-xs transition-all shrink-0 text-center">
-            {{ $isPremium ? 'Probar 14 días gratis' : 'Adquirir Emprendedor' }}
+            {{ $isPremium ? 'Probar ' . $wiStoreTrialLabel : 'Adquirir Emprendedor' }}
         </a>
     </div>
 </div>

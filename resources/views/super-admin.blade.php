@@ -823,7 +823,7 @@
                                     </span>
                                     <select name="plan" required x-model="createPlan"
                                         class="w-full bg-[#120a32] border border-white/10 rounded-xl py-2 pl-9 pr-8 text-xs text-white focus:outline-none focus:border-violet-500 transition duration-200 appearance-none cursor-pointer">
-                                        <option value="free_trial">Prueba Gratis (7 Días)</option>
+                                        <option value="free_trial">Prueba Gratis ({{ $wiStoreTrialDays }} Días)</option>
                                         <option value="standard">Plan Standard</option>
                                         <option value="premium">Plan Premium</option>
                                     </select>
@@ -1129,7 +1129,7 @@
                                     </span>
                                     <select name="plan" required x-model="editingShop.plan"
                                         class="w-full bg-[#120a32] border border-white/10 rounded-xl py-2 pl-9 pr-8 text-xs text-white focus:outline-none focus:border-violet-500 transition duration-200 appearance-none cursor-pointer">
-                                        <option value="free_trial">Prueba Gratis (7 Días)</option>
+                                        <option value="free_trial">Prueba Gratis ({{ $wiStoreTrialDays }} Días)</option>
                                         <option value="standard">Plan Standard</option>
                                         <option value="premium">Plan Premium</option>
                                     </select>

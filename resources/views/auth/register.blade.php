@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Prueba Gratis 7 Días | WI-Store</title>
+    <title>Iniciar Prueba Gratis {{ $wiStoreTrialDays }} Días | WI-Store</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -394,8 +394,8 @@
                 <div
                     class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 rounded-full px-5 py-2 shadow-[0_0_25px_rgba(168,85,247,0.18)]">
                     <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
-                    <span class="text-purple-300 text-[11px] font-black uppercase tracking-widest">🎁 7 Días de Prueba
-                        Gratuita — Sin Tarjeta</span>
+                    <span class="text-purple-300 text-[11px] font-black uppercase tracking-widest">🎁 {{ $wiStoreTrialDays }} Días de Prueba
+                        Gratuita — {{ $wiStoreTrialDisclaimer }}</span>
                 </div>
             </div>
 
@@ -416,7 +416,7 @@
                     </span>
                     <h1 class="text-2xl md:text-3xl font-black text-white tracking-tight">Crea tu Catálogo Digital</h1>
                     <p class="text-xs text-slate-400 mt-2 max-w-xs mx-auto leading-relaxed">
-                        Configura tu marca y comienza a vender en segundos. <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 font-black">Gratis por 7 días.</span>
+                        Configura tu marca y comienza a vender en segundos. <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 font-black">Gratis por {{ $wiStoreTrialDays }} días.</span>
                     </p>
                 </div>
 
@@ -426,7 +426,7 @@
                     <div
                         class="rounded-3xl border border-purple-400/15 bg-purple-400/5 px-4 py-3 text-slate-100 text-sm font-bold tracking-wide shadow-sm shadow-purple-500/10">
                         <i class="fas fa-info-circle mr-2 text-purple-300"></i>
-                        Completa los datos del formulario para iniciar tu prueba gratis de 7 días.
+                        Completa los datos del formulario para iniciar tu prueba gratis de {{ $wiStoreTrialDays }} días.
                     </div>
 
                     <!-- ── NOMBRE DEL COMERCIO ── -->
@@ -713,7 +713,7 @@
                             class="block w-full text-center font-extrabold py-4 rounded-2xl transition-all duration-300 text-sm tracking-wide">
                             <i class="fas fa-rocket mr-2"></i>
                             <span
-                                x-text="formValid ? 'Iniciar Prueba Gratis — 7 Días' : 'Completa el formulario correctamente'"></span>
+                                x-text="formValid ? 'Iniciar Prueba Gratis — {{ $wiStoreTrialDays }} Días' : 'Completa el formulario correctamente'"></span>
                         </button>
                         <!-- Indicador de progreso -->
                         <div class="mt-3 flex items-center gap-2">
@@ -785,7 +785,7 @@
                 </div>
                 <h2 class="text-xl md:text-2xl font-black text-white tracking-tight">¡Tu Prueba Comienza Ahora!</h2>
                 <p class="text-xs text-slate-400 mt-1.5 leading-relaxed max-w-xs mx-auto">
-                    <span class="text-purple-400 font-black">7 días</span> sin pagos, sin comisiones. <span
+                    <span class="text-purple-400 font-black">{{ $wiStoreTrialDays }} días</span> sin pagos, sin comisiones. <span
                         class="text-white font-bold">Totalmente gratis</span> para que pruebes.
                 </p>
             </div>
@@ -795,12 +795,12 @@
                 <div class="flex items-center gap-3">
                     <div
                         class="flex flex-col items-center justify-center w-14 h-14 rounded-xl bg-purple-500/15 border border-purple-500/25 shrink-0">
-                        <span class="text-2xl font-black text-purple-300">7</span>
+                        <span class="text-2xl font-black text-purple-300">{{ $wiStoreTrialDays }}</span>
                         <span class="text-[8px] text-purple-400 font-bold uppercase tracking-wider">días</span>
                     </div>
                     <div>
                         <p class="text-xs font-black text-white">Prueba Gratuita</p>
-                        <p class="text-[10px] text-slate-400 mt-0.5">Sin tarjeta requerida</p>
+                        <p class="text-[10px] text-slate-400 mt-0.5">{{ $wiStoreTrialDisclaimer }}</p>
                     </div>
                 </div>
                 <i class="fas fa-gift text-2xl text-purple-400/50 shrink-0"></i>
@@ -815,7 +815,7 @@
                     <p class="text-[11px] font-black text-amber-300 uppercase tracking-wide mb-1">Aviso de Suscripción
                     </p>
                     <p class="text-[11px] text-slate-400 leading-relaxed">
-                        Al finalizar los 7 días tu cuenta será
+                        Al finalizar los {{ $wiStoreTrialDays }} días tu cuenta será
                         <span class="text-amber-300 font-bold">suspendida automáticamente</span>
                         si no activas la suscripción al
                         <span class="text-white font-bold">Plan Premium ($24.99/mes)</span>.
@@ -827,7 +827,7 @@
             <!-- Semana gratuita: grid compacto -->
             <div class="mx-6 mt-4">
                 <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 pl-1">Incluye durante los
-                    7 días:</p>
+                    {{ $wiStoreTrialDays }} días:</p>
                 <div class="grid grid-cols-2 gap-1.5">
                     <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
                         <i class="fas fa-box text-purple-400 text-[10px] w-3 shrink-0"></i>

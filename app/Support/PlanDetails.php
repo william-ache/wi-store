@@ -27,6 +27,30 @@ final class PlanDetails
         ];
     }
 
+    /**
+     * Filas resumidas para la comparativa en landing (sin fotos; hasta métodos de pago).
+     *
+     * @return array<int, array{feature: string, standard: string, premium: string}>
+     */
+    public static function comparisonRowsPreview(): array
+    {
+        $rows = [];
+
+        foreach (self::comparisonRows() as $row) {
+            if ($row['feature'] === 'Visualización de Fotos') {
+                continue;
+            }
+
+            $rows[] = $row;
+
+            if ($row['feature'] === 'Métodos de Pago') {
+                break;
+            }
+        }
+
+        return $rows;
+    }
+
     /** @return array<string, mixed> */
     public static function standard(): array
     {

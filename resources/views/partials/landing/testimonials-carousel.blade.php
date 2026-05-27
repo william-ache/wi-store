@@ -1,6 +1,6 @@
 @if($testimonials->isNotEmpty())
 @include('partials.landing.testimonials-carousel-script')
-<section id="testimonios" class="py-14 md:py-20 border-t border-white/5 relative z-10"
+<section id="testimonios" class="py-14 md:py-20 mt-10 md:mt-14 relative z-10"
     x-data="landingTestimonialsCarousel({{ \Illuminate\Support\Js::from($testimonials) }})">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-8 md:mb-10">

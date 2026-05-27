@@ -99,7 +99,7 @@
 
             <div class="mt-3 rounded-xl border border-cyan-400/35 bg-cyan-500/10 px-3 py-2">
                 <p class="text-[10px] font-black uppercase tracking-wide text-cyan-200">
-                    <i class="fas fa-gift text-cyan-300/90 mr-1"></i>14 días gratis
+                    <i class="fas fa-gift text-cyan-300/90 mr-1"></i>{{ $wiStoreTrialLabel }}
                 </p>
                 <div class="landing-billing-swap landing-billing-swap--xs mt-0.5">
                     <p class="landing-billing-swap__layer text-[9px] text-slate-400 leading-snug"
@@ -121,7 +121,7 @@
                        x-transition:leave="landing-billing-fade-leave"
                        x-transition:leave-start="opacity-100"
                        x-transition:leave-end="opacity-0">
-                        Prueba 14 días gratis · luego {{ PlanPricing::formatUsd($negocio['annual_monthly_equivalent']) }}/mes equiv. anual
+                        Prueba {{ $wiStoreTrialLabel }} · luego {{ PlanPricing::formatUsd($negocio['annual_monthly_equivalent']) }}/mes equiv. anual
                     </p>
                 </div>
             </div>
@@ -178,9 +178,9 @@
             <div class="mt-6 flex flex-col gap-2">
                 <a href="/register"
                     class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
-                    Probar 14 días gratis
+                    Probar {{ $wiStoreTrialLabel }}
                 </a>
-                <p class="text-[9px] text-center text-slate-500 -mt-1">Sin tarjeta · cancelas cuando quieras</p>
+                <p class="text-[9px] text-center text-slate-500 -mt-1 leading-snug px-1">{{ $wiStoreTrialDisclaimer }}</p>
                 <button type="button" @click="selectedPlan = 'premium'; openModal = true"
                     class="landing-plan-ghost landing-plan-ghost--negocio w-full py-2 rounded-xl text-[10px] font-bold uppercase tracking-wide">
                     Ver más detalle

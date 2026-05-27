@@ -58,10 +58,6 @@
             @include('partials.landing.bcv-colombia-highlight')
         </div>
 
-        <div class="mb-10">
-            @include('partials.landing.pricing-table')
-        </div>
-
         @include('partials.planes.comparativa-specs')
 
         @include('partials.planes.comparativa-table')

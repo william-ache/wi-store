@@ -258,7 +258,7 @@
             },
             quickChips: [
                 { label: 'Planes de Precios 💎', mobile: 'Planes 💎', short: 'Planes' },
-                { label: 'Probar 7 Días Gratis ⚡', mobile: '7 días gratis ⚡', short: '7 días' },
+                { label: @json('Probar ' . $wiStoreTrialDays . ' Días Gratis ⚡'), mobile: @json($wiStoreTrialLabel . ' ⚡'), short: @json((string) $wiStoreTrialDays . ' días') },
                 { label: 'Métodos de Pago 💸', mobile: 'Pagos 💸', short: 'Pagos' },
                 { label: 'Hablar con Asesor Humano 📞', mobile: 'Asesor 📞', short: 'Asesor' },
             ],
@@ -374,7 +374,7 @@
 
                 if (cleanQuery.includes('registro') || cleanQuery.includes('crear') || cleanQuery.includes('cuenta') || cleanQuery.includes('probar') || cleanQuery.includes('registrarse')) {
                     return `¡Crear tu tienda toma menos de 3 minutos! ⚡<br><br>` +
-                           `Prueba premium <b>7 días gratis</b> sin tarjeta.<br><br>` +
+                           `Prueba premium <b>@json($wiStoreTrialLabel)</b>. @json($wiStoreTrialDisclaimer)<br><br>` +
                            `👉 <a href="/register" class="${linkClass}">Registrarme en WI-Store</a>`;
                 }
 

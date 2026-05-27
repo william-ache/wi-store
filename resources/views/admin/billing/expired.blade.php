@@ -149,7 +149,7 @@
                             <span class="w-2 h-2 rounded-full bg-rose-500"></span>
                             <span class="text-rose-300 text-[10px] font-black uppercase tracking-widest">
                                 @if ($shop->plan === 'free_trial')
-                                    ⚠️ Tu Prueba Gratuita de 7 Días ha Terminado
+                                    ⚠️ Tu Prueba Gratuita de {{ $wiStoreTrialDays }} Días ha Terminado
                                 @else
                                     ⚠️ Tu Plan ha Vencido
                                 @endif

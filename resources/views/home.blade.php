@@ -20,79 +20,6 @@
             will-change: filter;
         }
 
-        /* Animaciones fluidas de ondas/olas (morphing) para las curvas SVG del fondo */
-        @keyframes wave-1 {
-
-            0%,
-            100% {
-                d: path("M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800");
-            }
-
-            33% {
-                d: path("M-100,130 C170,260 430,-60 820,170 C1180,530 1330,860 1500,830");
-            }
-
-            66% {
-                d: path("M-100,70 C230,340 370,-140 780,230 C1220,470 1270,940 1500,770");
-            }
-        }
-
-        @keyframes wave-2 {
-
-            0%,
-            100% {
-                d: path("M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950");
-            }
-
-            33% {
-                d: path("M-50,170 C280,360 470,90 920,360 C1270,780 1230,1010 1600,920");
-            }
-
-            66% {
-                d: path("M-50,230 C220,440 530,10 880,440 C1330,720 1170,1090 1600,980");
-            }
-        }
-
-        @keyframes wave-3 {
-
-            0%,
-            100% {
-                d: path("M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000");
-            }
-
-            50% {
-                d: path("M1500,-20 C1070,180 970,470 630,570 C170,730 30,1070 -200,1030");
-            }
-        }
-
-        @keyframes wave-4 {
-
-            0%,
-            100% {
-                d: path("M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100");
-            }
-
-            33% {
-                d: path("M1550,80 C1120,280 870,370 530,670 C70,1030 -70,870 -250,1130");
-            }
-
-            66% {
-                d: path("M1550,20 C1180,220 930,430 470,730 C130,970 -130,930 -250,1070");
-            }
-        }
-
-        @keyframes wave-5 {
-
-            0%,
-            100% {
-                d: path("M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300");
-            }
-
-            50% {
-                d: path("M-100,770 C330,570 470,930 870,830 C1330,670 1370,230 1600,270");
-            }
-        }
-
         @keyframes premium-glow {
 
             0%,
@@ -137,26 +64,6 @@
             display: inline-block;
         }
 
-        .animate-wave-1 {
-            animation: wave-1 8s ease-in-out infinite;
-        }
-
-        .animate-wave-2 {
-            animation: wave-2 10s ease-in-out infinite;
-        }
-
-        .animate-wave-3 {
-            animation: wave-3 12s ease-in-out infinite;
-        }
-
-        .animate-wave-4 {
-            animation: wave-4 14s ease-in-out infinite;
-        }
-
-        .animate-wave-5 {
-            animation: wave-5 16s ease-in-out infinite;
-        }
-
         /* Máscara de transparencia gradual para los extremos del carrusel de tiendas */
         .mask-marquee {
             mask-image: linear-gradient(to right, transparent, white 15%, white 85%, transparent);
@@ -199,37 +106,6 @@
         <div
             class="absolute inset-0 bg-gradient-to-r from-[#161b33]/55 via-[#0e1228]/25 to-[#0a0f1c]/40 pointer-events-none">
         </div>
-
-        <!-- Ondas de neón (más suaves) -->
-        <svg class="absolute inset-0 w-full h-full opacity-[0.14] pointer-events-none z-0" preserveAspectRatio="none"
-            viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <!-- Gradiente Cian a Morado -->
-                <linearGradient id="neonGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.8" />
-                    <stop offset="50%" stop-color="#a855f7" stop-opacity="0.4" />
-                    <stop offset="100%" stop-color="#a855f7" stop-opacity="0" />
-                </linearGradient>
-                <!-- Gradiente Morado a Rosa -->
-                <linearGradient id="neonGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#a855f7" stop-opacity="0.6" />
-                    <stop offset="50%" stop-color="#ec4899" stop-opacity="0.3" />
-                    <stop offset="100%" stop-color="#ec4899" stop-opacity="0" />
-                </linearGradient>
-            </defs>
-
-            <!-- Curvas Bezier Entrelazadas imitando estelas de luz animadas como olas/ondas -->
-            <path class="animate-wave-1" d="M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800"
-                stroke="url(#neonGradient1)" stroke-width="1.5" stroke-linecap="round" fill="none" />
-            <path class="animate-wave-2" d="M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950"
-                stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
-            <path class="animate-wave-3" d="M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000"
-                stroke="url(#neonGradient2)" stroke-width="1.5" stroke-linecap="round" fill="none" />
-            <path class="animate-wave-4" d="M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100"
-                stroke="url(#neonGradient2)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
-            <path class="animate-wave-5" d="M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300"
-                stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.4" />
-        </svg>
     </div>
 
     <!-- Header -->
@@ -497,26 +373,16 @@
 
             @include('partials.landing.pricing-billing-toggle')
 
+            @include('partials.landing.bcv-rate-badge')
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch justify-center max-w-3xl mx-auto">
 
                 @include('partials.landing.pricing-cards')
 
             </div>
 
-            <div class="max-w-4xl mx-auto mt-16 md:mt-20 pt-2">
-                @include('partials.landing.pricing-table')
-            </div>
-
             <div class="max-w-5xl mx-auto mt-16 md:mt-20">
-                @include('partials.planes.comparativa-table')
-            </div>
-
-            <div class="mt-8 text-center">
-                <a href="{{ route('planes.comparativa') }}"
-                    class="inline-flex items-center gap-2 text-purple-300/80 hover:text-cyan-300/90 font-bold text-xs uppercase tracking-wide transition-colors">
-                    Comparar todos los planes en detalle
-                    <i class="fas fa-arrow-right text-[10px]"></i>
-                </a>
+                @include('partials.planes.comparativa-table', ['preview' => true, 'showDetailButton' => true])
             </div>
 
             @include('partials.landing.testimonials-carousel')
@@ -635,7 +501,7 @@
                                 <h3 class="text-xl md:text-2xl font-black text-white uppercase">Prueba <span
                                         class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Gratis</span>
                                 </h3>
-                                <p class="text-xs text-indigo-400 font-bold uppercase tracking-wider">Plan Inicial • 7
+                                <p class="text-xs text-indigo-400 font-bold uppercase tracking-wider">Plan Inicial • {{ $wiStoreTrialDays }}
                                     Días de Prueba</p>
                             </div>
                         </div>
@@ -643,7 +509,7 @@
                         <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
                             Una excelente manera de experimentar las capacidades base de la plataforma. Crea tu
                             catálogo, añade productos clave y prueba el flujo de pedidos hacia tu WhatsApp de forma
-                            totalmente gratuita por 7 días.
+                            totalmente gratuita por {{ $wiStoreTrialDays }} días.
                         </p>
 
                         <div class="border-t border-white/5 pt-6 space-y-4">
@@ -672,8 +538,8 @@
                         <div
                             class="bg-white/[0.02] border border-white/5 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-slate-400 font-semibold">Acceso inmediato sin tarjeta</p>
-                                <p class="text-lg font-black text-white">$0.00 USD / 7 días</p>
+                                <p class="text-xs text-slate-400 font-semibold">{{ $wiStoreTrialDisclaimer }}</p>
+                                <p class="text-lg font-black text-white">$0.00 USD / {{ $wiStoreTrialDays }} días</p>
                             </div>
                             <a href="/register"
                                 class="bg-indigo-500 hover:bg-indigo-400 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
