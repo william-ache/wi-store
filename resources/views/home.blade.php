@@ -78,34 +78,22 @@
 
     <!-- CAPA DE FONDO GLOBAL -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#0e1228] gpu-accelerated">
+        <!-- Desktop/Tablet (>=768px) -->
+        <div class="absolute inset-0 hidden md:block"
+            style="background: url('{{ asset('img/hero-menu-bg.png') }}') center center / cover no-repeat;"></div>
+        <!-- Capa extra para bajar intensidad (solo desktop) -->
+        <div class="absolute inset-0 hidden md:block backdrop-blur-[1px]" style="background: rgba(0, 0, 0, 0.5);"></div>
+        <!-- Mobile (<768px): imagen vertical -->
+        <div class="absolute inset-0 md:hidden"
+            style="background: url('{{ asset('img/hero-menu-bg-mobile.png') }}') center top / cover no-repeat;"></div>
 
-        <!-- Luz suave en el lado izquierdo (hero y texto) -->
-        <div
-            class="absolute -top-[5%] -left-[15%] w-[min(900px,85vw)] h-[min(900px,90vh)] rounded-full bg-gradient-to-br from-purple-500/25 via-fuchsia-500/15 to-cyan-500/10 blur-[100px] blur-accelerated">
-        </div>
-        <div
-            class="absolute top-[25%] -left-[8%] w-[480px] h-[480px] rounded-full bg-gradient-to-r from-fuchsia-500/18 to-purple-500/12 blur-[120px] blur-accelerated">
-        </div>
+        <!-- Sombreado negro para bajar intensidad -->
+        <div class="absolute inset-0" style="background: rgba(0, 0, 0, 0.45);"></div>
+        <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.62));"></div>
 
-        <!-- Equilibrio derecha -->
-        <div
-            class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-l from-purple-500/18 to-cyan-500/12 blur-[120px] blur-accelerated">
-        </div>
-
-        <!-- Centro / tiendas -->
-        <div
-            class="absolute top-[45%] left-[5%] w-[520px] h-[520px] rounded-full bg-gradient-to-r from-cyan-400/12 to-purple-500/10 blur-[140px] blur-accelerated">
-        </div>
-
-        <!-- Precios (abajo) -->
-        <div
-            class="absolute -bottom-[10%] left-[15%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-fuchsia-500/12 via-purple-500/10 to-transparent blur-[160px] blur-accelerated">
-        </div>
-
-        <!-- Velo: un poco más claro a la izquierda -->
-        <div
-            class="absolute inset-0 bg-gradient-to-r from-[#161b33]/55 via-[#0e1228]/25 to-[#0a0f1c]/40 pointer-events-none">
-        </div>
+        <!-- Cubrir marca de agua (esquina inferior derecha) -->
+        <div class="absolute bottom-0 right-0 w-36 h-36 bg-gradient-to-tl from-black/90 via-black/55 to-transparent"></div>
+        <div class="absolute bottom-0 right-0 w-24 h-24 bg-black/80"></div>
     </div>
 
     <!-- Header -->

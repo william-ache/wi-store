@@ -1,5 +1,5 @@
-<section id="inicio" class="relative bg-slate-900 py-20 md:py-24 overflow-hidden z-10">
-    <div class="max-w-7xl mx-auto px-4">
+<section id="inicio" class="relative py-20 md:py-24 overflow-hidden z-10">
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-10 items-center">
 
             <div class="text-left space-y-6">
