@@ -949,6 +949,20 @@
                                     @endif
                                 </div>
                             @endif
+
+                            <!-- Toggle mobile: ver más -->
+                            <div class="mt-4 md:hidden w-full">
+                                <button type="button"
+                                    @click="showMobileStoreExtras = !showMobileStoreExtras"
+                                    class="w-full store-accent-fill font-extrabold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition active:scale-95 shadow-sm hover:opacity-90"
+                                    style="color: #fff;">
+                                    <span x-show="!showMobileStoreExtras">Ver más información</span>
+                                    <span x-show="showMobileStoreExtras" x-cloak>Ver menos</span>
+                                    <i class="fas" :class="showMobileStoreExtras ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </button>
+                            </div>
+
+                            <div class="w-full" :class="showMobileStoreExtras ? 'block' : 'hidden md:block'" x-cloak>
                             <!-- MÉTODOS DE PAGO -->
                             @php
                                 $methodColors = [
@@ -1138,6 +1152,7 @@
                                     <i class="far fa-calendar-alt text-[var(--color-primary)]"></i>
                                     <span>Agendar Reserva / Cita</span>
                                 </button>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -3346,6 +3361,7 @@
                 showOrderWhatsappModal: false,
                 pendingOrderMessage: '',
                 showPaymentError: false,
+                showMobileStoreExtras: false,
 
                 // Coupons properties
                 couponCode: '',
