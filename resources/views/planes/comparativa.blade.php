@@ -42,7 +42,7 @@
         <span>Volver al Inicio</span>
     </a>
 
-    <main class="relative z-10 py-24 md:py-28 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <main class="relative z-10 py-24 md:py-28 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
 
         <div class="text-center mb-10">
             <span class="landing-plan-badge text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full">
@@ -50,7 +50,7 @@
             </span>
             <h1 class="text-3xl md:text-4xl font-black text-white mt-4 tracking-tight">Comparativa de planes</h1>
             <p class="text-sm text-slate-400 mt-2 max-w-xl mx-auto leading-relaxed">
-                Vista resumida. Expande para ver todas las características. Precios en USD.
+                Plan Standard (Emprendedor) y Plan Premium (Negocio). Precios en USD.
             </p>
         </div>
 
@@ -61,6 +61,8 @@
         <div class="mb-10">
             @include('partials.landing.pricing-table')
         </div>
+
+        @include('partials.planes.comparativa-specs')
 
         @include('partials.planes.comparativa-table')
 

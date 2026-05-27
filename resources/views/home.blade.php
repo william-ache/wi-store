@@ -507,6 +507,10 @@
                 @include('partials.landing.pricing-table')
             </div>
 
+            <div class="max-w-5xl mx-auto mt-16 md:mt-20">
+                @include('partials.planes.comparativa-table')
+            </div>
+
             <div class="mt-8 text-center">
                 <a href="{{ route('planes.comparativa') }}"
                     class="inline-flex items-center gap-2 text-purple-300/80 hover:text-cyan-300/90 font-bold text-xs uppercase tracking-wide transition-colors">
@@ -516,6 +520,8 @@
             </div>
 
             @include('partials.landing.testimonials-carousel')
+
+            @include('partials.landing.roadmap-2026')
 
 
                 <!-- PLAN 4: Plan Custom / Personalizado -->
@@ -591,14 +597,6 @@
                         </button>
                     </div>
                 </div>
-
-            <!-- Cláusula de Limitación -->
-            <div class="mt-16 text-center max-w-4xl mx-auto">
-                <p class="text-[10px] md:text-xs text-slate-500 leading-relaxed font-semibold px-4">
-                    ⚠️ Incluye 7 días de prueba gratuita en plan Negocio. Los precios anuales aplican el descuento indicado en la tabla.
-                    Desarrollo a medida solo bajo plan Custom con acuerdo comercial.
-                </p>
-            </div>
 
             <!-- MODAL DETALLES DEL PLAN (Alpine.js) -->
             <div x-show="openModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6" x-cloak>
@@ -684,136 +682,11 @@
                         </div>
                     </div>
 
-                    <!-- CONTENIDO PLAN EMPRENDEDOR -->
-                    <div x-show="selectedPlan === 'standard'" class="p-6 md:p-10 space-y-6">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-300/90">
-                                <i class="fas fa-award text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">Emprendedor</span>
-                                </h3>
-                                <p class="text-xs text-purple-300/80 font-bold uppercase tracking-wider">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['standard']['monthly']) }} / mes · 15% dto. anual</p>
-                            </div>
-                        </div>
+                    <!-- CONTENIDO PLAN STANDARD / EMPRENDEDOR -->
+                    @include('partials.planes.plan-modal-body', ['planKey' => 'standard'])
 
-                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
-                            Perfecto para marcas en expansión que necesitan un catálogo profesional interactivo y con
-                            capacidad de carga ilimitada de productos. Recibe pedidos perfectamente estructurados
-                            directo en WhatsApp o Telegram sin pagar comisiones por ventas.
-                        </p>
-
-                        <div class="border-t border-white/5 pt-6 space-y-4">
-                            <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">¿Qué incluye este
-                                plan?</h4>
-                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Productos y categorías <strong>ilimitados</strong></span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Pedidos estructurados directos a WhatsApp o Telegram</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Código QR dinámico autogenerado</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Soporte prioritario por WhatsApp</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Personalización completa de colores y logos</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400/75 mt-0.5"></i>
-                                    <span>Panel administrativo básico de órdenes</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div
-                            class="bg-white/[0.03] border border-purple-500/20 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
-                            <div>
-                                <p class="text-xs text-purple-300/80 font-semibold">Mensual · Anual</p>
-                                <p class="text-xl font-black text-white">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['standard']['monthly']) }}/mes</p>
-                                <p class="text-sm text-slate-400">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['standard']['annual_total']) }}/año ({{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['standard']['annual_monthly_equivalent']) }}/mes)</p>
-                            </div>
-                            <a href="/register"
-                                class="landing-plan-btn text-white font-black px-6 py-3 rounded-xl text-xs transition-all shrink-0">
-                                Adquirir Emprendedor
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- CONTENIDO PLAN NEGOCIO -->
-                    <div x-show="selectedPlan === 'premium'" class="p-6 md:p-10 space-y-6">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-                                <i class="fas fa-crown text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Negocio</span>
-                                </h3>
-                                <p class="text-xs text-cyan-300 font-bold uppercase tracking-wider">14 días gratis · luego {{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes</p>
-                            </div>
-                        </div>
-
-                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
-                            Nuestro plan más completo (antes VIP). Experiencia limpia sin marcas de plataforma, pagos integrados
-                            (Pago Móvil, Zelle), insignia premium en tu tienda y soporte prioritario 24/7.
-                        </p>
-
-                        <div class="border-t border-white/5 pt-6 space-y-4">
-                            <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">¿Qué incluye este
-                                plan?</h4>
-                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Todo lo incluido en el Plan Emprendedor</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span><strong>Insignia premium</strong> en tu tienda</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span><strong>Métodos de Pago Inteligentes</strong> (Pago Móvil / Zelle)</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span><strong>Soporte prioritario 24/7</strong> dedicado</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Carga ultra rápida e infraestructura optimizada</span>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-purple-400 mt-0.5"></i>
-                                    <span>Experiencia limpia sin anuncios de plataforma</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div
-                            class="bg-purple-900/15 border border-purple-500/20 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
-                            <div>
-                                <p class="text-xs text-purple-300 font-semibold">Mensual · Anual</p>
-                                <p class="text-xl font-black text-white">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes</p>
-                                <p class="text-sm text-slate-400">{{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['annual_total']) }}/año · ahorro {{ \App\Support\PlanPricing::PLANS['premium']['annual_savings_label'] }}</p>
-                            </div>
-                            <a href="/register"
-                                class="landing-plan-btn landing-plan-btn--negocio text-white font-black px-6 py-3 rounded-xl text-xs transition-all shrink-0">
-                                Probar 14 días gratis
-                            </a>
-                        </div>
-                    </div>
+                    <!-- CONTENIDO PLAN PREMIUM / NEGOCIO -->
+                    @include('partials.planes.plan-modal-body', ['planKey' => 'premium'])
 
                     <!-- CONTENIDO PLAN CUSTOM -->
                     <div x-show="selectedPlan === 'custom'" class="p-6 md:p-10 space-y-6">

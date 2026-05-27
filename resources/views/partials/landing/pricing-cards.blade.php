@@ -1,7 +1,10 @@
 @php
+    use App\Support\PlanDetails;
     use App\Support\PlanPricing;
     $emprendedor = PlanPricing::PLANS['standard'];
     $negocio = PlanPricing::PLANS['premium'];
+    $standardHighlights = PlanDetails::standard()['card_highlights'];
+    $premiumHighlights = PlanDetails::premium()['card_highlights'];
 @endphp
 
 <!-- Plan Emprendedor -->
@@ -10,11 +13,12 @@
     <div>
         <div class="flex justify-between items-start gap-2">
             <h3 class="text-base font-black text-white uppercase tracking-wider">
-                Plan <span class="landing-plan-title--cyan">Emprendedor</span>
+                Plan <span class="landing-plan-title--cyan">Standard</span>
+                <span class="text-[10px] font-semibold text-slate-500 normal-case tracking-normal">· Emprendedor</span>
             </h3>
             <span class="landing-plan-badge landing-plan-badge--emprendedor text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Para empezar</span>
         </div>
-        <p class="text-[11px] text-slate-400 mt-2 leading-snug">Digitaliza tu negocio con menú, pedidos y tu marca.</p>
+        <p class="text-[11px] text-slate-400 mt-2 leading-snug">{{ PlanDetails::standard()['purpose'] }}</p>
 
         <div class="landing-plan-price--emprendedor landing-billing-swap landing-billing-swap--sm my-5 rounded-2xl px-5 py-4">
             <div class="landing-billing-swap__layer"
@@ -58,10 +62,9 @@
         </div>
 
         <ul class="space-y-2 text-[11px] text-slate-300 border-t border-white/10 pt-4">
-            <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> Catálogo y pedidos a WhatsApp</li>
-            <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> Personalización de marca</li>
-            <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> Tasa BCV automática en pagos</li>
-            <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> Soporte prioritario</li>
+            @foreach ($standardHighlights as $highlight)
+                <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> {{ $highlight }}</li>
+            @endforeach
         </ul>
     </div>
     <div class="mt-6 flex flex-col gap-2">
@@ -86,12 +89,13 @@
                         <i class="fas fa-crown text-sm text-purple-200"></i>
                     </div>
                     <h3 class="text-sm font-black text-white uppercase tracking-wide whitespace-nowrap leading-none">
-                        Plan <span class="landing-plan-title--purple">Negocio</span>
+                        Plan <span class="landing-plan-title--purple">Premium</span>
+                        <span class="text-[9px] font-semibold text-slate-500 normal-case tracking-normal">· Negocio</span>
                     </h3>
                 </div>
                 <span class="landing-plan-badge landing-plan-badge--negocio text-[7px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Recomendado</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-2.5 leading-snug">Pagos integrados, insignia premium en tienda y soporte prioritario.</p>
+            <p class="text-[11px] text-slate-400 mt-2.5 leading-snug">{{ PlanDetails::premium()['purpose'] }}</p>
 
             <div class="mt-3 rounded-xl border border-cyan-400/35 bg-cyan-500/10 px-3 py-2">
                 <p class="text-[10px] font-black uppercase tracking-wide text-cyan-200">
@@ -167,9 +171,9 @@
             </div>
 
             <ul class="space-y-2.5 text-[11px] text-slate-300 border-t border-purple-500/20 pt-4 flex-grow">
-                <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> Todo lo del plan Emprendedor</li>
-                <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> Tasa BCV + Pago Móvil y Zelle</li>
-                <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> Insignia premium y soporte 24/7</li>
+                @foreach ($premiumHighlights as $highlight)
+                    <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> {{ $highlight }}</li>
+                @endforeach
             </ul>
             <div class="mt-6 flex flex-col gap-2">
                 <a href="/register"

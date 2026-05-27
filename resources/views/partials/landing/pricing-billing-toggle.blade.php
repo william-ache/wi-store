@@ -45,4 +45,8 @@
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
         0% comisión por ventas
     </p>
+
+    <p class="text-[11px] text-slate-500 font-semibold text-center max-w-sm leading-relaxed">
+        Precios de los planes actualizados y vigentes para todo el <strong class="text-slate-400 font-bold">2026</strong>.
+    </p>
 </div>
