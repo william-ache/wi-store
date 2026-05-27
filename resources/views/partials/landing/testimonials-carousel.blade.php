@@ -35,10 +35,13 @@
         <div x-show="filtered.length > 0" class="relative flex flex-col items-center">
             <div class="w-[260px] lg:w-[280px] shrink-0">
                 <template x-for="(item, index) in filtered" :key="item.id">
-                    <article x-show="slide === index"
-                        x-transition:enter="transition ease-out duration-300"
-                        x-transition:enter-start="opacity-0 translate-x-4"
-                        x-transition:enter-end="opacity-100 translate-x-0"
+                <article x-show="slide === index"
+                    x-transition:enter="landing-motion-enter"
+                    x-transition:enter-start="opacity-0 translate-x-6 scale-[0.98]"
+                    x-transition:enter-end="opacity-100 translate-x-0 scale-100"
+                    x-transition:leave="landing-motion-leave"
+                    x-transition:leave-start="opacity-100 translate-x-0"
+                    x-transition:leave-end="opacity-0 -translate-x-4"
                         class="w-full bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col group/card backdrop-blur-sm">
                         <div class="p-1.5 pb-0">
                             <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">

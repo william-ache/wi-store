@@ -15,7 +15,6 @@
     .landing-scroll-progress {
         transform-origin: left;
         transform: scaleX(0);
-        transition: transform 0.15s ease-out;
     }
     .landing-step-pill.is-active {
         background: linear-gradient(135deg, rgba(147, 51, 234, 0.35), rgba(34, 211, 238, 0.2));
@@ -74,20 +73,13 @@
     .landing-benefit-card:hover {
         transform: translateY(-2px);
     }
-    @keyframes landing-float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-    }
-    .landing-float {
-        animation: landing-float 5s ease-in-out infinite;
-    }
 
     /* Planes — cyan (Emprendedor) + púrpura neón (Negocio) */
     .landing-plan-card {
         background: rgba(10, 14, 22, 0.92);
         backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+        transition: border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
     }
     .landing-plan-card--emprendedor {
         border-color: rgba(34, 211, 238, 0.35);

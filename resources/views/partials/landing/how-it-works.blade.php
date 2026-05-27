@@ -22,7 +22,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 md:mb-8 max-w-5xl mx-auto">
             <button type="button" @click="activeHowStep = 1"
                     :class="activeHowStep === 1 ? 'landing-how-card is-active' : ''"
-                    class="landing-how-card bg-slate-900/25 border border-white/5 p-4 rounded-2xl flex items-start gap-3 text-left transition-all duration-300 w-full sm:cursor-default">
+                    class="landing-how-card bg-slate-900/25 border border-white/5 p-4 rounded-2xl flex items-start gap-3 text-left w-full sm:cursor-default">
                 <span class="w-9 h-9 shrink-0 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-sm font-black">1</span>
                 <div class="min-w-0">
                     <div class="flex items-center gap-2 mb-1">
@@ -35,7 +35,7 @@
 
             <button type="button" @click="activeHowStep = 2"
                     :class="activeHowStep === 2 ? 'landing-how-card is-active' : ''"
-                    class="landing-how-card bg-slate-900/25 border border-white/5 p-4 rounded-2xl flex items-start gap-3 text-left transition-all duration-300 w-full sm:cursor-default">
+                    class="landing-how-card bg-slate-900/25 border border-white/5 p-4 rounded-2xl flex items-start gap-3 text-left w-full sm:cursor-default">
                 <span class="w-9 h-9 shrink-0 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-sm font-black">2</span>
                 <div class="min-w-0">
                     <div class="flex items-center gap-2 mb-1">
@@ -48,7 +48,7 @@
 
             <button type="button" @click="activeHowStep = 3"
                     :class="activeHowStep === 3 ? 'landing-how-card is-active' : ''"
-                    class="landing-how-card bg-slate-900/25 border border-white/5 p-4 rounded-2xl flex items-start gap-3 text-left transition-all duration-300 w-full sm:cursor-default">
+                    class="landing-how-card bg-slate-900/25 border border-white/5 p-4 rounded-2xl flex items-start gap-3 text-left w-full sm:cursor-default">
                 <span class="w-9 h-9 shrink-0 rounded-xl bg-pink-500/20 text-pink-300 flex items-center justify-center text-sm font-black">3</span>
                 <div class="min-w-0">
                     <div class="flex items-center gap-2 mb-1">

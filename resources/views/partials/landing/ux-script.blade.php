@@ -5,10 +5,22 @@
             activeSection: 'inicio',
             showCarousel: true,
             heroDemoStep: 1,
+            heroDemoPaused: false,
+            heroDemoTimer: null,
             activeHowStep: 1,
             searchQuery: @json(request('search', '')),
             activeCategory: 'Todos',
             allShops: @json($shopsWithCategories ?? []),
+
+            motion: {
+                enter: 'landing-motion-enter',
+                enterStart: 'opacity-0 translate-y-2 scale-[0.99]',
+                enterEnd: 'opacity-100 translate-y-0 scale-100',
+                leave: 'landing-motion-leave',
+                leaveStart: 'opacity-100 translate-y-0 scale-100',
+                leaveEnd: 'opacity-0 -translate-y-1 scale-[0.99]',
+            },
+
             matchesFilter(name, description, category) {
                 const q = this.searchQuery.toLowerCase().trim();
                 const matchesSearch = q === '' ||
@@ -34,8 +46,10 @@
                 const qs = params.toString();
                 return @json(route('tiendas.index')) + (qs ? '?' + qs : '');
             },
+
             init() {
-                const map = [
+                const sections = [
+                    { id: 'inicio', el: document.getElementById('inicio') },
                     { id: 'explorar', el: document.getElementById('explorar') },
                     { id: 'como-funciona', el: document.getElementById('como-funciona') },
                     { id: 'precios', el: document.getElementById('precios') },
@@ -47,30 +61,90 @@
                             this.activeSection = entry.target.id;
                         }
                     });
-                }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+                }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
 
-                map.forEach(s => observer.observe(s.el));
+                sections.forEach(s => observer.observe(s.el));
 
-                const progress = document.getElementById('landing-scroll-progress');
-                if (progress) {
-                    window.addEventListener('scroll', () => {
-                        const h = document.documentElement.scrollHeight - window.innerHeight;
-                        const p = h > 0 ? window.scrollY / h : 0;
-                        progress.style.transform = 'scaleX(' + Math.min(1, p) + ')';
-                    }, { passive: true });
-                }
+                this.initScrollProgress();
+                this.startHeroDemoCycle();
             },
+
+            initScrollProgress() {
+                const progress = document.getElementById('landing-scroll-progress');
+                if (!progress) return;
+
+                let target = 0;
+                let current = 0;
+                let ticking = false;
+
+                const update = () => {
+                    const h = document.documentElement.scrollHeight - window.innerHeight;
+                    target = h > 0 ? window.scrollY / h : 0;
+                    current += (target - current) * 0.14;
+                    if (Math.abs(target - current) < 0.0005) current = target;
+                    progress.style.transform = 'scaleX(' + Math.min(1, Math.max(0, current)) + ')';
+                    ticking = false;
+                };
+
+                const onScroll = () => {
+                    if (!ticking) {
+                        ticking = true;
+                        requestAnimationFrame(update);
+                    }
+                };
+
+                window.addEventListener('scroll', onScroll, { passive: true });
+                update();
+            },
+
+            scrollOffset() {
+                const header = document.getElementById('landing-header');
+                return header ? header.offsetHeight + 16 : 72;
+            },
+
             scrollTo(id) {
                 const el = document.getElementById(id);
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (!el) return;
+
+                const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - this.scrollOffset());
+
+                window.scrollTo({
+                    top,
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+                });
+
                 this.isMobileMenuOpen = false;
             },
+
+            setHeroDemoStep(step) {
+                this.heroDemoStep = step;
+                this.restartHeroDemoCycle();
+            },
+
+            startHeroDemoCycle() {
+                this.restartHeroDemoCycle();
+            },
+
+            restartHeroDemoCycle() {
+                if (this.heroDemoTimer) clearInterval(this.heroDemoTimer);
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+                this.heroDemoTimer = setInterval(() => {
+                    if (this.heroDemoPaused || this.isMobileMenuOpen) return;
+                    this.heroDemoStep = this.heroDemoStep >= 3 ? 1 : this.heroDemoStep + 1;
+                }, 5500);
+            },
+
             setCategory(cat) {
                 this.activeCategory = cat;
             },
             clearFilters() {
                 this.searchQuery = '';
                 this.activeCategory = 'Todos';
+            },
+
+            destroy() {
+                if (this.heroDemoTimer) clearInterval(this.heroDemoTimer);
             },
         }));
     });

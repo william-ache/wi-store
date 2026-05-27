@@ -6,19 +6,29 @@
 
 <!-- Menú móvil -->
 <div x-show="isMobileMenuOpen" x-cloak
-     x-transition:enter="transition ease-out duration-200"
-     x-transition:enter-start="opacity-0"
-     x-transition:enter-end="opacity-100"
-     x-transition:leave="transition ease-in duration-150"
-     x-transition:leave-start="opacity-100"
-     x-transition:leave-end="opacity-0"
      class="fixed inset-0 z-[55] md:hidden"
      role="dialog"
      aria-modal="true"
      aria-labelledby="landing-mobile-nav-title"
      @keydown.escape.window="isMobileMenuOpen = false">
-    <div class="absolute inset-0 bg-[#0e1228]/85 backdrop-blur-md" @click="isMobileMenuOpen = false" aria-hidden="true"></div>
+    <div x-show="isMobileMenuOpen"
+         x-transition:enter="landing-motion-enter"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="landing-motion-leave"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="absolute inset-0 bg-[#0e1228]/85 backdrop-blur-md"
+         @click="isMobileMenuOpen = false"
+         aria-hidden="true"></div>
     <nav id="landing-mobile-nav"
+         x-show="isMobileMenuOpen"
+         x-transition:enter="landing-motion-enter"
+         x-transition:enter-start="opacity-0 translate-x-full"
+         x-transition:enter-end="opacity-100 translate-x-0"
+         x-transition:leave="landing-motion-leave"
+         x-transition:leave-start="opacity-100 translate-x-0"
+         x-transition:leave-end="opacity-0 translate-x-full"
          class="absolute right-0 top-0 bottom-0 w-[min(100%,320px)] bg-slate-950 border-l border-white/10 p-6 flex flex-col gap-2 shadow-2xl"
          aria-label="Menú de navegación móvil">
         <div class="flex items-center justify-between mb-4">
@@ -50,7 +60,7 @@
             <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión
         </a>
         <a href="/register"
-           class="mt-4 text-center bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-black py-4 rounded-2xl shadow-lg">
+           class="mt-4 text-center bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-black py-4 rounded-2xl shadow-lg hover:scale-[1.02] active:scale-[0.98]">
             Crear mi tienda gratis
         </a>
     </nav>

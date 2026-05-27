@@ -1,7 +1,9 @@
 @php
     use App\Support\PlanPricing;
-    $emprendedorUsd = PlanPricing::PLANS['standard']['monthly'];
-    $negocioUsd = PlanPricing::PLANS['premium']['monthly'];
+    $emprendedorMonthly = PlanPricing::PLANS['standard']['monthly'];
+    $emprendedorAnnualEquiv = PlanPricing::PLANS['standard']['annual_monthly_equivalent'];
+    $negocioMonthly = PlanPricing::PLANS['premium']['monthly'];
+    $negocioAnnualEquiv = PlanPricing::PLANS['premium']['annual_monthly_equivalent'];
 @endphp
 
 <div
@@ -10,8 +12,13 @@
         loadingRate: true,
         rateDate: null,
         fetchedAt: null,
-        emprendedorUsd: {{ $emprendedorUsd }},
-        negocioUsd: {{ $negocioUsd }},
+        emprendedorUsdMonthly: {{ $emprendedorMonthly }},
+        emprendedorUsdAnnualEquiv: {{ $emprendedorAnnualEquiv }},
+        negocioUsdMonthly: {{ $negocioMonthly }},
+        negocioUsdAnnualEquiv: {{ $negocioAnnualEquiv }},
+        planUsd(monthly, annual) {
+            return this.$parent.billingPeriod === 'annual' ? annual : monthly;
+        },
         init() {
             fetch('https://ve.dolarapi.com/v1/dolares/oficial')
                 .then(r => r.json())
@@ -52,7 +59,7 @@
             return !this.loadingRate && !!(this.rateDate || this.fetchedAt);
         }
     }"
-    class="mb-10 max-w-5xl mx-auto overflow-hidden rounded-[1.35rem] border border-slate-500/40 shadow-[0_12px_32px_-8px_rgba(0,0,0,0.45)] grid grid-cols-1 lg:grid-cols-5">
+    class="mt-10 md:mt-12 mb-4 max-w-5xl mx-auto overflow-hidden rounded-[1.35rem] border border-slate-500/40 shadow-[0_12px_32px_-8px_rgba(0,0,0,0.45)] grid grid-cols-1 lg:grid-cols-5">
 
     {{-- Tasa BCV + planes --}}
     <div class="lg:col-span-3 bg-gradient-to-br from-[#5A6370] to-[#3B424D] p-5 md:p-6 shadow-[inset_0_1px_2px_rgba(255,255,255,0.12)]">
@@ -115,16 +122,26 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="rounded-xl bg-black/20 border border-white/10 px-4 py-3">
                     <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Plan Emprendedor</p>
-                    <p class="text-sm font-black text-white mt-1">{{ PlanPricing::formatUsd($emprendedorUsd) }} <span class="text-slate-400 font-semibold">USD/mes</span></p>
+                    <p class="text-sm font-black text-white mt-1" x-show="$parent.billingPeriod === 'monthly'">
+                        {{ PlanPricing::formatUsd($emprendedorMonthly) }} <span class="text-slate-400 font-semibold">USD/mes</span>
+                    </p>
+                    <p class="text-sm font-black text-white mt-1" x-show="$parent.billingPeriod === 'annual'" x-cloak>
+                        {{ PlanPricing::formatUsd($emprendedorAnnualEquiv) }} <span class="text-slate-400 font-semibold">USD/mes equiv.</span>
+                    </p>
                     <p class="text-base font-black text-amber-200 mt-1 tabular-nums" x-show="exchangeRate">
-                        ≈ Bs. <span x-text="formatBs(emprendedorUsd)"></span><span class="text-xs text-slate-400 font-semibold">/mes</span>
+                        ≈ Bs. <span x-text="formatBs(planUsd(emprendedorUsdMonthly, emprendedorUsdAnnualEquiv))"></span><span class="text-xs text-slate-400 font-semibold">/mes</span>
                     </p>
                 </div>
                 <div class="rounded-xl bg-black/20 border border-white/10 px-4 py-3">
                     <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Plan Negocio</p>
-                    <p class="text-sm font-black text-white mt-1">{{ PlanPricing::formatUsd($negocioUsd) }} <span class="text-slate-400 font-semibold">USD/mes</span></p>
+                    <p class="text-sm font-black text-white mt-1" x-show="$parent.billingPeriod === 'monthly'">
+                        {{ PlanPricing::formatUsd($negocioMonthly) }} <span class="text-slate-400 font-semibold">USD/mes</span>
+                    </p>
+                    <p class="text-sm font-black text-white mt-1" x-show="$parent.billingPeriod === 'annual'" x-cloak>
+                        {{ PlanPricing::formatUsd($negocioAnnualEquiv) }} <span class="text-slate-400 font-semibold">USD/mes equiv.</span>
+                    </p>
                     <p class="text-base font-black text-purple-200 mt-1 tabular-nums" x-show="exchangeRate">
-                        ≈ Bs. <span x-text="formatBs(negocioUsd)"></span><span class="text-xs text-slate-400 font-semibold">/mes</span>
+                        ≈ Bs. <span x-text="formatBs(planUsd(negocioUsdMonthly, negocioUsdAnnualEquiv))"></span><span class="text-xs text-slate-400 font-semibold">/mes</span>
                     </p>
                 </div>
             </div>

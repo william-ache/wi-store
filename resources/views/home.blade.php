@@ -10,6 +10,7 @@
 
     @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
+    @include('partials.landing.motion-styles')
 
     {{-- Estilos below-the-fold (ondas SVG, planes premium). No bloquean LCP del hero. --}}
     <style>
@@ -232,7 +233,7 @@
     </div>
 
     <!-- Header -->
-    <header class="border-b border-white/10 bg-[#0e1228]/75 backdrop-blur-lg sticky top-0 z-50">
+    <header id="landing-header" class="border-b border-white/10 bg-[#0e1228]/75 backdrop-blur-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <a href="#inicio" @click.prevent="scrollTo('inicio')" class="flex items-center gap-2 active:scale-95 transition-transform">
                 <span class="text-xl md:text-2xl font-black tracking-tight text-white uppercase">
@@ -491,21 +492,21 @@
                 <h2 class="text-3xl md:text-4xl font-black text-white mt-4 tracking-tight">Elige tu plan</h2>
                 <p class="text-sm text-slate-400 mt-2 max-w-lg mx-auto">
                     <strong class="text-white">Emprendedor</strong> para arrancar · <strong class="text-white">Negocio</strong> con todo lo premium.
-                    Ahorra pagando anual.
                 </p>
             </div>
 
-            @include('partials.landing.bcv-colombia-highlight')
+            @include('partials.landing.pricing-billing-toggle')
 
-            <div class="max-w-4xl mx-auto mb-12 md:mb-14">
-                @include('partials.landing.pricing-table')
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch justify-center max-w-3xl mx-auto mt-6 md:mt-10 pt-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch justify-center max-w-3xl mx-auto">
 
                 @include('partials.landing.pricing-cards')
 
             </div>
+
+            <div class="max-w-4xl mx-auto mt-16 md:mt-20 pt-2">
+                @include('partials.landing.pricing-table')
+            </div>
+
             <div class="mt-8 text-center">
                 <a href="{{ route('planes.comparativa') }}"
                     class="inline-flex items-center gap-2 text-purple-300/80 hover:text-cyan-300/90 font-bold text-xs uppercase tracking-wide transition-colors">
@@ -590,8 +591,6 @@
                         </button>
                     </div>
                 </div>
-
-            </div>
 
             <!-- Cláusula de Limitación -->
             <div class="mt-16 text-center max-w-4xl mx-auto">

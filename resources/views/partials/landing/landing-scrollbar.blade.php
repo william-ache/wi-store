@@ -1,7 +1,6 @@
 {{-- Scrollbar marketing WI-Store (solo landing y páginas públicas de marca) --}}
 <style>
     html.wi-store-ui.wi-store-landing {
-        scroll-behavior: smooth;
         scrollbar-width: thin;
         scrollbar-color: #d946ef transparent;
     }

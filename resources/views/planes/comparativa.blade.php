@@ -15,6 +15,7 @@
 
     @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
+    @include('partials.landing.motion-styles')
     @include('partials.landing.ux-styles')
     <style>
         body {

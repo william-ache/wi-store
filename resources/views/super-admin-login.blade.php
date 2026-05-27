@@ -24,6 +24,7 @@
     
     @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
+    @include('partials.landing.motion-styles')
     <style>
         body {
             font-family: 'Outfit', sans-serif;

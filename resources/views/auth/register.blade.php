@@ -27,6 +27,7 @@
 
     @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
+    @include('partials.landing.motion-styles')
     <style>
         [x-cloak] {
             display: none !important;
