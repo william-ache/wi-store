@@ -69,6 +69,8 @@
                 sections.forEach(s => observer.observe(s.el));
 
                 this.initScrollProgress();
+                this.initScrollReveal();
+                this.initRegisterFormDemo();
                 this.startHeroDemoCycle();
             },
 
@@ -100,6 +102,46 @@
 
                 window.addEventListener('scroll', onScroll, { passive: true });
                 update();
+            },
+
+            initScrollReveal() {
+                const selectors = [
+                    '#por-que',
+                    '#como-funciona',
+                    '#precios',
+                    '#testimonios',
+                    '#faq',
+                    '.landing-how-step',
+                    '.landing-why-card',
+                    '.landing-plan-card',
+                    '.landing-faq-item',
+                    '.landing-final-cta__panel',
+                    '.landing-footer',
+                ];
+
+                const targets = Array.from(document.querySelectorAll(selectors.join(',')));
+                if (!targets.length) return;
+
+                const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (reduceMotion || !('IntersectionObserver' in window)) {
+                    targets.forEach(el => el.classList.add('is-visible'));
+                    return;
+                }
+
+                targets.forEach(el => el.classList.add('landing-reveal'));
+
+                const revealObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add('is-visible');
+                        revealObserver.unobserve(entry.target);
+                    });
+                }, {
+                    threshold: 0.08,
+                    rootMargin: '0px 0px -8% 0px',
+                });
+
+                targets.forEach(el => revealObserver.observe(el));
             },
 
             scrollOffset() {
@@ -148,8 +190,77 @@
                 this.activeCategory = 'Todos';
             },
 
+            initRegisterFormDemo() {
+                const demo = document.querySelector('.landing-how-form-demo--js');
+                if (!demo) return;
+
+                const cursor = demo.querySelector('.landing-how-demo-cursor');
+                if (!cursor) return;
+
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    cursor.style.display = 'none';
+                    return;
+                }
+
+                const targets = {
+                    name: demo.querySelector('.landing-how-form-field--name'),
+                    category: demo.querySelector('.landing-how-category-chip--selected'),
+                    color: demo.querySelector('.landing-how-color-swatch--selected'),
+                    submit: demo.querySelector('.landing-how-form-submit'),
+                };
+
+                const duration = 8000;
+                let start = performance.now();
+                let rafId = null;
+
+                const place = (el, clicking = false) => {
+                    if (!el) return;
+                    const demoRect = demo.getBoundingClientRect();
+                    const rect = el.getBoundingClientRect();
+                    const cursorRect = cursor.getBoundingClientRect();
+                    const hotspotX = cursorRect.width * 0.1;
+                    const hotspotY = cursorRect.height * 0.2;
+                    const x = rect.left - demoRect.left + rect.width / 2.25 - hotspotX;
+                    const y = rect.top - demoRect.top + rect.height / 2.25 - hotspotY;
+                    cursor.style.transform = `translate(${x}px, ${y}px)`;
+                    cursor.classList.toggle('is-clicking', clicking);
+                };
+
+                const tick = (now) => {
+                    const elapsed = (now - start) % duration;
+
+                    if (elapsed < 1200) {
+                        place(targets.name, false);
+                    } else if (elapsed < 2200) {
+                        place(targets.name, true);
+                    } else if (elapsed < 3200) {
+                        place(targets.category, false);
+                    } else if (elapsed < 4000) {
+                        place(targets.category, true);
+                    } else if (elapsed < 5000) {
+                        place(targets.color, false);
+                    } else if (elapsed < 5800) {
+                        place(targets.color, true);
+                    } else if (elapsed < 6600) {
+                        place(targets.submit, false);
+                    } else if (elapsed < 7400) {
+                        place(targets.submit, true);
+                    } else {
+                        // Keep a stable 8s timeline so cursor stays in sync
+                        // with CSS animations and doesn't jump ahead per loop.
+                        place(targets.name, false);
+                    }
+
+                    rafId = requestAnimationFrame(tick);
+                };
+
+                rafId = requestAnimationFrame(tick);
+                this._registerDemoRaf = rafId;
+            },
+
             destroy() {
                 if (this.heroDemoTimer) clearInterval(this.heroDemoTimer);
+                if (this._registerDemoRaf) cancelAnimationFrame(this._registerDemoRaf);
             },
         }));
     });

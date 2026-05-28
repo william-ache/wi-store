@@ -15,30 +15,35 @@
             <article class="landing-how-step h-full">
                 <div class="landing-how-step__visual" aria-hidden="true">
                     <div class="landing-how-mock">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <span class="w-8 h-8 rounded-lg landing-how-brand-gradient flex items-center justify-center shrink-0 shadow-sm shadow-purple-500/20">
-                                    <i class="fas fa-arrow-up-right text-white text-[10px]"></i>
-                                </span>
-                                <span class="text-xs font-black text-slate-900 truncate">Crear cuenta</span>
+                        <div class="landing-how-form-demo landing-how-form-demo--js">
+                            <div class="landing-how-form-field landing-how-form-field--name">
+                                <span class="landing-how-form-label">Nombre de negocio</span>
+                                <span class="landing-how-form-value landing-how-form-value--typing">Mi tienda WI-Store</span>
                             </div>
-                            <span class="text-[8px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 shrink-0">
-                                {{ $wiStoreTrialDays }} días
+                            <div class="landing-how-form-field landing-how-form-field--category">
+                                <span class="landing-how-form-label">Categoría</span>
+                                <div class="landing-how-category-pills">
+                                    <span class="landing-how-category-chip landing-how-category-chip--a landing-how-category-chip--selected">Restaurante</span>
+                                    <span class="landing-how-category-chip landing-how-category-chip--b">Tienda</span>
+                                    <span class="landing-how-category-chip landing-how-category-chip--c">Servicios</span>
+                                </div>
+                            </div>
+                            <div class="landing-how-form-field landing-how-form-field--color">
+                                <span class="landing-how-form-label">Color</span>
+                                <div class="landing-how-color-palette">
+                                    <span class="landing-how-color-swatch landing-how-color-swatch--a"></span>
+                                    <span class="landing-how-color-swatch landing-how-color-swatch--b landing-how-color-swatch--selected"></span>
+                                    <span class="landing-how-color-swatch landing-how-color-swatch--c"></span>
+                                </div>
+                            </div>
+                            <div class="landing-how-form-submit">
+                                <i class="fas fa-check text-[9px]"></i>
+                                Registrar
+                            </div>
+                            <span class="landing-how-demo-cursor">
+                                <i class="fas fa-mouse-pointer"></i>
+                                <span class="landing-how-demo-cursor__dot"></span>
                             </span>
-                        </div>
-                        <div class="space-y-2 mb-3">
-                            <div class="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2">
-                                <p class="text-[8px] font-bold uppercase text-slate-400">Correo</p>
-                                <p class="text-[10px] font-semibold text-slate-700 truncate">hola@tunegocio.com</p>
-                            </div>
-                            <div class="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2">
-                                <p class="text-[8px] font-bold uppercase text-slate-400">Negocio</p>
-                                <p class="text-[10px] font-semibold text-slate-700 truncate">Mi tienda WI-Store</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-center gap-1.5 rounded-xl landing-how-brand-gradient-h text-white text-[10px] font-black py-2 shadow-sm shadow-purple-500/15">
-                            <i class="fas fa-check text-[9px]"></i>
-                            Cuenta creada
                         </div>
                     </div>
                 </div>

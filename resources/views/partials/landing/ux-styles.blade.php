@@ -197,8 +197,8 @@
     }
     .landing-how-step__visual {
         position: relative;
-        flex: 0 0 13.25rem;
-        height: 13.25rem;
+        flex: 0 0 13.6rem;
+        height: 13.6rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -210,16 +210,13 @@
     }
     .landing-how-mock {
         width: 100%;
-        max-width: 17.5rem;
-        height: 8.75rem;
-        min-height: 8.75rem;
-        max-height: 8.75rem;
+        height: 11.75rem;
         margin-inline: auto;
         border-radius: 0.75rem;
         background: #fff;
         border: 1px solid rgba(226, 232, 240, 0.9);
         box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
-        padding: 0.75rem 0.85rem;
+        padding: 0.96rem;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
@@ -228,6 +225,199 @@
     }
     .landing-how-mock--catalog {
         justify-content: flex-start;
+    }
+    .landing-how-form-demo {
+        position: relative;
+        display: grid;
+        gap: 0.34rem;
+    }
+    .landing-how-form-field {
+        border: 1px solid #dbeafe;
+        background: #f8fafc;
+        border-radius: 0.55rem;
+        padding: 0.44rem 0.68rem;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        animation: landing-how-field-focus 8s ease-in-out infinite;
+    }
+    .landing-how-form-field--category {
+        animation-delay: 2.2s;
+    }
+    .landing-how-form-field--color {
+        animation-delay: 4.2s;
+    }
+    .landing-how-form-label {
+        display: block;
+        font-size: 0.42rem;
+        line-height: 1;
+        letter-spacing: 0.08em;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #94a3b8;
+        margin-bottom: 0.17rem;
+    }
+    .landing-how-form-value {
+        display: block;
+        font-size: 0.54rem;
+        line-height: 1.2;
+        font-weight: 700;
+        color: #334155;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .landing-how-form-value--typing {
+        width: 0;
+        white-space: nowrap;
+        border-right: 1px solid transparent;
+        animation: landing-how-typing 8s steps(17, end) infinite;
+    }
+    .landing-how-category-pills {
+        display: flex;
+        gap: 0.3rem;
+        flex-wrap: nowrap;
+        padding: 0.1rem 0.04rem 0;
+    }
+    .landing-how-category-chip {
+        border: 1px solid #dbeafe;
+        background: #ffffff;
+        color: #64748b;
+        border-radius: 9999px;
+        padding: 0.17rem 0.44rem;
+        font-size: 0.45rem;
+        font-weight: 800;
+        line-height: 1.05;
+        animation: none;
+    }
+    .landing-how-category-chip--selected {
+        animation: landing-how-chip-idle 8s ease-in-out infinite;
+        animation-delay: 2.5s;
+    }
+    .landing-how-color-palette {
+        display: flex;
+        align-items: center;
+        gap: 0.34rem;
+        padding: 0.11rem 0.1rem 0 0.08rem;
+    }
+    .landing-how-color-swatch {
+        width: 0.78rem;
+        height: 0.78rem;
+        border-radius: 0.28rem;
+        border: 1px solid rgba(148, 163, 184, 0.42);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+        animation: none;
+    }
+    .landing-how-color-swatch--a {
+        background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    }
+    .landing-how-color-swatch--b {
+        background: linear-gradient(135deg, #9333ea, #c026d3);
+    }
+    .landing-how-color-swatch--c {
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    }
+    .landing-how-color-swatch--selected {
+        animation: landing-how-palette-idle 8s ease-in-out infinite;
+        animation-delay: 4.8s;
+    }
+    .landing-how-form-submit {
+        margin-top: 0.24rem;
+        width: fit-content;
+        min-width: 6.9rem;
+        align-self: center;
+        border-radius: 0.62rem;
+        padding: 0.34rem 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.28rem;
+        color: #ffffff;
+        font-size: 0.55rem;
+        line-height: 1;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        background: linear-gradient(90deg, #c026d3 0%, #7c3aed 48%, #3b82f6 100%);
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.24);
+        animation: landing-how-submit-focus 8s ease-in-out infinite;
+        animation-delay: 6.2s;
+    }
+    .landing-how-demo-cursor {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 0.72rem;
+        color: #0f172a;
+        pointer-events: none;
+        filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.18));
+        transition: transform 0.32s ease;
+        z-index: 5;
+    }
+    .landing-how-form-demo--js .landing-how-demo-cursor {
+        animation: none;
+    }
+    .landing-how-demo-cursor__dot {
+        display: none;
+    }
+    @keyframes landing-how-field-focus {
+        0%, 6%, 100% {
+            border-color: #dbeafe;
+            background: #f8fafc;
+            box-shadow: none;
+        }
+        8%, 20% {
+            border-color: rgba(6, 182, 212, 0.5);
+            background: #eff6ff;
+            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.15);
+        }
+    }
+    @keyframes landing-how-typing {
+        0%, 8% {
+            width: 0;
+            border-right-color: transparent;
+        }
+        10%, 26% {
+            width: 15.5ch;
+            border-right-color: #64748b;
+        }
+        30%, 100% {
+            width: 15.5ch;
+            border-right-color: transparent;
+        }
+    }
+    @keyframes landing-how-chip-idle {
+        0%, 100% {
+            border-color: #dbeafe;
+            background: #ffffff;
+            color: #64748b;
+            box-shadow: none;
+            transform: scale(1);
+        }
+        10%, 24% {
+            border-color: rgba(124, 58, 237, 0.45);
+            background: #eef2ff;
+            color: #5b21b6;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.12);
+            transform: scale(1.03);
+        }
+    }
+    @keyframes landing-how-palette-idle {
+        0%, 100% {
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+            transform: scale(1);
+        }
+        8%, 22% {
+            box-shadow: 0 0 0 2px rgba(14, 116, 144, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+            transform: scale(1.08);
+        }
+    }
+    @keyframes landing-how-submit-focus {
+        0%, 70%, 100% {
+            filter: none;
+            transform: scale(1);
+        }
+        74%, 86% {
+            filter: brightness(1.03);
+            transform: scale(1.02);
+        }
     }
     .landing-how-brand-gradient {
         background: linear-gradient(135deg, #c026d3 0%, #a855f7 42%, #3b82f6 100%);
@@ -250,6 +440,16 @@
         margin-bottom: 0;
         color: #64748b;
     }
+    .landing-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+        will-change: opacity, transform;
+    }
+    .landing-reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
     @media (min-width: 768px) {
         .landing-how-step__visual {
             flex-basis: 14rem;
@@ -257,6 +457,14 @@
         }
         .landing-how-step__body {
             min-height: 9rem;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .landing-reveal,
+        .landing-reveal.is-visible {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
         }
     }
 
