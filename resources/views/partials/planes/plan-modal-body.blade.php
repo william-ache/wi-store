@@ -13,11 +13,8 @@
             <i class="fas {{ $isPremium ? 'fa-crown' : 'fa-award' }} text-xl"></i>
         </div>
         <div>
-            <p class="text-[10px] font-black uppercase tracking-widest {{ $isPremium ? 'text-purple-600' : 'text-cyan-600' }}">
-                Plan {{ $plan['technical_name'] }}
-            </p>
             <h3 class="text-xl md:text-2xl font-black text-slate-900 uppercase">
-                {{ $plan['marketing_name'] }}
+                Plan {{ $plan['marketing_name'] }}
             </h3>
             <p class="text-xs {{ $isPremium ? 'text-cyan-700' : 'text-cyan-600' }} font-bold uppercase tracking-wider mt-0.5">
                 @if ($isPremium)

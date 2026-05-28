@@ -412,7 +412,7 @@
                 <div class="text-center mb-8 relative z-10">
                     <span
                         class="inline-block bg-gradient-to-r from-purple-500 to-cyan-400 text-slate-950 text-[10px] uppercase font-black tracking-widest px-5 py-1.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.35)] mb-4">
-                        Plan Premium
+                        Plan Negocio
                     </span>
                     <h1 class="text-2xl md:text-3xl font-black text-white tracking-tight">Crea tu Catálogo Digital</h1>
                     <p class="text-xs text-slate-400 mt-2 max-w-xs mx-auto leading-relaxed">
@@ -818,7 +818,7 @@
                         Al finalizar los {{ $wiStoreTrialDays }} días tu cuenta será
                         <span class="text-amber-300 font-bold">suspendida automáticamente</span>
                         si no activas la suscripción al
-                        <span class="text-white font-bold">Plan Premium ($24.99/mes)</span>.
+                        <span class="text-white font-bold">Plan Negocio ({{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes)</span>.
                         Tus datos se conservan por 30 días adicionales.
                     </p>
                 </div>

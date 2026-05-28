@@ -7,7 +7,7 @@
             heroDemoStep: 1,
             heroDemoPaused: false,
             heroDemoTimer: null,
-            activeFaq: 2,
+            activeFaq: 1,
             searchQuery: @json(request('search', '')),
             activeCategory: 'Todos',
             allShops: @json($shopsWithCategories ?? []),

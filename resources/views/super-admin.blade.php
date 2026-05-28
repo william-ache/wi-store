@@ -364,11 +364,11 @@
                                             <div class="flex flex-col gap-0.5">
                                                 @if($pendingShop->pending_plan === 'premium')
                                                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500/10 border border-amber-500/30 text-amber-400 uppercase tracking-wider max-w-max premium-glow">
-                                                        <i class="fas fa-crown text-[9px]"></i> Premium
+                                                        <i class="fas fa-crown text-[9px]"></i> Negocio
                                                     </span>
                                                 @else
                                                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/10 border border-sky-500/20 text-sky-400 uppercase tracking-wider max-w-max">
-                                                        <i class="fas fa-award text-[9px]"></i> Standard
+                                                        <i class="fas fa-award text-[9px]"></i> Emprendedor
                                                     </span>
                                                 @endif
                                                 <span class="text-[9px] text-slate-450 uppercase tracking-wider pl-1.5 font-semibold">
@@ -541,7 +541,7 @@
                                                 <div class="flex flex-col items-start gap-1">
                                                     <span
                                                         class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/10 border border-emerald-500/30 text-emerald-450 uppercase tracking-wider premium-glow">
-                                                        <i class="fas fa-crown text-[9px]"></i> Premium
+                                                        <i class="fas fa-crown text-[9px]"></i> Negocio
                                                     </span>
                                                     <span
                                                         class="text-[9px] text-emerald-450 font-black uppercase tracking-wider pl-1.5 opacity-85">
@@ -552,7 +552,7 @@
                                                 <div class="flex flex-col items-start gap-1">
                                                     <span
                                                         class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/10 border border-sky-500/20 text-sky-400 uppercase tracking-wider">
-                                                        <i class="fas fa-award text-[9px]"></i> Standard
+                                                        <i class="fas fa-award text-[9px]"></i> Emprendedor
                                                     </span>
                                                     <span
                                                         class="text-[9px] text-sky-400 font-semibold uppercase tracking-wider pl-1.5 opacity-85">
@@ -824,8 +824,8 @@
                                     <select name="plan" required x-model="createPlan"
                                         class="w-full bg-[#120a32] border border-white/10 rounded-xl py-2 pl-9 pr-8 text-xs text-white focus:outline-none focus:border-violet-500 transition duration-200 appearance-none cursor-pointer">
                                         <option value="free_trial">Prueba Gratis ({{ $wiStoreTrialDays }} Días)</option>
-                                        <option value="standard">Plan Standard</option>
-                                        <option value="premium">Plan Premium</option>
+                                        <option value="standard">Plan Emprendedor</option>
+                                        <option value="premium">Plan Negocio</option>
                                     </select>
                                     <span
                                         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
@@ -1130,8 +1130,8 @@
                                     <select name="plan" required x-model="editingShop.plan"
                                         class="w-full bg-[#120a32] border border-white/10 rounded-xl py-2 pl-9 pr-8 text-xs text-white focus:outline-none focus:border-violet-500 transition duration-200 appearance-none cursor-pointer">
                                         <option value="free_trial">Prueba Gratis ({{ $wiStoreTrialDays }} Días)</option>
-                                        <option value="standard">Plan Standard</option>
-                                        <option value="premium">Plan Premium</option>
+                                        <option value="standard">Plan Emprendedor</option>
+                                        <option value="premium">Plan Negocio</option>
                                     </select>
                                     <span
                                         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">

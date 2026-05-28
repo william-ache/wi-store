@@ -5,7 +5,7 @@ namespace App\Support;
 final class PlanDetails
 {
     /**
-     * Filas de la tabla comparativa técnica (Standard vs Premium).
+     * Filas de la tabla comparativa técnica (Emprendedor vs Negocio).
      *
      * @return array<int, array{feature: string, standard: string, premium: string}>
      */
@@ -57,7 +57,7 @@ final class PlanDetails
         return [
             'slug' => 'standard',
             'marketing_name' => 'Emprendedor',
-            'technical_name' => 'Standard',
+            'technical_name' => 'Emprendedor',
             'purpose' => 'Configuración ideal para pequeños comercios, negocios independientes o emprendimientos que inician su transformación digital con necesidades de catálogo esenciales.',
             'sections' => [
                 [
@@ -102,7 +102,7 @@ final class PlanDetails
         return [
             'slug' => 'premium',
             'marketing_name' => 'Negocio',
-            'technical_name' => 'Premium',
+            'technical_name' => 'Negocio',
             'purpose' => 'Pensado para negocios en fase de expansión, marcas consolidadas y locales con un flujo continuo de transacciones que requieren autonomía operativa y análisis de métricas.',
             'sections' => [
                 [

@@ -107,10 +107,10 @@
                             $plan = config('current_shop')->plan ?? 'free_trial';
                             if ($plan === 'premium') {
                                 $btnGradient = 'from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.3)]';
-                                $planBadge = 'Activar Premium 👑';
+                                $planBadge = 'Activar Negocio 👑';
                             } elseif ($plan === 'standard') {
                                 $btnGradient = 'from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-white shadow-[0_0_20px_rgba(14,165,233,0.3)]';
-                                $planBadge = 'Activar Standard ⚡';
+                                $planBadge = 'Activar Emprendedor ⚡';
                             } elseif ($plan === 'free_trial') {
                                 $btnGradient = 'from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 shadow-[0_0_20px_rgba(16,185,129,0.3)]';
                                 $planBadge = 'Comprar Plan 🎁';

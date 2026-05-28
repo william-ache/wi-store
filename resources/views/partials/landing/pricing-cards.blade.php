@@ -13,8 +13,7 @@
     <div>
         <div class="flex justify-between items-start gap-2">
             <h3 class="text-base font-black text-slate-900 uppercase tracking-wider">
-                Plan <span class="landing-plan-title--cyan">Standard</span>
-                <span class="text-[10px] font-semibold text-slate-500 normal-case tracking-normal">· Emprendedor</span>
+                Plan <span class="landing-plan-title--cyan">Emprendedor</span>
             </h3>
             <span class="landing-plan-badge landing-plan-badge--emprendedor text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Para empezar</span>
         </div>
@@ -67,12 +66,8 @@
             @endforeach
         </ul>
     </div>
-    <div class="mt-6 flex flex-col gap-2">
+    <div class="mt-6">
         <a href="/register" class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-2.5 rounded-xl text-xs">Comenzar Emprendedor</a>
-        <button type="button" @click="selectedPlan = 'standard'; openModal = true"
-            class="landing-plan-ghost landing-plan-ghost--emprendedor w-full py-2 rounded-xl text-[10px] font-bold uppercase tracking-wide">
-            Ver más detalle
-        </button>
     </div>
 </div>
 
@@ -89,8 +84,7 @@
                         <i class="fas fa-crown text-sm text-purple-600"></i>
                     </div>
                     <h3 class="text-sm font-black text-slate-900 uppercase tracking-wide whitespace-nowrap leading-none">
-                        Plan <span class="landing-plan-title--purple">Premium</span>
-                        <span class="text-[9px] font-semibold text-slate-500 normal-case tracking-normal">· Negocio</span>
+                        Plan <span class="landing-plan-title--purple">Negocio</span>
                     </h3>
                 </div>
                 <span class="landing-plan-badge landing-plan-badge--negocio text-[7px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Recomendado</span>
@@ -180,11 +174,7 @@
                     class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
                     Probar {{ $wiStoreTrialLabel }}
                 </a>
-                <p class="text-[9px] text-center text-slate-500 -mt-1 leading-snug px-1">{{ $wiStoreTrialDisclaimer }}</p>
-                <button type="button" @click="selectedPlan = 'premium'; openModal = true"
-                    class="landing-plan-ghost landing-plan-ghost--negocio w-full py-2 rounded-xl text-[10px] font-bold uppercase tracking-wide">
-                    Ver más detalle
-                </button>
+                <p class="text-[9px] text-center text-slate-500 leading-snug px-1">{{ $wiStoreTrialDisclaimer }}</p>
             </div>
         </div>
     </div>

@@ -337,7 +337,7 @@
             <!-- Pasarelas de Pago Directo (Automático) -->
             <div class="mt-6">
                 <span class="bg-primary/10 text-primary text-[10px] uppercase font-extrabold tracking-wider px-3 py-1 rounded-full border border-primary/20">
-                    Suscripción Premium
+                    Suscripción Negocio
                 </span>
                 <h4 class="text-xs md:text-sm font-black text-slate-800 dark:text-slate-100 mt-3 mb-1">
                     Pasarelas de Pago Directo (Conciliación Automática)

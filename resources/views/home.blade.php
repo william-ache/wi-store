@@ -127,12 +127,64 @@
                 </nav>
 
                 <div class="landing-header-bar__actions flex items-center justify-end gap-3 sm:gap-4 shrink-0">
-                    <a href="/login" class="landing-header-action-link">
-                        Iniciar sesión
-                    </a>
-                    <a href="/register" class="landing-header-cta">
-                        Crear menú
-                    </a>
+                    @auth
+                        @php
+                            $authUser = auth()->user();
+                            $shopSlug = optional($authUser->shop)->slug;
+                            $panelUrl = $shopSlug
+                                ? route('admin.dashboard', ['shop_slug' => $shopSlug])
+                                : url('/login');
+                            $userEmail = $authUser->email ?? '';
+                            $avatarInitial = strtoupper(substr(trim($userEmail), 0, 1) ?: 'U');
+                        @endphp
+
+                        <div class="relative hidden md:flex items-center gap-3"
+                             x-data="{ userMenuOpen: false }"
+                             @keydown.escape.window="userMenuOpen = false">
+                            <a href="{{ $panelUrl }}"
+                               class="inline-flex items-center gap-2.5 rounded-2xl bg-lime-300 text-slate-900 font-black px-4 py-2.5 border border-lime-400 shadow-sm hover:brightness-95 transition">
+                                <i class="fas fa-cube text-sm"></i>
+                                <span class="text-sm leading-none">Ir al panel</span>
+                            </a>
+                            <button type="button"
+                                    @click="userMenuOpen = !userMenuOpen"
+                                    class="w-11 h-11 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 text-white font-black text-sm border-2 border-white shadow-md hover:brightness-105 transition"
+                                    :aria-expanded="userMenuOpen"
+                                    aria-haspopup="true"
+                                    aria-label="Abrir menú de usuario">
+                                {{ $avatarInitial }}
+                            </button>
+
+                            <div x-show="userMenuOpen" x-cloak
+                                 x-transition:enter="transition ease-out duration-150"
+                                 x-transition:enter-start="opacity-0 -translate-y-1"
+                                 x-transition:enter-end="opacity-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-100"
+                                 x-transition:leave-start="opacity-100 translate-y-0"
+                                 x-transition:leave-end="opacity-0 -translate-y-1"
+                                 @click.outside="userMenuOpen = false"
+                                 class="absolute right-0 top-[calc(100%+0.65rem)] w-[20.5rem] bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden z-50">
+                                <div class="px-5 py-4 border-b border-slate-200">
+                                    <p class="text-2xl leading-tight font-black text-slate-900 break-all">{{ $userEmail }}</p>
+                                </div>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                            class="w-full text-left px-5 py-4 text-red-600 hover:bg-red-50 font-bold text-xl leading-none flex items-center gap-2.5 transition">
+                                        <i class="fas fa-sign-out-alt text-base"></i>
+                                        Cerrar sesión
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <a href="/login" class="landing-header-action-link">
+                            Iniciar sesión
+                        </a>
+                        <a href="/register" class="landing-header-cta">
+                            Crear menú
+                        </a>
+                    @endauth
                     <button type="button" @click="isMobileMenuOpen = true"
                             class="md:hidden w-10 h-10 rounded-full border border-slate-200 text-slate-700 inline-flex items-center justify-center hover:bg-slate-50 shrink-0"
                             :aria-expanded="isMobileMenuOpen"
@@ -206,12 +258,12 @@
                 @if ($carouselCount === 0)
                     <div class="text-center py-14 rounded-[2rem] border border-dashed border-slate-300 bg-slate-50 px-6">
                         <p class="text-3xl mb-2">👑</p>
-                        <p class="text-slate-900 font-bold">Top tiendas Premium</p>
-                        <p class="text-slate-500 text-sm mt-2 max-w-md mx-auto">Pronto verás aquí las tiendas Premium mejor valoradas por sus clientes.</p>
+                        <p class="text-slate-900 font-bold">Top tiendas Negocio</p>
+                        <p class="text-slate-500 text-sm mt-2 max-w-md mx-auto">Pronto verás aquí las tiendas del plan Negocio mejor valoradas por sus clientes.</p>
                     </div>
                 @else
                 <p class="text-center text-[11px] text-slate-500 font-semibold mb-1">
-                    <span class="text-amber-600 font-black">{{ $carouselCount }}</span> tiendas Premium · mejor calificación y opiniones
+                    <span class="text-amber-600 font-black">{{ $carouselCount }}</span> tiendas Negocio · mejor calificación y opiniones
                 </p>
                 <!-- Fila 1: ciclo infinito → -->
                 <div class="overflow-hidden w-full relative py-2 mask-marquee">
@@ -345,7 +397,7 @@
     @include('partials.landing.how-it-works')
 
     <!-- PRECIOS -->
-    <section id="precios" class="landing-dark-zone py-20 md:py-28 relative overflow-hidden"
+    <section id="precios" class="landing-dark-zone py-12 md:py-16 relative overflow-hidden"
         :class="openModal ? 'z-50' : 'z-10'" x-data="{
             openModal: false,
             selectedPlan: null,
@@ -355,29 +407,36 @@
         <div class="landing-container relative z-10">
 
             <!-- Cabecera de Precios -->
-            <div class="text-center mb-8 md:mb-10">
+            <div class="text-center mb-4 md:mb-5">
                 <span
-                    class="landing-plan-badge text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full">
+                    class="landing-plan-badge text-[9px] uppercase font-black tracking-widest px-3 py-1 rounded-full">
                     Planes
                 </span>
-                <h2 class="text-3xl md:text-4xl font-black text-white mt-4 tracking-tight">Elige tu plan</h2>
-                <p class="text-sm text-slate-400 mt-2 max-w-lg mx-auto">
-                    <strong class="text-slate-200">Emprendedor</strong> para arrancar · <strong class="text-slate-200">Negocio</strong> con todo lo premium.
+                <h2 class="text-2xl md:text-3xl font-black text-white mt-2 tracking-tight">Elige tu plan</h2>
+                <p class="text-xs text-slate-400 mt-1 max-w-md mx-auto leading-snug">
+                    <strong class="text-slate-200">Emprendedor</strong> para arrancar · <strong class="text-slate-200">Negocio</strong> con todas las funciones avanzadas.
                 </p>
             </div>
 
             @include('partials.landing.pricing-billing-toggle')
 
-            @include('partials.landing.bcv-rate-badge', ['class' => 'landing-bcv-in-dark rounded-2xl border border-white/10 bg-white/[0.04]'])
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch justify-center max-w-3xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 items-stretch justify-center max-w-3xl mx-auto">
 
                 @include('partials.landing.pricing-cards')
 
             </div>
 
-            <div class="max-w-5xl mx-auto mt-16 md:mt-20 min-w-0 w-full">
-                @include('partials.planes.comparativa-table', ['preview' => true, 'showDetailButton' => true, 'light' => false])
+            @include('partials.landing.bcv-rate-badge', [
+                'compact' => true,
+                'class' => 'landing-bcv-in-dark mt-4 md:mt-5',
+            ])
+
+            <div class="mt-6 md:mt-8 text-center">
+                <a href="{{ route('planes.comparativa') }}"
+                    class="inline-flex items-center gap-2 landing-plan-btn text-white font-extrabold px-6 py-3 rounded-xl text-xs uppercase tracking-wide transition-all hover:brightness-110">
+                    Ver más detalle de los planes
+                    <i class="fas fa-arrow-right text-[10px]"></i>
+                </a>
             </div>
 
                 <!-- PLAN 4: Plan Custom / Personalizado -->
@@ -696,7 +755,7 @@
                     </div>
                 </div>
 
-                <!-- COMPARATIVA 2: Plan Premium vs PideFacil -->
+                <!-- COMPARATIVA 2: Plan Negocio vs PideFacil -->
                 <div
                     class="bg-[#0d1127]/60 backdrop-blur-md border border-purple-500/20 rounded-[2rem] overflow-hidden shadow-[0_0_30px_rgba(168,85,247,0.15)] relative transition duration-300 hover:border-purple-500/40">
                     <!-- Destello -->
@@ -708,7 +767,7 @@
                         class="p-6 md:p-8 bg-gradient-to-b from-purple-900/20 to-transparent border-b border-white/5 relative z-10">
                         <h3 class="text-xl font-black text-white text-center flex items-center justify-center gap-3">
                             <span class="uppercase">Plan <span
-                                    class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Premium</span></span>
+                                    class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Negocio</span></span>
                             <span class="text-slate-500 text-sm">vs</span>
                             <span class="text-slate-300">PideFacil</span>
                         </h3>
@@ -723,7 +782,7 @@
                                         Característica</th>
                                     <th
                                         class="p-4 border-b border-white/5 w-1/3 text-center font-black text-purple-400 bg-purple-900/10">
-                                        Plan Premium</th>
+                                        Plan Negocio</th>
                                     <th
                                         class="p-4 border-b border-white/5 w-1/3 text-center text-slate-400 font-semibold bg-white/[0.02]">
                                         PideFacil</th>
@@ -755,7 +814,7 @@
                                             class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
                                             <span
                                                 class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
-                                            $24.99 / mes
+                                            {{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }} / mes
                                         </span>
                                     </td>
                                     <td class="p-4 text-center">
@@ -791,7 +850,7 @@
                                             class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
                                             <span
                                                 class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
-                                            Incluye Plan Standard
+                                            Incluye Plan Emprendedor
                                         </span>
                                     </td>
                                     <td class="p-4 text-center">

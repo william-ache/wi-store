@@ -11,11 +11,8 @@
     <div class="p-5 md:p-6 border-b border-white/10">
         <div class="flex flex-wrap items-start justify-between gap-3">
             <div>
-                <p class="text-[10px] font-black uppercase tracking-widest {{ $isPremium ? 'text-purple-300' : 'text-cyan-300' }}">
-                    Plan {{ $plan['technical_name'] }}
-                </p>
-                <h3 class="text-xl md:text-2xl font-black text-white mt-1">
-                    {{ $plan['marketing_name'] }}
+                <h3 class="text-xl md:text-2xl font-black text-white">
+                    Plan {{ $plan['marketing_name'] }}
                     <span class="text-base font-semibold text-slate-400">· {{ PlanPricing::formatUsd($pricing['monthly']) }}/mes</span>
                 </h3>
             </div>

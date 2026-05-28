@@ -35,7 +35,7 @@
 
 <div class="mb-8">
     <h2 class="text-lg md:text-xl font-black {{ $light ? 'text-slate-900' : 'text-white' }} text-center mb-2">Tabla comparativa de características técnicas</h2>
-    <p class="text-[11px] {{ $light ? 'text-slate-600' : 'text-slate-400' }} text-center max-w-lg mx-auto">Plan Standard (Emprendedor) vs Plan Premium (Negocio). Precios en USD.</p>
+    <p class="text-[11px] {{ $light ? 'text-slate-600' : 'text-slate-400' }} text-center max-w-lg mx-auto">Plan {{ $standard['name'] }} vs Plan {{ $premium['name'] }}. Precios en USD.</p>
 </div>
 
 <div class="max-w-full min-w-0 overflow-x-auto pb-2 scrollbar-none rounded-2xl border {{ $light ? 'border-slate-200 bg-white shadow-lg shadow-slate-200/50' : 'border-white/10 bg-[#0d1127]/80 backdrop-blur-md shadow-xl' }}">
@@ -44,15 +44,14 @@
             <tr class="border-b {{ $light ? 'border-slate-200 bg-slate-50' : 'border-white/10 bg-white/[0.03]' }}">
                 <th class="p-4 w-[34%] text-[10px] font-black uppercase tracking-widest text-slate-500">Característica / Módulo</th>
                 <th class="p-4 border-l {{ $light ? 'border-slate-200' : 'border-white/5' }} text-center w-[33%]">
-                    <span class="text-xs font-black {{ $light ? 'text-cyan-700' : 'text-cyan-300' }} uppercase">Plan Standard</span>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Emprendedor</p>
+                    <span class="text-xs font-black {{ $light ? 'text-cyan-700' : 'text-cyan-300' }} uppercase">Plan {{ $standard['name'] }}</span>
                     <p class="text-sm font-black {{ $light ? 'text-slate-900' : 'text-white' }} mt-1">{{ PlanPricing::formatUsd($standard['monthly']) }}<span class="text-[10px] text-slate-500 font-semibold">/mes</span></p>
                 </th>
                 <th class="p-4 border-l {{ $light ? 'border-purple-200 bg-purple-50/80' : 'border-purple-500/25 bg-purple-500/[0.06]' }} text-center w-[33%] relative">
                     <span class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-purple-500/50 via-fuchsia-500/40 to-cyan-400/50"></span>
                     <span class="landing-plan-badge landing-plan-badge--negocio text-[8px] px-2 py-0.5 rounded-full inline-block mb-1">Recomendado</span>
-                    <span class="text-xs font-black text-transparent bg-clip-text bg-gradient-to-r {{ $light ? 'from-purple-700 to-fuchsia-600' : 'from-purple-200 to-fuchsia-300' }} uppercase">Plan Premium</span>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Negocio · {{ $wiStoreTrialLabel }}</p>
+                    <span class="text-xs font-black text-transparent bg-clip-text bg-gradient-to-r {{ $light ? 'from-purple-700 to-fuchsia-600' : 'from-purple-200 to-fuchsia-300' }} uppercase">Plan {{ $premium['name'] }}</span>
+                    <p class="text-[10px] text-slate-500 mt-0.5">{{ $wiStoreTrialLabel }}</p>
                     <p class="text-sm font-black {{ $light ? 'text-slate-900' : 'text-white' }} mt-1">{{ PlanPricing::formatUsd($premium['monthly']) }}<span class="text-[10px] text-slate-500 font-semibold">/mes</span></p>
                 </th>
             </tr>

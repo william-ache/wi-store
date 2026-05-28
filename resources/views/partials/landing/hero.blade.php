@@ -3,7 +3,7 @@
   <div class="landing-hero-glow absolute pointer-events-none z-0" aria-hidden="true"></div>
 
   <div class="landing-hero-inner landing-container relative z-10">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
       {{-- Columna izquierda --}}
       <div class="text-left max-w-2xl">
@@ -12,17 +12,17 @@
           Menú digital comercial
         </p>
 
-        <h1 class="text-[2.6rem] sm:text-[3.15rem] lg:text-[3.65rem] font-black tracking-tight text-slate-900 leading-[1.05]">
+        <h1 class="text-[2.35rem] sm:text-[2.9rem] lg:text-[3.25rem] xl:text-[3.65rem] font-black tracking-tight text-slate-900 leading-[1.05]">
           Tu negocio vende solo con un menú por
           <span class="text-purple-700">WhatsApp</span>
         </h1>
 
-        <p class="landing-hero-lead mt-6 md:mt-7 text-lg md:text-xl leading-relaxed max-w-xl">
+        <p class="landing-hero-lead mt-5 md:mt-6 text-base md:text-lg xl:text-xl leading-relaxed max-w-xl">
           Arma tu catálogo con fotos y precios. Tus clientes eligen y los pedidos te llegan ordenados al WhatsApp o Telegram.
           <span class="text-slate-800 font-semibold">Listo en minutos</span>, sin saber de páginas web.
         </p>
 
-        <div class="mt-8 md:mt-10 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-4 sm:gap-5">
+        <div class="mt-7 md:mt-8 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3.5 sm:gap-4.5">
           <a href="/register"
              class="inline-flex items-center gap-2 pl-5 pr-2 py-2 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all shrink-0">
             <span class="leading-none">Probar gratis {{ $wiStoreTrialDays }} días</span>
@@ -59,15 +59,15 @@
           </div>
         </div>
 
-        <p class="mt-14 md:mt-16 text-[11px] md:text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
+        <p class="mt-9 md:mt-10 lg:mt-12 text-[11px] md:text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
           {{ $wiStoreTrialLabel }} · Activo en minutos · Cancelas cuando quieras
         </p>
       </div>
 
       {{-- Columna derecha: cards flotantes (estilo dashboard) --}}
-      <div class="relative flex justify-center lg:justify-end min-h-[22rem] md:min-h-[26rem] overflow-x-clip px-1 sm:px-0">
+      <div class="relative flex justify-center lg:justify-end min-h-[19rem] md:min-h-[22rem] xl:min-h-[26rem] overflow-x-clip px-1 sm:px-0">
         {{-- Card principal: pedido en vivo --}}
-        <div class="landing-float-card relative w-full max-w-[340px] bg-white rounded-2xl border border-slate-200/90 shadow-xl shadow-slate-300/40 p-5 md:p-6 z-10">
+        <div class="landing-float-card relative w-full max-w-[300px] sm:max-w-[320px] xl:max-w-[340px] bg-white rounded-2xl border border-slate-200/90 shadow-xl shadow-slate-300/40 p-4 sm:p-5 xl:p-6 z-10">
           <div class="flex items-start justify-between gap-3 mb-5">
             <div>
               <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Pedido</p>
@@ -110,7 +110,7 @@
         </div>
 
         {{-- Card secundaria: ventas --}}
-        <div class="landing-float-card landing-float-card--delay absolute -bottom-2 right-0 sm:right-1 lg:right-2 w-[min(100%,200px)] sm:w-[210px] bg-white rounded-2xl border border-slate-200/90 shadow-lg shadow-slate-300/30 p-4 z-20">
+        <div class="landing-float-card landing-float-card--delay absolute -bottom-1 right-0 sm:right-1 lg:right-2 w-[min(100%,180px)] sm:w-[195px] xl:w-[210px] bg-white rounded-2xl border border-slate-200/90 shadow-lg shadow-slate-300/30 p-3.5 sm:p-4 z-20">
           <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ventas hoy</p>
           <div class="flex items-end justify-between gap-2 mt-1">
             <p class="text-xl font-black text-slate-900 tabular-nums">$487</p>

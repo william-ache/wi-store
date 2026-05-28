@@ -367,8 +367,8 @@
 
                 if (cleanQuery.includes('precio') || cleanQuery.includes('plan') || cleanQuery.includes('costo') || cleanQuery.includes('planes')) {
                     return `Estamos actualizando nuestros planes. Los precios estarán <b>muy pronto</b>.<br><br>` +
-                           `💎 <b>Standard:</b> Catálogo, pedidos por WhatsApp y 0% comisiones.<br><br>` +
-                           `👑 <b>Premium:</b> Todo lo anterior + pagos integrados y soporte VIP.<br><br>` +
+                           `💎 <b>Emprendedor:</b> Catálogo, pedidos por WhatsApp y 0% comisiones.<br><br>` +
+                           `👑 <b>Negocio:</b> Todo lo anterior + pagos integrados y soporte VIP.<br><br>` +
                            `👉 <a href="/comparativa" class="${linkClass}">Ver comparativa de planes</a>`;
                 }
 

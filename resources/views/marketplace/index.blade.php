@@ -144,7 +144,7 @@
                                     <span class="absolute top-2 right-2 text-[9px] font-black uppercase tracking-wider bg-black/50 text-purple-200 px-2 py-1 rounded-full border border-purple-500/30 backdrop-blur-sm" x-text="shop.category"></span>
                                     <span x-show="shop.plan === 'premium' || shop.plan === 'vip'" x-cloak
                                         class="absolute top-2 left-2 text-[9px] font-black uppercase bg-amber-500/20 text-amber-200 px-2 py-0.5 rounded-full border border-amber-500/30">
-                                        Premium
+                                        Negocio
                                     </span>
                                 </div>
                             </div>

@@ -176,42 +176,88 @@
         box-shadow: 0 8px 28px rgba(147, 51, 234, 0.1);
     }
 
-    /* 3 pasos — tarjetas con mockup (estilo Zenifi) */
+    /* 3 pasos — mismas proporciones y paleta que landing-why-card */
+    .landing-how-grid {
+        align-items: stretch;
+    }
     .landing-how-step {
         display: flex;
         flex-direction: column;
+        height: 100%;
         border-radius: 1.25rem;
         border: 1px solid #e2e8f0;
-        background: #fff;
+        background: #f8fafc;
         overflow: hidden;
-        box-shadow: 0 8px 32px rgba(15, 23, 42, 0.06);
-        transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+        box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04);
+        transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
     .landing-how-step:hover {
-        border-color: rgba(147, 51, 234, 0.22);
-        box-shadow: 0 14px 40px rgba(147, 51, 234, 0.1);
-        transform: translateY(-2px);
+        border-color: rgba(147, 51, 234, 0.25);
+        box-shadow: 0 12px 32px rgba(147, 51, 234, 0.08);
     }
     .landing-how-step__visual {
+        position: relative;
+        flex: 0 0 13.25rem;
+        height: 13.25rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 13.5rem;
-        padding: 1.25rem 1rem;
+        padding: 1.25rem 1.35rem;
+        box-sizing: border-box;
+        background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+        border-bottom: 1px solid #e2e8f0;
+        overflow: hidden;
     }
-    .landing-how-step__visual--purple {
-        background: linear-gradient(160deg, rgba(250, 245, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 45%, rgba(236, 254, 255, 0.35) 100%);
+    .landing-how-mock {
+        width: 100%;
+        max-width: 17.5rem;
+        height: 8.75rem;
+        min-height: 8.75rem;
+        max-height: 8.75rem;
+        margin-inline: auto;
+        border-radius: 0.75rem;
+        background: #fff;
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+        padding: 0.75rem 0.85rem;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
     }
-    .landing-how-step__visual--cyan {
-        background: linear-gradient(160deg, rgba(236, 254, 255, 0.5) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(250, 245, 255, 0.4) 100%);
+    .landing-how-mock--catalog {
+        justify-content: flex-start;
     }
-    .landing-how-step__visual--blend {
-        background: linear-gradient(160deg, rgba(250, 245, 255, 0.6) 0%, rgba(255, 255, 255, 0.95) 40%, rgba(224, 242, 254, 0.45) 100%);
+    .landing-how-brand-gradient {
+        background: linear-gradient(135deg, #c026d3 0%, #a855f7 42%, #3b82f6 100%);
+    }
+    .landing-how-brand-gradient-h {
+        background: linear-gradient(90deg, #c026d3 0%, #a855f7 50%, #3b82f6 100%);
     }
     .landing-how-step__body {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        min-height: 8.75rem;
         padding: 1.25rem 1.35rem 1.5rem;
-        border-top: 1px solid #f1f5f9;
+        background: #f8fafc;
+        box-sizing: border-box;
         text-align: left;
+    }
+    .landing-how-step__body > p {
+        flex: 1 1 auto;
+        margin-bottom: 0;
+        color: #64748b;
+    }
+    @media (min-width: 768px) {
+        .landing-how-step__visual {
+            flex-basis: 14rem;
+            height: 14rem;
+        }
+        .landing-how-step__body {
+            min-height: 9rem;
+        }
     }
 
     /* FAQ acordeón */
@@ -291,18 +337,29 @@
         position: relative;
         z-index: 1;
     }
-    .landing-dark-zone .landing-billing-toggle-wrap label span,
     .landing-dark-zone .landing-billing-toggle-wrap > p:last-child {
         color: #94a3b8;
     }
     .landing-dark-zone .landing-billing-toggle-wrap > p:last-child strong {
         color: #e2e8f0;
     }
-    .landing-dark-zone .landing-bcv-in-dark p {
+    .landing-dark-zone .landing-bcv-in-dark p,
+    .landing-dark-zone .landing-bcv-in-dark span {
         color: #94a3b8 !important;
     }
     .landing-dark-zone .landing-bcv-in-dark strong {
         color: #f1f5f9 !important;
+    }
+    .landing-dark-zone .landing-bcv-in-dark .landing-bcv-rate-value {
+        color: #34d399 !important;
+    }
+    .landing-dark-zone .landing-billing-commission {
+        background: rgba(16, 185, 129, 0.12);
+        border-color: rgba(52, 211, 153, 0.28);
+        color: #6ee7b7;
+    }
+    .landing-dark-zone .landing-billing-commission span:first-child {
+        background: #34d399;
     }
     .landing-footer {
         margin-top: 0;

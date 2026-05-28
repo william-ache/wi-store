@@ -20,7 +20,7 @@
             'check_bg' => 'bg-purple-500',
         ],
         'standard' => [
-            'label' => 'Plan Standard',
+            'label' => 'Plan Emprendedor',
             'icon' => '⚡',
             'badge' => 'bg-sky-500/15 border-sky-400/25 text-sky-200',
             'blob_a' => 'from-sky-500/25 to-blue-600/10',
@@ -37,7 +37,7 @@
             'check_bg' => 'bg-sky-500',
         ],
         'premium' => [
-            'label' => 'Plan Premium',
+            'label' => 'Plan Negocio',
             'icon' => '👑',
             'badge' => 'bg-emerald-500/15 border-amber-400/25 text-emerald-200',
             'blob_a' => 'from-emerald-500/20 to-teal-500/10',

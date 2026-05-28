@@ -33,6 +33,37 @@
     @media (min-width: 1024px) {
         #inicio { padding-top: 2rem; }
     }
+    @media (min-width: 1024px) and (max-height: 820px) {
+        #inicio {
+            min-height: auto;
+            padding-top: 1rem;
+            padding-bottom: 1.25rem;
+        }
+        #inicio .landing-hero-inner {
+            align-items: flex-start;
+        }
+        #inicio h1 {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            line-height: 1.04;
+        }
+        #inicio .landing-hero-lead {
+            font-size: 1.02rem;
+            line-height: 1.55;
+            margin-top: 1rem;
+        }
+        #inicio .landing-float-card:first-child {
+            max-width: 300px;
+            padding: 1rem 1.1rem;
+        }
+        #inicio .landing-float-card--delay {
+            width: min(100%, 180px);
+            padding: 0.75rem;
+            bottom: 0;
+        }
+        #inicio .landing-hero-scroll-wrap {
+            padding-top: 0.35rem;
+        }
+    }
     .landing-hero-grid,
     .landing-hero-glow {
         position: absolute;

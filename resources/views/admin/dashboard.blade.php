@@ -63,10 +63,10 @@
             $dashPlanName = 'Básico / Gratis';
             $dashPlanClass = 'text-purple-600 dark:text-purple-400';
         } elseif ($dashPlan === 'standard') {
-            $dashPlanName = 'Standard Pro';
+            $dashPlanName = 'Emprendedor';
             $dashPlanClass = 'text-sky-600 dark:text-sky-400';
         } else {
-            $dashPlanName = 'Premium Negocio';
+            $dashPlanName = 'Negocio';
             $dashPlanClass = 'text-emerald-600 dark:text-emerald-400';
         }
     @endphp

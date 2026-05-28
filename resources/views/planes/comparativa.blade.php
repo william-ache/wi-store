@@ -50,7 +50,7 @@
             </span>
             <h1 class="text-3xl md:text-4xl font-black text-white mt-4 tracking-tight">Comparativa de planes</h1>
             <p class="text-sm text-slate-400 mt-2 max-w-xl mx-auto leading-relaxed">
-                Plan Standard (Emprendedor) y Plan Premium (Negocio). Precios en USD.
+                Plan Emprendedor y Plan Negocio. Precios en USD.
             </p>
         </div>
 
