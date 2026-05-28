@@ -1,9 +1,9 @@
 @if($testimonials->isNotEmpty())
 @include('partials.landing.testimonials-carousel-script')
-<section id="testimonios" class="py-14 md:py-20 mt-10 md:mt-14 relative z-10 overflow-hidden bg-white/45 backdrop-blur-[2px]"
+<section id="testimonios" class="py-14 md:py-20 mt-10 md:mt-14 relative z-10 overflow-hidden bg-transparent"
     x-data="landingTestimonialsCarousel({{ \Illuminate\Support\Js::from($testimonials) }})">
     <div class="landing-section-glow top-0 right-[15%] w-80 h-80 bg-amber-400/12" aria-hidden="true"></div>
-    <div class="landing-section-glow bottom-0 left-[10%] w-[24rem] h-[24rem] bg-purple-400/16" aria-hidden="true"></div>
+    <div class="landing-section-glow bottom-0 left-[10%] w-[24rem] h-[24rem] bg-cyan-400/13" aria-hidden="true"></div>
     <div class="landing-container relative z-10">
         <div class="text-center mb-8 md:mb-10">
             <span class="text-[10px] font-black uppercase tracking-widest text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">

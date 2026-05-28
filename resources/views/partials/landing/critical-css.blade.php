@@ -19,6 +19,7 @@
         justify-content: center;
         min-height: calc(100svh - 4rem);
         min-height: calc(100dvh - 4rem);
+        height: calc(100dvh - 4rem);
         padding-top: 1.25rem;
         padding-bottom: 2rem;
         overflow-x: clip;
@@ -208,10 +209,10 @@
         right: 0;
         height: calc(100% + 6rem);
         background:
-            linear-gradient(90deg, rgba(168, 85, 247, 0.08) 0%, rgba(217, 70, 239, 0.05) 44%, rgba(34, 211, 238, 0.08) 100%),
-            radial-gradient(ellipse 78% 62% at 88% 14%, rgba(34, 211, 238, 0.34), transparent 64%),
-            radial-gradient(ellipse 78% 62% at 14% 42%, rgba(168, 85, 247, 0.32), transparent 64%),
-            radial-gradient(ellipse 50% 40% at 8% 55%, rgba(147, 51, 234, 0.14), transparent 58%);
+            linear-gradient(90deg, rgba(34, 211, 238, 0.08) 0%, rgba(236, 72, 153, 0.05) 44%, rgba(59, 130, 246, 0.1) 100%),
+            radial-gradient(ellipse 78% 62% at 88% 14%, rgba(34, 211, 238, 0.32), transparent 64%),
+            radial-gradient(ellipse 78% 62% at 14% 42%, rgba(56, 189, 248, 0.16), transparent 64%),
+            radial-gradient(ellipse 50% 40% at 8% 55%, rgba(217, 70, 239, 0.13), transparent 58%);
         background-repeat: no-repeat;
         mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
         -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
@@ -220,11 +221,13 @@
     /* Velo suave de color de marca sobre el blanco */
     .landing-ambient-base {
         background:
-            radial-gradient(ellipse 90% 50% at 50% -5%, rgba(99, 102, 241, 0.07), transparent 55%),
-            radial-gradient(ellipse 70% 40% at 100% 20%, rgba(34, 211, 238, 0.08), transparent 50%),
-            radial-gradient(ellipse 60% 35% at 0% 45%, rgba(168, 85, 247, 0.06), transparent 50%),
-            radial-gradient(ellipse 65% 40% at 85% 65%, rgba(34, 211, 238, 0.06), transparent 50%),
-            radial-gradient(ellipse 80% 45% at 15% 88%, rgba(192, 132, 252, 0.07), transparent 55%);
+            radial-gradient(ellipse 60% 36% at 50% 52%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.82) 36%, rgba(255, 255, 255, 0.42) 64%, transparent 82%),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.965) 0%, rgba(255, 255, 255, 0.93) 44%, rgba(255, 255, 255, 0.9) 100%),
+            radial-gradient(ellipse 90% 50% at 50% -5%, rgba(59, 130, 246, 0.036), transparent 55%),
+            radial-gradient(ellipse 70% 40% at 100% 20%, rgba(34, 211, 238, 0.055), transparent 50%),
+            radial-gradient(ellipse 60% 35% at 0% 45%, rgba(99, 102, 241, 0.018), transparent 50%),
+            radial-gradient(ellipse 65% 40% at 85% 65%, rgba(34, 211, 238, 0.05), transparent 50%),
+            radial-gradient(ellipse 80% 45% at 15% 88%, rgba(56, 189, 248, 0.03), transparent 55%);
         background-repeat: no-repeat;
     }
 
