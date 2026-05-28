@@ -1,7 +1,7 @@
-<!-- Barra de progreso al hacer scroll -->
-<div class="fixed top-0 left-0 right-0 h-1 z-[60] bg-[#0e1228]/60 pointer-events-none">
+<!-- Barra de progreso al hacer scroll (crece desde la izquierda) -->
+<div class="landing-scroll-progress-track fixed top-0 left-0 right-0 z-[60] h-1 pointer-events-none overflow-hidden" aria-hidden="true">
     <div id="landing-scroll-progress"
-         class="landing-scroll-progress h-full w-full bg-gradient-to-r from-purple-500 via-fuchsia-500 to-cyan-400"></div>
+         class="landing-scroll-progress h-full bg-gradient-to-r from-purple-500 via-fuchsia-500 to-cyan-500"></div>
 </div>
 
 <!-- Menú móvil -->
@@ -18,7 +18,7 @@
          x-transition:leave="landing-motion-leave"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="absolute inset-0 bg-[#0e1228]/85 backdrop-blur-md"
+         class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm"
          @click="isMobileMenuOpen = false"
          aria-hidden="true"></div>
     <nav id="landing-mobile-nav"
@@ -29,39 +29,43 @@
          x-transition:leave="landing-motion-leave"
          x-transition:leave-start="opacity-100 translate-x-0"
          x-transition:leave-end="opacity-0 translate-x-full"
-         class="absolute right-0 top-0 bottom-0 w-[min(100%,320px)] bg-slate-950 border-l border-white/10 p-6 flex flex-col gap-2 shadow-2xl"
+         class="absolute right-0 top-0 bottom-0 w-[min(100%,320px)] bg-white border-l border-slate-200 p-6 flex flex-col gap-2 shadow-2xl"
          aria-label="Menú de navegación móvil">
         <div class="flex items-center justify-between mb-4">
-            <span id="landing-mobile-nav-title" class="text-lg font-black text-white">Menú</span>
+            <span id="landing-mobile-nav-title" class="text-lg font-black text-slate-900">Menú</span>
             <button type="button" @click="isMobileMenuOpen = false"
-                    class="w-10 h-10 rounded-xl border border-white/10 text-slate-300 hover:text-white flex items-center justify-center"
+                    class="w-10 h-10 rounded-xl border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-50 flex items-center justify-center"
                     aria-label="Cerrar menú de navegación">
                 <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
-        <button type="button" @click="scrollTo('explorar')"
-                class="text-left text-base font-bold text-slate-300 py-3 px-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 text-sm">
-            <i class="fas fa-eye text-slate-500 mr-2"></i> Vista previa en landing
-        </button>
+        {{-- <button type="button" @click="scrollTo('explorar')"
+                class="text-left text-base font-bold text-slate-600 py-3 px-4 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 text-sm">
+            <i class="fas fa-eye text-purple-500 mr-2"></i> Vista previa en landing
+        </button> --}}
         <button type="button" @click="scrollTo('como-funciona')"
-                class="text-left text-base font-bold text-white py-3 px-4 rounded-xl hover:bg-white/5">
-            <i class="fas fa-list-ol text-cyan-400 mr-2"></i> Cómo funciona
+                class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50">
+            <i class="fas fa-list-ol text-cyan-600 mr-2"></i> Cómo funciona
         </button>
         <button type="button" @click="scrollTo('precios')"
-                class="text-left text-base font-bold text-white py-3 px-4 rounded-xl hover:bg-white/5">
-            <i class="fas fa-tags text-pink-400 mr-2"></i> Planes y precios
+                class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50">
+            <i class="fas fa-tags text-pink-500 mr-2"></i> Planes y precios
+        </button>
+        <button type="button" @click="scrollTo('testimonios')"
+                class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50 w-full">
+            <i class="fas fa-star text-amber-500 mr-2"></i> Opiniones
         </button>
         <a href="{{ route('tiendas.index') }}"
-                class="text-left text-base font-bold text-white py-3 px-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10">
-            <i class="fas fa-store text-purple-400 mr-2"></i> Marketplace
+                class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200">
+            <i class="fas fa-store text-purple-600 mr-2"></i> Marketplace
         </a>
         <a href="/login"
-           class="text-left text-base font-bold text-slate-300 py-3 px-4 rounded-xl hover:bg-white/5">
+           class="text-left text-base font-bold text-slate-600 py-3 px-4 rounded-xl hover:bg-slate-50">
             <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión
         </a>
         <a href="/register"
-           class="mt-4 text-center bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-black py-4 rounded-2xl shadow-lg hover:scale-[1.02] active:scale-[0.98]">
-            Crear mi tienda gratis
+           class="mt-4 text-center bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold py-4 rounded-full shadow-lg hover:scale-[1.02] active:scale-[0.98]">
+            Crear menú
         </a>
     </nav>
 </div>

@@ -22,7 +22,7 @@
 @include('partials.landing.tutorial-video-script')
 
 <div
-    class="landing-tutorial-player rounded-2xl border border-purple-500/25 overflow-hidden shadow-[0_16px_40px_-12px_rgba(88,28,135,0.35)] bg-slate-950/90"
+    class="landing-tutorial-player rounded-2xl border border-purple-200 overflow-hidden shadow-xl shadow-purple-500/10 bg-white"
     x-data="landingTutorialPlayer({{ \Illuminate\Support\Js::from($tutorialPlayerConfig) }})"
     @keydown.window.escape="closeMenus()">
     <div class="relative w-full aspect-video md:aspect-[21/9] min-h-[220px] md:min-h-[280px] bg-gradient-to-br from-[#1a1030] via-[#0e1228] to-[#0a1628] group">

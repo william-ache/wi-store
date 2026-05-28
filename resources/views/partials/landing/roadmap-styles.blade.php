@@ -127,43 +127,43 @@
     .roadmap-card__inner {
         position: relative;
         border-radius: calc(0.85rem - 2px);
-        background: rgba(18, 14, 6, 0.78);
+        background: rgba(255, 255, 255, 0.96);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         padding: 0.95rem 1.05rem;
         box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.06),
-            0 4px 24px rgba(0, 0, 0, 0.2);
+            inset 0 1px 0 rgba(255, 255, 255, 0.9),
+            0 4px 24px rgba(15, 23, 42, 0.08);
     }
 
     .roadmap-card--purple .roadmap-card__inner {
         box-shadow:
-            inset 0 1px 0 rgba(167, 139, 250, 0.12),
-            0 4px 24px rgba(0, 0, 0, 0.2);
+            inset 0 1px 0 rgba(167, 139, 250, 0.2),
+            0 4px 24px rgba(124, 58, 237, 0.1);
     }
 
     .roadmap-card--cyan .roadmap-card__inner {
         box-shadow:
-            inset 0 1px 0 rgba(34, 211, 238, 0.12),
-            0 4px 24px rgba(0, 0, 0, 0.2);
+            inset 0 1px 0 rgba(34, 211, 238, 0.2),
+            0 4px 24px rgba(6, 182, 212, 0.1);
     }
 
     .roadmap-card--indigo .roadmap-card__inner {
         box-shadow:
-            inset 0 1px 0 rgba(129, 140, 248, 0.12),
-            0 4px 24px rgba(0, 0, 0, 0.2);
+            inset 0 1px 0 rgba(129, 140, 248, 0.2),
+            0 4px 24px rgba(99, 102, 241, 0.1);
     }
 
     .roadmap-card--pink .roadmap-card__inner {
         box-shadow:
-            inset 0 1px 0 rgba(232, 121, 249, 0.12),
-            0 4px 24px rgba(0, 0, 0, 0.2);
+            inset 0 1px 0 rgba(232, 121, 249, 0.2),
+            0 4px 24px rgba(217, 70, 239, 0.1);
     }
 
     .roadmap-card--yellow .roadmap-card__inner {
         box-shadow:
-            inset 0 1px 0 rgba(250, 204, 21, 0.1),
-            0 4px 24px rgba(0, 0, 0, 0.2);
+            inset 0 1px 0 rgba(250, 204, 21, 0.25),
+            0 4px 24px rgba(202, 138, 4, 0.1);
     }
 
     .roadmap-milestone--5 .roadmap-card {
@@ -183,33 +183,33 @@
     }
 
     .roadmap-card--purple .roadmap-card__badge-icon {
-        background: rgba(124, 58, 237, 0.22);
-        border: 1px solid rgba(167, 139, 250, 0.35);
-        color: #c4b5fd;
+        background: rgba(124, 58, 237, 0.12);
+        border: 1px solid rgba(124, 58, 237, 0.3);
+        color: #7c3aed;
     }
 
     .roadmap-card--cyan .roadmap-card__badge-icon {
-        background: rgba(8, 145, 178, 0.22);
-        border: 1px solid rgba(34, 211, 238, 0.35);
-        color: #67e8f9;
+        background: rgba(8, 145, 178, 0.12);
+        border: 1px solid rgba(8, 145, 178, 0.3);
+        color: #0891b2;
     }
 
     .roadmap-card--indigo .roadmap-card__badge-icon {
-        background: rgba(67, 56, 202, 0.22);
-        border: 1px solid rgba(129, 140, 248, 0.35);
-        color: #a5b4fc;
+        background: rgba(67, 56, 202, 0.12);
+        border: 1px solid rgba(67, 56, 202, 0.3);
+        color: #4f46e5;
     }
 
     .roadmap-card--pink .roadmap-card__badge-icon {
-        background: rgba(190, 24, 93, 0.2);
-        border: 1px solid rgba(232, 121, 249, 0.35);
-        color: #f0abfc;
+        background: rgba(190, 24, 93, 0.1);
+        border: 1px solid rgba(190, 24, 93, 0.3);
+        color: #db2777;
     }
 
     .roadmap-card--yellow .roadmap-card__badge-icon {
-        background: rgba(161, 98, 7, 0.22);
-        border: 1px solid rgba(250, 204, 21, 0.35);
-        color: #fde047;
+        background: rgba(161, 98, 7, 0.12);
+        border: 1px solid rgba(202, 138, 4, 0.35);
+        color: #ca8a04;
     }
 
     .roadmap-tag {
@@ -246,7 +246,7 @@
     .roadmap-title {
         font-size: 1rem;
         font-weight: 900;
-        color: #f8fafc;
+        color: #0f172a;
         line-height: 1.25;
         margin-top: 0.4rem;
     }
@@ -254,7 +254,7 @@
     .roadmap-desc {
         font-size: 11px;
         line-height: 1.55;
-        color: #cbd5e1;
+        color: #475569;
         margin-top: 0.4rem;
     }
 

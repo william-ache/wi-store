@@ -50,9 +50,11 @@
             init() {
                 const sections = [
                     { id: 'inicio', el: document.getElementById('inicio') },
-                    { id: 'explorar', el: document.getElementById('explorar') },
+                    // { id: 'explorar', el: document.getElementById('explorar') },
+                    { id: 'por-que', el: document.getElementById('por-que') },
                     { id: 'como-funciona', el: document.getElementById('como-funciona') },
                     { id: 'precios', el: document.getElementById('precios') },
+                    { id: 'testimonios', el: document.getElementById('testimonios') },
                 ].filter(s => s.el);
 
                 const observer = new IntersectionObserver((entries) => {
@@ -82,7 +84,9 @@
                     target = h > 0 ? window.scrollY / h : 0;
                     current += (target - current) * 0.14;
                     if (Math.abs(target - current) < 0.0005) current = target;
-                    progress.style.transform = 'scaleX(' + Math.min(1, Math.max(0, current)) + ')';
+                    const ratio = Math.min(1, Math.max(0, current));
+                    progress.style.width = (ratio * 100) + '%';
+                    progress.style.transform = 'none';
                     ticking = false;
                 };
 

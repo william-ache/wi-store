@@ -73,64 +73,75 @@
     @include('partials.landing.ux-styles')
 </head>
 
-<body class="bg-[#0e1228] text-gray-100 min-h-screen pb-8 md:pb-0 selection:bg-brand-500 selection:text-white relative"
+<body class="bg-white text-slate-800 min-h-screen pb-8 md:pb-0 selection:bg-brand-500 selection:text-white relative"
     x-data="landingPage()" x-init="init()">
 
-    <!-- CAPA DE FONDO GLOBAL -->
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#0e1228] gpu-accelerated">
-        <!-- Desktop/Tablet (>=768px) -->
-        <div class="absolute inset-0 hidden md:block"
-            style="background: url('{{ asset('img/hero-menu-bg.png') }}') center center / cover no-repeat;"></div>
-        <!-- Capa extra para bajar intensidad (solo desktop) -->
-        <div class="absolute inset-0 hidden md:block backdrop-blur-[1px]" style="background: rgba(0, 0, 0, 0.5);"></div>
-        <!-- Mobile (<768px): imagen vertical -->
-        <div class="absolute inset-0 md:hidden"
-            style="background: url('{{ asset('img/hero-menu-bg-mobile.png') }}') center top / cover no-repeat;"></div>
+    @include('partials.landing.ambient-background')
 
-        <!-- Sombreado negro para bajar intensidad -->
-        <div class="absolute inset-0" style="background: rgba(0, 0, 0, 0.45);"></div>
-        <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.62));"></div>
+    <!-- Header: logo | nav centrado | Iniciar sesión + Crear menú -->
+    <header id="landing-header" class="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="landing-header-bar h-16">
+                <div class="landing-header-bar__brand shrink-0">
+                    <a href="#inicio" @click.prevent="scrollTo('inicio')"
+                       class="flex items-center gap-2.5 active:scale-[0.98] transition-transform group">
+                        <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center shadow-md shadow-purple-500/20 group-hover:shadow-purple-500/30 transition-shadow"
+                              aria-hidden="true">
+                            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17L17 7M17 7H9M17 7V15"/>
+                            </svg>
+                        </span>
+                        <span class="text-xl font-black tracking-tight text-slate-900 whitespace-nowrap">
+                            WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-500">Store</span>
+                        </span>
+                    </a>
+                </div>
 
-        <!-- Cubrir marca de agua (esquina inferior derecha) -->
-        <div class="absolute bottom-0 right-0 w-36 h-36 bg-gradient-to-tl from-black/90 via-black/55 to-transparent"></div>
-        <div class="absolute bottom-0 right-0 w-24 h-24 bg-black/80"></div>
-    </div>
+                <nav class="landing-header-bar__nav hidden md:flex items-center justify-center min-w-0 px-2"
+                     aria-label="Navegación principal">
+                    <ul class="flex items-center justify-center gap-5 lg:gap-7 flex-wrap">
+                        {{-- <li>
+                            <button type="button" @click="scrollTo('explorar')"
+                                    :class="activeSection === 'explorar' ? 'landing-nav-link is-active' : ''"
+                                    class="landing-nav-link">Tiendas</button>
+                        </li> --}}
+                        <li>
+                            <button type="button" @click="scrollTo('como-funciona')"
+                                    :class="activeSection === 'como-funciona' ? 'landing-nav-link is-active' : ''"
+                                    class="landing-nav-link">Cómo funciona</button>
+                        </li>
+                        <li>
+                            <button type="button" @click="scrollTo('precios')"
+                                    :class="activeSection === 'precios' ? 'landing-nav-link is-active' : ''"
+                                    class="landing-nav-link">Precios</button>
+                        </li>
+                        <li>
+                            <button type="button" @click="scrollTo('testimonios')"
+                                    :class="activeSection === 'testimonios' ? 'landing-nav-link is-active' : ''"
+                                    class="landing-nav-link">Opiniones</button>
+                        </li>
+                        <li>
+                            <a href="{{ route('tiendas.index') }}" class="landing-nav-link">Marketplace</a>
+                        </li>
+                    </ul>
+                </nav>
 
-    <!-- Header -->
-    <header id="landing-header" class="border-b border-white/10 bg-[#0e1228]/75 backdrop-blur-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <a href="#inicio" @click.prevent="scrollTo('inicio')" class="flex items-center gap-2 active:scale-95 transition-transform">
-                <span class="text-xl md:text-2xl font-black tracking-tight text-white uppercase">
-                    WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span>
-                </span>
-            </a>
-
-            <nav class="hidden md:flex items-center gap-6" aria-label="Navegación principal">
-                <button type="button" @click="scrollTo('explorar')"
-                        :class="activeSection === 'explorar' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
-                        class="landing-nav-link text-sm font-bold transition-colors">Tiendas</button>
-                <button type="button" @click="scrollTo('como-funciona')"
-                        :class="activeSection === 'como-funciona' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
-                        class="landing-nav-link text-sm font-bold transition-colors">Cómo funciona</button>
-                <button type="button" @click="scrollTo('precios')"
-                        :class="activeSection === 'precios' ? 'text-cyan-400 landing-nav-link is-active' : 'text-slate-100 hover:text-cyan-400'"
-                        class="landing-nav-link text-sm font-bold transition-colors">Precios</button>
-                <a href="{{ route('tiendas.index') }}"
-                        class="landing-nav-link text-sm font-bold text-slate-100 hover:text-cyan-400 transition-colors">Marketplace</a>
-                <a href="/login" class="text-sm font-bold text-slate-300 hover:text-white transition-colors">Entrar</a>
-                <a href="/register"
-                   class="bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-110 text-white text-sm font-black px-5 py-2.5 rounded-xl shadow-md shadow-purple-500/25 transition-all">
-                    Crear mi tienda
-                </a>
-            </nav>
-
-            <button type="button" @click="isMobileMenuOpen = true"
-                    class="md:hidden w-11 h-11 rounded-xl border border-white/10 text-white flex items-center justify-center hover:bg-white/5"
-                    :aria-expanded="isMobileMenuOpen"
-                    aria-controls="landing-mobile-nav"
-                    aria-label="Abrir menú de navegación">
-                <i class="fas fa-bars" aria-hidden="true"></i>
-            </button>
+                <div class="landing-header-bar__actions flex items-center justify-end gap-3 sm:gap-4 shrink-0">
+                    <a href="/login" class="landing-header-action-link">
+                        Iniciar sesión
+                    </a>
+                    <a href="/register" class="landing-header-cta">
+                        Crear menú
+                    </a>
+                    <button type="button" @click="isMobileMenuOpen = true"
+                            class="md:hidden w-10 h-10 rounded-full border border-slate-200 text-slate-700 inline-flex items-center justify-center hover:bg-slate-50 shrink-0"
+                            :aria-expanded="isMobileMenuOpen"
+                            aria-controls="landing-mobile-nav"
+                            aria-label="Abrir menú de navegación">
+                        <i class="fas fa-bars text-sm" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -138,7 +149,9 @@
 
     @include('partials.landing.hero')
 
-    <!-- SECCIÓN EXPLORADOR DE TIENDAS (Premium Grid/Carrusel) -->
+    @include('partials.landing.why-wistore')
+
+    {{-- SECCIÓN EXPLORADOR DE TIENDAS / Tiendas reales (oculta temporalmente)
     @php
         $shopsCount = $shopsWithCategories->count();
         $carouselShops = $featuredCarouselShops ?? collect();
@@ -164,7 +177,8 @@
     @endphp
 
     <section id="explorar" class="py-16 md:py-24 relative overflow-hidden z-10">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="landing-section-glow top-8 right-0 w-[28rem] h-[28rem] bg-purple-400/22" aria-hidden="true"></div>
+        <div class="landing-section-glow bottom-0 left-[-5%] w-80 h-80 bg-cyan-400/18" aria-hidden="true"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -175,10 +189,10 @@
                 @forelse($shopsWithCategories as $shop)
                     @include('partials.landing.shop-card', ['shop' => $shop])
                 @empty
-                    <div class="col-span-full text-center py-16 rounded-[2rem] border border-dashed border-slate-700 bg-slate-900/30">
+                    <div class="col-span-full text-center py-16 rounded-[2rem] border border-dashed border-slate-300 bg-slate-50">
                         <p class="text-4xl mb-3">🏪</p>
-                        <p class="text-white font-bold">Pronto verás tiendas de ejemplo aquí</p>
-                        <p class="text-slate-400 text-sm mt-2">Mientras tanto, crea la tuya en minutos.</p>
+                        <p class="text-slate-900 font-bold">Pronto verás tiendas de ejemplo aquí</p>
+                        <p class="text-slate-500 text-sm mt-2">Mientras tanto, crea la tuya en minutos.</p>
                         <a href="/register" class="inline-block mt-6 bg-purple-600 hover:bg-purple-500 text-white font-black px-6 py-3 rounded-xl text-sm">Crear mi tienda</a>
                     </div>
                 @endforelse
@@ -190,14 +204,14 @@
                 x-transition:enter-end="opacity-100 transform scale-100">
 
                 @if ($carouselCount === 0)
-                    <div class="text-center py-14 rounded-[2rem] border border-dashed border-slate-700 bg-slate-900/40 px-6">
+                    <div class="text-center py-14 rounded-[2rem] border border-dashed border-slate-300 bg-slate-50 px-6">
                         <p class="text-3xl mb-2">👑</p>
-                        <p class="text-white font-bold">Top tiendas Premium</p>
-                        <p class="text-slate-400 text-sm mt-2 max-w-md mx-auto">Pronto verás aquí las tiendas Premium mejor valoradas por sus clientes.</p>
+                        <p class="text-slate-900 font-bold">Top tiendas Premium</p>
+                        <p class="text-slate-500 text-sm mt-2 max-w-md mx-auto">Pronto verás aquí las tiendas Premium mejor valoradas por sus clientes.</p>
                     </div>
                 @else
                 <p class="text-center text-[11px] text-slate-500 font-semibold mb-1">
-                    <span class="text-amber-300/90 font-black">{{ $carouselCount }}</span> tiendas Premium · mejor calificación y opiniones
+                    <span class="text-amber-600 font-black">{{ $carouselCount }}</span> tiendas Premium · mejor calificación y opiniones
                 </p>
                 <!-- Fila 1: ciclo infinito → -->
                 <div class="overflow-hidden w-full relative py-2 mask-marquee">
@@ -234,19 +248,19 @@
 
                 <!-- Mensaje de No Resultados -->
                 <div x-show="!hasResults"
-                    class="w-full text-center py-20 bg-slate-900/30 border border-slate-800/50 rounded-[2rem] backdrop-blur-sm px-6 max-w-lg mx-auto"
+                    class="w-full text-center py-20 bg-slate-50 border border-slate-200 rounded-[2rem] px-6 max-w-lg mx-auto"
                     x-transition>
                     <div
-                        class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                        class="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-200 shadow-sm">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="11" cy="11" r="8"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
                     </div>
-                    <h3 class="text-white font-extrabold text-lg">No se encontraron tiendas</h3>
-                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">No encontramos catálogos oficiales que
-                        coincidan con "<span class="text-purple-400 font-bold" x-text="searchQuery"></span>" o con la
+                    <h3 class="text-slate-900 font-extrabold text-lg">No se encontraron tiendas</h3>
+                    <p class="text-slate-500 text-xs mt-2 leading-relaxed">No encontramos catálogos oficiales que
+                        coincidan con "<span class="text-purple-600 font-bold" x-text="searchQuery"></span>" o con la
                         categoría seleccionada.</p>
                     <button type="button" @click="clearFilters()"
                         class="mt-6 bg-purple-600 hover:bg-purple-500 text-white font-extrabold px-6 py-2.5 rounded-full text-xs transition active:scale-95 shadow-[0_0_15px_rgba(147,51,234,0.3)]">
@@ -257,7 +271,7 @@
                 <div x-show="hasResults" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @forelse($shopsWithCategories as $shop)
                         <div x-show="matchesFilter('{{ addslashes($shop->name) }}', '{{ addslashes($shop->description) }}', '{{ addslashes($shop->category) }}')"
-                            class="w-full bg-slate-900/50 border border-slate-800/80 rounded-[1.5rem] overflow-hidden shadow-2xl transition duration-300 hover:border-purple-500/30 flex flex-col justify-between group/card backdrop-blur-sm">
+                            class="w-full landing-shop-card rounded-[1.5rem] overflow-hidden flex flex-col justify-between group/card">
                             <div class="p-1.5 pb-0">
                                 <div class="h-32 w-full overflow-hidden relative rounded-xl bg-slate-800">
                                     @if ($shop->cover_path)
@@ -293,7 +307,7 @@
                             <div class="pt-3 px-4 pb-4 flex-grow flex flex-col justify-between">
                                 <div>
                                     <div class="flex items-start justify-between gap-2">
-                                        <h3 class="text-base font-black text-white leading-tight line-clamp-1">
+                                        <h3 class="text-base font-black text-slate-900 leading-tight line-clamp-1">
                                             {{ $shop->name }}</h3>
                                         <div class="flex items-center gap-0.5 shrink-0 pt-0.5">
                                             @for ($star = 1; $star <= 5; $star++)
@@ -304,13 +318,13 @@
                                             @endfor
                                         </div>
                                     </div>
-                                    <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                                    <p class="text-[10px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">
                                         {{ $shop->description ?: 'Catálogo oficial de marca blanca en WI-Store.' }}</p>
                                 </div>
 
                                 <div class="mt-4">
                                     <a href="/{{ $shop->slug }}"
-                                        class="block w-full text-center bg-slate-800/50 hover:bg-purple-600 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm">
+                                        class="block w-full text-center bg-slate-100 hover:bg-gradient-to-r hover:from-purple-600 hover:to-cyan-500 hover:text-white text-slate-700 font-bold py-2.5 rounded-xl transition-all duration-300 text-[11px] shadow-sm border border-slate-200 hover:border-transparent">
                                         Entrar a la Tienda
                                     </a>
                                 </div>
@@ -326,24 +340,21 @@
 
         </div>
     </section>
+    --}}
 
     @include('partials.landing.how-it-works')
 
     <!-- PRECIOS (Glassmorphic Dark Premium) -->
-    <section id="precios" class="py-20 md:py-28 border-t border-white/5 relative overflow-hidden"
+    <section id="precios" class="py-20 md:py-28 relative overflow-hidden bg-white/55 backdrop-blur-[2px]"
         :class="openModal ? 'z-50' : 'z-10'" x-data="{
             openModal: false,
             selectedPlan: null,
             billingPeriod: 'monthly'
         }">
 
-        <!-- Orbes de luz de fondo para el fondo oscuro -->
-        <div
-            class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none blur-accelerated">
-        </div>
-        <div
-            class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none blur-accelerated">
-        </div>
+        <div class="landing-section-glow top-0 left-[10%] w-[32rem] h-[32rem] bg-purple-500/24 blur-accelerated" aria-hidden="true"></div>
+        <div class="landing-section-glow bottom-0 right-[5%] w-[30rem] h-[30rem] bg-cyan-400/22 blur-accelerated" aria-hidden="true"></div>
+        <div class="landing-section-glow top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-fuchsia-400/12 blur-accelerated" aria-hidden="true"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -353,9 +364,9 @@
                     class="landing-plan-badge text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full">
                     Planes
                 </span>
-                <h2 class="text-3xl md:text-4xl font-black text-white mt-4 tracking-tight">Elige tu plan</h2>
-                <p class="text-sm text-slate-400 mt-2 max-w-lg mx-auto">
-                    <strong class="text-white">Emprendedor</strong> para arrancar · <strong class="text-white">Negocio</strong> con todo lo premium.
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-4 tracking-tight">Elige tu plan</h2>
+                <p class="text-sm text-slate-600 mt-2 max-w-lg mx-auto">
+                    <strong class="text-slate-900">Emprendedor</strong> para arrancar · <strong class="text-slate-900">Negocio</strong> con todo lo premium.
                 </p>
             </div>
 
@@ -370,7 +381,7 @@
             </div>
 
             <div class="max-w-5xl mx-auto mt-16 md:mt-20">
-                @include('partials.planes.comparativa-table', ['preview' => true, 'showDetailButton' => true])
+                @include('partials.planes.comparativa-table', ['preview' => true, 'showDetailButton' => true, 'light' => true])
             </div>
 
             @include('partials.landing.testimonials-carousel')
@@ -459,7 +470,7 @@
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0" @click="openModal = false"
-                    class="fixed inset-0 bg-[#0e1228]/85 backdrop-blur-md"></div>
+                    class="fixed inset-0 bg-slate-900/40 backdrop-blur-md"></div>
 
                 <!-- Contenedor del Modal -->
                 <div x-show="openModal" x-transition:enter="transition ease-out duration-300"
@@ -468,69 +479,69 @@
                     x-transition:leave="transition ease-in duration-200"
                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 scale-95"
-                    class="bg-[#0d1127] border border-white/10 rounded-[2rem] w-full max-w-2xl max-h-[85vh] overflow-y-auto relative z-10 shadow-[0_0_50px_rgba(168,85,247,0.15)] scrollbar-thin">
+                    class="bg-white border border-slate-200 rounded-[2rem] w-full max-w-2xl max-h-[85vh] overflow-y-auto relative z-10 shadow-2xl shadow-purple-500/10 scrollbar-thin">
 
                     <!-- Botón de Cerrar -->
                     <button @click="openModal = false"
-                        class="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-rose-500/50 hover:bg-rose-500/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors focus:outline-none z-20">
+                        class="absolute top-6 right-6 w-8 h-8 rounded-full bg-slate-100 border border-slate-200 hover:border-rose-300 hover:bg-rose-50 flex items-center justify-center text-slate-500 hover:text-rose-600 transition-colors focus:outline-none z-20">
                         <i class="fas fa-times text-sm"></i>
                     </button>
-                    <p class="absolute top-7 left-6 md:left-10 text-[10px] font-black uppercase tracking-widest text-purple-300/70 z-20 pointer-events-none"
+                    <p class="absolute top-7 left-6 md:left-10 text-[10px] font-black uppercase tracking-widest text-purple-600/80 z-20 pointer-events-none"
                         x-show="selectedPlan">Detalle del plan</p>
 
                     <!-- CONTENIDO PRUEBA GRATIS -->
                     <div x-show="selectedPlan === 'free_trial'" class="p-6 md:p-10 space-y-6">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                class="w-12 h-12 rounded-2xl bg-indigo-100 border border-indigo-200 flex items-center justify-center text-indigo-600">
                                 <i class="fas fa-clock text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Prueba <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Gratis</span>
+                                <h3 class="text-xl md:text-2xl font-black text-slate-900 uppercase">Prueba <span
+                                        class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Gratis</span>
                                 </h3>
-                                <p class="text-xs text-indigo-400 font-bold uppercase tracking-wider">Plan Inicial • {{ $wiStoreTrialDays }}
+                                <p class="text-xs text-indigo-600 font-bold uppercase tracking-wider">Plan Inicial • {{ $wiStoreTrialDays }}
                                     Días de Prueba</p>
                             </div>
                         </div>
 
-                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
                             Una excelente manera de experimentar las capacidades base de la plataforma. Crea tu
                             catálogo, añade productos clave y prueba el flujo de pedidos hacia tu WhatsApp de forma
                             totalmente gratuita por {{ $wiStoreTrialDays }} días.
                         </p>
 
-                        <div class="border-t border-white/5 pt-6 space-y-4">
-                            <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">¿Qué incluye este
+                        <div class="border-t border-slate-200 pt-6 space-y-4">
+                            <h4 class="text-xs uppercase font-black text-slate-800 tracking-wider">¿Qué incluye este
                                 plan?</h4>
-                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600">
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-indigo-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-indigo-600 mt-0.5"></i>
                                     <span>Enlace único corto (wi-store.com/tu-marca)</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-indigo-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-indigo-600 mt-0.5"></i>
                                     <span>Hasta 15 productos activos en catálogo</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-indigo-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-indigo-600 mt-0.5"></i>
                                     <span>Pedidos ilimitados estructurados a WhatsApp</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-indigo-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-indigo-600 mt-0.5"></i>
                                     <span>Personalización de marca básica</span>
                                 </li>
                             </ul>
                         </div>
 
                         <div
-                            class="bg-white/[0.02] border border-white/5 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            class="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-slate-400 font-semibold">{{ $wiStoreTrialDisclaimer }}</p>
-                                <p class="text-lg font-black text-white">$0.00 USD / {{ $wiStoreTrialDays }} días</p>
+                                <p class="text-xs text-slate-500 font-semibold">{{ $wiStoreTrialDisclaimer }}</p>
+                                <p class="text-lg font-black text-slate-900">$0.00 USD / {{ $wiStoreTrialDays }} días</p>
                             </div>
                             <a href="/register"
-                                class="bg-indigo-500 hover:bg-indigo-400 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
+                                class="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-6 py-3 rounded-xl text-xs transition-colors shadow-lg">
                                 Probar Gratis
                             </a>
                         </div>
@@ -546,53 +557,53 @@
                     <div x-show="selectedPlan === 'custom'" class="p-6 md:p-10 space-y-6">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-12 h-12 rounded-2xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400">
+                                class="w-12 h-12 rounded-2xl bg-pink-100 border border-pink-200 flex items-center justify-center text-pink-600">
                                 <i class="fas fa-cogs text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl md:text-2xl font-black text-white uppercase">Plan <span
-                                        class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">Custom</span>
+                                <h3 class="text-xl md:text-2xl font-black text-slate-900 uppercase">Plan <span
+                                        class="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-500">Custom</span>
                                 </h3>
-                                <p class="text-xs text-pink-400 font-bold uppercase tracking-wider">Desarrollo a Medida
+                                <p class="text-xs text-pink-600 font-bold uppercase tracking-wider">Desarrollo a Medida
                                     e Infraestructura dedicada</p>
                             </div>
                         </div>
 
-                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
                             Pensado para corporaciones, franquicias consolidadas y marcas que necesitan un desarrollo
                             tecnológico robusto, bases de datos aisladas MySQL para el máximo rendimiento y control de
                             datos, y módulos avanzados a la medida del negocio.
                         </p>
 
-                        <div class="border-t border-white/5 pt-6 space-y-4">
-                            <h4 class="text-xs uppercase font-black text-slate-200 tracking-wider">¿Qué incluye este
+                        <div class="border-t border-slate-200 pt-6 space-y-4">
+                            <h4 class="text-xs uppercase font-black text-slate-800 tracking-wider">¿Qué incluye este
                                 plan?</h4>
-                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600">
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-pink-600 mt-0.5"></i>
                                     <span>Código independiente exclusivo y BD dedicada</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-pink-600 mt-0.5"></i>
                                     <span>Módulo de Clientes y Empleados (roles y CRM)</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-pink-600 mt-0.5"></i>
                                     <span>Integración con dominios web propios (`.com`)</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
-                                    <i class="fas fa-check text-pink-400 mt-0.5"></i>
+                                    <i class="fas fa-check text-pink-600 mt-0.5"></i>
                                     <span>Ingeniería de software a medida y soporte de infraestructura</span>
                                 </li>
                             </ul>
                         </div>
 
                         <div
-                            class="bg-white/[0.02] border border-white/5 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
+                            class="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex items-center justify-between gap-4 mt-6">
                             <div>
-                                <p class="text-xs text-slate-400 font-semibold">Presupuesto adaptado a requerimientos
+                                <p class="text-xs text-slate-500 font-semibold">Presupuesto adaptado a requerimientos
                                 </p>
-                                <p class="text-lg font-black text-white">Precio a convenir</p>
+                                <p class="text-lg font-black text-slate-900">Precio a convenir</p>
                             </div>
                             <a href="https://wa.me/584121305420?text=Hola!%20Deseo%20cotizar%20el%20plan%20Custom%20de%20WI-Store%20para%20mi%20negocio"
                                 target="_blank"
@@ -822,39 +833,39 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="border-t border-white/5 bg-transparent relative z-10 pt-20 pb-10" aria-labelledby="footer-heading">
+    <footer class="relative z-10 border-t border-slate-200/90 bg-gradient-to-b from-slate-50 via-slate-50 to-slate-100/90 pt-20 pb-10" aria-labelledby="footer-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 id="footer-heading" class="sr-only">Información y enlaces de WI-Store</h2>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
                 <!-- Columna 1: Brand & Bio -->
                 <div class="col-span-1 md:col-span-1 space-y-4">
                     <div class="flex items-center gap-2">
-                        <span class="text-xl font-black text-white tracking-wider uppercase">WI<span
-                                class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span></span>
+                        <span class="text-xl font-black text-slate-900 tracking-wider uppercase">WI<span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-500">Store</span></span>
                     </div>
-                    <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
+                    <p class="text-xs text-slate-600 leading-relaxed max-w-sm">
                         La plataforma B2B premium líder en digitalización de comercios en Venezuela. Crea tu catálogo
                         inteligente interactivo con pedidos directos a WhatsApp o Telegram, libre de comisiones por
                         venta.
                     </p>
                     <div class="flex items-center gap-3 pt-2">
                         <a href="javascript:void(0)"
-                            class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300"
+                            class="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-purple-200 flex items-center justify-center text-slate-500 hover:text-purple-600 transition-all duration-300"
                             title="Facebook">
                             <i class="fab fa-facebook-f text-xs"></i>
                         </a>
                         <a href="javascript:void(0)"
-                            class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300"
+                            class="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-purple-200 flex items-center justify-center text-slate-500 hover:text-purple-600 transition-all duration-300"
                             title="Instagram">
                             <i class="fab fa-instagram text-xs"></i>
                         </a>
                         <a href="javascript:void(0)"
-                            class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300"
+                            class="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-purple-200 flex items-center justify-center text-slate-500 hover:text-purple-600 transition-all duration-300"
                             title="TikTok">
                             <i class="fab fa-tiktok text-xs"></i>
                         </a>
                         <a href="javascript:void(0)"
-                            class="w-9 h-9 rounded-full border border-white/5 bg-transparent hover:bg-white/5 hover:border-white/15 flex items-center justify-center text-slate-500 hover:text-slate-200 transition-all duration-300"
+                            class="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-purple-200 flex items-center justify-center text-slate-500 hover:text-purple-600 transition-all duration-300"
                             title="YouTube">
                             <i class="fab fa-youtube text-xs"></i>
                         </a>
@@ -863,26 +874,26 @@
 
                 <!-- Columna 2: Ecosistema -->
                 <div class="space-y-4">
-                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-200">Ecosistema</h3>
+                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-800">Ecosistema</h3>
                     <ul class="space-y-2.5 text-xs">
-                        <li><a href="{{ route('tiendas.index') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Marketplace de tiendas</a></li>
-                        <li><a href="#explorar" class="text-slate-400 hover:text-cyan-400 transition-colors">Vista previa</a></li>
+                        <li><a href="{{ route('tiendas.index') }}" class="text-slate-600 hover:text-cyan-600 transition-colors">Marketplace de tiendas</a></li>
+                        {{-- <li><a href="#explorar" class="text-slate-600 hover:text-cyan-600 transition-colors">Vista previa</a></li> --}}
                         <li><a href="#como-funciona"
-                                class="text-slate-400 hover:text-cyan-400 transition-colors">¿Cómo funciona?</a></li>
-                        <li><a href="#precios" class="text-slate-400 hover:text-cyan-400 transition-colors">Planes de
+                                class="text-slate-600 hover:text-cyan-600 transition-colors">¿Cómo funciona?</a></li>
+                        <li><a href="#precios" class="text-slate-600 hover:text-cyan-600 transition-colors">Planes de
                                 Precios</a></li>
                         <li><a href="{{ route('planes.comparativa') }}"
-                                class="text-slate-400 hover:text-cyan-400 transition-colors">Comparativa de Planes</a>
+                                class="text-slate-600 hover:text-cyan-600 transition-colors">Comparativa de Planes</a>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Columna 3: Administración -->
                 <div class="space-y-4">
-                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-200">Administración</h3>
+                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-800">Administración</h3>
                     <div class="pt-1">
                         <a href="/login"
-                            class="inline-flex items-center gap-1.5 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-extrabold px-3.5 py-2 rounded-xl border border-purple-500/30 hover:border-purple-500/50 hover:text-white transition-all duration-300 text-[10px] uppercase tracking-wider shadow-lg shadow-purple-500/5">
+                            class="inline-flex items-center gap-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-extrabold px-3.5 py-2 rounded-xl border border-purple-200 hover:border-purple-300 transition-all duration-300 text-[10px] uppercase tracking-wider shadow-sm">
                             <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                         </a>
                     </div>
@@ -890,18 +901,18 @@
 
                 <!-- Columna 4: Contacto directo -->
                 <div class="space-y-4">
-                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-200">Contacto directo</h3>
-                    <ul class="space-y-3 text-xs text-slate-400">
+                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-800">Contacto directo</h3>
+                    <ul class="space-y-3 text-xs text-slate-600">
                         <li class="flex items-center gap-2.5">
-                            <i class="fas fa-envelope text-cyan-400 w-4 shrink-0"></i>
-                            @include('partials.global.support-email', ['class' => 'text-xs text-slate-400 hover:text-cyan-300 transition-colors break-all', 'icon' => false])
+                            <i class="fas fa-envelope text-cyan-600 w-4 shrink-0"></i>
+                            @include('partials.global.support-email', ['class' => 'text-xs text-slate-600 hover:text-cyan-600 transition-colors break-all', 'icon' => false])
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <i class="fas fa-phone-alt text-purple-400 w-4"></i>
+                            <i class="fas fa-phone-alt text-purple-600 w-4"></i>
                             <span>+58 (412) 130-5420</span>
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <i class="fas fa-map-marker-alt text-pink-400 w-4"></i>
+                            <i class="fas fa-map-marker-alt text-pink-500 w-4"></i>
                             <span>Aragua, Venezuela</span>
                         </li>
                     </ul>
@@ -910,14 +921,14 @@
 
             <!-- Bottom Area -->
             <div
-                class="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                class="border-t border-slate-200 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
                 <p>© 2026 WI-Store. Todos los derechos reservados.</p>
                 <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                    <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wiStoreSupportEmail }}</a>
+                    <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-600 transition-colors">{{ $wiStoreSupportEmail }}</a>
                     <span class="hidden sm:inline">•</span>
-                    <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
+                    <a href="{{ route('legal.privacidad') }}" class="hover:text-slate-900 transition-colors">Políticas y Privacidad</a>
                     <span>•</span>
-                    <a href="{{ route('contacto') }}" class="hover:text-white transition-colors">Contacto</a>
+                    <a href="{{ route('contacto') }}" class="hover:text-slate-900 transition-colors">Contacto</a>
                 </div>
             </div>
         </div>

@@ -9,17 +9,17 @@
 
 <div x-show="selectedPlan === '{{ $planKey }}'" class="p-6 md:p-10 space-y-6">
     <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-2xl {{ $isPremium ? 'bg-purple-500/10 border-purple-500/20 text-purple-400' : 'bg-cyan-500/10 border-cyan-500/20 text-cyan-300' }} border flex items-center justify-center">
+        <div class="w-12 h-12 rounded-2xl {{ $isPremium ? 'bg-purple-100 border-purple-200 text-purple-600' : 'bg-cyan-100 border-cyan-200 text-cyan-600' }} border flex items-center justify-center">
             <i class="fas {{ $isPremium ? 'fa-crown' : 'fa-award' }} text-xl"></i>
         </div>
         <div>
-            <p class="text-[10px] font-black uppercase tracking-widest {{ $isPremium ? 'text-purple-300/80' : 'text-cyan-300/90' }}">
+            <p class="text-[10px] font-black uppercase tracking-widest {{ $isPremium ? 'text-purple-600' : 'text-cyan-600' }}">
                 Plan {{ $plan['technical_name'] }}
             </p>
-            <h3 class="text-xl md:text-2xl font-black text-white uppercase">
+            <h3 class="text-xl md:text-2xl font-black text-slate-900 uppercase">
                 {{ $plan['marketing_name'] }}
             </h3>
-            <p class="text-xs {{ $isPremium ? 'text-cyan-300' : 'text-cyan-300/80' }} font-bold uppercase tracking-wider mt-0.5">
+            <p class="text-xs {{ $isPremium ? 'text-cyan-700' : 'text-cyan-600' }} font-bold uppercase tracking-wider mt-0.5">
                 @if ($isPremium)
                     {{ $wiStoreTrialLabel }} · luego {{ PlanPricing::formatUsd($pricing['monthly']) }} / mes
                 @else
@@ -29,22 +29,22 @@
         </div>
     </div>
 
-    <p class="text-xs md:text-sm text-slate-300 leading-relaxed">{{ $plan['purpose'] }}</p>
+    <p class="text-xs md:text-sm text-slate-600 leading-relaxed">{{ $plan['purpose'] }}</p>
 
-    <div class="border-t border-white/5 pt-6 space-y-4 max-h-[40vh] overflow-y-auto pr-1 scrollbar-none">
+    <div class="border-t border-slate-200 pt-6 space-y-4 max-h-[40vh] overflow-y-auto pr-1 scrollbar-none">
         @foreach ($plan['sections'] as $section)
             <div>
-                <h4 class="text-[11px] uppercase font-black text-slate-200 tracking-wider mb-1">{{ $section['title'] }}</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">{{ $section['body'] }}</p>
+                <h4 class="text-[11px] uppercase font-black text-slate-800 tracking-wider mb-1">{{ $section['title'] }}</h4>
+                <p class="text-xs text-slate-500 leading-relaxed">{{ $section['body'] }}</p>
             </div>
         @endforeach
     </div>
 
-    <div class="{{ $isPremium ? 'bg-purple-900/15 border-purple-500/20' : 'bg-white/[0.03] border-cyan-500/20' }} border rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
+    <div class="{{ $isPremium ? 'bg-purple-50 border-purple-200' : 'bg-cyan-50 border-cyan-200' }} border rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
         <div>
-            <p class="text-xs {{ $isPremium ? 'text-purple-300' : 'text-cyan-300/80' }} font-semibold">Mensual · Anual</p>
-            <p class="text-xl font-black text-white">{{ PlanPricing::formatUsd($pricing['monthly']) }}/mes</p>
-            <p class="text-sm text-slate-400">
+            <p class="text-xs {{ $isPremium ? 'text-purple-700' : 'text-cyan-700' }} font-semibold">Mensual · Anual</p>
+            <p class="text-xl font-black text-slate-900">{{ PlanPricing::formatUsd($pricing['monthly']) }}/mes</p>
+            <p class="text-sm text-slate-500">
                 {{ PlanPricing::formatUsd($pricing['annual_total']) }}/año
                 ({{ PlanPricing::formatUsd($pricing['annual_monthly_equivalent']) }}/mes)
                 @if ($isPremium)

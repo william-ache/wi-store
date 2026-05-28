@@ -47,8 +47,8 @@
     }"
     class="max-w-xl mx-auto mb-7 md:mb-9 px-4 py-4 md:px-5 md:py-5 text-center space-y-2.5 {{ $class }}"
     aria-live="polite">
-    <p class="text-[11px] md:text-xs text-slate-300 leading-relaxed">
-        Precios en <strong class="text-white">USD</strong> · equivalente en <strong class="text-white">Bs.</strong> a tasa <strong class="text-amber-200/90">BCV</strong> a la fecha
+    <p class="text-[11px] md:text-xs text-slate-600 leading-relaxed">
+        Precios en <strong class="text-slate-900">USD</strong> · equivalente en <strong class="text-slate-900">Bs.</strong> a tasa <strong class="text-amber-600">BCV</strong> a la fecha
     </p>
 
     <template x-if="loadingRate">
@@ -60,12 +60,12 @@
 
     <template x-if="!loadingRate && exchangeRate">
         <div class="space-y-1.5">
-            <p class="text-lg md:text-xl font-black text-emerald-400 tabular-nums tracking-tight">
+            <p class="text-lg md:text-xl font-black text-emerald-600 tabular-nums tracking-tight">
                 1 USD = <span x-text="formatRateBs()"></span> Bs.
             </p>
             <p class="text-[10px] text-slate-400 font-semibold">
                 Última actualización BCV:
-                <span class="text-slate-300 font-bold tabular-nums" x-text="lastUpdatedLabel()"></span>
+                <span class="text-slate-700 font-bold tabular-nums" x-text="lastUpdatedLabel()"></span>
             </p>
         </div>
     </template>

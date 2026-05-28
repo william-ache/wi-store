@@ -2,6 +2,7 @@
 
 @source '../views/home.blade.php';
 @source '../views/partials/landing/**/*.blade.php';
+@source '../views/partials/landing/ambient-background.blade.php';
 @source '../views/partials/public/chat.blade.php';
 @source '../views/partials/public/chat-bot-face.blade.php';
 @source '../views/partials/global/**/*.blade.php';

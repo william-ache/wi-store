@@ -2,7 +2,7 @@
 <style>
     html.wi-store-ui.wi-store-landing {
         scrollbar-width: thin;
-        scrollbar-color: #d946ef transparent;
+        scrollbar-color: #a855f7 #f1f5f9;
     }
 
     html.wi-store-ui.wi-store-landing ::-webkit-scrollbar,
@@ -15,7 +15,7 @@
     html.wi-store-ui.wi-store-landing ::-webkit-scrollbar-track,
     html.wi-store-ui.wi-store-landing .wi-store-scrollbar::-webkit-scrollbar-track,
     html.wi-store-ui.wi-store-landing .custom-scrollbar::-webkit-scrollbar-track {
-        background: rgba(30, 36, 62, 0.4);
+        background: #f1f5f9;
     }
 
     html.wi-store-ui.wi-store-landing ::-webkit-scrollbar-thumb,
@@ -28,6 +28,6 @@
     html.wi-store-ui.wi-store-landing ::-webkit-scrollbar-thumb:hover,
     html.wi-store-ui.wi-store-landing .wi-store-scrollbar::-webkit-scrollbar-thumb:hover,
     html.wi-store-ui.wi-store-landing .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(180deg, #c084fc 0%, #e879f9 50%, #67e8f9 100%);
+        background: linear-gradient(180deg, #9333ea 0%, #c026d3 50%, #06b6d4 100%);
     }
 </style>

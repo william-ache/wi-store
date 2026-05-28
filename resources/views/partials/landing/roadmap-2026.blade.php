@@ -66,17 +66,19 @@
 
 @include('partials.landing.roadmap-styles')
 
-<section id="roadmap" class="py-16 md:py-24 mt-12 md:mt-16 relative z-10 overflow-hidden">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+<section id="roadmap" class="py-16 md:py-24 mt-12 md:mt-16 relative z-10 overflow-hidden bg-white/40 backdrop-blur-[2px]">
+    <div class="landing-section-glow top-[15%] left-0 w-[30rem] h-[30rem] bg-cyan-400/18" aria-hidden="true"></div>
+    <div class="landing-section-glow bottom-0 right-0 w-[28rem] h-[28rem] bg-fuchsia-400/14" aria-hidden="true"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-10 md:mb-12">
-            <span class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-purple-200/90 bg-purple-500/10 border border-purple-400/30 px-4 py-1.5 rounded-full">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+            <span class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-purple-700 bg-purple-50 border border-purple-200 px-4 py-1.5 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
                 Roadmap 2026 – 2028
             </span>
-            <h2 class="text-2xl md:text-4xl font-black text-white tracking-tight mt-4">
+            <h2 class="text-2xl md:text-4xl font-black text-slate-900 tracking-tight mt-4">
                 Lo que viene en WI-Store
             </h2>
-            <p class="text-sm md:text-base text-slate-300 mt-3 max-w-xl mx-auto leading-relaxed">
+            <p class="text-sm md:text-base text-slate-600 mt-3 max-w-xl mx-auto leading-relaxed">
                 Hoja de ruta 2026–2028: prioridades del equipo para hacer la plataforma más completa, conectada y regional.
             </p>
         </div>

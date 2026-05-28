@@ -12,7 +12,7 @@
     class="landing-plan-card landing-plan-card--emprendedor rounded-3xl p-5 md:p-6 flex flex-col justify-between relative transition duration-300 hover:-translate-y-1">
     <div>
         <div class="flex justify-between items-start gap-2">
-            <h3 class="text-base font-black text-white uppercase tracking-wider">
+            <h3 class="text-base font-black text-slate-900 uppercase tracking-wider">
                 Plan <span class="landing-plan-title--cyan">Standard</span>
                 <span class="text-[10px] font-semibold text-slate-500 normal-case tracking-normal">· Emprendedor</span>
             </h3>
@@ -29,12 +29,12 @@
                  x-transition:leave="landing-billing-fade-leave"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0">
-                <p class="text-3xl font-black text-white tracking-tight">
+                <p class="text-3xl font-black text-slate-900 tracking-tight">
                     {{ PlanPricing::formatUsd($emprendedor['monthly']) }}
-                    <span class="text-sm font-semibold text-slate-400">/ mes</span>
+                    <span class="text-sm font-semibold text-slate-500">/ mes</span>
                 </p>
                 <p class="text-[10px] text-slate-500 mt-1">
-                    Anual: <strong class="text-fuchsia-300">{{ PlanPricing::formatUsd($emprendedor['annual_monthly_equivalent']) }}/mes</strong>
+                    Anual: <strong class="text-purple-600">{{ PlanPricing::formatUsd($emprendedor['annual_monthly_equivalent']) }}/mes</strong>
                     · ahorra {{ $emprendedor['annual_savings_label'] }}
                 </p>
             </div>
@@ -47,21 +47,21 @@
                  x-transition:leave="landing-billing-fade-leave"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-300/90 mb-1">
+                <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1">
                     {{ $emprendedor['annual_discount_percent'] }}% dto. · facturación anual
                 </p>
-                <p class="text-3xl font-black text-white tracking-tight">
+                <p class="text-3xl font-black text-slate-900 tracking-tight">
                     {{ PlanPricing::formatUsd($emprendedor['annual_monthly_equivalent']) }}
-                    <span class="text-sm font-semibold text-slate-400">/ mes equiv.</span>
+                    <span class="text-sm font-semibold text-slate-500">/ mes equiv.</span>
                 </p>
                 <p class="text-[10px] text-slate-500 mt-1">
-                    Total <strong class="text-white">{{ PlanPricing::formatUsd($emprendedor['annual_total']) }}/año</strong>
+                    Total <strong class="text-slate-900">{{ PlanPricing::formatUsd($emprendedor['annual_total']) }}/año</strong>
                     · ahorras {{ $emprendedor['annual_savings_label'] }}
                 </p>
             </div>
         </div>
 
-        <ul class="space-y-2 text-[11px] text-slate-300 border-t border-white/10 pt-4">
+        <ul class="space-y-2 text-[11px] text-slate-600 border-t border-slate-200 pt-4">
             @foreach ($standardHighlights as $highlight)
                 <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> {{ $highlight }}</li>
             @endforeach
@@ -86,9 +86,9 @@
             <div class="flex justify-between items-center gap-2">
                 <div class="flex items-center gap-2 min-w-0 flex-1">
                     <div class="landing-plan-icon--negocio w-9 h-9 shrink-0 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-crown text-sm text-purple-200"></i>
+                        <i class="fas fa-crown text-sm text-purple-600"></i>
                     </div>
-                    <h3 class="text-sm font-black text-white uppercase tracking-wide whitespace-nowrap leading-none">
+                    <h3 class="text-sm font-black text-slate-900 uppercase tracking-wide whitespace-nowrap leading-none">
                         Plan <span class="landing-plan-title--purple">Premium</span>
                         <span class="text-[9px] font-semibold text-slate-500 normal-case tracking-normal">· Negocio</span>
                     </h3>
@@ -97,9 +97,9 @@
             </div>
             <p class="text-[11px] text-slate-400 mt-2.5 leading-snug">{{ PlanDetails::premium()['purpose'] }}</p>
 
-            <div class="mt-3 rounded-xl border border-cyan-400/35 bg-cyan-500/10 px-3 py-2">
-                <p class="text-[10px] font-black uppercase tracking-wide text-cyan-200">
-                    <i class="fas fa-gift text-cyan-300/90 mr-1"></i>{{ $wiStoreTrialLabel }}
+            <div class="mt-3 rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2">
+                <p class="text-[10px] font-black uppercase tracking-wide text-cyan-800">
+                    <i class="fas fa-gift text-cyan-600 mr-1"></i>{{ $wiStoreTrialLabel }}
                 </p>
                 <div class="landing-billing-swap landing-billing-swap--xs mt-0.5">
                     <p class="landing-billing-swap__layer text-[9px] text-slate-400 leading-snug"
@@ -137,13 +137,13 @@
                          x-transition:leave="landing-billing-fade-leave"
                          x-transition:leave-start="opacity-100"
                          x-transition:leave-end="opacity-0">
-                        <p class="text-3xl font-black text-white tracking-tight">
+                        <p class="text-3xl font-black text-slate-900 tracking-tight">
                             {{ PlanPricing::formatUsd($negocio['monthly']) }}
-                            <span class="text-sm font-semibold text-slate-400">/ mes</span>
+                            <span class="text-sm font-semibold text-slate-500">/ mes</span>
                         </p>
                         <p class="text-[10px] text-slate-500 mt-1">
                             Anual: {{ PlanPricing::formatUsd($negocio['annual_monthly_equivalent']) }}/mes
-                            · <strong class="text-cyan-300">{{ $negocio['annual_savings_label'] }}</strong>
+                            · <strong class="text-cyan-600">{{ $negocio['annual_savings_label'] }}</strong>
                         </p>
                     </div>
                     <div class="landing-billing-swap__layer"
@@ -155,22 +155,22 @@
                          x-transition:leave="landing-billing-fade-leave"
                          x-transition:leave-start="opacity-100"
                          x-transition:leave-end="opacity-0">
-                        <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-300/90 mb-1">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1">
                             {{ $negocio['annual_discount_percent'] }}% dto. · facturación anual
                         </p>
-                        <p class="text-3xl font-black text-white tracking-tight">
+                        <p class="text-3xl font-black text-slate-900 tracking-tight">
                             {{ PlanPricing::formatUsd($negocio['annual_monthly_equivalent']) }}
-                            <span class="text-sm font-semibold text-slate-400">/ mes equiv.</span>
+                            <span class="text-sm font-semibold text-slate-500">/ mes equiv.</span>
                         </p>
                         <p class="text-[10px] text-slate-500 mt-1">
-                            Total <strong class="text-white">{{ PlanPricing::formatUsd($negocio['annual_total']) }}/año</strong>
-                            · <strong class="text-cyan-300">{{ $negocio['annual_savings_label'] }}</strong>
+                            Total <strong class="text-slate-900">{{ PlanPricing::formatUsd($negocio['annual_total']) }}/año</strong>
+                            · <strong class="text-cyan-600">{{ $negocio['annual_savings_label'] }}</strong>
                         </p>
                     </div>
                 </div>
             </div>
 
-            <ul class="space-y-2.5 text-[11px] text-slate-300 border-t border-purple-500/20 pt-4 flex-grow">
+            <ul class="space-y-2.5 text-[11px] text-slate-600 border-t border-purple-200 pt-4 flex-grow">
                 @foreach ($premiumHighlights as $highlight)
                     <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> {{ $highlight }}</li>
                 @endforeach

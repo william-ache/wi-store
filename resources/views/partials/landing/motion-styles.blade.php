@@ -7,7 +7,7 @@
         --landing-duration-fast: 0.25s;
         --landing-duration: 0.4s;
         --landing-duration-slow: 0.55s;
-        --landing-header-offset: 4.5rem;
+        --landing-header-offset: 4rem;
     }
 
     html.wi-store-ui.wi-store-landing {
@@ -70,8 +70,8 @@
     }
 
     .landing-scroll-progress {
-        transition: transform 0.45s var(--landing-ease-out);
-        will-change: transform;
+        transition: width 0.45s var(--landing-ease-out);
+        will-change: width;
     }
 
     /* Hero demo — crossfade entre pasos */
