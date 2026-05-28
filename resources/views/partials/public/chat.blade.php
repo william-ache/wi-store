@@ -6,6 +6,40 @@
 
     <div class="relative">
     <div class="relative w-14 h-14 shrink-0">
+        {{-- Aviso de cookies (Wibi) — bloquea el chat hasta aceptar --}}
+        <div x-show="!cookiesAccepted"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             role="dialog"
+             aria-labelledby="wibi-cookie-title"
+             aria-describedby="wibi-cookie-desc"
+             class="wi-wibi-cookie-banner absolute bottom-[calc(100%+10px)] right-0 z-20 rounded-[18px] border border-slate-600/80 shadow-[0_12px_40px_rgba(0,0,0,0.45)] p-5 sm:p-6">
+            <div class="flex items-start gap-3 mb-3">
+                <div class="wi-wibi-cookie-icon w-9 h-9 rounded-lg flex items-center justify-center shrink-0" aria-hidden="true">
+                    <i class="fa-solid fa-shield-halved text-slate-200 text-sm"></i>
+                </div>
+                <h3 id="wibi-cookie-title" class="text-[15px] font-bold text-white pt-1.5 leading-tight">Cookies</h3>
+            </div>
+            <p id="wibi-cookie-desc" class="text-[12px] text-slate-300 leading-relaxed mb-5">
+                Utilizamos cookies esenciales para el funcionamiento de la plataforma y cookies analíticas para mejorar tu experiencia. Conoce más en nuestra
+                <a href="{{ route('legal.privacidad') }}" target="_blank" rel="noopener noreferrer" class="text-violet-400 underline underline-offset-2 hover:text-violet-300 font-medium">Política de Privacidad</a>.
+            </p>
+            <div class="flex items-center justify-end gap-2 sm:gap-3">
+                <button type="button"
+                        @click="acceptCookies('essential')"
+                        class="px-2 py-2 text-[12px] font-semibold text-slate-400 hover:text-slate-200 transition-colors rounded-lg">
+                    Solo esenciales
+                </button>
+                <button type="button"
+                        @click="acceptCookies('all')"
+                        class="px-4 py-2 text-[12px] font-bold text-white bg-violet-600 hover:bg-violet-500 rounded-full shadow-[0_4px_14px_rgba(124,58,237,0.4)] transition-colors active:scale-95">
+                    Aceptar todas
+                </button>
+            </div>
+            <span class="wi-wibi-cookie-tail absolute -bottom-1.5 right-5 w-3 h-3 rotate-45 border-r border-b border-slate-600/80" aria-hidden="true"></span>
+        </div>
+
         {{-- Mensaje flotante de Wibi --}}
         <button type="button"
                 x-show="showFloatingTeaser"
@@ -26,9 +60,10 @@
 
         <!-- Un solo botón toggle -->
         <button @click="toggleChat()"
-                class="absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0e1228] hover:scale-105 active:scale-95"
-                :class="chatOpen ? 'bg-white border border-purple-200/80 shadow-[0_8px_24px_rgba(0,0,0,0.12)] wi-wibi-bob-paused' : 'bg-gradient-to-br from-purple-600 via-fuchsia-500 to-cyan-500 border-2 border-white/90 shadow-[0_8px_28px_rgba(168,85,247,0.45)] wi-wibi-bob'"
-                :aria-label="chatOpen ? 'Cerrar chat' : 'Abrir chat con Wibi'">
+                :disabled="!cookiesAccepted && !chatOpen"
+                class="wi-wibi-fab absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0e1228] hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100"
+                :class="chatOpen ? 'wi-wibi-fab--open wi-wibi-bob-paused' : 'wi-wibi-fab--closed wi-wibi-bob'"
+                :aria-label="!cookiesAccepted ? 'Acepta las cookies para abrir el chat con Wibi' : (chatOpen ? 'Cerrar chat' : 'Abrir chat con Wibi')">
             <span x-show="!chatOpen" class="relative flex items-center justify-center wi-wibi-face">
                 @include('partials.public.chat-bot-face', ['size' => 'md', 'class' => 'text-white'])
                 <span class="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center pointer-events-none">
@@ -165,6 +200,32 @@
 </div>
 
 <style>
+    .wi-wibi-cookie-banner {
+        width: min(calc(100vw - 40px), 400px);
+        background-color: #1e222e;
+        background-image: none;
+    }
+
+    .wi-wibi-cookie-icon {
+        background-color: #2a3142;
+    }
+
+    .wi-wibi-cookie-tail {
+        background-color: #1e222e;
+    }
+
+    .wi-wibi-fab.wi-wibi-fab--closed {
+        background: linear-gradient(135deg, #9333ea 0%, #d946ef 50%, #06b6d4 100%);
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 8px 28px rgba(168, 85, 247, 0.45);
+    }
+
+    .wi-wibi-fab.wi-wibi-fab--open {
+        background: #ffffff;
+        border: 1px solid rgba(233, 213, 255, 0.8);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
     .wi-chat-bot-msg a {
         color: #7c3aed;
         font-weight: 700;
@@ -235,10 +296,14 @@
     function publicChatWidget() {
         return {
             chatOpen: false,
+            cookieConsent: null,
             inputText: '',
             messages: [],
             isTyping: false,
             hasUserMessage: false,
+            get cookiesAccepted() {
+                return this.cookieConsent === 'essential' || this.cookieConsent === 'all';
+            },
             teaserMessages: [
                 '¡Hey!',
                 '¡Hola!',
@@ -254,7 +319,7 @@
             teaserCycleDone: false,
             teaserDismissed: false,
             get showFloatingTeaser() {
-                return !this.chatOpen && !this.teaserDismissed && this.teaserVisible;
+                return this.cookiesAccepted && !this.chatOpen && !this.teaserDismissed && this.teaserVisible;
             },
             quickChips: [
                 { label: 'Planes de Precios 💎', mobile: 'Planes 💎', short: 'Planes' },
@@ -264,6 +329,31 @@
             ],
 
             initWidget() {
+                try {
+                    const stored = localStorage.getItem('wibi_cookie_consent');
+                    if (stored === 'essential' || stored === 'all') {
+                        this.cookieConsent = stored;
+                    }
+                } catch (e) { /* localStorage no disponible */ }
+                if (this.cookiesAccepted) {
+                    this.loadWelcomeMessages();
+                    this.startTeaserRotation();
+                }
+            },
+
+            acceptCookies(level) {
+                this.cookieConsent = level;
+                try {
+                    localStorage.setItem('wibi_cookie_consent', level);
+                } catch (e) { /* ignore */ }
+                this.loadWelcomeMessages();
+                if (!this.chatOpen) {
+                    this.startTeaserRotation();
+                }
+            },
+
+            loadWelcomeMessages() {
+                if (this.messages.length > 0) return;
                 this.messages = [
                     {
                         sender: 'bot',
@@ -274,7 +364,6 @@
                         text: '¿Qué te gustaría saber? Elige una pregunta rápida arriba o escríbeme:'
                     }
                 ];
-                this.startTeaserRotation();
             },
 
             stopTeaser() {
@@ -331,6 +420,9 @@
             },
 
             toggleChat() {
+                if (!this.cookiesAccepted && !this.chatOpen) {
+                    return;
+                }
                 this.chatOpen = !this.chatOpen;
                 if (this.chatOpen) {
                     this.stopTeaser();
@@ -339,6 +431,7 @@
             },
 
             sendUserMessage(text = null) {
+                if (!this.cookiesAccepted) return;
                 const messageText = text ? text.trim() : this.inputText.trim();
                 if (!messageText) return;
 
