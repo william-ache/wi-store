@@ -38,7 +38,9 @@
         background:
             radial-gradient(ellipse 70% 45% at 8% 38%, rgba(168, 85, 247, 0.05), transparent 62%),
             radial-gradient(ellipse 72% 42% at 92% 18%, rgba(34, 211, 238, 0.06), transparent 64%),
-            radial-gradient(ellipse 80% 48% at 50% 92%, rgba(217, 70, 239, 0.03), transparent 68%);
+            radial-gradient(ellipse 80% 48% at 50% 92%, rgba(217, 70, 239, 0.03), transparent 68%),
+            radial-gradient(ellipse 68% 52% at 10% 98%, rgba(168, 85, 247, 0.06), transparent 62%),
+            radial-gradient(ellipse 62% 48% at 90% 96%, rgba(34, 211, 238, 0.07), transparent 60%);
         background-repeat: no-repeat;
         background-color: transparent;
     }
@@ -267,21 +269,23 @@
         bottom: 0;
         background:
             linear-gradient(90deg, rgba(168, 85, 247, 0.04) 0%, rgba(217, 70, 239, 0.025) 44%, rgba(34, 211, 238, 0.04) 100%),
-            radial-gradient(ellipse 78% 62% at 88% 14%, rgba(34, 211, 238, 0.14), transparent 64%),
-            radial-gradient(ellipse 78% 62% at 14% 42%, rgba(168, 85, 247, 0.12), transparent 64%),
-            radial-gradient(ellipse 50% 40% at 8% 55%, rgba(147, 51, 234, 0.06), transparent 58%);
+            radial-gradient(ellipse 78% 62% at 88% 18%, rgba(34, 211, 238, 0.14), transparent 64%),
+            radial-gradient(ellipse 78% 62% at 14% 48%, rgba(168, 85, 247, 0.12), transparent 64%),
+            radial-gradient(ellipse 50% 40% at 8% 62%, rgba(147, 51, 234, 0.06), transparent 58%),
+            radial-gradient(ellipse 72% 58% at 6% 94%, rgba(168, 85, 247, 0.1), transparent 62%),
+            radial-gradient(ellipse 68% 54% at 94% 90%, rgba(34, 211, 238, 0.11), transparent 60%);
         background-repeat: no-repeat;
     }
     .landing-hero-fade {
         bottom: 0;
-        height: 11rem;
+        height: 8rem;
         z-index: 2;
         background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgba(255, 255, 255, 0.35) 45%,
-            rgba(255, 255, 255, 0.82) 78%,
-            rgba(255, 255, 255, 0.98) 100%
+            rgba(255, 255, 255, 0.1) 40%,
+            rgba(255, 255, 255, 0.45) 75%,
+            rgba(255, 255, 255, 0.88) 100%
         );
     }
 

@@ -6,7 +6,8 @@
   </div>
   <div class="landing-section-glow top-[8%] -left-24 w-[26rem] h-[26rem] bg-purple-400/10 z-0" aria-hidden="true"></div>
   <div class="landing-section-glow top-[4%] -right-24 w-[28rem] h-[28rem] bg-cyan-400/10 z-0" aria-hidden="true"></div>
-  <div class="landing-section-glow bottom-[10%] left-[12%] w-[20rem] h-[20rem] bg-fuchsia-400/8 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow bottom-[-6%] -left-16 w-[24rem] h-[24rem] bg-purple-400/9 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow bottom-[-8%] -right-12 w-[22rem] h-[22rem] bg-cyan-400/9 z-0" aria-hidden="true"></div>
 
   <div class="landing-hero-inner landing-container relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
