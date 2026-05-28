@@ -226,8 +226,8 @@
     @endphp
 
     <section id="explorar" class="py-16 md:py-24 relative overflow-hidden z-10">
-        <div class="landing-section-glow top-8 right-0 w-[28rem] h-[28rem] bg-purple-400/22" aria-hidden="true"></div>
-        <div class="landing-section-glow bottom-0 left-[-5%] w-80 h-80 bg-cyan-400/18" aria-hidden="true"></div>
+        <div class="landing-section-glow top-8 right-0 w-[28rem] h-[28rem] bg-purple-400/10" aria-hidden="true"></div>
+        <div class="landing-section-glow bottom-0 left-[-5%] w-80 h-80 bg-cyan-400/9" aria-hidden="true"></div>
 
         <div class="landing-container relative z-10">
 

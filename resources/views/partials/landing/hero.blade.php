@@ -4,9 +4,9 @@
     <div class="landing-hero-glow"></div>
     <div class="landing-hero-fade"></div>
   </div>
-  <div class="landing-section-glow top-[8%] -left-24 w-[26rem] h-[26rem] bg-purple-400/20 z-0" aria-hidden="true"></div>
-  <div class="landing-section-glow top-[4%] -right-24 w-[28rem] h-[28rem] bg-cyan-400/22 z-0" aria-hidden="true"></div>
-  <div class="landing-section-glow bottom-[10%] left-[12%] w-[20rem] h-[20rem] bg-fuchsia-400/14 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow top-[8%] -left-24 w-[26rem] h-[26rem] bg-purple-400/10 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow top-[4%] -right-24 w-[28rem] h-[28rem] bg-cyan-400/10 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow bottom-[10%] left-[12%] w-[20rem] h-[20rem] bg-fuchsia-400/8 z-0" aria-hidden="true"></div>
 
   <div class="landing-hero-inner landing-container relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
@@ -152,8 +152,8 @@
         </div>
 
         {{-- Acento decorativo --}}
-        <div class="absolute -top-8 -left-12 w-48 h-48 md:w-56 md:h-56 rounded-full bg-purple-400/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
-        <div class="absolute bottom-8 left-0 w-36 h-36 rounded-full bg-cyan-400/22 blur-2xl pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute -top-8 -left-12 w-48 h-48 md:w-56 md:h-56 rounded-full bg-purple-400/10 blur-3xl pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute bottom-8 left-0 w-36 h-36 rounded-full bg-cyan-400/10 blur-2xl pointer-events-none" aria-hidden="true"></div>
       </div>
     </div>
   </div>
