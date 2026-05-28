@@ -26,13 +26,29 @@
         </p>
 
         <div class="mt-7 md:mt-8 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3.5 sm:gap-4.5">
-          <a href="/register"
-             class="inline-flex items-center gap-2 pl-5 pr-2 py-2 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all shrink-0">
-            <span class="leading-none">Probar gratis {{ $wiStoreTrialDays }} días</span>
-            <span class="w-7 h-7 shrink-0 rounded-full bg-slate-900 inline-flex items-center justify-center" aria-hidden="true">
-              <i class="fas fa-arrow-right text-white text-[10px] leading-none"></i>
-            </span>
-          </a>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <a href="/register"
+               class="inline-flex items-center gap-2 pl-5 pr-2 py-2 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all shrink-0">
+              <span class="leading-none">Probar gratis {{ $wiStoreTrialDays }} días</span>
+              <span class="w-7 h-7 shrink-0 rounded-full bg-slate-900 inline-flex items-center justify-center" aria-hidden="true">
+                <i class="fas fa-arrow-right text-white text-[10px] leading-none"></i>
+              </span>
+            </a>
+
+            <a href="https://www.trustpilot.com/review/wi-store.com?utm_medium=trustbox&utm_source=TrustBoxReviewCollector"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="inline-flex items-center"
+               aria-label="Ver reseñas de WI-Store en Trustpilot">
+              <img src="{{ asset('images/trustpilot-stars.png') }}"
+                   alt="Trustpilot 5 estrellas"
+                   width="80"
+                   height="44"
+                   loading="lazy"
+                   decoding="async"
+                   class="h-20 w-full rounded-md">
+            </a>
+          </div>
 
           <div class="landing-hero-social flex items-center gap-3 min-w-0">
             <div class="landing-hero-social__stack flex items-center shrink-0" aria-hidden="true">

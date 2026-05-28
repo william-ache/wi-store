@@ -51,10 +51,6 @@
                 class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50">
             <i class="fas fa-tags text-pink-500 mr-2"></i> Planes y precios
         </button>
-        <button type="button" @click="scrollTo('testimonios')"
-                class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50 w-full">
-            <i class="fas fa-star text-amber-500 mr-2"></i> Opiniones
-        </button>
         <a href="{{ route('tiendas.index') }}"
                 class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200">
             <i class="fas fa-store text-purple-600 mr-2"></i> Marketplace

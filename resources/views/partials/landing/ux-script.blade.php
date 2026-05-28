@@ -54,7 +54,6 @@
                     { id: 'por-que', el: document.getElementById('por-que') },
                     { id: 'como-funciona', el: document.getElementById('como-funciona') },
                     { id: 'precios', el: document.getElementById('precios') },
-                    { id: 'testimonios', el: document.getElementById('testimonios') },
                     { id: 'faq', el: document.getElementById('faq') },
                 ].filter(s => s.el);
 
@@ -109,7 +108,6 @@
                     '#por-que',
                     '#como-funciona',
                     '#precios',
-                    '#testimonios',
                     '#faq',
                     '.landing-how-step',
                     '.landing-why-card',

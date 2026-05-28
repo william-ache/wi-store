@@ -116,11 +116,6 @@
                                     class="landing-nav-link">Precios</button>
                         </li>
                         <li>
-                            <button type="button" @click="scrollTo('testimonios')"
-                                    :class="activeSection === 'testimonios' ? 'landing-nav-link is-active' : ''"
-                                    class="landing-nav-link">Opiniones</button>
-                        </li>
-                        <li>
                             <a href="{{ route('tiendas.index') }}" class="landing-nav-link">Marketplace</a>
                         </li>
                     </ul>
@@ -667,8 +662,6 @@
             </div>
         </div>
     </section>
-
-    @include('partials.landing.testimonials-carousel')
 
     @include('partials.landing.faq')
 
