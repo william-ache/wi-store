@@ -79,7 +79,9 @@
     @include('partials.landing.ambient-background')
 
     <!-- Header: logo | nav centrado | Iniciar sesión + Crear menú -->
-    <header id="landing-header" class="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-100">
+    <header id="landing-header"
+            class="sticky top-0 z-50 backdrop-blur-xl border-b transition-[background-color,border-color,box-shadow] duration-300"
+            :class="isHeaderScrolled ? 'landing-header--scrolled' : 'landing-header--top'">
         <div class="landing-container">
             <div class="landing-header-bar h-16">
                 <div class="landing-header-bar__brand shrink-0">

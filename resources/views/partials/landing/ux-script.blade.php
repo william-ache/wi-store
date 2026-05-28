@@ -48,6 +48,9 @@
                 const qs = params.toString();
                 return @json(route('tiendas.index')) + (qs ? '?' + qs : '');
             },
+            get isHeaderScrolled() {
+                return this.scrollY > 24;
+            },
             init() {
                 this.scrollY = window.scrollY || 0;
                 const syncScrollY = () => {

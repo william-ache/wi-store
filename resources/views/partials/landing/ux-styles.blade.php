@@ -34,6 +34,20 @@
         --landing-header-h: 4rem;
     }
 
+    #landing-header.landing-header--top {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-color: #f1f5f9;
+        box-shadow: none;
+    }
+
+    #landing-header.landing-header--scrolled {
+        background-color: rgba(255, 255, 255, 0.72);
+        border-color: rgba(226, 232, 240, 0.65);
+        box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+    }
+
     #landing-header .landing-header-bar__brand {
         flex: 0 0 auto;
     }
