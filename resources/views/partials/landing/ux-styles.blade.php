@@ -49,51 +49,60 @@
     }
 
     .landing-back-to-top {
+        --wi-fab-size: 3.5rem;
+        --wi-fab-offset: 1.25rem;
+        --wi-fab-gap: 0.75rem;
         position: fixed;
-        bottom: 1.25rem;
-        right: 5.75rem;
+        bottom: var(--wi-fab-offset);
+        right: calc(var(--wi-fab-offset) + var(--wi-fab-size) + var(--wi-fab-gap));
         z-index: 10000;
-        width: 3rem;
-        height: 3rem;
+        width: var(--wi-fab-size);
+        height: var(--wi-fab-size);
         border-radius: 9999px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 2px solid #fff;
+        border: 2px solid rgba(255, 255, 255, 0.9);
         color: #fff;
-        background: linear-gradient(135deg, #9333ea 0%, #06b6d4 100%);
-        box-shadow: 0 10px 28px rgba(14, 116, 144, 0.35);
+        background: linear-gradient(135deg, #9333ea 0%, #d946ef 50%, #06b6d4 100%);
+        box-shadow: 0 8px 28px rgba(168, 85, 247, 0.45);
         cursor: pointer;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transform: translateY(8px) scale(0.95);
+        transform: scale(0.95);
         transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease, filter 0.2s ease;
     }
 
-    .landing-back-to-top:hover {
-        filter: brightness(1.08);
+    .landing-back-to-top i {
+        font-size: 1.125rem;
+        line-height: 1;
     }
 
-    .landing-back-to-top:active {
-        transform: translateY(8px) scale(0.92);
+    .landing-back-to-top.is-visible:hover {
+        filter: brightness(1.05);
+        transform: scale(1.05);
+    }
+
+    .landing-back-to-top.is-visible:active {
+        transform: scale(0.95);
     }
 
     .landing-back-to-top.is-visible {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        transform: translateY(0) scale(1);
+        transform: scale(1);
     }
 
-    .landing-back-to-top.is-visible:active {
-        transform: translateY(0) scale(0.95);
+    .landing-back-to-top.is-visible:focus-visible {
+        outline: none;
+        box-shadow: 0 8px 28px rgba(168, 85, 247, 0.45), 0 0 0 2px rgba(34, 211, 238, 0.8);
     }
 
     @media (min-width: 640px) {
         .landing-back-to-top {
-            bottom: 1.5rem;
-            right: 6.75rem;
+            --wi-fab-offset: 1.5rem;
         }
     }
 
