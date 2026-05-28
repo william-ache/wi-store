@@ -26,7 +26,7 @@
         </p>
 
         <div class="mt-7 md:mt-8 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3.5 sm:gap-4.5">
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
             <a href="/register"
                class="inline-flex items-center gap-2 pl-5 pr-2 py-2 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all shrink-0">
               <span class="leading-none">Probar gratis {{ $wiStoreTrialDays }} días</span>
@@ -38,15 +38,20 @@
             <a href="https://www.trustpilot.com/review/wi-store.com?utm_medium=trustbox&utm_source=TrustBoxReviewCollector"
                target="_blank"
                rel="noopener noreferrer"
-               class="inline-flex items-center"
+               class="landing-hero-trustpilot shrink-0"
                aria-label="Ver reseñas de WI-Store en Trustpilot">
-              <img src="{{ asset('images/trustpilot-stars.png') }}"
-                   alt="Trustpilot 5 estrellas"
-                   width="80"
-                   height="44"
-                   loading="lazy"
-                   decoding="async"
-                   class="h-20 w-full rounded-md">
+              <span class="landing-hero-trustpilot__pill">
+                <span class="landing-hero-trustpilot__label">Valorado en</span>
+                <span class="landing-hero-trustpilot__logo-wrap">
+                  <img src="{{ asset('images/trustpilot-stars.png') }}"
+                       alt=""
+                       width="132"
+                       height="36"
+                       loading="lazy"
+                       decoding="async"
+                       class="landing-hero-trustpilot__logo">
+                </span>
+              </span>
             </a>
           </div>
 

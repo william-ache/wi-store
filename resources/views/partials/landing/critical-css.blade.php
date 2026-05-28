@@ -128,6 +128,75 @@
         background-clip: text;
         color: transparent;
     }
+
+    .landing-hero-trustpilot {
+        display: inline-flex;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .landing-hero-trustpilot__pill {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 0.3rem;
+        min-height: 2.5rem;
+        padding: 0.45rem 0.8rem;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(196, 181, 253, 0.9);
+        box-shadow: 0 4px 16px rgba(88, 28, 135, 0.1);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .landing-hero-trustpilot:hover .landing-hero-trustpilot__pill {
+        border-color: rgba(147, 51, 234, 0.45);
+        box-shadow: 0 8px 22px rgba(147, 51, 234, 0.14);
+        transform: translateY(-1px);
+    }
+
+    .landing-hero-trustpilot__label {
+        font-size: 0.6rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #64748b;
+        line-height: 1;
+        padding-left: 0.1rem;
+    }
+
+    .landing-hero-trustpilot__logo-wrap {
+        display: flex;
+        align-items: center;
+        min-height: 1.35rem;
+        padding: 0.1rem 0.15rem;
+        border-radius: 0.35rem;
+        background: #fff;
+    }
+
+    .landing-hero-trustpilot__logo {
+        display: block;
+        height: 1.35rem;
+        width: auto;
+        max-width: 7.5rem;
+        object-fit: contain;
+        object-position: left center;
+    }
+
+    @media (min-width: 640px) {
+        .landing-hero-trustpilot__pill {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.5rem 0.95rem 0.5rem 0.75rem;
+        }
+
+        .landing-hero-trustpilot__logo {
+            height: 1.5rem;
+            max-width: 8.25rem;
+        }
+    }
     .landing-hero-scroll-hint {
         position: relative;
         display: inline-flex;
