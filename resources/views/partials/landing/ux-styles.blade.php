@@ -48,6 +48,55 @@
         backdrop-filter: blur(16px);
     }
 
+    .landing-back-to-top {
+        position: fixed;
+        bottom: 1.25rem;
+        right: 5.75rem;
+        z-index: 10000;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 9999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #fff;
+        color: #fff;
+        background: linear-gradient(135deg, #9333ea 0%, #06b6d4 100%);
+        box-shadow: 0 10px 28px rgba(14, 116, 144, 0.35);
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(8px) scale(0.95);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease, filter 0.2s ease;
+    }
+
+    .landing-back-to-top:hover {
+        filter: brightness(1.08);
+    }
+
+    .landing-back-to-top:active {
+        transform: translateY(8px) scale(0.92);
+    }
+
+    .landing-back-to-top.is-visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+    }
+
+    .landing-back-to-top.is-visible:active {
+        transform: translateY(0) scale(0.95);
+    }
+
+    @media (min-width: 640px) {
+        .landing-back-to-top {
+            bottom: 1.5rem;
+            right: 6.75rem;
+        }
+    }
+
     #landing-header .landing-header-bar__brand {
         flex: 0 0 auto;
     }

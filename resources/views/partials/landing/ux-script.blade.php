@@ -4,7 +4,6 @@
             isMobileMenuOpen: false,
             activeSection: 'inicio',
             scrollY: 0,
-            backToTopVisible: false,
             showCarousel: true,
             heroDemoStep: 1,
             heroDemoPaused: false,
@@ -55,10 +54,8 @@
                 this.scrollY = window.scrollY || 0;
                 const syncScrollY = () => {
                     this.scrollY = window.scrollY || 0;
-                    this.updateBackToTopVisibility();
                 };
                 window.addEventListener('scroll', syncScrollY, { passive: true });
-                window.addEventListener('resize', () => this.updateBackToTopVisibility(), { passive: true });
                 syncScrollY();
                 const sections = [
                     { id: 'inicio', el: document.getElementById('inicio') },
@@ -83,12 +80,7 @@
                 this.initScrollReveal();
                 this.initRegisterFormDemo();
                 this.startHeroDemoCycle();
-                this.updateBackToTopVisibility();
-            },
-
-            updateBackToTopVisibility() {
-                // El botón de volver arriba se muestra cuando el usuario se desplaza más de 800px
-                this.backToTopVisible = this.scrollY > 800;
+                initLandingBackToTop();
             },
 
             initScrollProgress() {
@@ -281,4 +273,38 @@
             },
         }));
     });
+
+    function initLandingBackToTop() {
+        const btn = document.getElementById('landing-back-to-top');
+        const faq = document.getElementById('faq');
+        if (!btn || btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+
+        const show = () => btn.classList.add('is-visible');
+        const hide = () => btn.classList.remove('is-visible');
+
+        const check = () => {
+            if (!faq) {
+                if (window.scrollY > 700) show();
+                else hide();
+                return;
+            }
+            const rect = faq.getBoundingClientRect();
+            if (rect.top <= window.innerHeight * 0.82) show();
+            else hide();
+        };
+
+        btn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+            });
+        });
+
+        window.addEventListener('scroll', check, { passive: true });
+        window.addEventListener('resize', check, { passive: true });
+        check();
+    }
+
+    document.addEventListener('DOMContentLoaded', initLandingBackToTop);
 </script>
