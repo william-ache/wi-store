@@ -396,7 +396,7 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            overflow: visible;
+            overflow: hidden;
         }
 
         .roadmap-mobile-path-glow {

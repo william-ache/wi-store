@@ -7,12 +7,10 @@
     }
 
     /* Contenedor fluido: ancho máximo + márgenes laterales generosos en pantallas grandes */
-    .wi-store-landing .landing-container {
-        min-width: 0;
-    }
-    .wi-store-landing .landing-container {
+      .wi-store-landing .landing-container {
         width: 100%;
         max-width: 76rem;
+        min-width: 0;
         margin-left: auto;
         margin-right: auto;
         padding-left: clamp(1.25rem, 4.5vw, 3rem);

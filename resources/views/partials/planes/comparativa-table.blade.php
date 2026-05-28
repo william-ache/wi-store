@@ -38,7 +38,7 @@
     <p class="text-[11px] {{ $light ? 'text-slate-600' : 'text-slate-400' }} text-center max-w-lg mx-auto">Plan Standard (Emprendedor) vs Plan Premium (Negocio). Precios en USD.</p>
 </div>
 
-<div class="overflow-x-auto pb-2 scrollbar-none rounded-2xl border {{ $light ? 'border-slate-200 bg-white shadow-lg shadow-slate-200/50' : 'border-white/10 bg-[#0d1127]/80 backdrop-blur-md shadow-xl' }}">
+<div class="max-w-full min-w-0 overflow-x-auto pb-2 scrollbar-none rounded-2xl border {{ $light ? 'border-slate-200 bg-white shadow-lg shadow-slate-200/50' : 'border-white/10 bg-[#0d1127]/80 backdrop-blur-md shadow-xl' }}">
     <table class="w-full text-left border-collapse min-w-[520px] text-sm">
         <thead>
             <tr class="border-b {{ $light ? 'border-slate-200 bg-slate-50' : 'border-white/10 bg-white/[0.03]' }}">
