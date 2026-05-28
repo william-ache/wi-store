@@ -1058,6 +1058,7 @@
     /* Por qué WI-Store — grid 3 columnas, alturas uniformes */
     .landing-why-grid {
         align-items: stretch;
+        gap: 1.1rem;
     }
     .landing-why-card {
         display: flex;
@@ -1076,12 +1077,12 @@
     }
     .landing-why-card__visual {
         position: relative;
-        flex: 0 0 13.25rem;
-        height: 13.25rem;
+        flex: 0 0 12.35rem;
+        height: 12.35rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 1.25rem 1.35rem;
+        padding: 1.05rem 1.15rem;
         box-sizing: border-box;
         background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
         border-bottom: 1px solid #e2e8f0;
@@ -1097,13 +1098,13 @@
     }
     .landing-why-mock {
         width: 100%;
-        max-width: 17.5rem;
+        max-width: 16.6rem;
         margin-inline: auto;
         border-radius: 0.75rem;
         background: #fff;
         border: 1px solid rgba(226, 232, 240, 0.9);
         box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
-        padding: 0.85rem 1rem;
+        padding: 0.75rem 0.9rem;
         box-sizing: border-box;
     }
     .landing-why-mock--flow {
@@ -1128,8 +1129,8 @@
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        min-height: 8.75rem;
-        padding: 1.25rem 1.35rem 1.5rem;
+        min-height: 8.15rem;
+        padding: 1rem 1.15rem 1.25rem;
         background: #f8fafc;
         box-sizing: border-box;
     }
@@ -1138,12 +1139,15 @@
         margin-bottom: 0;
     }
     @media (min-width: 768px) {
+        .landing-why-grid {
+            gap: 1.25rem;
+        }
         .landing-why-card__visual {
-            flex-basis: 14rem;
-            height: 14rem;
+            flex-basis: 12.9rem;
+            height: 12.9rem;
         }
         .landing-why-card__body {
-            min-height: 9rem;
+            min-height: 8.4rem;
         }
     }
     .landing-why-pill {
