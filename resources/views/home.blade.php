@@ -80,7 +80,7 @@
 
     <!-- Header: logo | nav centrado | Iniciar sesión + Crear menú -->
     <header id="landing-header" class="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="landing-container">
             <div class="landing-header-bar h-16">
                 <div class="landing-header-bar__brand shrink-0">
                     <a href="#inicio" @click.prevent="scrollTo('inicio')"
@@ -180,7 +180,7 @@
         <div class="landing-section-glow top-8 right-0 w-[28rem] h-[28rem] bg-purple-400/22" aria-hidden="true"></div>
         <div class="landing-section-glow bottom-0 left-[-5%] w-80 h-80 bg-cyan-400/18" aria-hidden="true"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="landing-container relative z-10">
 
             @include('partials.landing.explore-header')
 
@@ -344,19 +344,15 @@
 
     @include('partials.landing.how-it-works')
 
-    <!-- PRECIOS (Glassmorphic Dark Premium) -->
-    <section id="precios" class="py-20 md:py-28 relative overflow-hidden bg-white/55 backdrop-blur-[2px]"
+    <!-- PRECIOS -->
+    <section id="precios" class="landing-dark-zone py-20 md:py-28 relative overflow-hidden"
         :class="openModal ? 'z-50' : 'z-10'" x-data="{
             openModal: false,
             selectedPlan: null,
             billingPeriod: 'monthly'
         }">
 
-        <div class="landing-section-glow top-0 left-[10%] w-[32rem] h-[32rem] bg-purple-500/24 blur-accelerated" aria-hidden="true"></div>
-        <div class="landing-section-glow bottom-0 right-[5%] w-[30rem] h-[30rem] bg-cyan-400/22 blur-accelerated" aria-hidden="true"></div>
-        <div class="landing-section-glow top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-fuchsia-400/12 blur-accelerated" aria-hidden="true"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="landing-container relative z-10">
 
             <!-- Cabecera de Precios -->
             <div class="text-center mb-8 md:mb-10">
@@ -364,15 +360,15 @@
                     class="landing-plan-badge text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full">
                     Planes
                 </span>
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-4 tracking-tight">Elige tu plan</h2>
-                <p class="text-sm text-slate-600 mt-2 max-w-lg mx-auto">
-                    <strong class="text-slate-900">Emprendedor</strong> para arrancar · <strong class="text-slate-900">Negocio</strong> con todo lo premium.
+                <h2 class="text-3xl md:text-4xl font-black text-white mt-4 tracking-tight">Elige tu plan</h2>
+                <p class="text-sm text-slate-400 mt-2 max-w-lg mx-auto">
+                    <strong class="text-slate-200">Emprendedor</strong> para arrancar · <strong class="text-slate-200">Negocio</strong> con todo lo premium.
                 </p>
             </div>
 
             @include('partials.landing.pricing-billing-toggle')
 
-            @include('partials.landing.bcv-rate-badge')
+            @include('partials.landing.bcv-rate-badge', ['class' => 'landing-bcv-in-dark rounded-2xl border border-white/10 bg-white/[0.04]'])
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch justify-center max-w-3xl mx-auto">
 
@@ -381,13 +377,8 @@
             </div>
 
             <div class="max-w-5xl mx-auto mt-16 md:mt-20">
-                @include('partials.planes.comparativa-table', ['preview' => true, 'showDetailButton' => true, 'light' => true])
+                @include('partials.planes.comparativa-table', ['preview' => true, 'showDetailButton' => true, 'light' => false])
             </div>
-
-            @include('partials.landing.testimonials-carousel')
-
-            @include('partials.landing.roadmap-2026')
-
 
                 <!-- PLAN 4: Plan Custom / Personalizado -->
                 <div id="plan-custom"
@@ -618,6 +609,12 @@
         </div>
     </section>
 
+    @include('partials.landing.testimonials-carousel')
+
+    @include('partials.landing.faq')
+
+    @include('partials.landing.roadmap-2026')
+
     <!-- VS COMPETENCIA (WI-Store vs El Resto) -->
     <section id="vs-competencia" class="hidden py-20 md:py-28 border-t border-white/5 relative overflow-hidden z-10">
 
@@ -626,7 +623,7 @@
             class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[150px] pointer-events-none blur-accelerated">
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="landing-container relative z-10">
 
             <!-- Cabecera de Competencia -->
             <div class="text-center mb-16 md:mb-20">
@@ -832,40 +829,42 @@
         </div>
     </section>
 
+    @include('partials.landing.final-cta')
+
     <!-- FOOTER -->
-    <footer class="relative z-10 border-t border-slate-200/90 bg-gradient-to-b from-slate-50 via-slate-50 to-slate-100/90 pt-20 pb-10" aria-labelledby="footer-heading">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer class="landing-dark-zone landing-footer relative z-10 pt-44 md:pt-56 pb-10" aria-labelledby="footer-heading">
+        <div class="landing-container">
             <h2 id="footer-heading" class="sr-only">Información y enlaces de WI-Store</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16 pt-8 md:pt-12">
                 <!-- Columna 1: Brand & Bio -->
                 <div class="col-span-1 md:col-span-1 space-y-4">
                     <div class="flex items-center gap-2">
-                        <span class="text-xl font-black text-slate-900 tracking-wider uppercase">WI<span
-                                class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-500">Store</span></span>
+                        <span class="text-xl font-black text-white tracking-wider uppercase">WI<span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span></span>
                     </div>
-                    <p class="text-xs text-slate-600 leading-relaxed max-w-sm">
+                    <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
                         La plataforma B2B premium líder en digitalización de comercios en Venezuela. Crea tu catálogo
                         inteligente interactivo con pedidos directos a WhatsApp o Telegram, libre de comisiones por
                         venta.
                     </p>
                     <div class="flex items-center gap-3 pt-2">
                         <a href="javascript:void(0)"
-                            class="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-purple-200 flex items-center justify-center text-slate-500 hover:text-purple-600 transition-all duration-300"
+                            class="w-9 h-9 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 hover:border-purple-400/40 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300"
                             title="Facebook">
                             <i class="fab fa-facebook-f text-xs"></i>
                         </a>
                         <a href="javascript:void(0)"
-                            class="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-purple-200 flex items-center justify-center text-slate-500 hover:text-purple-600 transition-all duration-300"
+                            class="w-9 h-9 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 hover:border-purple-400/40 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300"
                             title="Instagram">
                             <i class="fab fa-instagram text-xs"></i>
                         </a>
                         <a href="javascript:void(0)"
-                            class="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-purple-200 flex items-center justify-center text-slate-500 hover:text-purple-600 transition-all duration-300"
+                            class="w-9 h-9 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 hover:border-purple-400/40 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300"
                             title="TikTok">
                             <i class="fab fa-tiktok text-xs"></i>
                         </a>
                         <a href="javascript:void(0)"
-                            class="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-purple-200 flex items-center justify-center text-slate-500 hover:text-purple-600 transition-all duration-300"
+                            class="w-9 h-9 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 hover:border-purple-400/40 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300"
                             title="YouTube">
                             <i class="fab fa-youtube text-xs"></i>
                         </a>
@@ -874,26 +873,26 @@
 
                 <!-- Columna 2: Ecosistema -->
                 <div class="space-y-4">
-                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-800">Ecosistema</h3>
+                    <h3 class="text-xs uppercase font-black tracking-widest text-white">Ecosistema</h3>
                     <ul class="space-y-2.5 text-xs">
-                        <li><a href="{{ route('tiendas.index') }}" class="text-slate-600 hover:text-cyan-600 transition-colors">Marketplace de tiendas</a></li>
-                        {{-- <li><a href="#explorar" class="text-slate-600 hover:text-cyan-600 transition-colors">Vista previa</a></li> --}}
+                        <li><a href="{{ route('tiendas.index') }}" class="text-slate-400 hover:text-cyan-400 transition-colors">Marketplace de tiendas</a></li>
+                        {{-- <li><a href="#explorar" class="text-slate-400 hover:text-cyan-400 transition-colors">Vista previa</a></li> --}}
                         <li><a href="#como-funciona"
-                                class="text-slate-600 hover:text-cyan-600 transition-colors">¿Cómo funciona?</a></li>
-                        <li><a href="#precios" class="text-slate-600 hover:text-cyan-600 transition-colors">Planes de
+                                class="text-slate-400 hover:text-cyan-400 transition-colors">¿Cómo funciona?</a></li>
+                        <li><a href="#precios" class="text-slate-400 hover:text-cyan-400 transition-colors">Planes de
                                 Precios</a></li>
                         <li><a href="{{ route('planes.comparativa') }}"
-                                class="text-slate-600 hover:text-cyan-600 transition-colors">Comparativa de Planes</a>
+                                class="text-slate-400 hover:text-cyan-400 transition-colors">Comparativa de Planes</a>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Columna 3: Administración -->
                 <div class="space-y-4">
-                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-800">Administración</h3>
+                    <h3 class="text-xs uppercase font-black tracking-widest text-white">Administración</h3>
                     <div class="pt-1">
                         <a href="/login"
-                            class="inline-flex items-center gap-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-extrabold px-3.5 py-2 rounded-xl border border-purple-200 hover:border-purple-300 transition-all duration-300 text-[10px] uppercase tracking-wider shadow-sm">
+                            class="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/15 text-purple-300 font-extrabold px-3.5 py-2 rounded-xl border border-purple-400/30 hover:border-cyan-400/40 transition-all duration-300 text-[10px] uppercase tracking-wider">
                             <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                         </a>
                     </div>
@@ -901,18 +900,18 @@
 
                 <!-- Columna 4: Contacto directo -->
                 <div class="space-y-4">
-                    <h3 class="text-xs uppercase font-black tracking-widest text-slate-800">Contacto directo</h3>
-                    <ul class="space-y-3 text-xs text-slate-600">
+                    <h3 class="text-xs uppercase font-black tracking-widest text-white">Contacto directo</h3>
+                    <ul class="space-y-3 text-xs text-slate-400">
                         <li class="flex items-center gap-2.5">
-                            <i class="fas fa-envelope text-cyan-600 w-4 shrink-0"></i>
-                            @include('partials.global.support-email', ['class' => 'text-xs text-slate-600 hover:text-cyan-600 transition-colors break-all', 'icon' => false])
+                            <i class="fas fa-envelope text-cyan-400 w-4 shrink-0"></i>
+                            @include('partials.global.support-email', ['class' => 'text-xs text-slate-400 hover:text-cyan-400 transition-colors break-all', 'icon' => false])
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <i class="fas fa-phone-alt text-purple-600 w-4"></i>
+                            <i class="fas fa-phone-alt text-purple-400 w-4"></i>
                             <span>+58 (412) 130-5420</span>
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <i class="fas fa-map-marker-alt text-pink-500 w-4"></i>
+                            <i class="fas fa-map-marker-alt text-pink-400 w-4"></i>
                             <span>Aragua, Venezuela</span>
                         </li>
                     </ul>
@@ -921,14 +920,14 @@
 
             <!-- Bottom Area -->
             <div
-                class="border-t border-slate-200 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
                 <p>© 2026 WI-Store. Todos los derechos reservados.</p>
                 <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                    <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-600 transition-colors">{{ $wiStoreSupportEmail }}</a>
-                    <span class="hidden sm:inline">•</span>
-                    <a href="{{ route('legal.privacidad') }}" class="hover:text-slate-900 transition-colors">Políticas y Privacidad</a>
-                    <span>•</span>
-                    <a href="{{ route('contacto') }}" class="hover:text-slate-900 transition-colors">Contacto</a>
+                    <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-400 transition-colors">{{ $wiStoreSupportEmail }}</a>
+                    <span class="hidden sm:inline text-slate-600">•</span>
+                    <a href="{{ route('legal.privacidad') }}" class="hover:text-slate-200 transition-colors">Políticas y Privacidad</a>
+                    <span class="text-slate-600">•</span>
+                    <a href="{{ route('contacto') }}" class="hover:text-slate-200 transition-colors">Contacto</a>
                 </div>
             </div>
         </div>

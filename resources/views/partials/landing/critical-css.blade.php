@@ -42,6 +42,94 @@
         align-items: center;
         width: 100%;
     }
+    .landing-hero-lead {
+        color: #4b5563;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
+    }
+    .landing-hero-social__avatar {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 9999px;
+        border: 2px solid #fff;
+        background: #f1f5f9;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+        overflow: hidden;
+        margin-left: -0.45rem;
+    }
+    .landing-hero-social__stack .landing-hero-social__avatar:first-child {
+        margin-left: 0;
+    }
+    .landing-hero-social__avatar--count {
+        background: linear-gradient(to bottom right, #9333ea, #d946ef, #06b6d4);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 800;
+        z-index: 10;
+        box-shadow: 0 2px 10px rgba(168, 85, 247, 0.35);
+    }
+    .landing-hero-social__avatar--placeholder {
+        background: linear-gradient(135deg, #9333ea, #06b6d4);
+    }
+    .landing-hero-social__initials {
+        font-size: 0.6rem;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1;
+    }
+    .landing-hero-social__brand {
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        background: linear-gradient(90deg, #0f172a 0%, #4c1d95 22%, #7c3aed 48%, #6366f1 62%, #38bdf8 88%, #22d3ee 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .landing-hero-scroll-hint {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.875rem;
+        height: 2.875rem;
+        border-radius: 9999px;
+        border: none;
+        background: linear-gradient(90deg, #9333ea, #06b6d4);
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 6px 22px rgba(147, 51, 234, 0.38), 0 2px 8px rgba(6, 182, 212, 0.25);
+        transition: filter 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        animation: landing-hero-scroll-bounce 2.2s ease-in-out infinite;
+    }
+    .landing-hero-scroll-hint:hover {
+        filter: brightness(1.06);
+        box-shadow: 0 8px 26px rgba(147, 51, 234, 0.45), 0 4px 12px rgba(6, 182, 212, 0.35);
+    }
+    .landing-hero-scroll-hint__ring {
+        position: absolute;
+        inset: -5px;
+        border-radius: inherit;
+        background: linear-gradient(90deg, rgba(147, 51, 234, 0.35), rgba(6, 182, 212, 0.35));
+        opacity: 0.55;
+        z-index: 0;
+        filter: blur(6px);
+    }
+    .landing-hero-scroll-hint i {
+        position: relative;
+        z-index: 1;
+        font-size: 0.95rem;
+        font-weight: 700;
+    }
+    @keyframes landing-hero-scroll-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(5px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .landing-hero-scroll-hint { animation: none; }
+    }
 
     /* Cuadrícula: baja un poco más y se desvanece hacia «3 pasos + tutorial» */
     .landing-hero-grid {
@@ -80,8 +168,9 @@
         right: 0;
         height: calc(100% + 6rem);
         background:
-            radial-gradient(ellipse 75% 60% at 88% 12%, rgba(34, 211, 238, 0.32), transparent 62%),
-            radial-gradient(ellipse 55% 45% at 12% 35%, rgba(168, 85, 247, 0.18), transparent 58%);
+            radial-gradient(ellipse 78% 62% at 88% 14%, rgba(34, 211, 238, 0.34), transparent 64%),
+            radial-gradient(ellipse 78% 62% at 14% 42%, rgba(168, 85, 247, 0.32), transparent 64%),
+            radial-gradient(ellipse 50% 40% at 8% 55%, rgba(147, 51, 234, 0.14), transparent 58%);
         mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
         -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
     }

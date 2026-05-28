@@ -2,7 +2,7 @@
   <div class="landing-hero-grid absolute pointer-events-none z-0" aria-hidden="true"></div>
   <div class="landing-hero-glow absolute pointer-events-none z-0" aria-hidden="true"></div>
 
-  <div class="landing-hero-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+  <div class="landing-hero-inner landing-container relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
       {{-- Columna izquierda --}}
@@ -17,27 +17,49 @@
           <span class="text-purple-700">WhatsApp</span>
         </h1>
 
-        <p class="mt-6 md:mt-7 text-lg md:text-xl text-slate-500 leading-relaxed max-w-xl">
+        <p class="landing-hero-lead mt-6 md:mt-7 text-lg md:text-xl leading-relaxed max-w-xl">
           Arma tu catálogo con fotos y precios. Tus clientes eligen y los pedidos te llegan ordenados al WhatsApp o Telegram.
-          <span class="text-slate-700 font-medium">Listo en minutos</span>, sin saber de páginas web.
+          <span class="text-slate-800 font-semibold">Listo en minutos</span>, sin saber de páginas web.
         </p>
 
-        <div class="mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
+        <div class="mt-8 md:mt-10 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-4 sm:gap-5">
           <a href="/register"
-             class="inline-flex items-center justify-between sm:justify-start gap-2.5 pl-5 pr-1.5 py-2 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all min-h-[2.75rem]">
-            <span>Probar gratis {{ $wiStoreTrialDays }} días</span>
-            <span class="w-7 h-7 shrink-0 rounded-full bg-slate-900 flex items-center justify-center" aria-hidden="true">
-              <i class="fas fa-arrow-right text-white text-[10px]"></i>
+             class="inline-flex items-center gap-2 pl-5 pr-2 py-2 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all shrink-0">
+            <span class="leading-none">Probar gratis {{ $wiStoreTrialDays }} días</span>
+            <span class="w-7 h-7 shrink-0 rounded-full bg-slate-900 inline-flex items-center justify-center" aria-hidden="true">
+              <i class="fas fa-arrow-right text-white text-[10px] leading-none"></i>
             </span>
           </a>
-          <button type="button" @click="scrollTo('por-que')"
-                  class="inline-flex items-center justify-center gap-1.5 px-5 py-2 rounded-full border-2 border-slate-900 bg-white hover:bg-slate-50 text-slate-900 font-bold text-sm active:scale-[0.98] transition-all min-h-[2.75rem]">
-            Saber más
-            <i class="fas fa-chevron-down text-xs opacity-70" aria-hidden="true"></i>
-          </button>
+
+          <div class="landing-hero-social flex items-center gap-3 min-w-0">
+            <div class="landing-hero-social__stack flex items-center shrink-0" aria-hidden="true">
+              @foreach ([
+                ['sabores-yb.png', 'Sabores Y&B'],
+                ['ys-detallitos.png', 'YS Detallitos'],
+                ['dulces-antojitos.png', 'Dulces Antojitos'],
+                ['rey-david.png', 'Rey David Cakes'],
+              ] as [$proofFile, $proofName])
+                <span class="landing-hero-social__avatar">
+                  <img src="{{ asset('images/landing/social-proof/' . $proofFile) }}"
+                       alt="{{ $proofName }}"
+                       width="36"
+                       height="36"
+                       loading="lazy"
+                       decoding="async"
+                       class="w-full h-full object-cover">
+                </span>
+              @endforeach
+              <span class="landing-hero-social__avatar landing-hero-social__avatar--count">+50</span>
+            </div>
+            <p class="text-sm text-slate-600 leading-snug min-w-0">
+              <span class="font-bold text-slate-800">+50</span>
+              negocios y emprendedores usan
+              <span class="landing-hero-social__brand" aria-label="WI-Store">WIStore</span>
+            </p>
+          </div>
         </div>
 
-        <p class="mt-14 md:mt-16 text-[11px] md:text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
+        <p class="mt-14 md:mt-16 text-[11px] md:text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
           {{ $wiStoreTrialLabel }} · Activo en minutos · Cancelas cuando quieras
         </p>
       </div>
@@ -103,9 +125,19 @@
         </div>
 
         {{-- Acento decorativo --}}
-        <div class="absolute -top-6 -left-4 w-28 h-28 rounded-full bg-purple-400/25 blur-2xl pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute -top-8 -left-12 w-48 h-48 md:w-56 md:h-56 rounded-full bg-purple-400/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
         <div class="absolute bottom-8 left-0 w-36 h-36 rounded-full bg-cyan-400/22 blur-2xl pointer-events-none" aria-hidden="true"></div>
       </div>
     </div>
+  </div>
+
+  <div class="landing-hero-scroll-wrap shrink-0 flex justify-center pt-2 pb-1">
+    <button type="button"
+            @click="scrollTo('por-que')"
+            class="landing-hero-scroll-hint group"
+            aria-label="Ver la siguiente sección">
+      <span class="landing-hero-scroll-hint__ring" aria-hidden="true"></span>
+      <i class="fas fa-chevron-down" aria-hidden="true"></i>
+    </button>
   </div>
 </section>

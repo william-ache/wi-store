@@ -7,7 +7,7 @@
             heroDemoStep: 1,
             heroDemoPaused: false,
             heroDemoTimer: null,
-            activeHowStep: 1,
+            activeFaq: 2,
             searchQuery: @json(request('search', '')),
             activeCategory: 'Todos',
             allShops: @json($shopsWithCategories ?? []),
@@ -55,6 +55,7 @@
                     { id: 'como-funciona', el: document.getElementById('como-funciona') },
                     { id: 'precios', el: document.getElementById('precios') },
                     { id: 'testimonios', el: document.getElementById('testimonios') },
+                    { id: 'faq', el: document.getElementById('faq') },
                 ].filter(s => s.el);
 
                 const observer = new IntersectionObserver((entries) => {
