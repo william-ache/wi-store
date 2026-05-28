@@ -116,16 +116,22 @@
 
             initScrollReveal() {
                 const selectors = [
-                    '#por-que',
-                    '#como-funciona',
-                    '#precios',
-                    '#faq',
-                    '.landing-how-step',
-                    '.landing-why-card',
-                    '.landing-plan-card',
-                    '.landing-faq-item',
+                    // Solo contenido (títulos, cards, bloques); no <section> ni fondos/glows
+                    '#por-que .landing-container > header',
+                    '#por-que .landing-why-card',
+                    '#como-funciona .landing-container > div:first-child',
+                    '#como-funciona .landing-how-step',
+                    '#como-funciona .landing-container > div:last-child',
+                    '#precios .landing-container > .text-center',
+                    '#precios .landing-billing-toggle-wrap',
+                    '#precios .landing-bcv-in-dark',
+                    '#precios .landing-container > .mt-6',
+                    '#faq .landing-container > header',
+                    '#faq .landing-faq-item',
                     '.landing-final-cta__panel',
-                    '.landing-footer',
+                    '.landing-footer .landing-container > .grid',
+                    '.landing-footer .landing-container > div.border-t',
+                    '.landing-plan-card',
                 ];
 
                 const targets = Array.from(document.querySelectorAll(selectors.join(',')));

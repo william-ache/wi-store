@@ -522,6 +522,14 @@
         opacity: 1;
         transform: translateY(0);
     }
+
+    /* Fondos de sección siempre visibles (no participan en scroll-reveal) */
+    .landing-section-glow,
+    .landing-hero-backdrop,
+    .landing-hero-backdrop > * {
+        opacity: 1 !important;
+        transform: none !important;
+    }
     @media (min-width: 768px) {
         .landing-how-step__visual {
             flex-basis: 14rem;

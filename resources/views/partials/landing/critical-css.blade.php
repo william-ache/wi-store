@@ -23,6 +23,16 @@
         padding-bottom: 2rem;
         overflow-x: clip;
         overflow-y: visible;
+        isolation: isolate;
+    }
+
+    .landing-hero-backdrop {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        transform: translateZ(0);
+        backface-visibility: hidden;
     }
     .landing-hero-surface {
         background:
@@ -73,8 +83,11 @@
         }
     }
     .landing-hero-grid,
-    .landing-hero-glow {
+    .landing-hero-glow,
+    .landing-hero-fade {
         position: absolute;
+        left: 0;
+        right: 0;
     }
     #inicio .landing-hero-inner {
         flex: 1;
@@ -240,50 +253,36 @@
         .landing-hero-scroll-hint { animation: none; }
     }
 
-    /* Cuadrícula: baja un poco más y se desvanece hacia «3 pasos + tutorial» */
+    /* Cuadrícula + glow: sin mask-image (evita que desaparezcan al volver arriba tras scroll) */
     .landing-hero-grid {
         top: 0;
-        left: 0;
-        right: 0;
-        height: calc(100% + 13rem);
+        bottom: 0;
         background-image:
             linear-gradient(to right, rgba(148, 163, 184, 0.26) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(148, 163, 184, 0.26) 1px, transparent 1px);
         background-size: 44px 44px;
-        mask-image: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 1) 0%,
-            rgba(0, 0, 0, 0.96) 42%,
-            rgba(0, 0, 0, 0.88) 62%,
-            rgba(0, 0, 0, 0.62) 78%,
-            rgba(0, 0, 0, 0.28) 90%,
-            rgba(0, 0, 0, 0.06) 97%,
-            transparent 100%
-        );
-        -webkit-mask-image: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 1) 0%,
-            rgba(0, 0, 0, 0.96) 42%,
-            rgba(0, 0, 0, 0.88) 62%,
-            rgba(0, 0, 0, 0.62) 78%,
-            rgba(0, 0, 0, 0.28) 90%,
-            rgba(0, 0, 0, 0.06) 97%,
-            transparent 100%
-        );
     }
     .landing-hero-glow {
         top: 0;
-        left: 0;
-        right: 0;
-        height: calc(100% + 6rem);
+        bottom: 0;
         background:
             linear-gradient(90deg, rgba(168, 85, 247, 0.08) 0%, rgba(217, 70, 239, 0.05) 44%, rgba(34, 211, 238, 0.08) 100%),
             radial-gradient(ellipse 78% 62% at 88% 14%, rgba(34, 211, 238, 0.34), transparent 64%),
             radial-gradient(ellipse 78% 62% at 14% 42%, rgba(168, 85, 247, 0.32), transparent 64%),
             radial-gradient(ellipse 50% 40% at 8% 55%, rgba(147, 51, 234, 0.14), transparent 58%);
         background-repeat: no-repeat;
-        mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+    }
+    .landing-hero-fade {
+        bottom: 0;
+        height: 11rem;
+        z-index: 2;
+        background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(255, 255, 255, 0.35) 45%,
+            rgba(255, 255, 255, 0.82) 78%,
+            rgba(255, 255, 255, 0.98) 100%
+        );
     }
 
     /* Velo suave de color de marca sobre el blanco */
