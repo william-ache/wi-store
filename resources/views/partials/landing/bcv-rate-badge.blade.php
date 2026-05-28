@@ -56,7 +56,7 @@
     @if ($compact)
         <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] leading-snug">
             <span class="text-slate-500">
-                <strong class="text-slate-200">USD</strong> · equivalente <strong class="text-slate-200">Bs.</strong> tasa <strong class="text-amber-400/90">BCV</strong>
+                Precios equivalente a tasa oficial del <strong class="text-amber-400/90">BDV</strong>
             </span>
             <span class="text-slate-600 hidden sm:inline" aria-hidden="true">·</span>
             <template x-if="loadingRate">
@@ -67,7 +67,7 @@
             </template>
             <template x-if="!loadingRate && exchangeRate">
                 <span class="landing-bcv-rate-value font-black text-emerald-400 tabular-nums whitespace-nowrap">
-                    1 USD = <span x-text="formatRateBs()"></span> Bs.
+                    1 USD = <span x-text="formatRateBs()"></span> Bs
                 </span>
             </template>
             <template x-if="!loadingRate && !exchangeRate">

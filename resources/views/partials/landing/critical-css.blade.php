@@ -24,6 +24,14 @@
         overflow-x: clip;
         overflow-y: visible;
     }
+    .landing-hero-surface {
+        background:
+            radial-gradient(ellipse 70% 45% at 8% 38%, rgba(168, 85, 247, 0.1), transparent 62%),
+            radial-gradient(ellipse 72% 42% at 92% 18%, rgba(34, 211, 238, 0.12), transparent 64%),
+            radial-gradient(ellipse 80% 48% at 50% 92%, rgba(217, 70, 239, 0.06), transparent 68%);
+        background-repeat: no-repeat;
+        background-color: transparent;
+    }
     @media (min-width: 768px) {
         #inicio {
             padding-top: 1.5rem;
@@ -200,9 +208,11 @@
         right: 0;
         height: calc(100% + 6rem);
         background:
+            linear-gradient(90deg, rgba(168, 85, 247, 0.08) 0%, rgba(217, 70, 239, 0.05) 44%, rgba(34, 211, 238, 0.08) 100%),
             radial-gradient(ellipse 78% 62% at 88% 14%, rgba(34, 211, 238, 0.34), transparent 64%),
             radial-gradient(ellipse 78% 62% at 14% 42%, rgba(168, 85, 247, 0.32), transparent 64%),
             radial-gradient(ellipse 50% 40% at 8% 55%, rgba(147, 51, 234, 0.14), transparent 58%);
+        background-repeat: no-repeat;
         mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
         -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
     }
@@ -215,6 +225,7 @@
             radial-gradient(ellipse 60% 35% at 0% 45%, rgba(168, 85, 247, 0.06), transparent 50%),
             radial-gradient(ellipse 65% 40% at 85% 65%, rgba(34, 211, 238, 0.06), transparent 50%),
             radial-gradient(ellipse 80% 45% at 15% 88%, rgba(192, 132, 252, 0.07), transparent 55%);
+        background-repeat: no-repeat;
     }
 
     @keyframes landing-float-card {

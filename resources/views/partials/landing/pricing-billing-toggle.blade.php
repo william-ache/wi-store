@@ -30,6 +30,6 @@
     </div>
 
     <p class="text-[10px] text-slate-500 font-medium text-center">
-        Precios vigentes <strong class="text-slate-600 font-bold">2026</strong>
+        Precios vigentes para todo el <strong class="text-slate-600 font-bold">2026</strong>
     </p>
 </div>

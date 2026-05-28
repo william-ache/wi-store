@@ -3,13 +3,15 @@
     use App\Support\PlanPricing;
     $emprendedor = PlanPricing::PLANS['standard'];
     $negocio = PlanPricing::PLANS['premium'];
-    $standardHighlights = PlanDetails::standard()['card_highlights'];
-    $premiumHighlights = PlanDetails::premium()['card_highlights'];
+    $standardHighlights = array_slice(PlanDetails::standard()['card_highlights'], 0, 4);
+    $premiumHighlights = array_slice(PlanDetails::premium()['card_highlights'], 0, 4);
+    $standardPurpose = 'Ideal para empezar con un catálogo profesional, pedidos y operación simple.';
+    $premiumPurpose = 'Para negocios que escalan: más capacidad, personalización y control.';
 @endphp
 
 <!-- Plan Emprendedor -->
 <div id="plan-standard"
-    class="landing-plan-card landing-plan-card--emprendedor rounded-3xl p-5 md:p-6 flex flex-col justify-between relative transition duration-300 hover:-translate-y-1">
+    class="landing-plan-card landing-plan-card--emprendedor rounded-3xl p-4 md:p-5 flex flex-col justify-between relative transition duration-300 hover:-translate-y-1 lg:scale-[0.985] lg:origin-top">
     <div>
         <div class="flex justify-between items-start gap-2">
             <h3 class="text-base font-black text-slate-900 uppercase tracking-wider">
@@ -17,9 +19,9 @@
             </h3>
             <span class="landing-plan-badge landing-plan-badge--emprendedor text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Para empezar</span>
         </div>
-        <p class="text-[11px] text-slate-400 mt-2 leading-snug">{{ PlanDetails::standard()['purpose'] }}</p>
+        <p class="text-[11px] text-slate-400 mt-1.5 leading-snug">{{ $standardPurpose }}</p>
 
-        <div class="landing-plan-price--emprendedor landing-billing-swap landing-billing-swap--sm my-5 rounded-2xl px-5 py-4">
+        <div class="landing-plan-price--emprendedor landing-billing-swap landing-billing-swap--sm my-4 rounded-2xl px-4 py-4">
             <div class="landing-billing-swap__layer"
                  x-show="billingPeriod === 'monthly'"
                  x-transition:enter="landing-billing-fade-enter"
@@ -33,8 +35,8 @@
                     <span class="text-sm font-semibold text-slate-500">/ mes</span>
                 </p>
                 <p class="text-[10px] text-slate-500 mt-1">
-                    Anual: <strong class="text-purple-600">{{ PlanPricing::formatUsd($emprendedor['annual_monthly_equivalent']) }}/mes</strong>
-                    · ahorra {{ $emprendedor['annual_savings_label'] }}
+                    <span class="text-cyan-600">Anual: <strong class="text-cyan-600">{{ PlanPricing::formatUsd($emprendedor['annual_monthly_equivalent']) }}/mes</strong></span>
+                    · ahorro anual: {{ $emprendedor['annual_savings_label'] }}
                 </p>
             </div>
             <div class="landing-billing-swap__layer"
@@ -51,22 +53,22 @@
                 </p>
                 <p class="text-3xl font-black text-slate-900 tracking-tight">
                     {{ PlanPricing::formatUsd($emprendedor['annual_monthly_equivalent']) }}
-                    <span class="text-sm font-semibold text-slate-500">/ mes equiv.</span>
+                    <span class="text-sm font-semibold text-slate-500">/ mes</span>
                 </p>
-                <p class="text-[10px] text-slate-500 mt-1">
-                    Total <strong class="text-slate-900">{{ PlanPricing::formatUsd($emprendedor['annual_total']) }}/año</strong>
-                    · ahorras {{ $emprendedor['annual_savings_label'] }}
+                <p class="text-[10px] text-slate-500 mt-1 leading-tight">
+                    Total <strong class="text-slate-600">{{ PlanPricing::formatUsd($emprendedor['annual_total']) }}/año</strong>
+                    · ahorro anual: {{ $emprendedor['annual_savings_label'] }}
                 </p>
             </div>
         </div>
 
-        <ul class="space-y-2 text-[11px] text-slate-600 border-t border-slate-200 pt-4">
+        <ul class="space-y-1 text-[10px] text-slate-600 border-t border-slate-200 pt-2.5">
             @foreach ($standardHighlights as $highlight)
                 <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> {{ $highlight }}</li>
             @endforeach
         </ul>
     </div>
-    <div class="mt-6">
+    <div class="mt-4">
         <a href="/register" class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-2.5 rounded-xl text-xs">Comenzar Emprendedor</a>
     </div>
 </div>
@@ -74,10 +76,11 @@
 <!-- Plan Negocio -->
 <div id="plan-premium"
     class="landing-plan-card landing-plan-card--featured landing-plan-vip-elevated rounded-3xl flex flex-col transition duration-300">
-    <div class="landing-plan-inner landing-plan-inner--negocio p-5 md:p-7 flex flex-col justify-between h-full flex-grow relative overflow-hidden">
+    <div class="landing-plan-inner landing-plan-inner--negocio p-5 md:p-6 flex flex-col justify-between h-full flex-grow relative overflow-hidden">
+        <div class="landing-plan-recommended-bar">RECOMENDADO</div>
         <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-400/60 to-transparent"></div>
 
-        <div class="relative z-10 flex flex-col flex-grow">
+        <div class="relative z-10 flex flex-col flex-grow pt-8 md:pt-9">
             <div class="flex justify-between items-center gap-2">
                 <div class="flex items-center gap-2 min-w-0 flex-1">
                     <div class="landing-plan-icon--negocio w-9 h-9 shrink-0 rounded-xl flex items-center justify-center">
@@ -87,40 +90,13 @@
                         Plan <span class="landing-plan-title--purple">Negocio</span>
                     </h3>
                 </div>
-                <span class="landing-plan-badge landing-plan-badge--negocio text-[7px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Recomendado</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-2.5 leading-snug">{{ PlanDetails::premium()['purpose'] }}</p>
+            <span class="landing-plan-trial-floating">
+                <i class="fas fa-gift"></i>{{ $wiStoreTrialLabel }}
+            </span>
+            <p class="text-[11px] text-slate-400 mt-2 leading-snug">{{ $premiumPurpose }}</p>
 
-            <div class="mt-3 rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2">
-                <p class="text-[10px] font-black uppercase tracking-wide text-cyan-800">
-                    <i class="fas fa-gift text-cyan-600 mr-1"></i>{{ $wiStoreTrialLabel }}
-                </p>
-                <div class="landing-billing-swap landing-billing-swap--xs mt-0.5">
-                    <p class="landing-billing-swap__layer text-[9px] text-slate-400 leading-snug"
-                       x-show="billingPeriod === 'monthly'"
-                       x-transition:enter="landing-billing-fade-enter"
-                       x-transition:enter-start="opacity-0"
-                       x-transition:enter-end="opacity-100"
-                       x-transition:leave="landing-billing-fade-leave"
-                       x-transition:leave-start="opacity-100"
-                       x-transition:leave-end="opacity-0">
-                        Prueba todo el plan Negocio sin costo · luego {{ PlanPricing::formatUsd($negocio['monthly']) }}/mes
-                    </p>
-                    <p class="landing-billing-swap__layer text-[9px] text-slate-400 leading-snug"
-                       x-show="billingPeriod === 'annual'"
-                       x-cloak
-                       x-transition:enter="landing-billing-fade-enter"
-                       x-transition:enter-start="opacity-0"
-                       x-transition:enter-end="opacity-100"
-                       x-transition:leave="landing-billing-fade-leave"
-                       x-transition:leave-start="opacity-100"
-                       x-transition:leave-end="opacity-0">
-                        Prueba {{ $wiStoreTrialLabel }} · luego {{ PlanPricing::formatUsd($negocio['annual_monthly_equivalent']) }}/mes equiv. anual
-                    </p>
-                </div>
-            </div>
-
-            <div class="landing-plan-price--negocio my-4 rounded-2xl px-5 py-4">
+            <div class="landing-plan-price--negocio my-4 rounded-2xl px-4 py-4">
                 <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Después del periodo de prueba</p>
                 <div class="landing-billing-swap landing-billing-swap--md mt-1">
                     <div class="landing-billing-swap__layer"
@@ -136,8 +112,8 @@
                             <span class="text-sm font-semibold text-slate-500">/ mes</span>
                         </p>
                         <p class="text-[10px] text-slate-500 mt-1">
-                            Anual: {{ PlanPricing::formatUsd($negocio['annual_monthly_equivalent']) }}/mes
-                            · <strong class="text-cyan-600">{{ $negocio['annual_savings_label'] }}</strong>
+                            <span class="text-purple-600">Anual: <strong class="text-purple-600">{{ PlanPricing::formatUsd($negocio['annual_monthly_equivalent']) }}/mes</strong></span>
+                            · <strong class="text-slate-600">estás ahorrando {{ $negocio['annual_savings_label'] }} por pago anual</strong>
                         </p>
                     </div>
                     <div class="landing-billing-swap__layer"
@@ -154,22 +130,22 @@
                         </p>
                         <p class="text-3xl font-black text-slate-900 tracking-tight">
                             {{ PlanPricing::formatUsd($negocio['annual_monthly_equivalent']) }}
-                            <span class="text-sm font-semibold text-slate-500">/ mes equiv.</span>
+                            <span class="text-sm font-semibold text-slate-500">/ mes</span>
                         </p>
                         <p class="text-[10px] text-slate-500 mt-1">
-                            Total <strong class="text-slate-900">{{ PlanPricing::formatUsd($negocio['annual_total']) }}/año</strong>
-                            · <strong class="text-cyan-600">{{ $negocio['annual_savings_label'] }}</strong>
+                            Total <strong class="text-slate-600">{{ PlanPricing::formatUsd($negocio['annual_total']) }}/año</strong>
+                            · <strong class="text-slate-600">estás ahorrando {{ $negocio['annual_savings_label'] }} por pago anual</strong>
                         </p>
                     </div>
                 </div>
             </div>
 
-            <ul class="space-y-2.5 text-[11px] text-slate-600 border-t border-purple-200 pt-4 flex-grow">
+            <ul class="space-y-1.5 text-[11px] text-slate-600 border-t border-purple-200 pt-3 flex-grow">
                 @foreach ($premiumHighlights as $highlight)
                     <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> {{ $highlight }}</li>
                 @endforeach
             </ul>
-            <div class="mt-6 flex flex-col gap-2">
+            <div class="mt-5 flex flex-col gap-2">
                 <a href="/register"
                     class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
                     Probar {{ $wiStoreTrialLabel }}

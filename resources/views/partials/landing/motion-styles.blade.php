@@ -114,15 +114,15 @@
     }
 
     .landing-billing-swap--sm {
-        min-height: 5.25rem;
+        min-height: 4.95rem;
     }
 
     .landing-billing-swap--md {
-        min-height: 6.75rem;
+        min-height: 5.4rem;
     }
 
     .landing-billing-swap--xs {
-        min-height: 2.5rem;
+        min-height: 2.1rem;
     }
 
     .landing-billing-swap__layer {

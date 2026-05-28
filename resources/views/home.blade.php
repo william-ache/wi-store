@@ -891,7 +891,7 @@
     @include('partials.landing.final-cta')
 
     <!-- FOOTER -->
-    <footer class="landing-dark-zone landing-footer relative z-10 pt-8 pb-10 overflow-x-clip" aria-labelledby="footer-heading">
+    <footer class="landing-dark-zone landing-footer relative z-10 mt-8 md:mt-10 pt-8 pb-10 overflow-x-clip" aria-labelledby="footer-heading">
         <div class="landing-container">
             <h2 id="footer-heading" class="sr-only">Información y enlaces de WI-Store</h2>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">

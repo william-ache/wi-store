@@ -579,6 +579,56 @@
     .landing-plan-inner--negocio {
         background: linear-gradient(165deg, #faf5ff 0%, #ffffff 55%, #ecfeff 100%);
     }
+    .landing-plan-recommended-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(90deg, #6d28d9 0%, #9333ea 50%, #7c3aed 100%);
+        color: #fff;
+        font-size: 0.68rem;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(147, 51, 234, 0.22);
+        box-shadow: 0 6px 16px rgba(124, 58, 237, 0.22);
+        z-index: 12;
+    }
+    .landing-plan-trial-floating {
+        position: absolute;
+        top: 2.35rem;
+        right: 0.15rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.34rem 0.62rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(6, 182, 212, 0.35);
+        background: rgba(236, 254, 255, 0.95);
+        color: #0e7490;
+        font-size: 0.54rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        line-height: 1;
+        white-space: nowrap;
+        z-index: 13;
+        box-shadow: 0 6px 16px rgba(6, 182, 212, 0.14);
+    }
+    .landing-plan-trial-floating i {
+        font-size: 0.58rem;
+    }
+    @media (min-width: 768px) {
+        .landing-plan-trial-floating {
+            right: 0.25rem;
+            top: 2.4rem;
+            font-size: 0.58rem;
+        }
+    }
     .landing-plan-price--emprendedor {
         background: #f8fafc;
         border: 1px solid #e2e8f0;

@@ -1,6 +1,9 @@
-<section id="inicio" class="relative z-10">
+<section id="inicio" class="landing-hero-surface relative z-10">
   <div class="landing-hero-grid absolute pointer-events-none z-0" aria-hidden="true"></div>
   <div class="landing-hero-glow absolute pointer-events-none z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow top-[8%] -left-24 w-[26rem] h-[26rem] bg-purple-400/20 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow top-[4%] -right-24 w-[28rem] h-[28rem] bg-cyan-400/22 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow bottom-[10%] left-[12%] w-[20rem] h-[20rem] bg-fuchsia-400/14 z-0" aria-hidden="true"></div>
 
   <div class="landing-hero-inner landing-container relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
@@ -54,7 +57,7 @@
             <p class="text-sm text-slate-600 leading-snug min-w-0">
               <span class="font-bold text-slate-800">+50</span>
               negocios y emprendedores usan
-              <span class="landing-hero-social__brand" aria-label="WI-Store">WIStore</span>
+              <span class="landing-hero-social__brand" aria-label="WI-Store">WI-Store</span>
             </p>
           </div>
         </div>
@@ -110,7 +113,7 @@
         </div>
 
         {{-- Card secundaria: ventas --}}
-        <div class="landing-float-card landing-float-card--delay absolute -bottom-1 right-0 sm:right-1 lg:right-2 w-[min(100%,180px)] sm:w-[195px] xl:w-[210px] bg-white rounded-2xl border border-slate-200/90 shadow-lg shadow-slate-300/30 p-3.5 sm:p-4 z-20">
+        <div class="landing-float-card landing-float-card--delay relative mt-3 ml-auto w-[min(100%,180px)] sm:absolute sm:mt-0 sm:-bottom-1 sm:right-1 lg:right-2 sm:w-[195px] xl:w-[210px] bg-white rounded-2xl border border-slate-200/90 shadow-lg shadow-slate-300/30 p-3.5 sm:p-4 z-20">
           <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ventas hoy</p>
           <div class="flex items-end justify-between gap-2 mt-1">
             <p class="text-xl font-black text-slate-900 tabular-nums">$487</p>
