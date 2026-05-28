@@ -65,7 +65,7 @@
       </div>
 
       {{-- Columna derecha: cards flotantes (estilo dashboard) --}}
-      <div class="relative flex justify-center lg:justify-end min-h-[22rem] md:min-h-[26rem]">
+      <div class="relative flex justify-center lg:justify-end min-h-[22rem] md:min-h-[26rem] overflow-x-clip px-1 sm:px-0">
         {{-- Card principal: pedido en vivo --}}
         <div class="landing-float-card relative w-full max-w-[340px] bg-white rounded-2xl border border-slate-200/90 shadow-xl shadow-slate-300/40 p-5 md:p-6 z-10">
           <div class="flex items-start justify-between gap-3 mb-5">
@@ -110,7 +110,7 @@
         </div>
 
         {{-- Card secundaria: ventas --}}
-        <div class="landing-float-card landing-float-card--delay absolute -bottom-2 -right-2 sm:right-0 lg:-right-4 w-[min(100%,200px)] sm:w-[210px] bg-white rounded-2xl border border-slate-200/90 shadow-lg shadow-slate-300/30 p-4 z-20">
+        <div class="landing-float-card landing-float-card--delay absolute -bottom-2 right-0 sm:right-1 lg:right-2 w-[min(100%,200px)] sm:w-[210px] bg-white rounded-2xl border border-slate-200/90 shadow-lg shadow-slate-300/30 p-4 z-20">
           <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ventas hoy</p>
           <div class="flex items-end justify-between gap-2 mt-1">
             <p class="text-xl font-black text-slate-900 tabular-nums">$487</p>

@@ -1,4 +1,4 @@
-<section id="por-que" class="py-14 md:py-20 relative z-10" aria-labelledby="por-que-heading">
+<section id="por-que" class="py-14 md:py-20 relative z-10 overflow-x-clip" aria-labelledby="por-que-heading">
     <div class="landing-section-glow top-0 right-[-5%] w-[22rem] h-[22rem] bg-purple-400/15" aria-hidden="true"></div>
 
     <div class="landing-container relative z-10">

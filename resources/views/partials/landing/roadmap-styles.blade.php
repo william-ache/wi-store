@@ -1,17 +1,20 @@
 <style>
     .roadmap-scene {
         position: relative;
+        overflow: hidden;
+        max-width: 100%;
     }
 
     .roadmap-path-wrap {
         position: relative;
         width: 100%;
+        max-width: 100%;
         aspect-ratio: 16 / 14;
         min-height: 34rem;
         max-height: 48rem;
         transform: rotateX(1.5deg);
         transform-origin: center center;
-        overflow: visible;
+        overflow: hidden;
     }
 
     .roadmap-path-svg {
@@ -19,7 +22,7 @@
         inset: 0;
         width: 100%;
         height: 100%;
-        overflow: visible;
+        overflow: hidden;
         pointer-events: none;
         z-index: 6;
     }

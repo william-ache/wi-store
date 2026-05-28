@@ -21,7 +21,8 @@
         min-height: calc(100dvh - 4rem);
         padding-top: 1.25rem;
         padding-bottom: 2rem;
-        overflow: visible;
+        overflow-x: clip;
+        overflow-y: visible;
     }
     @media (min-width: 768px) {
         #inicio {

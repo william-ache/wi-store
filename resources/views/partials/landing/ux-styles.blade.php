@@ -1,5 +1,15 @@
 <style>
+    /* Evita scroll horizontal por glows, SVG del roadmap y cards del hero */
+    html.wi-store-ui.wi-store-landing,
+    html.wi-store-ui.wi-store-landing body {
+        overflow-x: clip;
+        max-width: 100%;
+    }
+
     /* Contenedor fluido: ancho máximo + márgenes laterales generosos en pantallas grandes */
+    .wi-store-landing .landing-container {
+        min-width: 0;
+    }
     .wi-store-landing .landing-container {
         width: 100%;
         max-width: 76rem;
@@ -251,6 +261,7 @@
         background: #0b1426;
         color: #e2e8f0;
         isolation: isolate;
+        overflow-x: clip;
     }
     .landing-dark-zone::before {
         content: '';
