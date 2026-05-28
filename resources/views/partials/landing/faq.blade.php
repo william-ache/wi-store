@@ -27,7 +27,7 @@
     ];
 @endphp
 
-<section id="faq" class="py-14 md:py-20 relative z-10 overflow-x-clip" aria-labelledby="faq-heading">
+<section id="faq" class="py-14 md:py-20 relative z-10 overflow-x-clip bg-gradient-to-b from-white via-cyan-50/40 to-white" aria-labelledby="faq-heading">
     <div class="landing-container relative z-10">
         <header class="text-center mb-10 md:mb-12 max-w-2xl mx-auto">
             <h2 id="faq-heading" class="text-2xl md:text-4xl font-black tracking-tight text-slate-900">

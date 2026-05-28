@@ -1,4 +1,4 @@
-<section id="como-funciona" class="py-14 md:py-20 relative overflow-hidden z-10 bg-transparent">
+<section id="como-funciona" class="py-14 md:py-20 relative overflow-hidden z-10 bg-gradient-to-b from-white via-cyan-50/35 to-white">
     <div class="landing-section-glow top-0 left-[-8%] w-96 h-96 bg-purple-400/15" aria-hidden="true"></div>
     <div class="landing-section-glow bottom-8 right-0 w-[26rem] h-[26rem] bg-fuchsia-400/12" aria-hidden="true"></div>
     <div class="landing-container relative z-10">
