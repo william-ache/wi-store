@@ -3,6 +3,8 @@
         Alpine.data('landingPage', () => ({
             isMobileMenuOpen: false,
             activeSection: 'inicio',
+            scrollY: 0,
+            backToTopVisible: false,
             showCarousel: true,
             heroDemoStep: 1,
             heroDemoPaused: false,
@@ -46,8 +48,15 @@
                 const qs = params.toString();
                 return @json(route('tiendas.index')) + (qs ? '?' + qs : '');
             },
-
             init() {
+                this.scrollY = window.scrollY || 0;
+                const syncScrollY = () => {
+                    this.scrollY = window.scrollY || 0;
+                    this.updateBackToTopVisibility();
+                };
+                window.addEventListener('scroll', syncScrollY, { passive: true });
+                window.addEventListener('resize', () => this.updateBackToTopVisibility(), { passive: true });
+                syncScrollY();
                 const sections = [
                     { id: 'inicio', el: document.getElementById('inicio') },
                     // { id: 'explorar', el: document.getElementById('explorar') },
@@ -71,6 +80,12 @@
                 this.initScrollReveal();
                 this.initRegisterFormDemo();
                 this.startHeroDemoCycle();
+                this.updateBackToTopVisibility();
+            },
+
+            updateBackToTopVisibility() {
+                // El botón de volver arriba se muestra cuando el usuario se desplaza más de 800px
+                this.backToTopVisible = this.scrollY > 800;
             },
 
             initScrollProgress() {
@@ -97,6 +112,7 @@
                         ticking = true;
                         requestAnimationFrame(update);
                     }
+                    this.scrollY = window.scrollY || 0;
                 };
 
                 window.addEventListener('scroll', onScroll, { passive: true });

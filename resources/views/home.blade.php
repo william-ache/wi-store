@@ -985,6 +985,20 @@
         </div>
     </footer>
 
+    <button type="button"
+            x-show="backToTopVisible"
+            x-transition:enter="transition ease-out duration-250"
+            x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+            x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+            x-transition:leave="transition ease-in duration-180"
+            x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+            x-transition:leave-end="opacity-0 translate-y-1 scale-95"
+            @click="scrollTo('inicio')"
+            class="fixed bottom-5 right-24 sm:bottom-6 sm:right-[6.75rem] z-[10000] w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 border-2 border-white text-white shadow-[0_10px_28px_rgba(14,116,144,0.35)] hover:brightness-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/90"
+            aria-label="Volver arriba">
+        <i class="fas fa-arrow-up text-sm" aria-hidden="true"></i>
+    </button>
+
     @include('partials.landing.ux-script')
     @include('partials.public.chat')
 </body>
