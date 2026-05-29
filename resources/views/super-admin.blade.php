@@ -532,34 +532,25 @@
 
                                         <!-- Plan -->
                                         <td class="py-4 px-4">
-                                            @if ($shop->plan === 'free_trial')
-                                                <span
-                                                    class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 uppercase tracking-wider">
-                                                    <i class="fas fa-clock text-[9px]"></i> Prueba 7d
-                                                </span>
-                                            @elseif($shop->plan === 'premium')
-                                                <div class="flex flex-col items-start gap-1">
-                                                    <span
-                                                        class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/10 border border-emerald-500/30 text-emerald-450 uppercase tracking-wider premium-glow">
-                                                        <i class="fas fa-crown text-[9px]"></i> Negocio
-                                                    </span>
-                                                    <span
-                                                        class="text-[9px] text-emerald-450 font-black uppercase tracking-wider pl-1.5 opacity-85">
-                                                        {{ $shop->billing_cycle ?? 'mensual' }}
-                                                    </span>
-                                                </div>
-                                            @else
-                                                <div class="flex flex-col items-start gap-1">
-                                                    <span
-                                                        class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/10 border border-sky-500/20 text-sky-400 uppercase tracking-wider">
-                                                        <i class="fas fa-award text-[9px]"></i> Emprendedor
-                                                    </span>
-                                                    <span
-                                                        class="text-[9px] text-sky-400 font-semibold uppercase tracking-wider pl-1.5 opacity-85">
-                                                        {{ $shop->billing_cycle ?? 'mensual' }}
-                                                    </span>
-                                                </div>
-                                            @endif
+                                            <form action="{{ route('super-admin.shops.update-plan', $shop->id) }}" method="POST"
+                                                class="flex flex-col items-start gap-1.5 min-w-[9.5rem]"
+                                                @change="$event.target.form.requestSubmit()">
+                                                @csrf
+                                                @method('PATCH')
+                                                <select name="plan"
+                                                    class="w-full bg-[#120a32] border border-white/15 rounded-lg py-1.5 pl-2 pr-7 text-[10px] font-bold text-white uppercase tracking-wide focus:outline-none focus:border-violet-500 cursor-pointer">
+                                                    <option value="free_trial" @selected($shop->plan === 'free_trial')>Prueba {{ $wiStoreTrialDays }}d</option>
+                                                    <option value="standard" @selected($shop->plan === 'standard')>Emprendedor</option>
+                                                    <option value="premium" @selected($shop->plan === 'premium')>Negocio</option>
+                                                </select>
+                                                @if ($shop->plan !== 'free_trial')
+                                                    <select name="billing_cycle"
+                                                        class="w-full bg-white/5 border border-white/10 rounded-lg py-1 pl-2 pr-6 text-[9px] font-semibold text-slate-300 uppercase tracking-wide focus:outline-none focus:border-violet-500 cursor-pointer">
+                                                        <option value="mensual" @selected(($shop->billing_cycle ?? 'mensual') === 'mensual')>Mensual</option>
+                                                        <option value="anual" @selected($shop->billing_cycle === 'anual')>Anual</option>
+                                                    </select>
+                                                @endif
+                                            </form>
                                         </td>
 
                                         <!-- Last Payment Column -->
@@ -638,6 +629,7 @@
                                                     'slug' => $shop->slug,
                                                     'whatsapp_number' => $shop->whatsapp_number,
                                                     'plan' => $shop->plan,
+                                                    'shop_category' => $shop->shop_category ?? 'otros',
                                                     'billing_cycle' => $shop->billing_cycle ?? 'mensual',
                                                     'plan_expires_at' => $shop->plan_expires_at
                                                         ? $shop->plan_expires_at->format('Y-m-d')

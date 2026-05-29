@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use App\Models\User;
+use App\Support\PlanFeatures;
 use App\Support\PlanPricing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -34,9 +35,9 @@ class SuperAdminController extends Controller
             'color_secondary' => 'required|string|max:20',
             'color_background' => 'required|string|max:20',
             'logo' => 'nullable|image|max:2048',
-            'logo_url' => 'nullable|url',
+            'logo_url' => 'nullable|string|max:2048',
             'cover' => 'nullable|image|max:4096',
-            'cover_url' => 'nullable|url',
+            'cover_url' => 'nullable|string|max:2048',
             'description' => 'nullable|string',
             'address' => 'nullable|string',
             'plan_expires_at' => 'nullable|date',
@@ -147,9 +148,9 @@ class SuperAdminController extends Controller
             'color_secondary' => 'required|string|max:20',
             'color_background' => 'required|string|max:20',
             'logo' => 'nullable|image|max:2048',
-            'logo_url' => 'nullable|url',
+            'logo_url' => 'nullable|string|max:2048',
             'cover' => 'nullable|image|max:4096',
-            'cover_url' => 'nullable|url',
+            'cover_url' => 'nullable|string|max:2048',
             'description' => 'nullable|string',
             'address' => 'nullable|string',
             'plan_expires_at' => 'nullable|date',
@@ -234,7 +235,39 @@ class SuperAdminController extends Controller
 
         $user->update($userData);
 
+        PlanFeatures::syncShopModulesForPlan($shop);
+
         return redirect()->back()->with('success', '¡Tienda "' . $shop->name . '" y su administrador actualizados con éxito!');
+    }
+
+    public function updatePlan(Request $request, $id)
+    {
+        $shop = Shop::findOrFail($id);
+
+        $request->validate([
+            'plan' => 'required|string|in:free_trial,standard,premium',
+            'billing_cycle' => 'nullable|string|in:mensual,anual',
+        ]);
+
+        $plan = $request->plan;
+        $billingCycle = $plan === 'free_trial'
+            ? 'mensual'
+            : ($request->input('billing_cycle', $shop->billing_cycle ?? 'mensual'));
+
+        $shop->update([
+            'plan' => $plan,
+            'billing_cycle' => $billingCycle,
+        ]);
+
+        PlanFeatures::syncShopModulesForPlan($shop);
+
+        $label = match ($plan) {
+            'premium' => 'Negocio',
+            'free_trial' => 'Prueba gratis',
+            default => 'Emprendedor',
+        };
+
+        return redirect()->back()->with('success', 'Plan de "' . $shop->name . '" actualizado a ' . $label . '.');
     }
 
     public function toggleStatus($id)

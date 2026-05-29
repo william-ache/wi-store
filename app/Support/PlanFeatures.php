@@ -16,6 +16,22 @@ final class PlanFeatures
         'delivery',
     ];
 
+    public static function resolvePlan(?Shop $shop): string
+    {
+        if (!$shop) {
+            return self::EMPRENDEDOR_PLAN;
+        }
+
+        $plan = strtolower(trim((string) ($shop->plan ?? '')));
+
+        return match ($plan) {
+            'premium', 'negocio', 'business' => 'premium',
+            'free_trial', 'trial' => 'free_trial',
+            'standard', 'emprendedor', 'basic' => self::EMPRENDEDOR_PLAN,
+            default => self::EMPRENDEDOR_PLAN,
+        };
+    }
+
     /**
      * Ventas, contactos, finanzas y sus submenús (plan Negocio / prueba).
      */
@@ -27,7 +43,23 @@ final class PlanFeatures
             return true;
         }
 
-        return ($shop->plan ?? self::EMPRENDEDOR_PLAN) !== self::EMPRENDEDOR_PLAN;
+        return self::resolvePlan($shop) !== self::EMPRENDEDOR_PLAN;
+    }
+
+    /** Ajusta módulos habilitados cuando la tienda pasa a plan Emprendedor. */
+    public static function syncShopModulesForPlan(Shop $shop): void
+    {
+        $shop->refresh();
+
+        if (self::hasBusinessPanel($shop)) {
+            return;
+        }
+
+        $filtered = self::filterEnabledModules($shop->enabled_modules, $shop);
+
+        if ($filtered !== ($shop->enabled_modules ?? [])) {
+            $shop->update(['enabled_modules' => $filtered]);
+        }
     }
 
     /**

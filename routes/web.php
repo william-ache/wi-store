@@ -170,6 +170,7 @@ Route::prefix('/wydex-super-admin')->name('super-admin.')->group(function () {
         Route::post('/shops', [App\Http\Controllers\SuperAdminController::class, 'store'])->name('shops.store');
         Route::post('/shops/{id}/toggle', [App\Http\Controllers\SuperAdminController::class, 'toggleStatus'])->name('shops.toggle');
         Route::put('/shops/{id}', [App\Http\Controllers\SuperAdminController::class, 'update'])->name('shops.update');
+        Route::patch('/shops/{id}/plan', [App\Http\Controllers\SuperAdminController::class, 'updatePlan'])->name('shops.update-plan');
         Route::post('/logout', [App\Http\Controllers\SuperAdminController::class, 'logout'])->name('logout');
         
         // Rutas de administración de pagos

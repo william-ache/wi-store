@@ -26,7 +26,8 @@ class IdentifyTenant
             abort(404, 'Tienda no encontrada.');
         }
 
-        // Registrar en config para los global scopes
+        // Registrar en config para los global scopes (siempre datos frescos de BD)
+        $shop = $shop->fresh() ?? $shop;
         config(['current_shop' => $shop]);
         config(['current_shop_id' => $shop->id]);
 

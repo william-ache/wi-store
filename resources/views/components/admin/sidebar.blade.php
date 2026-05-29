@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            @if ($planHasBusinessModules ?? true)
+            @if (\App\Support\PlanFeatures::hasBusinessPanel($currentShop ?? config('current_shop')))
             <!-- Ventas -->
             <div x-data="{ open: {{ request()->is('*/admin/orders*') || request()->is('*/admin/bookings*') || request()->is('*/admin/abandoned-carts*') ? 'true' : 'false' }} }" class="space-y-1">
                 <button @click="open = !open" 
@@ -111,7 +111,7 @@
             </div>
             @endif
 
-            @if ($planHasBusinessModules ?? true)
+            @if (\App\Support\PlanFeatures::hasBusinessPanel($currentShop ?? config('current_shop')))
             <!-- Contactos -->
             <div x-data="{ open: {{ request()->is('*/admin/clients*') ? 'true' : 'false' }} }" class="space-y-1">
                 <button @click="open = !open" 
@@ -146,7 +146,7 @@
             </div>
             @endif
 
-            @if ($planHasBusinessModules ?? true)
+            @if (\App\Support\PlanFeatures::hasBusinessPanel($currentShop ?? config('current_shop')))
             <!-- Finanzas -->
             <div x-data="{ open: false }" class="space-y-1">
                 <button @click="open = !open" 
