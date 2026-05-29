@@ -71,6 +71,7 @@
                 </div>
             </div>
 
+            @if ($planHasBusinessModules ?? true)
             <!-- Ventas -->
             <div x-data="{ open: {{ request()->is('*/admin/orders*') || request()->is('*/admin/bookings*') || request()->is('*/admin/abandoned-carts*') ? 'true' : 'false' }} }" class="space-y-1">
                 <button @click="open = !open" 
@@ -108,7 +109,9 @@
                     </a>
                 </div>
             </div>
+            @endif
 
+            @if ($planHasBusinessModules ?? true)
             <!-- Contactos -->
             <div x-data="{ open: {{ request()->is('*/admin/clients*') ? 'true' : 'false' }} }" class="space-y-1">
                 <button @click="open = !open" 
@@ -141,7 +144,9 @@
                     </a>
                 </div>
             </div>
+            @endif
 
+            @if ($planHasBusinessModules ?? true)
             <!-- Finanzas -->
             <div x-data="{ open: false }" class="space-y-1">
                 <button @click="open = !open" 
@@ -167,6 +172,7 @@
                     </a>
                 </div>
             </div>
+            @endif
 
             <!-- Marketing -->
             <div x-data="{ open: {{ request()->is('*/admin/announcements*') || request()->is('*/admin/coupons*') ? 'true' : 'false' }} }" class="space-y-1">

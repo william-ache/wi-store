@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'tenant' => \App\Http\Middleware\IdentifyTenant::class,
             'super_admin_auth' => \App\Http\Middleware\SuperAdminAuth::class,
             'cache.store' => \App\Http\Middleware\CacheStoreResponse::class,
+            'plan.business' => \App\Http\Middleware\EnsureBusinessPlanModules::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

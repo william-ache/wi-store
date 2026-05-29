@@ -107,12 +107,17 @@
         <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-secondary/5 rounded-full blur-2xl pointer-events-none"></div>
         <h2 class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[var(--ui-text-muted)] mb-5 relative z-10">Accesos Rápidos</h2>
         <div class="grid grid-cols-1 gap-3 relative z-10">
-            @foreach([
-                ['/' . config('current_shop')->slug . '/admin/products', '🍔', 'Cargar Productos', 'Agrega artículos y fotos'],
-                ['/' . config('current_shop')->slug . '/admin/settings', '🎨', 'Personalizar Tienda', 'Colores, logo e información'],
-                ['/' . config('current_shop')->slug . '/admin/analytics', '📊', 'Ver Rendimiento', 'Estadísticas y ventas comerciales'],
-                ['/' . config('current_shop')->slug . '/admin/orders', '📋', 'Gestionar Pedidos', 'Recibe y despacha órdenes'],
-            ] as [$href, $icon, $title, $desc])
+            @php
+                $quickLinks = [
+                    ['/' . config('current_shop')->slug . '/admin/products', '🍔', 'Cargar Productos', 'Agrega artículos y fotos'],
+                    ['/' . config('current_shop')->slug . '/admin/settings', '🎨', 'Personalizar Tienda', 'Colores, logo e información'],
+                    ['/' . config('current_shop')->slug . '/admin/analytics', '📊', 'Ver Rendimiento', 'Estadísticas y ventas comerciales'],
+                ];
+                if ($planHasBusinessModules ?? true) {
+                    $quickLinks[] = ['/' . config('current_shop')->slug . '/admin/orders', '📋', 'Gestionar Pedidos', 'Recibe y despacha órdenes'];
+                }
+            @endphp
+            @foreach($quickLinks as [$href, $icon, $title, $desc])
             <a href="{{ $href }}" class="flex items-center justify-between p-3.5 rounded-2xl ui-inset border hover:brightness-[0.98] dark:hover:brightness-110 transition-all duration-300 group">
                 <div class="flex items-center gap-3">
                     <span class="text-xl group-hover:scale-110 transition-transform">{{ $icon }}</span>

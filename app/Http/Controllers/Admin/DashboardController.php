@@ -164,19 +164,22 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        // 3. Orders
-        $orders = Order::where('id', 'LIKE', "%{$query}%")
-            ->orWhere('customer_name', 'LIKE', "%{$query}%")
-            ->orWhere('customer_phone', 'LIKE', "%{$query}%")
-            ->limit(5)
-            ->get();
+        $orders = collect();
+        $clients = collect();
 
-        // 4. Clients
-        $clients = \App\Models\Client::where('name', 'LIKE', "%{$query}%")
-            ->orWhere('phone', 'LIKE', "%{$query}%")
-            ->orWhere('email', 'LIKE', "%{$query}%")
-            ->limit(5)
-            ->get();
+        if (\App\Support\PlanFeatures::hasBusinessPanel()) {
+            $orders = Order::where('id', 'LIKE', "%{$query}%")
+                ->orWhere('customer_name', 'LIKE', "%{$query}%")
+                ->orWhere('customer_phone', 'LIKE', "%{$query}%")
+                ->limit(5)
+                ->get();
+
+            $clients = \App\Models\Client::where('name', 'LIKE', "%{$query}%")
+                ->orWhere('phone', 'LIKE', "%{$query}%")
+                ->orWhere('email', 'LIKE', "%{$query}%")
+                ->limit(5)
+                ->get();
+        }
 
         return response()->json([
             'success' => true,

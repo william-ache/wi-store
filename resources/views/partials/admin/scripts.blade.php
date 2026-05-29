@@ -510,6 +510,11 @@
                 icon: 'error',
                 title: "{!! session('error') !!}"
             });
+        @elseif(session('plan_module_blocked'))
+            Toast.fire({
+                icon: 'info',
+                title: "{!! session('plan_module_blocked') !!}"
+            });
         @endif
     });
 </script>

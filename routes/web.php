@@ -200,7 +200,7 @@ Route::middleware(['tenant'])->prefix($tenantPrefix)->group(function () {
     Route::get('/service-worker.js', [StoreController::class, 'serviceWorker'])->name('store.sw');
     
     // Panel Administrativo de la Tienda (Privado)
-    Route::middleware(['auth'])->prefix('/admin')->name('admin.')->group(function () {
+    Route::middleware(['auth', 'plan.business'])->prefix('/admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/analytics', [App\Http\Controllers\Admin\DashboardController::class, 'analytics'])->name('analytics');
         Route::get('/search', [App\Http\Controllers\Admin\DashboardController::class, 'search'])->name('search');
@@ -230,10 +230,11 @@ Route::middleware(['tenant'])->prefix($tenantPrefix)->group(function () {
         // CRUDs de Categorías, Productos, Órdenes y Clientes
         Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
-        Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
-        Route::resource('clients', App\Http\Controllers\Admin\ClientController::class);
         Route::resource('announcements', App\Http\Controllers\Admin\AnnouncementController::class);
         Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class)->only(['index', 'store', 'update', 'destroy']);
+
+        Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
+        Route::resource('clients', App\Http\Controllers\Admin\ClientController::class);
         Route::resource('bookings', App\Http\Controllers\Admin\BookingController::class);
         Route::resource('abandoned-carts', App\Http\Controllers\Admin\AbandonedCartController::class)->only(['index', 'destroy']);
 

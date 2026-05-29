@@ -72,6 +72,15 @@
         ['key' => 'referrals', 'icon' => 'fa-link', 'emoji' => '🔗', 'title' => 'Referidos', 'desc' => 'Enlaces de recomendación y promotores.'],
         ['key' => 'announcements', 'icon' => 'fa-bullhorn', 'emoji' => '📢', 'title' => 'Marketing', 'desc' => 'Banners y promociones en tu menú digital.', 'wide' => true],
     ];
+
+    if ($shopPlan === 'standard') {
+        $modules = array_values(array_filter(
+            $modules,
+            fn (array $module): bool => !in_array($module['key'], \App\Support\PlanFeatures::BUSINESS_ONLY_MODULES, true)
+        ));
+    }
+
+    $defaultSelectedModules = array_column($modules, 'key');
 @endphp
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth wi-store-ui wi-store-admin">
@@ -189,7 +198,7 @@
 
     <main class="flex-grow flex items-center justify-center px-4 py-6 pb-10 relative z-10"
           x-data="{
-              selectedModules: ['categories', 'products', 'orders', 'clients', 'invoices', 'delivery', 'analytics', 'announcements', 'referrals'],
+              selectedModules: @json($defaultSelectedModules),
               toggleModule(module) {
                   if (this.selectedModules.includes(module)) {
                       this.selectedModules = this.selectedModules.filter(m => m !== module);

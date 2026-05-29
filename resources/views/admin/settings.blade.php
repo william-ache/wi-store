@@ -135,6 +135,7 @@
                         </label>
                     </div>
 
+                    @if ($planHasBusinessModules ?? true)
                     <!-- Pedidos -->
                     <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">
                         <div class="flex items-center gap-2.5">
@@ -202,6 +203,12 @@
                             <div class="relative w-[34px] h-[20px] bg-slate-200 dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-[14px] peer-toggle after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
+                    @else
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 col-span-full rounded-xl border border-dashed border-slate-300 dark:border-slate-600 px-3 py-2">
+                        Pedidos, clientes y facturación están disponibles en el <strong class="text-slate-700 dark:text-slate-200">Plan Negocio</strong>.
+                        <a href="/{{ $shop->slug }}/admin/subscription" class="text-primary font-bold hover:underline">Ver planes</a>
+                    </p>
+                    @endif
 
                     <!-- Analítica -->
                     <div class="flex items-center justify-between p-2 rounded-xl ui-card shadow-sm animate-fade-in">

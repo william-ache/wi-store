@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
 use App\Services\ImageOptimizer;
+use App\Support\PlanFeatures;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -122,7 +123,10 @@ class ShopSettingsController extends Controller
         $data['cashea_link_enabled'] = $request->has('cashea_link_enabled');
         $data['krece_enabled'] = $request->has('krece_enabled');
         $data['krece_link_enabled'] = $request->has('krece_link_enabled');
-        $data['enabled_modules'] = $request->input('enabled_modules', []);
+        $data['enabled_modules'] = PlanFeatures::filterEnabledModules(
+            $request->input('enabled_modules', []),
+            $shop
+        );
 
         // Actualizar fecha de actualización de tasa de cambio si se modificó
         if ($request->filled('exchange_rate')) {
@@ -253,7 +257,7 @@ class ShopSettingsController extends Controller
             'enabled_modules.*' => 'string|in:categories,products,orders,clients,invoices,delivery,analytics,announcements,referrals',
         ]);
 
-        $modules = $request->input('enabled_modules', []);
+        $modules = PlanFeatures::filterEnabledModules($request->input('enabled_modules', []), $shop);
 
         $shop->update([
             'enabled_modules' => $modules,
