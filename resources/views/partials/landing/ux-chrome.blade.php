@@ -81,16 +81,16 @@
                     : url('/login');
             @endphp
             <a href="{{ $panelUrl }}"
-               class="mt-4 text-center bg-lime-300 text-slate-900 font-black py-4 rounded-full border border-lime-400 shadow-lg hover:brightness-95 active:scale-[0.98]">
-                <i class="fas fa-cube mr-2"></i> Ir al panel
+               class="mt-4 text-center bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold py-3 rounded-full text-sm shadow-md hover:brightness-105 active:scale-[0.98]">
+                <i class="fas fa-cube mr-1.5 text-xs" aria-hidden="true"></i> Ir al panel
             </a>
-            <div class="mt-4 rounded-2xl border border-slate-200 overflow-hidden">
-                <p class="px-4 py-3 text-sm font-black text-slate-900 break-all border-b border-slate-200">{{ $authUser->email }}</p>
+            <div class="mt-3 rounded-xl border border-slate-200 overflow-hidden">
+                <p class="px-3 py-2 text-xs font-bold text-slate-800 truncate border-b border-slate-100" title="{{ $authUser->email }}">{{ $authUser->email }}</p>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                            class="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 font-bold text-sm">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
+                            class="w-full text-left px-3 py-2 text-red-600 hover:bg-red-50 font-semibold text-xs">
+                        <i class="fas fa-sign-out-alt mr-1.5 text-[10px]" aria-hidden="true"></i> Cerrar sesión
                     </button>
                 </form>
             </div>

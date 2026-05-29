@@ -68,43 +68,45 @@
                         $avatarInitial = strtoupper(substr(trim($userEmail), 0, 1) ?: 'U');
                     @endphp
 
-                    <div class="relative hidden md:flex items-center gap-3"
+                    <div class="hidden md:flex items-center gap-2"
                          x-data="{ userMenuOpen: false }"
                          @keydown.escape.window="userMenuOpen = false">
-                        <a href="{{ $panelUrl }}"
-                           class="inline-flex items-center gap-2.5 rounded-2xl bg-lime-300 text-slate-900 font-black px-4 py-2.5 border border-lime-400 shadow-sm hover:brightness-95 transition">
-                            <i class="fas fa-cube text-sm"></i>
-                            <span class="text-sm leading-none">Ir al panel</span>
+                        <a href="{{ $panelUrl }}" class="landing-header-cta gap-1.5 shrink-0">
+                            <i class="fas fa-cube text-[10px] opacity-90" aria-hidden="true"></i>
+                            <span>Ir al panel</span>
                         </a>
-                        <button type="button"
-                                @click="userMenuOpen = !userMenuOpen"
-                                class="w-11 h-11 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 text-white font-black text-sm border-2 border-white shadow-md hover:brightness-105 transition"
-                                :aria-expanded="userMenuOpen"
-                                aria-haspopup="true"
-                                aria-label="Abrir menú de usuario">
-                            {{ $avatarInitial }}
-                        </button>
+                        <div class="relative shrink-0">
+                            <button type="button"
+                                    @click="userMenuOpen = !userMenuOpen"
+                                    class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 text-white font-bold text-xs border border-white/80 shadow-sm hover:brightness-105 transition"
+                                    :aria-expanded="userMenuOpen"
+                                    aria-haspopup="true"
+                                    aria-label="Abrir menú de usuario">
+                                {{ $avatarInitial }}
+                            </button>
 
-                        <div x-show="userMenuOpen" x-cloak
-                             x-transition:enter="transition ease-out duration-150"
-                             x-transition:enter-start="opacity-0 -translate-y-1"
-                             x-transition:enter-end="opacity-100 translate-y-0"
-                             x-transition:leave="transition ease-in duration-100"
-                             x-transition:leave-start="opacity-100 translate-y-0"
-                             x-transition:leave-end="opacity-0 -translate-y-1"
-                             @click.outside="userMenuOpen = false"
-                             class="absolute right-0 top-[calc(100%+0.65rem)] w-[20.5rem] bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden z-50">
-                            <div class="px-5 py-4 border-b border-slate-200">
-                                <p class="text-2xl leading-tight font-black text-slate-900 break-all">{{ $userEmail }}</p>
+                            <div x-show="userMenuOpen" x-cloak
+                                 x-transition:enter="transition ease-out duration-150"
+                                 x-transition:enter-start="opacity-0 -translate-y-1"
+                                 x-transition:enter-end="opacity-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-100"
+                                 x-transition:leave-start="opacity-100 translate-y-0"
+                                 x-transition:leave-end="opacity-0 -translate-y-1"
+                                 @click.outside="userMenuOpen = false"
+                                 class="absolute right-0 top-full mt-2.5 w-56 max-w-[min(16rem,calc(100vw-2rem))] bg-white rounded-xl border border-slate-200 shadow-lg overflow-hidden z-50">
+                                <div class="px-3 py-2.5 border-b border-slate-100">
+                                    <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-0.5">Cuenta</p>
+                                    <p class="text-xs font-bold text-slate-800 truncate" title="{{ $userEmail }}">{{ $userEmail }}</p>
+                                </div>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                            class="w-full text-left px-3 py-2.5 text-xs text-red-600 hover:bg-red-50 font-semibold flex items-center gap-2 transition">
+                                        <i class="fas fa-sign-out-alt text-[11px] w-3.5 text-center" aria-hidden="true"></i>
+                                        Cerrar sesión
+                                    </button>
+                                </form>
                             </div>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit"
-                                        class="w-full text-left px-5 py-4 text-red-600 hover:bg-red-50 font-bold text-xl leading-none flex items-center gap-2.5 transition">
-                                    <i class="fas fa-sign-out-alt text-base"></i>
-                                    Cerrar sesión
-                                </button>
-                            </form>
                         </div>
                     </div>
                 @else
