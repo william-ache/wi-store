@@ -14,8 +14,8 @@ class PlanLimits
             'standard' => [
                 'key' => 'standard',
                 'name' => 'Emprendedor',
-                'max_products' => 150,
-                'max_categories' => 15,
+                'max_products' => 15,
+                'max_categories' => 3,
                 'price' => PlanPricing::formatUsd(PlanPricing::PLANS['standard']['monthly']) . '/mes',
             ],
             'premium' => [

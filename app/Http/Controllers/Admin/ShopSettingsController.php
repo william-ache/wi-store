@@ -29,14 +29,20 @@ class ShopSettingsController extends Controller
     public function edit()
     {
         $shop = $this->currentShop();
-        return view('admin.settings', compact('shop'));
+
+        return view('admin.settings', [
+            'shop' => $shop,
+            'canCustomizeBrandColors' => PlanFeatures::canCustomizeBrandColors($shop),
+        ]);
     }
 
     public function update(Request $request)
     {
         $shop = $this->currentShop();
 
-        $request->validate([
+        $canCustomizeColors = PlanFeatures::canCustomizeBrandColors($shop);
+
+        $request->validate(array_merge([
             'name' => 'required|string|max:255',
             'shop_category' => 'nullable|string|max:255',
             'shop_category_icon' => 'nullable|string|max:255',
@@ -51,9 +57,6 @@ class ShopSettingsController extends Controller
             'base_currency' => 'nullable|string|max:10',
             'exchange_rate' => 'nullable|string|max:50',
             'payment_methods' => 'nullable|string',
-            'color_primary' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
-            'color_secondary' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
-            'color_background' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
             'delivery_rate_per_km' => 'nullable|numeric|min:0',
             'latitude' => 'nullable|string|max:50',
             'longitude' => 'nullable|string|max:50',
@@ -99,11 +102,15 @@ class ShopSettingsController extends Controller
             'remove_krece_qr' => 'nullable|boolean',
             'krece_link_enabled' => 'nullable|boolean',
             'krece_link_url' => 'nullable|url|max:500',
-        ]);
+        ], $canCustomizeColors ? [
+            'color_primary' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
+            'color_secondary' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
+            'color_background' => 'required|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/i',
+        ] : []));
 
         $data = $request->only([
             'name', 'shop_category', 'shop_category_icon', 'whatsapp_number', 'description', 'address', 'google_maps_link', 'base_currency', 'exchange_rate',
-            'payment_methods', 'color_primary', 'color_secondary', 'color_background',
+            'payment_methods',
             'delivery_rate_per_km', 'latitude', 'longitude',
             'facebook', 'instagram', 'tiktok', 'x_twitter', 'contact_phone', 'contact_sms', 'telegram',
             'has_dine_in', 'has_pickup', 'has_delivery', 'amenities',
@@ -115,6 +122,12 @@ class ShopSettingsController extends Controller
             'cashea_link_url',
             'krece_link_url',
         ]);
+
+        if ($canCustomizeColors) {
+            $data['color_primary'] = $request->input('color_primary');
+            $data['color_secondary'] = $request->input('color_secondary');
+            $data['color_background'] = $request->input('color_background');
+        }
 
         $data['stripe_enabled'] = $request->has('stripe_enabled');
         $data['binance_enabled'] = $request->has('binance_enabled');

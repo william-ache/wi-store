@@ -42,6 +42,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $usage = PlanLimits::productsUsage();
+        if ($usage['at_limit']) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Has alcanzado el límite de ' . $usage['limit_label'] . ' productos del plan ' . $usage['plan_name'] . '. Actualiza a Negocio para ampliar tu catálogo.',
+            ], 422);
+        }
+
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',

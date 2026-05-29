@@ -1,9 +1,10 @@
 @php
     use App\Support\BrandColor;
+    use App\Support\PlanFeatures;
 
     $shopForVars = $shop ?? config('current_shop');
-    $primaryHex = BrandColor::normalizeHex($shopForVars?->color_primary ?? '#E60067');
-    $secondaryHex = BrandColor::normalizeHex($shopForVars?->color_secondary ?? '#C6A100');
+    $primaryHex = BrandColor::normalizeHex(PlanFeatures::brandColor($shopForVars, 'primary'));
+    $secondaryHex = BrandColor::normalizeHex(PlanFeatures::brandColor($shopForVars, 'secondary'));
     $onPrimary = BrandColor::onPrimary($primaryHex);
     $primaryRgb = BrandColor::rgb($primaryHex);
     $onPrimaryRgb = BrandColor::onPrimaryRgb($primaryHex);

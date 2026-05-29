@@ -14,8 +14,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '{{ config('current_shop')->color_primary ?? '#E60067' }}',
-                        secondary: '{{ config('current_shop')->color_secondary ?? '#C6A100' }}',
+                        primary: '{{ \App\Support\PlanFeatures::brandColor(config('current_shop'), 'primary') }}',
+                        secondary: '{{ \App\Support\PlanFeatures::brandColor(config('current_shop'), 'secondary') }}',
                     },
                     fontFamily: {
                         sans: ['Outfit', 'sans-serif'],
@@ -60,6 +60,8 @@
     
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @stack('page-styles')
 </head>
 <body class="wi-store-admin-body select-none transition-colors duration-300">
 

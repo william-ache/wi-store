@@ -36,6 +36,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $usage = PlanLimits::categoriesUsage();
+        if ($usage['at_limit']) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Has alcanzado el límite de ' . $usage['limit_label'] . ' categorías del plan ' . $usage['plan_name'] . '. Actualiza a Negocio para ampliar tu catálogo.',
+            ], 422);
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'seo_title' => 'nullable|string|max:255',

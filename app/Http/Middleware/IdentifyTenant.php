@@ -63,9 +63,9 @@ class IdentifyTenant
                     'x_twitter' => $x_twitter,
                     'telegram' => $telegram,
                     'colors' => [
-                        'primary' => $shop->color_primary ?? '#8B5CF6',
-                        'secondary' => $shop->color_secondary ?? '#0a051d',
-                        'bg_light' => $shop->color_background ?? '#0b0f19',
+                        'primary' => \App\Support\PlanFeatures::brandColor($shop, 'primary'),
+                        'secondary' => \App\Support\PlanFeatures::brandColor($shop, 'secondary'),
+                        'bg_light' => \App\Support\PlanFeatures::brandColor($shop, 'background'),
                     ]
                 ];
 
@@ -190,10 +190,10 @@ class IdentifyTenant
                 'pagomovil_phone' => $shop->pagomovil_phone,
                 'pagomovil_id' => $shop->pagomovil_id,
                 'colors' => [
-                    'primary' => $shop->color_primary,
-                    'secondary' => $shop->color_secondary,
-                    'bg_light' => $shop->color_background,
-                    'bg_accent' => $shop->color_background, // fallback
+                    'primary' => \App\Support\PlanFeatures::brandColor($shop, 'primary'),
+                    'secondary' => \App\Support\PlanFeatures::brandColor($shop, 'secondary'),
+                    'bg_light' => \App\Support\PlanFeatures::brandColor($shop, 'background'),
+                    'bg_accent' => \App\Support\PlanFeatures::brandColor($shop, 'background'),
                 ]
             ]);
 

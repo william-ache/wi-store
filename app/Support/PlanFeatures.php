@@ -8,6 +8,12 @@ final class PlanFeatures
 {
     public const EMPRENDEDOR_PLAN = 'standard';
 
+    public const BRAND_PRIMARY = '#E60067';
+
+    public const BRAND_SECONDARY = '#C6A100';
+
+    public const BRAND_BACKGROUND = '#0b0f19';
+
     /** Módulos del panel solo disponibles en Plan Negocio (y prueba premium). */
     public const BUSINESS_ONLY_MODULES = [
         'orders',
@@ -46,7 +52,32 @@ final class PlanFeatures
         return self::resolvePlan($shop) !== self::EMPRENDEDOR_PLAN;
     }
 
-    /** Ajusta módulos habilitados cuando la tienda pasa a plan Emprendedor. */
+    /** Colores de marca personalizables (Plan Negocio y prueba). */
+    public static function canCustomizeBrandColors(?Shop $shop = null): bool
+    {
+        return self::hasBusinessPanel($shop);
+    }
+
+    public static function brandColor(?Shop $shop, string $which): string
+    {
+        if ($shop && self::canCustomizeBrandColors($shop)) {
+            return match ($which) {
+                'primary' => $shop->color_primary ?: self::BRAND_PRIMARY,
+                'secondary' => $shop->color_secondary ?: self::BRAND_SECONDARY,
+                'background' => $shop->color_background ?: self::BRAND_BACKGROUND,
+                default => self::BRAND_PRIMARY,
+            };
+        }
+
+        return match ($which) {
+            'primary' => self::BRAND_PRIMARY,
+            'secondary' => self::BRAND_SECONDARY,
+            'background' => self::BRAND_BACKGROUND,
+            default => self::BRAND_PRIMARY,
+        };
+    }
+
+    /** Ajusta módulos y paleta cuando la tienda pasa a plan Emprendedor. */
     public static function syncShopModulesForPlan(Shop $shop): void
     {
         $shop->refresh();
@@ -56,9 +87,20 @@ final class PlanFeatures
         }
 
         $filtered = self::filterEnabledModules($shop->enabled_modules, $shop);
+        $updates = [];
 
         if ($filtered !== ($shop->enabled_modules ?? [])) {
-            $shop->update(['enabled_modules' => $filtered]);
+            $updates['enabled_modules'] = $filtered;
+        }
+
+        if (! self::canCustomizeBrandColors($shop)) {
+            $updates['color_primary'] = self::BRAND_PRIMARY;
+            $updates['color_secondary'] = self::BRAND_SECONDARY;
+            $updates['color_background'] = self::BRAND_BACKGROUND;
+        }
+
+        if ($updates !== []) {
+            $shop->update($updates);
         }
     }
 

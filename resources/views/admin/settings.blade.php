@@ -56,44 +56,66 @@
                 Colores y módulos del panel. Activa cada bloque cuando quieras editarlo.
             </p>
 
-            <x-settings-section id="colores" title="Colores de marca" subtitle="Primario, secundario y fondo del catálogo." icon="🎨" :optional="false">
+            @php
+                use App\Support\PlanFeatures;
+                $brandPrimary = PlanFeatures::brandColor($shop, 'primary');
+                $brandSecondary = PlanFeatures::brandColor($shop, 'secondary');
+                $brandBackground = PlanFeatures::brandColor($shop, 'background');
+            @endphp
+            <x-settings-section id="colores" title="Colores de marca" subtitle="{{ ($canCustomizeBrandColors ?? PlanFeatures::canCustomizeBrandColors($shop)) ? 'Primario, secundario y fondo del catálogo.' : 'Paleta fija de WI-Store en el plan Emprendedor.' }}" icon="🎨" :optional="false">
+                    @if ($canCustomizeBrandColors ?? PlanFeatures::canCustomizeBrandColors($shop))
                     <div class="grid grid-cols-3 gap-3 md:gap-4 max-w-lg lg:max-w-xl">
-                        <!-- Color Primario -->
                         <div class="ui-card border rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
                             <span class="text-[9px] font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest">Primario</span>
                             <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
-                                <div class="absolute inset-0" id="preview-primary" style="background-color: {{ $shop->color_primary ?? '#E60067' }}"></div>
-                                <input type="color" id="color_primary" name="color_primary" value="{{ $shop->color_primary ?? '#E60067' }}"
+                                <div class="absolute inset-0" id="preview-primary" style="background-color: {{ $brandPrimary }}"></div>
+                                <input type="color" id="color_primary" name="color_primary" value="{{ $brandPrimary }}"
                                        class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                                        oninput="updateColorPreview('color_primary', 'preview-primary')">
                             </div>
-                            <span class="text-[9px] text-slate-400 font-mono">{{ $shop->color_primary ?? '#E60067' }}</span>
+                            <span class="text-[9px] text-slate-400 font-mono">{{ $brandPrimary }}</span>
                         </div>
-
-                        <!-- Color Secundario -->
                         <div class="ui-card border rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
                             <span class="text-[9px] font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest">Secundario</span>
                             <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
-                                <div class="absolute inset-0" id="preview-secondary" style="background-color: {{ $shop->color_secondary ?? '#C6A100' }}"></div>
-                                <input type="color" id="color_secondary" name="color_secondary" value="{{ $shop->color_secondary ?? '#C6A100' }}"
+                                <div class="absolute inset-0" id="preview-secondary" style="background-color: {{ $brandSecondary }}"></div>
+                                <input type="color" id="color_secondary" name="color_secondary" value="{{ $brandSecondary }}"
                                        class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                                        oninput="updateColorPreview('color_secondary', 'preview-secondary')">
                             </div>
-                            <span class="text-[9px] text-slate-400 font-mono">{{ $shop->color_secondary ?? '#C6A100' }}</span>
+                            <span class="text-[9px] text-slate-400 font-mono">{{ $brandSecondary }}</span>
                         </div>
-
-                        <!-- Color de Fondo -->
                         <div class="ui-card border rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm">
                             <span class="text-[9px] font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest">Fondo</span>
                             <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
-                                <div class="absolute inset-0" id="preview-background" style="background-color: {{ $shop->color_background ?? '#0b0f19' }}"></div>
-                                <input type="color" id="color_background" name="color_background" value="{{ $shop->color_background ?? '#0b0f19' }}"
+                                <div class="absolute inset-0" id="preview-background" style="background-color: {{ $brandBackground }}"></div>
+                                <input type="color" id="color_background" name="color_background" value="{{ $brandBackground }}"
                                        class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                                        oninput="updateColorPreview('color_background', 'preview-background')">
                             </div>
-                            <span class="text-[9px] text-slate-400 font-mono">{{ $shop->color_background ?? '#0b0f19' }}</span>
+                            <span class="text-[9px] text-slate-400 font-mono">{{ $brandBackground }}</span>
                         </div>
                     </div>
+                    @else
+                    <div class="rounded-xl border border-amber-200/80 bg-amber-50/80 dark:bg-amber-950/20 dark:border-amber-800/50 px-4 py-3 space-y-3">
+                        <p class="text-[11px] text-amber-900 dark:text-amber-100 font-semibold leading-snug">
+                            El plan <strong>Emprendedor</strong> usa la paleta oficial de WI-Store. Los colores personalizados están disponibles en el plan <strong>Negocio</strong>.
+                        </p>
+                        <div class="grid grid-cols-3 gap-3 max-w-lg">
+                            @foreach ([['Primario', $brandPrimary], ['Secundario', $brandSecondary], ['Fondo', $brandBackground]] as [$label, $hex])
+                            <div class="ui-card border rounded-xl p-3 flex flex-col items-center gap-2 opacity-80">
+                                <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">{{ $label }}</span>
+                                <div class="w-10 h-10 rounded-full border-2 border-slate-200 dark:border-slate-700 shadow-inner" style="background-color: {{ $hex }}"></div>
+                                <span class="text-[9px] text-slate-400 font-mono">{{ $hex }}</span>
+                            </div>
+                            @endforeach
+                        </div>
+                        <a href="{{ route('admin.subscription', ['shop_slug' => $shop->slug]) }}"
+                           class="inline-flex text-[10px] font-black uppercase tracking-wider text-purple-600 hover:text-purple-700">
+                            Ver planes →
+                        </a>
+                    </div>
+                    @endif
             </x-settings-section>
 
             <x-settings-section id="modulos" title="Módulos del menú admin" subtitle="Elige qué secciones verás en el panel lateral." icon="🧩">

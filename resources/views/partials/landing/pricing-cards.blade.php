@@ -1,5 +1,6 @@
 @php
     use App\Support\PlanDetails;
+    use App\Support\PlanFeatures;
     use App\Support\PlanPricing;
     $emprendedor = PlanPricing::PLANS['standard'];
     $negocio = PlanPricing::PLANS['premium'];
@@ -7,6 +8,18 @@
     $premiumHighlights = PlanDetails::premium()['card_highlights'];
     $standardPurpose = 'Ideal para empezar con un catálogo profesional, pedidos y operación simple.';
     $premiumPurpose = 'Para negocios que escalan: más capacidad, personalización y control.';
+    $isAdminPricing = ($pricingContext ?? 'landing') === 'admin';
+    $shopPlan = $shopForPricing ?? null;
+    $resolvedShopPlan = $shopPlan ? PlanFeatures::resolvePlan($shopPlan) : null;
+    $isCurrentStandard = $isAdminPricing && $resolvedShopPlan === 'standard';
+    $isCurrentPremium = $isAdminPricing && in_array($resolvedShopPlan, ['premium', 'free_trial'], true);
+    $billingPlanUrl = static function (string $plan) use ($shopPlan): string {
+        if (!$shopPlan) {
+            return '#';
+        }
+
+        return route('admin.billing.expired', ['shop_slug' => $shopPlan->slug, 'plan' => $plan]);
+    };
 @endphp
 
 <div class="landing-pricing-grid__col landing-pricing-grid__col--standard">
@@ -20,7 +33,11 @@
                 <h3 class="text-sm md:text-base font-black text-slate-900 uppercase tracking-wider">
                     Plan <span class="landing-plan-title--cyan">Emprendedor</span>
                 </h3>
-                <span class="landing-plan-badge landing-plan-badge--emprendedor text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Para empezar</span>
+                @if ($isCurrentStandard)
+                    <span class="landing-plan-badge landing-plan-badge--current text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Plan actual</span>
+                @else
+                    <span class="landing-plan-badge landing-plan-badge--emprendedor text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Para empezar</span>
+                @endif
             </div>
             <p class="text-[11px] text-slate-400 mt-2 leading-snug">{{ $standardPurpose }}</p>
 
@@ -73,8 +90,20 @@
         </div>
 
         <div class="landing-plan-card-footer shrink-0 px-5 md:px-6 pb-5 md:pb-6 pt-0">
-            <a href="/register" class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">Comenzar Emprendedor</a>
-            <div class="landing-plan-card-footer__spacer" aria-hidden="true"></div>
+            @if ($isAdminPricing && $shopPlan)
+                @if ($isCurrentStandard)
+                    <span class="landing-plan-btn landing-plan-btn--soft block w-full text-center font-extrabold py-3 rounded-xl text-xs">Plan actual</span>
+                @else
+                    <a href="{{ $billingPlanUrl('standard') }}"
+                        class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
+                        {{ $isCurrentPremium ? 'Cambiar a Emprendedor' : 'Contratar Emprendedor' }}
+                    </a>
+                @endif
+                <div class="landing-plan-card-footer__spacer" aria-hidden="true"></div>
+            @else
+                <a href="/register" class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">Comenzar Emprendedor</a>
+                <div class="landing-plan-card-footer__spacer" aria-hidden="true"></div>
+            @endif
         </div>
     </div>
 </div>
@@ -84,7 +113,7 @@
     <div id="plan-premium"
         class="landing-plan-card landing-plan-card--featured landing-plan-card--negocio-spotlight landing-plan-card--no-hover-lift rounded-3xl flex flex-col h-full min-h-0">
         <div class="landing-plan-inner landing-plan-inner--negocio flex flex-col h-full min-h-0">
-            <div class="landing-plan-recommended-bar">Recomendado</div>
+            <div class="landing-plan-recommended-bar">{{ $isCurrentPremium ? 'Plan actual' : 'Recomendado' }}</div>
 
             <div class="landing-plan-card__main flex flex-col flex-1 min-h-0 p-5 md:p-6">
                 <div class="flex justify-between items-center gap-3">
@@ -154,11 +183,28 @@
             </div>
 
             <div class="landing-plan-card-footer shrink-0 px-5 md:px-6 pb-5 md:pb-6 pt-0">
-                <a href="/register"
-                    class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
-                    Probar {{ $wiStoreTrialLabel }}
-                </a>
-                <p class="text-[9px] text-center text-slate-500 leading-snug px-1 mt-2">{{ $wiStoreTrialDisclaimer }}</p>
+                @if ($isAdminPricing && $shopPlan)
+                    @if ($isCurrentPremium)
+                        <span class="landing-plan-btn landing-plan-btn--soft block w-full text-center font-extrabold py-3 rounded-xl text-xs">Plan actual</span>
+                        @if ($resolvedShopPlan === 'free_trial')
+                            <p class="text-[9px] text-center text-slate-500 leading-snug px-1 mt-2">{{ $wiStoreTrialDisclaimer }}</p>
+                        @else
+                            <div class="landing-plan-card-footer__spacer" aria-hidden="true"></div>
+                        @endif
+                    @else
+                        <a href="{{ $billingPlanUrl('premium') }}"
+                            class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
+                            Actualizar a Negocio
+                        </a>
+                        <div class="landing-plan-card-footer__spacer" aria-hidden="true"></div>
+                    @endif
+                @else
+                    <a href="/register"
+                        class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
+                        Probar {{ $wiStoreTrialLabel }}
+                    </a>
+                    <p class="text-[9px] text-center text-slate-500 leading-snug px-1 mt-2">{{ $wiStoreTrialDisclaimer }}</p>
+                @endif
             </div>
         </div>
     </div>

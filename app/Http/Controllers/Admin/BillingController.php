@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
 use App\Models\Notification;
+use App\Support\PlanFeatures;
 use App\Support\PlanLimits;
+use App\Support\PlanPricing;
+use App\Support\PlanTrial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -49,10 +52,22 @@ class BillingController extends Controller
         $categoriesCount = \App\Models\Category::where('shop_id', $shop->id)->count();
 
         $planConfig = PlanLimits::forShop($shop);
-        $planName = $planConfig['name'];
+        $resolvedPlan = PlanFeatures::resolvePlan($shop);
+        $planName = match ($resolvedPlan) {
+            'free_trial' => 'Negocio · ' . PlanTrial::label(),
+            default => $planConfig['name'],
+        };
         $planPrice = $planConfig['price'];
         $maxProducts = $planConfig['max_products'] ?? 'Ilimitados';
         $maxCategories = $planConfig['max_categories'] ?? 'Ilimitados';
+
+        $cleanRate = preg_replace('/[^0-9.]/', '', (string) ($shop->exchange_rate ?? ''));
+        $exchangeRate = (float) $cleanRate > 0 ? (float) $cleanRate : 40.0;
+        $billingPlanKey = in_array($resolvedPlan, ['premium', 'free_trial'], true) ? 'premium' : 'standard';
+        $monthlyUsd = PlanPricing::PLANS[$billingPlanKey]['monthly'];
+        $nextChargeLabel = $resolvedPlan === 'free_trial'
+            ? 'Bs 0.00'
+            : 'Bs ' . number_format($monthlyUsd * $exchangeRate, 2, '.', '') . ' · ' . PlanPricing::formatUsd($monthlyUsd);
 
         // Expiration telemetry
         $daysRemaining = 0;
@@ -72,7 +87,9 @@ class BillingController extends Controller
             'maxCategories', 
             'planName', 
             'planPrice',
-            'daysRemaining'
+            'daysRemaining',
+            'nextChargeLabel',
+            'resolvedPlan'
         ));
     }
 

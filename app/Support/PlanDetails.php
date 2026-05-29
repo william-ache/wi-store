@@ -12,8 +12,8 @@ final class PlanDetails
     public static function comparisonRows(): array
     {
         return [
-            ['feature' => 'Límite de Productos', 'standard' => 'Hasta 20 productos', 'premium' => 'Hasta 35 productos'],
-            ['feature' => 'Límite de Categorías', 'standard' => 'Hasta 4 categorías', 'premium' => 'Hasta 7 categorías'],
+            ['feature' => 'Límite de Productos', 'standard' => 'Hasta 15 productos', 'premium' => 'Hasta 35 productos'],
+            ['feature' => 'Límite de Categorías', 'standard' => 'Hasta 3 categorías', 'premium' => 'Hasta 7 categorías'],
             ['feature' => 'Visualización de Fotos', 'standard' => 'Solo ventana Modal (Show)', 'premium' => 'Menú, Carrito y Modal'],
             ['feature' => 'Personalización de Diseño', 'standard' => 'No (Paleta Base)', 'premium' => 'Sí (Colores de Marca)'],
             ['feature' => 'Sedes / Sucursales', 'standard' => '1 Sede', 'premium' => 'Hasta 3 Sedes'],
@@ -62,7 +62,7 @@ final class PlanDetails
             'sections' => [
                 [
                     'title' => 'Capacidad del Catálogo',
-                    'body' => 'Restricción estricta a un máximo de 20 productos activos y hasta 4 categorías organizativas.',
+                    'body' => 'Restricción estricta a un máximo de 15 productos activos y hasta 3 categorías organizativas.',
                 ],
                 [
                     'title' => 'Ficha de Producto Simplificada',
@@ -86,7 +86,7 @@ final class PlanDetails
                 ],
             ],
             'card_highlights' => [
-                'Hasta 20 productos · 4 categorías',
+                'Hasta 15 productos · 3 categorías',
                 'Ficha simple sin variantes ni extras',
                 'Paleta base de WI-Store (sin colores de marca)',
                 '1 sede · 1 teléfono · 1 método de pago',
