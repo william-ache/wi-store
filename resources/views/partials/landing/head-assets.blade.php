@@ -1,8 +1,31 @@
 @include('partials.landing.critical-css')
 
-{{-- Tailwind compilado (sustituye cdn.tailwindcss.com) — npm run build:landing --}}
-<link rel="preload" href="{{ asset('build/landing.css') }}" as="style">
-<link rel="stylesheet" href="{{ asset('build/landing.css') }}">
+{{-- Tailwind compilado — npm run build:landing (public/build/landing.css; no está en git si falta el ! en .gitignore) --}}
+@php
+    $landingCssBuilt = file_exists(public_path('build/landing.css'));
+@endphp
+@if ($landingCssBuilt)
+    <link rel="preload" href="{{ asset('build/landing.css') }}?v={{ filemtime(public_path('build/landing.css')) }}" as="style">
+    <link rel="stylesheet" href="{{ asset('build/landing.css') }}?v={{ filemtime(public_path('build/landing.css')) }}">
+@else
+    {{-- Fallback si el deploy no incluyó el build (ejecutar: npm ci && npm run build:landing) --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff', 100: '#ede9fe', 500: '#6366f1',
+                            600: '#4f46e5', 700: '#4338ca', 900: '#312e81',
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+@endif
 
 {{-- Fuentes: no bloquean el primer paint --}}
 <link rel="preconnect" href="https://fonts.googleapis.com">

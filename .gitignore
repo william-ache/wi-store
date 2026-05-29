@@ -18,7 +18,9 @@ Thumbs.db
 # Laravel generated files and caches
 /vendor
 /node_modules
-/public/build
+/public/build/*
+!/public/build/.gitkeep
+!/public/build/landing.css
 /public/hot
 /public/storage
 /storage/*.key
