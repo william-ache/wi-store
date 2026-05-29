@@ -808,11 +808,11 @@
         transform: none !important;
     }
     .landing-plan-card--emprendedor {
-        border-color: rgba(6, 182, 212, 0.35);
+        border-color: rgba(6, 182, 212, 0.28);
         box-shadow:
-            0 0 0 1px rgba(6, 182, 212, 0.08),
-            0 8px 32px rgba(6, 182, 212, 0.1),
-            0 4px 16px rgba(15, 23, 42, 0.04);
+            0 0 0 1px rgba(6, 182, 212, 0.06),
+            0 6px 24px rgba(6, 182, 212, 0.08),
+            0 2px 12px rgba(15, 23, 42, 0.04);
     }
     .landing-plan-card--emprendedor.landing-plan-card--no-hover-lift:hover {
         border-color: rgba(6, 182, 212, 0.35);
@@ -831,11 +831,35 @@
             0 12px 40px rgba(147, 51, 234, 0.18),
             0 4px 16px rgba(15, 23, 42, 0.06);
     }
-    .landing-plan-card--featured.landing-plan-card--no-hover-lift:hover {
+    .landing-plan-card--negocio-spotlight {
+        position: relative;
+        z-index: 2;
+        padding: 3px;
+        background: linear-gradient(155deg, #e879f9 0%, #a855f7 28%, #7c3aed 52%, #06b6d4 100%);
         box-shadow:
-            0 0 0 1px rgba(147, 51, 234, 0.1),
-            0 12px 40px rgba(147, 51, 234, 0.18),
-            0 4px 16px rgba(15, 23, 42, 0.06);
+            0 0 0 1px rgba(168, 85, 247, 0.25),
+            0 0 40px rgba(147, 51, 234, 0.35),
+            0 0 72px rgba(34, 211, 238, 0.12),
+            0 24px 56px rgba(124, 58, 237, 0.28);
+    }
+    .landing-plan-card--negocio-spotlight::before {
+        content: '';
+        position: absolute;
+        inset: -10px;
+        z-index: -1;
+        border-radius: inherit;
+        background: linear-gradient(160deg, rgba(168, 85, 247, 0.45), rgba(34, 211, 238, 0.2));
+        filter: blur(22px);
+        opacity: 0.55;
+        pointer-events: none;
+    }
+    .landing-plan-card--featured.landing-plan-card--no-hover-lift:hover,
+    .landing-plan-card--negocio-spotlight.landing-plan-card--no-hover-lift:hover {
+        box-shadow:
+            0 0 0 1px rgba(168, 85, 247, 0.25),
+            0 0 40px rgba(147, 51, 234, 0.35),
+            0 0 72px rgba(34, 211, 238, 0.12),
+            0 24px 56px rgba(124, 58, 237, 0.28);
     }
     .landing-plan-card--vip-ring {
         padding: 1px;
@@ -865,9 +889,18 @@
         }
         .landing-plan-card--emprendedor {
             margin-top: 0;
+            transform: scale(0.985);
+            transform-origin: center center;
         }
-        .landing-plan-card--featured {
-            margin-top: 0;
+        .landing-plan-card--emprendedor.landing-plan-card--no-hover-lift:hover {
+            transform: scale(0.985) !important;
+        }
+        .landing-plan-card--negocio-spotlight {
+            transform: scale(1.045);
+            transform-origin: center center;
+        }
+        .landing-plan-card--negocio-spotlight.landing-plan-card--no-hover-lift:hover {
+            transform: scale(1.045) !important;
         }
     }
     .landing-plan-inner {
@@ -875,23 +908,25 @@
         border-radius: calc(1.5rem - 2px);
     }
     .landing-plan-inner--negocio {
-        background: linear-gradient(165deg, #faf5ff 0%, #ffffff 55%, #ecfeff 100%);
+        background: linear-gradient(165deg, #f5f3ff 0%, #ffffff 48%, #ecfeff 100%);
         overflow: hidden;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
     .landing-plan-recommended-bar {
         flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 2.125rem;
-        padding: 0.5rem 1rem;
-        background: linear-gradient(90deg, #7c3aed 0%, #9333ea 45%, #8b5cf6 100%);
+        min-height: 2.35rem;
+        padding: 0.55rem 1rem;
+        background: linear-gradient(90deg, #6d28d9 0%, #9333ea 40%, #7c3aed 70%, #0891b2 100%);
         color: #fff;
-        font-size: 0.65rem;
-        font-weight: 800;
-        letter-spacing: 0.16em;
+        font-size: 0.68rem;
+        font-weight: 900;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 6px 20px rgba(109, 40, 217, 0.35);
     }
     .landing-plan-negocio-body {
         flex: 1 1 auto;
@@ -1016,7 +1051,7 @@
     }
     .landing-plan-btn--negocio {
         background: linear-gradient(90deg, #06b6d4 0%, #6366f1 45%, #9333ea 100%);
-        box-shadow: 0 6px 24px rgba(6, 182, 212, 0.2), 0 8px 28px rgba(147, 51, 234, 0.25);
+        box-shadow: 0 8px 28px rgba(6, 182, 212, 0.28), 0 10px 32px rgba(147, 51, 234, 0.32);
     }
     .landing-plan-btn--negocio:hover {
         filter: brightness(1.05);

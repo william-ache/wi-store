@@ -75,7 +75,7 @@
 
 <!-- Plan Negocio -->
 <div id="plan-premium"
-    class="landing-plan-card landing-plan-card--featured landing-plan-card--no-hover-lift rounded-3xl flex flex-col h-full">
+    class="landing-plan-card landing-plan-card--featured landing-plan-card--negocio-spotlight landing-plan-card--no-hover-lift rounded-3xl flex flex-col h-full">
     <div class="landing-plan-inner landing-plan-inner--negocio flex flex-col h-full flex-1">
         <div class="landing-plan-recommended-bar">Recomendado</div>
 
