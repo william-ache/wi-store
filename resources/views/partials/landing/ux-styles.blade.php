@@ -794,6 +794,19 @@
         transform: translateY(-2px);
     }
 
+    /* Fondo hero reutilizable (login, marketplace, etc.) */
+    .landing-page-hero-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        isolation: isolate;
+    }
+    .landing-page-hero-bg .landing-hero-backdrop {
+        position: absolute;
+        inset: 0;
+    }
+
     /* Planes — tarjetas claras con acentos cyan y púrpura */
     .landing-plan-card {
         background: #ffffff;

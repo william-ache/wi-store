@@ -19,17 +19,6 @@
             color: #1e293b;
             background: #ffffff;
         }
-        .auth-login-hero-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            isolation: isolate;
-        }
-        .auth-login-hero-bg .landing-hero-backdrop {
-            position: absolute;
-            inset: 0;
-        }
         .auth-login-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -61,13 +50,7 @@
 <body class="auth-login-page flex flex-col min-h-screen relative overflow-x-hidden selection:bg-purple-200 selection:text-slate-900"
       x-data="landingPage()" x-init="init()">
 
-    <div class="auth-login-hero-bg landing-hero-surface" aria-hidden="true">
-        @include('partials.landing.hero-backdrop')
-        <div class="landing-section-glow top-[8%] -left-24 w-[26rem] h-[26rem] bg-purple-400/7"></div>
-        <div class="landing-section-glow top-[4%] -right-24 w-[28rem] h-[28rem] bg-cyan-400/7"></div>
-        <div class="landing-section-glow bottom-[12%] -left-16 w-[24rem] h-[24rem] bg-purple-400/6"></div>
-        <div class="landing-section-glow bottom-[8%] -right-12 w-[22rem] h-[22rem] bg-cyan-400/6"></div>
-    </div>
+    @include('partials.landing.page-hero-background')
 
     @include('partials.landing.landing-header')
 
