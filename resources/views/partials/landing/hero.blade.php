@@ -15,24 +15,45 @@
           Menú digital comercial
         </p>
 
-        <h1 class="text-[2.35rem] sm:text-[2.9rem] lg:text-[3.25rem] xl:text-[3.65rem] font-black tracking-tight text-slate-900 leading-[1.05]">
-          Tu negocio vende solo con un menú por
-          <span class="text-purple-700">WhatsApp</span>
+        <h1 class="landing-hero-title">
+          Dile adiós a los PDFs y fotos sueltas. Un solo catálogo digital para centralizar tus
+          <span class="landing-hero-title-accent">ventas</span>
         </h1>
 
-        <p class="landing-hero-lead mt-5 md:mt-6 text-base md:text-lg xl:text-xl leading-relaxed max-w-xl">
-          Arma tu catálogo con fotos y precios. Tus clientes eligen y los pedidos te llegan ordenados al WhatsApp o Telegram.
-          <span class="text-slate-800 font-semibold">Listo en minutos</span>, sin saber de páginas web.
-        </p>
+        <ul class="landing-hero-benefits" aria-label="Beneficios de WI-Store">
+          <li class="landing-hero-benefits__item">
+            <span class="landing-hero-benefits__icon" aria-hidden="true">
+              <i class="far fa-image"></i>
+            </span>
+            <span class="landing-hero-benefits__text">Catálogo profesional con fotos y precios.</span>
+          </li>
+          <li class="landing-hero-benefits__item">
+            <span class="landing-hero-benefits__icon" aria-hidden="true">
+              <i class="fas fa-cart-shopping"></i>
+            </span>
+            <span class="landing-hero-benefits__text">Facilita la compra a tus clientes.</span>
+          </li>
+          <li class="landing-hero-benefits__item">
+            <span class="landing-hero-benefits__icon" aria-hidden="true">
+              <i class="far fa-window-maximize"></i>
+            </span>
+            <span class="landing-hero-benefits__text">Gestiona pedidos desde un panel centralizado.</span>
+          </li>
+          <li class="landing-hero-benefits__item">
+            <span class="landing-hero-benefits__icon" aria-hidden="true">
+              <i class="far fa-clock"></i>
+            </span>
+            <span class="landing-hero-benefits__text">
+              <strong class="landing-hero-benefits__emph">Listo en minutos</strong>, sin complicaciones.
+            </span>
+          </li>
+        </ul>
 
         <div class="mt-7 md:mt-8 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3.5 sm:gap-4.5">
           <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
             <a href="/register"
-               class="inline-flex items-center gap-2 pl-5 pr-2 py-2 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all shrink-0">
-              <span class="leading-none">Probar gratis {{ $wiStoreTrialDays }} días</span>
-              <span class="w-7 h-7 shrink-0 rounded-full bg-slate-900 inline-flex items-center justify-center" aria-hidden="true">
-                <i class="fas fa-arrow-right text-white text-[10px] leading-none"></i>
-              </span>
+               class="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all shrink-0">
+              Probar gratis {{ $wiStoreTrialDays }} días
             </a>
 
             <a href="https://www.trustpilot.com/review/wi-store.com?utm_medium=trustbox&utm_source=TrustBoxReviewCollector"

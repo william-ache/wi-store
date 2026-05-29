@@ -69,14 +69,13 @@
         #inicio .landing-hero-inner {
             align-items: flex-start;
         }
-        #inicio h1 {
-            font-size: clamp(2.2rem, 4vw, 3rem);
-            line-height: 1.04;
+        #inicio .landing-hero-title {
+            font-size: clamp(1.4rem, 2.6vw, 1.75rem);
+            line-height: 1.12;
         }
-        #inicio .landing-hero-lead {
-            font-size: 1.02rem;
-            line-height: 1.55;
-            margin-top: 1rem;
+        #inicio .landing-hero-benefits {
+            margin-top: 0.85rem;
+            gap: 0.65rem;
         }
         #inicio .landing-float-card:first-child {
             max-width: 300px;
@@ -104,9 +103,100 @@
         align-items: center;
         width: 100%;
     }
+
+    /* Título hero — tamaños en CSS crítico (no dependen del build de Tailwind) */
+    #inicio .landing-hero-title {
+        margin: 0;
+        font-size: 1.5rem;
+        line-height: 1.15;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        color: #0f172a;
+    }
+    #inicio .landing-hero-title-accent {
+        color: #7c3aed;
+    }
+    @media (min-width: 640px) {
+        #inicio .landing-hero-title {
+            font-size: 1.75rem;
+        }
+    }
+    @media (min-width: 1024px) {
+        #inicio .landing-hero-title {
+            font-size: 2rem;
+        }
+    }
+    @media (min-width: 1280px) {
+        #inicio .landing-hero-title {
+            font-size: 2.25rem;
+        }
+    }
+
     .landing-hero-lead {
         color: #4b5563;
         text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
+    }
+
+    /* Lista de beneficios bajo el título (hero) */
+    #inicio .landing-hero-benefits {
+        list-style: none;
+        margin: 1.25rem 0 0;
+        padding: 0;
+        max-width: 28rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+    }
+    #inicio .landing-hero-benefits__item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    #inicio .landing-hero-benefits__icon {
+        flex-shrink: 0;
+        width: 1.35rem;
+        margin-top: 0.1rem;
+        text-align: center;
+        color: #64748b;
+        font-size: 1.05rem;
+        line-height: 1;
+    }
+    #inicio .landing-hero-benefits__icon .fa-image,
+    #inicio .landing-hero-benefits__icon .fa-clock,
+    #inicio .landing-hero-benefits__icon .fa-window-maximize {
+        font-weight: 400;
+    }
+    #inicio .landing-hero-benefits__text {
+        font-size: 0.9375rem;
+        line-height: 1.45;
+        color: #475569;
+        font-weight: 500;
+    }
+    #inicio .landing-hero-benefits__emph {
+        font-weight: 700;
+        color: #1e293b;
+    }
+    @media (min-width: 768px) {
+        #inicio .landing-hero-benefits {
+            margin-top: 1.35rem;
+            gap: 0.95rem;
+        }
+        #inicio .landing-hero-benefits__text {
+            font-size: 1rem;
+        }
+        #inicio .landing-hero-benefits__icon {
+            font-size: 1.1rem;
+            width: 1.4rem;
+        }
+    }
+    @media (min-width: 1024px) and (max-height: 820px) {
+        #inicio .landing-hero-benefits {
+            margin-top: 1rem;
+            gap: 0.7rem;
+        }
+        #inicio .landing-hero-benefits__text {
+            font-size: 0.9rem;
+        }
     }
     .landing-hero-social__avatar {
         position: relative;
