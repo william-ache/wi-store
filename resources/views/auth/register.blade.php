@@ -1,145 +1,52 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth wi-store-ui wi-store-landing">
-
+<html lang="es" class="wi-store-ui wi-store-landing">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Iniciar Prueba Gratis {{ $wiStoreTrialDays }} Días | WI-Store</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @include('partials.landing.head-assets')
 
     @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     @include('partials.landing.motion-styles')
+    @include('partials.landing.ux-styles')
     <style>
         [x-cloak] {
             display: none !important;
         }
 
-        body {
+        .auth-register-page {
+            min-height: 100vh;
+            min-height: 100dvh;
             font-family: 'Outfit', sans-serif;
-            background-color: #070913;
+            color: #1e293b;
+            background: #ffffff;
         }
 
-        .gpu-accelerated {
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
-            will-change: transform;
+        .auth-register-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow:
+                0 4px 24px rgba(15, 23, 42, 0.06),
+                0 0 0 1px rgba(255, 255, 255, 0.8);
         }
 
-        .blur-accelerated {
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
-            will-change: filter;
+        .auth-register-input {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #0f172a;
         }
 
-        @keyframes wave-1 {
-
-            0%,
-            100% {
-                d: path("M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800");
-            }
-
-            33% {
-                d: path("M-100,130 C170,260 430,-60 820,170 C1180,530 1330,860 1500,830");
-            }
-
-            66% {
-                d: path("M-100,70 C230,340 370,-140 780,230 C1220,470 1270,940 1500,770");
-            }
+        .auth-register-input::placeholder {
+            color: #94a3b8;
         }
 
-        @keyframes wave-2 {
-
-            0%,
-            100% {
-                d: path("M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950");
-            }
-
-            33% {
-                d: path("M-50,170 C280,360 470,90 920,360 C1270,780 1230,1010 1600,920");
-            }
-
-            66% {
-                d: path("M-50,230 C220,440 530,10 880,440 C1330,720 1170,1090 1600,980");
-            }
-        }
-
-        @keyframes wave-3 {
-
-            0%,
-            100% {
-                d: path("M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000");
-            }
-
-            50% {
-                d: path("M1500,-20 C1070,180 970,470 630,570 C170,730 30,1070 -200,1030");
-            }
-        }
-
-        @keyframes wave-4 {
-
-            0%,
-            100% {
-                d: path("M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100");
-            }
-
-            33% {
-                d: path("M1550,80 C1120,280 870,370 530,670 C70,1030 -70,870 -250,1130");
-            }
-
-            66% {
-                d: path("M1550,20 C1180,220 930,430 470,730 C130,970 -130,930 -250,1070");
-            }
-        }
-
-        @keyframes wave-5 {
-
-            0%,
-            100% {
-                d: path("M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300");
-            }
-
-            50% {
-                d: path("M-100,770 C330,570 470,930 870,830 C1330,670 1370,230 1600,270");
-            }
-        }
-
-        .animate-wave-1 {
-            animation: wave-1 8s ease-in-out infinite;
-        }
-
-        .animate-wave-2 {
-            animation: wave-2 10s ease-in-out infinite;
-        }
-
-        .animate-wave-3 {
-            animation: wave-3 12s ease-in-out infinite;
-        }
-
-        .animate-wave-4 {
-            animation: wave-4 14s ease-in-out infinite;
-        }
-
-        .animate-wave-5 {
-            animation: wave-5 16s ease-in-out infinite;
+        .auth-register-input:focus {
+            outline: none;
+            border-color: rgba(147, 51, 234, 0.45);
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.12);
+            background: #ffffff;
         }
 
         input[type="color"] {
@@ -192,10 +99,21 @@
         }
     </style>
 </head>
+@php
+    $landingNavExternal = true;
+    $shopsWithCategories = $shopsWithCategories ?? collect();
+@endphp
+<body class="auth-register-page flex flex-col min-h-screen relative overflow-x-hidden selection:bg-purple-200 selection:text-slate-900"
+      x-data="landingPage()" x-init="init()">
 
-<body
-    class="min-h-screen text-slate-100 flex flex-col justify-between relative overflow-x-hidden selection:bg-purple-500 selection:text-white"
-    x-data="{
+    @include('partials.landing.page-hero-background')
+
+    @include('partials.landing.landing-header')
+
+    @include('partials.landing.ux-chrome')
+
+    <main class="flex-grow flex items-center justify-center px-4 py-6 md:py-10 relative z-10">
+        <div class="w-full max-w-lg" x-data="{
         /* ── Campos ──────────────────────────────── */
         shopName: '',
         email: '',
@@ -298,10 +216,10 @@
             return 'linear-gradient(90deg,#ef4444,#f97316,#eab308,#84cc16,#22c55e)';
         },
         get pwStrengthTextColor() {
-            if (this.pwScore <= 1) return 'text-red-400';
-            if (this.pwScore === 2) return 'text-yellow-400';
-            if (this.pwScore === 3) return 'text-lime-400';
-            return 'text-emerald-400';
+            if (this.pwScore <= 1) return 'text-red-600';
+            if (this.pwScore === 2) return 'text-amber-600';
+            if (this.pwScore === 3) return 'text-lime-600';
+            return 'text-emerald-600';
         },
         get pwBorderClass() {
             if (this.password.length === 0) return '';
@@ -333,106 +251,39 @@
         }
     }">
 
-    <!-- FONDO -->
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#070913] gpu-accelerated">
-        <div
-            class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-600/20 to-indigo-600/20 blur-[120px] blur-accelerated">
-        </div>
-        <div
-            class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-r from-purple-500/10 to-cyan-600/10 blur-[160px] blur-accelerated">
-        </div>
-        <div
-            class="absolute -bottom-[10%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-pink-600/10 via-purple-600/10 to-transparent blur-[160px] blur-accelerated">
-        </div>
-        <svg class="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none" viewBox="0 0 1440 1024"
-            fill="none">
-            <defs>
-                <linearGradient id="ng1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.8" />
-                    <stop offset="50%" stop-color="#a855f7" stop-opacity="0.4" />
-                    <stop offset="100%" stop-color="#a855f7" stop-opacity="0" />
-                </linearGradient>
-                <linearGradient id="ng2" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#a855f7" stop-opacity="0.6" />
-                    <stop offset="50%" stop-color="#ec4899" stop-opacity="0.3" />
-                    <stop offset="100%" stop-color="#ec4899" stop-opacity="0" />
-                </linearGradient>
-            </defs>
-            <path class="animate-wave-1" d="M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800"
-                stroke="url(#ng1)" stroke-width="1.5" fill="none" />
-            <path class="animate-wave-2" d="M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950"
-                stroke="url(#ng1)" stroke-width="1" fill="none" opacity="0.6" />
-            <path class="animate-wave-3" d="M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000"
-                stroke="url(#ng2)" stroke-width="1.5" fill="none" />
-            <path class="animate-wave-4" d="M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100"
-                stroke="url(#ng2)" stroke-width="1" fill="none" opacity="0.6" />
-            <path class="animate-wave-5" d="M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300"
-                stroke="url(#ng1)" stroke-width="1" fill="none" opacity="0.4" />
-        </svg>
-    </div>
-
-    <!-- HEADER -->
-    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
-        <a href="/" class="flex items-center gap-2 group transition-transform duration-300 active:scale-95">
-            <span class="text-xl font-black text-white tracking-wider uppercase">
-                WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span>
-            </span>
-        </a>
-        <a href="/"
-            class="text-xs font-bold text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors group">
-            <i class="fas fa-arrow-left text-[10px] group-hover:-translate-x-0.5 transition-transform"></i>
-            Volver al Inicio
-        </a>
-    </header>
-
-    <!-- MAIN -->
-    <main class="flex-grow flex items-center justify-center px-4 py-8 relative z-10">
-        <div class="w-full max-w-lg">
-
             <!-- Badge trial -->
             <div class="flex justify-center mb-5">
-                <div
-                    class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 rounded-full px-5 py-2 shadow-[0_0_25px_rgba(168,85,247,0.18)]">
-                    <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
-                    <span class="text-purple-300 text-[11px] font-black uppercase tracking-widest">🎁 {{ $wiStoreTrialDays }} Días de Prueba
-                        Gratuita — {{ $wiStoreTrialDisclaimer }}</span>
+                <div class="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-full px-4 py-2 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                    <span class="text-purple-800 text-[10px] sm:text-[11px] font-black uppercase tracking-wide text-center">🎁 {{ $wiStoreTrialDays }} Días de Prueba Gratuita — {{ $wiStoreTrialDisclaimer }}</span>
                 </div>
             </div>
 
             <!-- Card -->
-            <div
-                class="w-full bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-2xl relative group overflow-hidden">
-                <div
-                    class="absolute -top-20 -right-20 w-48 h-48 bg-purple-500/15 rounded-full blur-2xl pointer-events-none group-hover:bg-cyan-500/15 transition-all duration-700">
-                </div>
-                <div
-                    class="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl pointer-events-none">
-                </div>
+            <div class="w-full auth-register-card rounded-[2rem] p-8 md:p-10 relative">
 
-                <div class="text-center mb-8 relative z-10">
-                    <span
-                        class="inline-block bg-gradient-to-r from-purple-500 to-cyan-400 text-slate-950 text-[10px] uppercase font-black tracking-widest px-5 py-1.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.35)] mb-4">
+                <div class="text-center mb-8">
+                    <span class="inline-block text-[10px] uppercase font-black tracking-widest px-3 py-1.5 rounded-full border border-purple-200 bg-purple-50 text-purple-700 mb-4">
                         Plan Negocio
                     </span>
-                    <h1 class="text-2xl md:text-3xl font-black text-white tracking-tight">Crea tu Catálogo Digital</h1>
-                    <p class="text-xs text-slate-400 mt-2 max-w-xs mx-auto leading-relaxed">
-                        Configura tu marca y comienza a vender en segundos. <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 font-black">Gratis por {{ $wiStoreTrialDays }} días.</span>
+                    <h1 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Crea tu Catálogo Digital</h1>
+                    <p class="text-xs text-slate-500 mt-2 max-w-xs mx-auto leading-relaxed">
+                        Configura tu marca y comienza a vender en segundos. <span class="text-purple-700 font-black">Gratis por {{ $wiStoreTrialDays }} días.</span>
                     </p>
                 </div>
 
                 <!-- FORMULARIO -->
-                <form id="registerForm" action="{{ route('register.submit') }}" method="POST" @submit.prevent="submitForm()" class="space-y-5 relative z-10">
+                <form id="registerForm" action="{{ route('register.submit') }}" method="POST" @submit.prevent="submitForm()" class="space-y-5">
                     @csrf
-                    <div
-                        class="rounded-3xl border border-purple-400/15 bg-purple-400/5 px-4 py-3 text-slate-100 text-sm font-bold tracking-wide shadow-sm shadow-purple-500/10">
-                        <i class="fas fa-info-circle mr-2 text-purple-300"></i>
+                    <div class="rounded-2xl border border-purple-200 bg-purple-50 px-4 py-3 text-slate-700 text-sm font-bold tracking-wide">
+                        <i class="fas fa-info-circle mr-2 text-purple-600"></i>
                         Completa los datos del formulario para iniciar tu prueba gratis de {{ $wiStoreTrialDays }} días.
                     </div>
 
                     <!-- ── NOMBRE DEL COMERCIO ── -->
                     <div class="space-y-1.5">
                         <label for="shop_name"
-                            class="text-[11px] font-black uppercase tracking-wider text-slate-300 block pl-1">
+                            class="text-[11px] font-black uppercase tracking-wider text-slate-500 block pl-1">
                             Nombre de tu Empresa / Comercio
                         </label>
                         <div class="relative">
@@ -443,7 +294,7 @@
                             <input type="text" id="shop_name" name="shop_name" required x-model="shopName"
                                 @input="checkName()" placeholder="Ej: Tienda Click, Sabores Y&B..."
                                 :class="nameBorderClass"
-                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                                class="auth-register-input w-full rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs transition-all">
                             @error('shop_name')
                                 <p class="text-[10px] text-rose-500 font-bold mt-1 pl-1">{{ $message }}</p>
                             @enderror
@@ -484,7 +335,7 @@
                     <!-- ── CORREO ── -->
                     <div class="space-y-1.5">
                         <label for="email"
-                            class="text-[11px] font-black uppercase tracking-wider text-slate-300 block pl-1">Correo
+                            class="text-[11px] font-black uppercase tracking-wider text-slate-500 block pl-1">Correo
                             Electrónico</label>
                         <div class="relative">
                             <span
@@ -493,7 +344,7 @@
                             </span>
                             <input type="email" id="email" name="email" required x-model="email"
                                 @input="emailTouched = true" placeholder="tu@correo.com" :class="emailBorderClass"
-                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                                class="auth-register-input w-full rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs transition-all">
                             @error('email')
                                 <p class="text-[10px] text-rose-500 font-bold mt-1 pl-1">{{ $message }}</p>
                             @enderror
@@ -518,7 +369,7 @@
                     <!-- ── CONTRASEÑA ── -->
                     <div class="space-y-1.5">
                         <label for="password"
-                            class="text-[11px] font-black uppercase tracking-wider text-slate-300 block pl-1">Contraseña</label>
+                            class="text-[11px] font-black uppercase tracking-wider text-slate-500 block pl-1">Contraseña</label>
                         <div class="relative">
                             <span
                                 class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none w-4 flex justify-center">
@@ -526,12 +377,12 @@
                             </span>
                             <input :type="showPassword ? 'text' : 'password'" id="password" name="password" required
                                 x-model="password" placeholder="Mínimo 8 caracteres" :class="pwBorderClass"
-                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                                class="auth-register-input w-full rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs transition-all">
                             @error('password')
                                 <p class="text-[10px] text-rose-500 font-bold mt-1 pl-1">{{ $message }}</p>
                             @enderror
                             <button type="button" @click="showPassword = !showPassword"
-                                class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors focus:outline-none">
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors focus:outline-none">
                                 <i :class="showPassword ? 'fas fa-eye-slash text-xs' : 'fas fa-eye text-xs'"></i>
                             </button>
                         </div>
@@ -545,7 +396,7 @@
                                     :class="pwStrengthTextColor" x-text="pwStrengthLabel"></span>
                             </div>
                             <!-- Barra gradiente -->
-                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                                 <div class="strength-bar-fill"
                                     :style="`width:${pwStrengthWidth}; background:${pwStrengthGradient}`">
                                 </div>
@@ -583,7 +434,7 @@
                     <!-- ── CONFIRMAR CONTRASEÑA ── -->
                     <div class="space-y-1.5">
                         <label for="password_confirmation"
-                            class="text-[11px] font-black uppercase tracking-wider text-slate-300 block pl-1">Confirmar
+                            class="text-[11px] font-black uppercase tracking-wider text-slate-500 block pl-1">Confirmar
                             Contraseña</label>
                         <div class="relative">
                             <span
@@ -594,9 +445,9 @@
                                 name="password_confirmation" required x-model="confirm"
                                 @input="confirmTouched = true" placeholder="Repite tu contraseña"
                                 :class="confirmBorderClass"
-                                class="w-full bg-slate-800/90 border border-slate-700/60 rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500/40 transition-all shadow-inner">
+                                class="auth-register-input w-full rounded-2xl px-4 py-3.5 pl-11 pr-11 text-xs transition-all">
                             <button type="button" @click="showConfirm = !showConfirm"
-                                class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors focus:outline-none">
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors focus:outline-none">
                                 <i :class="showConfirm ? 'fas fa-eye-slash text-xs' : 'fas fa-eye text-xs'"></i>
                             </button>
                         </div>
@@ -609,11 +460,11 @@
                     </div>
 
                     <!-- ── COLORES DE MARCA ── -->
-                    <div class="border-t border-white/5 pt-5">
-                        <label class="text-[11px] font-black uppercase tracking-wider text-slate-300 block pl-1 mb-3">
-                            <i class="fas fa-palette mr-1.5 text-purple-400"></i> Colores de tu Marca
+                    <div class="border-t border-slate-200 pt-5">
+                        <label class="text-[11px] font-black uppercase tracking-wider text-slate-500 block pl-1 mb-3">
+                            <i class="fas fa-palette mr-1.5 text-purple-600"></i> Colores de tu Marca
                         </label>
-                        <p class="text-[10px] text-slate-400 mb-3 pl-1 leading-snug">
+                        <p class="text-[10px] text-slate-500 mb-3 pl-1 leading-snug">
                             Personalízalo tú mismo: ajusta los colores rápidos o edita cada tono manualmente usando el
                             selector.
                         </p>
@@ -625,13 +476,13 @@
                                 <button type="button" @click="applyPreset(idx)" :title="preset.name"
                                     class="w-full h-12 rounded-2xl border transition-all duration-200 flex items-center justify-center gap-2 px-2"
                                     :class="selectedPreset === idx ?
-                                        'border-purple-400/60 bg-white/5 shadow-[0_0_10px_rgba(168,85,247,0.22)]' :
-                                        'border-white/10 hover:border-white/20 bg-slate-950/30'">
+                                        'border-purple-400/60 bg-purple-50 shadow-sm' :
+                                        'border-slate-200 hover:border-slate-300 bg-slate-50'">
                                     <span class="w-3 h-3 rounded-full shadow-inner"
                                         :style="`background:${preset.primary}`"></span>
                                     <span class="w-3 h-3 rounded-full shadow-inner"
                                         :style="`background:${preset.accent}`"></span>
-                                    <span class="w-3 h-3 rounded-full border border-white/10"
+                                    <span class="w-3 h-3 rounded-full border border-slate-200"
                                         :style="`background:${preset.bg}`"></span>
                                 </button>
                             </template>
@@ -639,46 +490,46 @@
 
                         <div class="grid grid-cols-3 gap-3">
                             <div
-                                class="bg-slate-900/60 border border-white/5 rounded-2xl p-3 flex flex-col items-center gap-2">
+                                class="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex flex-col items-center gap-2">
                                 <span
                                     class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Primario</span>
                                 <div
-                                    class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-lg cursor-pointer hover:border-white/40 transition-colors">
+                                    class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 shadow-md cursor-pointer hover:border-purple-300 transition-colors">
                                     <div class="absolute inset-0" :style="`background:${primaryColor}`"></div>
                                     <input type="color" x-model="primaryColor" name="color_primary"
                                         class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                        <i class="fas fa-eye-dropper text-white/70 text-[8px] drop-shadow"></i>
+                                        <i class="fas fa-eye-dropper text-slate-600/80 text-[8px] drop-shadow"></i>
                                     </div>
                                 </div>
                                 <span class="text-[9px] text-slate-400 font-mono" x-text="primaryColor"></span>
                             </div>
                             <div
-                                class="bg-slate-900/60 border border-white/5 rounded-2xl p-3 flex flex-col items-center gap-2">
+                                class="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex flex-col items-center gap-2">
                                 <span
                                     class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Acento</span>
                                 <div
-                                    class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-lg cursor-pointer hover:border-white/40 transition-colors">
+                                    class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 shadow-md cursor-pointer hover:border-purple-300 transition-colors">
                                     <div class="absolute inset-0" :style="`background:${accentColor}`"></div>
                                     <input type="color" x-model="accentColor" name="color_accent"
                                         class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                        <i class="fas fa-eye-dropper text-white/70 text-[8px] drop-shadow"></i>
+                                        <i class="fas fa-eye-dropper text-slate-600/80 text-[8px] drop-shadow"></i>
                                     </div>
                                 </div>
                                 <span class="text-[9px] text-slate-400 font-mono" x-text="accentColor"></span>
                             </div>
                             <div
-                                class="bg-slate-900/60 border border-white/5 rounded-2xl p-3 flex flex-col items-center gap-2">
+                                class="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex flex-col items-center gap-2">
                                 <span
                                     class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Fondo</span>
                                 <div
-                                    class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-lg cursor-pointer hover:border-white/40 transition-colors">
+                                    class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 shadow-md cursor-pointer hover:border-purple-300 transition-colors">
                                     <div class="absolute inset-0" :style="`background:${bgColor}`"></div>
                                     <input type="color" x-model="bgColor" name="color_bg"
                                         class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                        <i class="fas fa-eye-dropper text-white/70 text-[8px] drop-shadow"></i>
+                                        <i class="fas fa-eye-dropper text-slate-600/80 text-[8px] drop-shadow"></i>
                                     </div>
                                 </div>
                                 <span class="text-[9px] text-slate-400 font-mono" x-text="bgColor"></span>
@@ -686,7 +537,7 @@
                         </div>
 
                         <!-- Preview de marca -->
-                        <div class="mt-3 rounded-2xl overflow-hidden border border-white/5 shadow-inner transition-all duration-300"
+                        <div class="mt-3 rounded-2xl overflow-hidden border border-slate-200 shadow-sm transition-all duration-300"
                             :style="`background:${bgColor}`">
                             <div class="px-4 py-3 flex items-center gap-3">
                                 <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-[11px] font-black shrink-0 shadow-md"
@@ -707,9 +558,8 @@
                     <div class="pt-2">
                         <button type="submit" :disabled="!formValid"
                             :class="formValid
-                                ?
-                                'bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.35)] cursor-pointer active:scale-[0.98]' :
-                                'bg-slate-800 text-slate-500 cursor-not-allowed'"
+                                ? 'landing-plan-btn landing-plan-btn--negocio text-white cursor-pointer active:scale-[0.98]'
+                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'"
                             class="block w-full text-center font-extrabold py-4 rounded-2xl transition-all duration-300 text-sm tracking-wide">
                             <i class="fas fa-rocket mr-2"></i>
                             <span
@@ -717,7 +567,7 @@
                         </button>
                         <!-- Indicador de progreso -->
                         <div class="mt-3 flex items-center gap-2">
-                            <div class="flex-1 h-1 bg-slate-800 rounded-full overflow-hidden">
+                            <div class="flex-1 h-1 bg-slate-200 rounded-full overflow-hidden">
                                 <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full transition-all duration-500"
                                     :style="`width:${
                                                                              ((nameStatus==='available'?1:0)
@@ -735,161 +585,110 @@
 
                     <p class="text-center text-[10px] text-slate-500 leading-relaxed">
                         ¿Ya tienes cuenta?
-                        <a href="/login" class="text-purple-400 font-bold hover:text-purple-300 transition-colors">Inicia
+                        <a href="/login" class="text-purple-700 font-bold hover:text-cyan-700 transition-colors">Inicia
                             Sesión aquí</a>
                     </p>
                 </form>
             </div>
 
+            <!-- MODAL AVISO PRUEBA -->
+            <div x-show="showTrialModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" x-cloak>
+                <div x-show="showTrialModal" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0" @click="showTrialModal = false"
+                    class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm">
+                </div>
+
+                <div x-show="showTrialModal" x-transition:enter="transition ease-out duration-350"
+                    x-transition:enter-start="opacity-0 translate-y-8 scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-8 scale-95"
+                    class="relative z-10 w-full max-w-md auth-register-card rounded-[2rem] overflow-hidden">
+
+                    <div class="h-1.5 w-full bg-gradient-to-r from-purple-600 via-indigo-500 to-cyan-400"></div>
+
+                    <div class="px-8 pt-7 pb-0 text-center">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-rocket text-2xl text-purple-600"></i>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight">¡Tu Prueba Comienza Ahora!</h2>
+                        <p class="text-xs text-slate-500 mt-1.5 leading-relaxed max-w-xs mx-auto">
+                            <span class="text-purple-700 font-black">{{ $wiStoreTrialDays }} días</span> sin pagos, sin comisiones.
+                            <span class="text-slate-900 font-bold">Totalmente gratis</span> para que pruebes.
+                        </p>
+                    </div>
+
+                    <div class="mx-8 mt-6 bg-purple-50 border border-purple-200 rounded-2xl p-4 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="flex flex-col items-center justify-center w-14 h-14 rounded-xl bg-white border border-purple-200 shrink-0">
+                                <span class="text-2xl font-black text-purple-700">{{ $wiStoreTrialDays }}</span>
+                                <span class="text-[8px] text-purple-600 font-bold uppercase tracking-wider">días</span>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-slate-900">Prueba Gratuita</p>
+                                <p class="text-[10px] text-slate-500 mt-0.5">{{ $wiStoreTrialDisclaimer }}</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-gift text-2xl text-purple-400 shrink-0"></i>
+                    </div>
+
+                    <div class="mx-8 mt-4 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+                        <div class="shrink-0 mt-0.5 w-6 h-6 rounded-lg bg-amber-100 flex items-center justify-center">
+                            <i class="fas fa-exclamation-triangle text-amber-600 text-[10px]"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-black text-amber-800 uppercase tracking-wide mb-1">Aviso de Suscripción</p>
+                            <p class="text-[11px] text-slate-600 leading-relaxed">
+                                Al finalizar los {{ $wiStoreTrialDays }} días tu cuenta será
+                                <span class="text-amber-700 font-bold">suspendida automáticamente</span>
+                                si no activas la suscripción al
+                                <span class="text-slate-900 font-bold">Plan Negocio ({{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes)</span>.
+                                Tus datos se conservan por 30 días adicionales.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mx-6 mt-4">
+                        <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 pl-1">Incluye durante los {{ $wiStoreTrialDays }} días:</p>
+                        <div class="grid grid-cols-2 gap-1.5">
+                            @foreach ([['fa-box', '50 Productos', 'máximo en prueba'], ['fa-tags', '10 Categorías', 'personalizadas'], ['fa-whatsapp', 'Pedidos WhatsApp', 'notificación instantánea', 'fab'], ['fa-palette', 'Branding Completo', 'colores y logo propios'], ['fa-chart-line', 'Panel de Órdenes', 'gestiona tus pedidos'], ['fa-percent', '0% Comisiones', 'todo es tuyo']] as $feat)
+                                <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2">
+                                    <i class="{{ ($feat[3] ?? 'fas') }} {{ $feat[0] }} text-purple-600 text-[10px] w-3 shrink-0"></i>
+                                    <div>
+                                        <p class="text-[10px] font-black text-slate-900 leading-tight">{{ $feat[1] }}</p>
+                                        <p class="text-[8px] text-slate-500">{{ $feat[2] }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="px-6 py-5">
+                        <button @click="isSubmitting = true; document.getElementById('registerForm').submit()"
+                            :disabled="isSubmitting"
+                            class="landing-plan-btn landing-plan-btn--negocio w-full text-center text-white font-extrabold py-3.5 rounded-2xl text-xs tracking-widest uppercase active:scale-[0.98] flex items-center justify-center disabled:opacity-75 disabled:cursor-not-allowed">
+                            <template x-if="!isSubmitting">
+                                <span><i class="fas fa-rocket mr-2"></i> ¡Comenzar Ahora!</span>
+                            </template>
+                            <template x-if="isSubmitting">
+                                <span><i class="fas fa-circle-notch animate-spin mr-2"></i> Registrando...</span>
+                            </template>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="w-full py-6 text-xs text-slate-500 relative z-10 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>© 2026 WI-Store. Todos los derechos reservados.</p>
-            <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wiStoreSupportEmail }}</a>
-                <span class="hidden sm:inline">•</span>
-                <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y
-                    Privacidad</a>
-                <span>•</span>
-                <a href="{{ route('contacto') }}" class="hover:text-white transition-colors">Contacto</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- MODAL AVISO PRUEBA -->
-    <div x-show="showTrialModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" x-cloak>
-        <div x-show="showTrialModal" x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0" @click="showTrialModal = false"
-            class="fixed inset-0 bg-[#070913]/85 backdrop-blur-md">
-        </div>
-
-        <div x-show="showTrialModal" x-transition:enter="transition ease-out duration-350"
-            x-transition:enter-start="opacity-0 translate-y-8 scale-95"
-            x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-            x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-            class="relative z-10 w-full max-w-md bg-[#0d1127] border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(168,85,247,0.2)]">
-
-            <div class="h-1.5 w-full bg-gradient-to-r from-purple-600 via-indigo-500 to-cyan-400"></div>
-
-            <div class="px-8 pt-7 pb-0 text-center">
-                <div
-                    class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-cyan-500/10 border border-purple-500/30 flex items-center justify-center mx-auto mb-3 shadow-[0_0_20px_rgba(168,85,247,0.2)]">
-                    <i class="fas fa-rocket text-2xl text-purple-400"></i>
-                </div>
-                <h2 class="text-xl md:text-2xl font-black text-white tracking-tight">¡Tu Prueba Comienza Ahora!</h2>
-                <p class="text-xs text-slate-400 mt-1.5 leading-relaxed max-w-xs mx-auto">
-                    <span class="text-purple-400 font-black">{{ $wiStoreTrialDays }} días</span> sin pagos, sin comisiones. <span
-                        class="text-white font-bold">Totalmente gratis</span> para que pruebes.
-                </p>
-            </div>
-
-            <div
-                class="mx-8 mt-6 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 border border-purple-500/20 rounded-2xl p-4 flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="flex flex-col items-center justify-center w-14 h-14 rounded-xl bg-purple-500/15 border border-purple-500/25 shrink-0">
-                        <span class="text-2xl font-black text-purple-300">{{ $wiStoreTrialDays }}</span>
-                        <span class="text-[8px] text-purple-400 font-bold uppercase tracking-wider">días</span>
-                    </div>
-                    <div>
-                        <p class="text-xs font-black text-white">Prueba Gratuita</p>
-                        <p class="text-[10px] text-slate-400 mt-0.5">{{ $wiStoreTrialDisclaimer }}</p>
-                    </div>
-                </div>
-                <i class="fas fa-gift text-2xl text-purple-400/50 shrink-0"></i>
-            </div>
-
-            <div
-                class="mx-8 mt-4 bg-amber-500/[0.07] border border-amber-500/25 rounded-2xl p-4 flex items-start gap-3">
-                <div class="shrink-0 mt-0.5 w-6 h-6 rounded-lg bg-amber-500/15 flex items-center justify-center">
-                    <i class="fas fa-exclamation-triangle text-amber-400 text-[10px]"></i>
-                </div>
-                <div>
-                    <p class="text-[11px] font-black text-amber-300 uppercase tracking-wide mb-1">Aviso de Suscripción
-                    </p>
-                    <p class="text-[11px] text-slate-400 leading-relaxed">
-                        Al finalizar los {{ $wiStoreTrialDays }} días tu cuenta será
-                        <span class="text-amber-300 font-bold">suspendida automáticamente</span>
-                        si no activas la suscripción al
-                        <span class="text-white font-bold">Plan Negocio ({{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes)</span>.
-                        Tus datos se conservan por 30 días adicionales.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Semana gratuita: grid compacto -->
-            <div class="mx-6 mt-4">
-                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 pl-1">Incluye durante los
-                    {{ $wiStoreTrialDays }} días:</p>
-                <div class="grid grid-cols-2 gap-1.5">
-                    <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fas fa-box text-purple-400 text-[10px] w-3 shrink-0"></i>
-                        <div>
-                            <p class="text-[10px] font-black text-white leading-tight">50 Productos</p>
-                            <p class="text-[8px] text-slate-500">máximo en prueba</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fas fa-tags text-purple-400 text-[10px] w-3 shrink-0"></i>
-                        <div>
-                            <p class="text-[10px] font-black text-white leading-tight">10 Categorías</p>
-                            <p class="text-[8px] text-slate-500">personalizadas</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fab fa-whatsapp text-emerald-400 text-[10px] w-3 shrink-0"></i>
-                        <div>
-                            <p class="text-[10px] font-black text-white leading-tight">Pedidos WhatsApp</p>
-                            <p class="text-[8px] text-slate-500">notificación instantánea</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fas fa-palette text-purple-400 text-[10px] w-3 shrink-0"></i>
-                        <div>
-                            <p class="text-[10px] font-black text-white leading-tight">Branding Completo</p>
-                            <p class="text-[8px] text-slate-500">colores y logo propios</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fas fa-chart-line text-purple-400 text-[10px] w-3 shrink-0"></i>
-                        <div>
-                            <p class="text-[10px] font-black text-white leading-tight">Panel de Órdenes</p>
-                            <p class="text-[8px] text-slate-500">gestiona tus pedidos</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-xl px-2.5 py-2">
-                        <i class="fas fa-percent text-purple-400 text-[10px] w-3 shrink-0"></i>
-                        <div>
-                            <p class="text-[10px] font-black text-white leading-tight">0% Comisiones</p>
-                            <p class="text-[8px] text-slate-500">todo es tuyo</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="px-6 py-5">
-                <button @click="isSubmitting = true; document.getElementById('registerForm').submit()"
-                    :disabled="isSubmitting"
-                    class="w-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-extrabold py-3.5 rounded-2xl transition-all duration-300 text-xs shadow-[0_0_15px_rgba(168,85,247,0.3)] tracking-widest uppercase active:scale-[0.98] flex items-center justify-center disabled:opacity-75 disabled:cursor-not-allowed">
-                    <template x-if="!isSubmitting">
-                        <span><i class="fas fa-rocket mr-2"></i> ¡Comenzar Ahora!</span>
-                    </template>
-                    <template x-if="isSubmitting">
-                        <span><i class="fas fa-circle-notch animate-spin mr-2"></i> Registrando...</span>
-                    </template>
-                </button>
-            </div>
-        </div>
-    </div>
+    @include('partials.landing.light-footer')
 
     @include('partials.public.chat')
+
+    @include('partials.landing.ux-script')
 </body>
 
 </html>
