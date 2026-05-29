@@ -882,25 +882,54 @@
             0 20px 48px rgba(245, 158, 11, 0.16),
             0 10px 32px rgba(147, 51, 234, 0.16);
     }
+    .landing-pricing-grid {
+        --landing-plan-recommended-bar-h: 2.75rem;
+        --landing-plan-negocio-frame-pad: 3px;
+        --landing-plan-footer-note-h: 2.75rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-top: 0.25rem;
+        padding-bottom: 0.5rem;
+    }
+    .landing-pricing-grid__col {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+    .landing-pricing-grid__offset {
+        display: none;
+    }
+    .landing-plan-card__main {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+    .landing-plan-card-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .landing-plan-card-footer__spacer {
+        min-height: var(--landing-plan-footer-note-h);
+    }
     @media (min-width: 768px) {
         .landing-pricing-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
             align-items: stretch;
-            margin-top: 0.25rem;
         }
-        .landing-plan-card--emprendedor {
-            margin-top: 0;
-            transform: scale(0.985);
-            transform-origin: center center;
+        .landing-pricing-grid__offset {
+            display: block;
+            flex-shrink: 0;
+            height: calc(var(--landing-plan-negocio-frame-pad) + var(--landing-plan-recommended-bar-h));
         }
-        .landing-plan-card--emprendedor.landing-plan-card--no-hover-lift:hover {
-            transform: scale(0.985) !important;
+        .landing-pricing-grid__col--standard .landing-plan-card,
+        .landing-pricing-grid__col--premium .landing-plan-card {
+            flex: 1 1 auto;
         }
-        .landing-plan-card--negocio-spotlight {
-            transform: scale(1.045);
-            transform-origin: center center;
-        }
-        .landing-plan-card--negocio-spotlight.landing-plan-card--no-hover-lift:hover {
-            transform: scale(1.045) !important;
+        .landing-plan-card--negocio-spotlight::before {
+            inset: -6px;
+            opacity: 0.45;
         }
     }
     .landing-plan-inner {
@@ -917,8 +946,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 2.35rem;
-        padding: 0.55rem 1rem;
+        height: var(--landing-plan-recommended-bar-h, 2.75rem);
+        min-height: var(--landing-plan-recommended-bar-h, 2.75rem);
+        padding: 0 1rem;
+        box-sizing: border-box;
         background: linear-gradient(90deg, #6d28d9 0%, #9333ea 40%, #7c3aed 70%, #0891b2 100%);
         color: #fff;
         font-size: 0.68rem;

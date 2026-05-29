@@ -417,7 +417,7 @@
 
             @include('partials.landing.pricing-billing-toggle')
 
-            <div class="landing-pricing-grid grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 items-stretch justify-center max-w-4xl mx-auto">
+            <div class="landing-pricing-grid max-w-4xl mx-auto">
 
                 @include('partials.landing.pricing-cards')
 
@@ -425,7 +425,7 @@
 
             @include('partials.landing.bcv-rate-badge', [
                 'compact' => true,
-                'class' => 'landing-bcv-in-dark mt-4 md:mt-5',
+                'class' => 'landing-bcv-in-dark mt-8 md:mt-10',
             ])
 
             <div class="mt-6 md:mt-8 text-center">
