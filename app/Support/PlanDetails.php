@@ -155,9 +155,6 @@ final class PlanDetails
                 'Módulo de servicios comerciales',
                 'Panel admin: pedidos, clientes y pagos',
                 'Soporte prioritario 24/7',
-                'Soporte prioritario 24/7',
-                'Soporte prioritario 24/7',
-                'Soporte prioritario 24/7',
             ],
         ];
     }

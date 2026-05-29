@@ -417,7 +417,7 @@
 
             @include('partials.landing.pricing-billing-toggle')
 
-            <div class="landing-pricing-grid grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 items-stretch justify-center max-w-3xl mx-auto">
+            <div class="landing-pricing-grid grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 items-stretch justify-center max-w-4xl mx-auto">
 
                 @include('partials.landing.pricing-cards')
 

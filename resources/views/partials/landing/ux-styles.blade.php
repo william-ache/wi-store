@@ -804,7 +804,7 @@
         transition: none !important;
         will-change: auto;
     }
-    .landing-plan-card--no-hover-lift:not(.landing-plan-vip-elevated):hover {
+    .landing-plan-card--no-hover-lift:hover {
         transform: none !important;
     }
     .landing-plan-card--emprendedor {
@@ -860,17 +860,14 @@
     }
     @media (min-width: 768px) {
         .landing-pricing-grid {
-            align-items: flex-end;
+            align-items: stretch;
+            margin-top: 0.25rem;
         }
         .landing-plan-card--emprendedor {
-            margin-top: 0.75rem;
+            margin-top: 0;
         }
-        .landing-plan-vip-elevated.landing-plan-card--no-hover-lift {
-            transform: translateY(-1.25rem) scale(1.03);
-            z-index: 5;
-        }
-        .landing-plan-vip-elevated.landing-plan-card--no-hover-lift:hover {
-            transform: translateY(-1.25rem) scale(1.03);
+        .landing-plan-card--featured {
+            margin-top: 0;
         }
     }
     .landing-plan-inner {

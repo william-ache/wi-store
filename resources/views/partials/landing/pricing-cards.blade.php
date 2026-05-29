@@ -11,17 +11,17 @@
 
 <!-- Plan Emprendedor -->
 <div id="plan-standard"
-    class="landing-plan-card landing-plan-card--emprendedor landing-plan-card--no-hover-lift rounded-3xl p-4 md:p-5 flex flex-col justify-between relative">
-    <div>
+    class="landing-plan-card landing-plan-card--emprendedor landing-plan-card--no-hover-lift rounded-3xl p-5 md:p-6 flex flex-col justify-between relative h-full">
+    <div class="flex flex-col flex-1">
         <div class="flex justify-between items-start gap-2">
-            <h3 class="text-base font-black text-slate-900 uppercase tracking-wider">
+            <h3 class="text-sm md:text-base font-black text-slate-900 uppercase tracking-wider">
                 Plan <span class="landing-plan-title--cyan">Emprendedor</span>
             </h3>
             <span class="landing-plan-badge landing-plan-badge--emprendedor text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Para empezar</span>
         </div>
-        <p class="text-[11px] text-slate-400 mt-1.5 leading-snug">{{ $standardPurpose }}</p>
+        <p class="text-[11px] text-slate-400 mt-2 leading-snug">{{ $standardPurpose }}</p>
 
-        <div class="landing-plan-price--emprendedor landing-billing-swap landing-billing-swap--sm my-4 rounded-2xl px-4 py-4">
+        <div class="landing-plan-price--emprendedor landing-billing-swap landing-billing-swap--sm my-4 rounded-2xl px-4 py-4 md:py-5">
             <div class="landing-billing-swap__layer"
                  x-show="billingPeriod === 'monthly'"
                  x-transition:enter="landing-billing-fade-enter"
@@ -62,21 +62,21 @@
             </div>
         </div>
 
-        <ul class="space-y-1.5 text-[10px] text-slate-600 border-t border-slate-200 pt-3">
+        <ul class="space-y-1.5 text-[10px] md:text-[11px] text-slate-600 border-t border-slate-200 pt-3 flex-1">
             @foreach ($standardHighlights as $highlight)
-                <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> {{ $highlight }}</li>
+                <li class="flex gap-2 leading-snug"><span class="landing-plan-check--cyan font-bold shrink-0">✓</span><span>{{ $highlight }}</span></li>
             @endforeach
         </ul>
     </div>
-    <div class="mt-4">
-        <a href="/register" class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-2.5 rounded-xl text-xs">Comenzar Emprendedor</a>
+    <div class="mt-5">
+        <a href="/register" class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">Comenzar Emprendedor</a>
     </div>
 </div>
 
 <!-- Plan Negocio -->
 <div id="plan-premium"
-    class="landing-plan-card landing-plan-card--featured landing-plan-vip-elevated landing-plan-card--no-hover-lift rounded-3xl flex flex-col">
-    <div class="landing-plan-inner landing-plan-inner--negocio flex flex-col">
+    class="landing-plan-card landing-plan-card--featured landing-plan-card--no-hover-lift rounded-3xl flex flex-col h-full">
+    <div class="landing-plan-inner landing-plan-inner--negocio flex flex-col h-full flex-1">
         <div class="landing-plan-recommended-bar">Recomendado</div>
 
         <div class="landing-plan-negocio-body p-5 md:p-6 flex flex-col relative">

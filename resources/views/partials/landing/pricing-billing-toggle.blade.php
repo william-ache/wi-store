@@ -1,5 +1,5 @@
 {{-- Toggle mensual / anual (usa billingPeriod del x-data de #precios) --}}
-<div class="landing-billing-toggle-wrap flex flex-col items-center gap-2 mb-4 md:mb-5">
+<div class="landing-billing-toggle-wrap flex flex-col items-center gap-2 mb-6 md:mb-8">
     <div class="flex flex-col items-center gap-1.5">
         <div class="inline-flex items-center gap-1 p-1 rounded-xl border border-slate-200 bg-white shadow-sm">
             <button type="button"
