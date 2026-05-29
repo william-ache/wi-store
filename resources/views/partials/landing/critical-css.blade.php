@@ -12,15 +12,21 @@
     }
     [x-cloak] { display: none !important; }
 
-    /* Hero = primera pantalla (debajo del header 4rem) */
+    :root {
+        --landing-header-h: 4rem;
+    }
+
+    /* Hero = una pantalla completa (el header sticky queda encima) */
     #inicio {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-height: calc(100svh - 4rem);
-        min-height: calc(100dvh - 4rem);
-        padding-top: 1.25rem;
+        min-height: 100svh;
+        min-height: 100dvh;
+        margin-top: calc(-1 * var(--landing-header-h));
+        padding-top: calc(var(--landing-header-h) + 1.25rem);
         padding-bottom: 2rem;
+        scroll-margin-top: var(--landing-header-h);
         overflow-x: clip;
         overflow-y: visible;
         isolation: isolate;
@@ -46,17 +52,18 @@
     }
     @media (min-width: 768px) {
         #inicio {
-            padding-top: 1.5rem;
+            padding-top: calc(var(--landing-header-h) + 1.5rem);
             padding-bottom: 2.5rem;
         }
     }
     @media (min-width: 1024px) {
-        #inicio { padding-top: 2rem; }
+        #inicio {
+            padding-top: calc(var(--landing-header-h) + 2rem);
+        }
     }
     @media (min-width: 1024px) and (max-height: 820px) {
         #inicio {
-            min-height: auto;
-            padding-top: 1rem;
+            padding-top: calc(var(--landing-header-h) + 1rem);
             padding-bottom: 1.25rem;
         }
         #inicio .landing-hero-inner {
