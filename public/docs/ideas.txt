@@ -1,8 +1,4 @@
-ceo de https://www.zenifi.app/
-
 incluird chat para poder hablar con el cliente desde el panel admin y que el cliente pueda escribir desde el carrito de compra si asi lo desea 
-
-poner un video en la ladgin que explique como inciar la prueba gratuita
 
 https://treinta.co/ muy  similar a lo que quiero y https://clarito.app/
 
@@ -18,3 +14,6 @@ https://www.instagram.com/lovavzla/
 https://www.instagram.com/adsv.e/
 
 se oculto el ajuste avanzado
+
+
+arreglar barra de prograso 

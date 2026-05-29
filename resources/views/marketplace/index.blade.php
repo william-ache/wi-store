@@ -64,7 +64,7 @@
     $landingNavExternal = true;
     $shopsWithCategories = $shopsWithCategories ?? collect();
 @endphp
-<body class="min-h-screen pb-28 relative overflow-x-hidden selection:bg-purple-200 selection:text-slate-900"
+<body class="flex flex-col min-h-screen min-h-[100dvh] relative overflow-x-hidden selection:bg-purple-200 selection:text-slate-900"
       x-data="marketplacePage()" x-init="init()">
 
     @include('partials.landing.page-hero-background')
@@ -73,7 +73,7 @@
 
     @include('partials.landing.ux-chrome')
 
-    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <main class="flex-grow relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
 
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
             <div>
@@ -217,6 +217,8 @@
             </section>
         </div>
     </main>
+
+    @include('partials.landing.light-footer')
 
     @include('partials.public.chat')
 </body>
