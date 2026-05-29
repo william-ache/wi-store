@@ -80,11 +80,26 @@
     .wi-store-admin .admin-sidebar {
         flex-shrink: 0;
         display: flex;
+        flex-direction: column;
         width: var(--admin-sidebar-w);
-        min-height: 100dvh;
-        min-height: 100vh;
-        align-self: stretch;
-        height: auto;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+        .wi-store-admin .admin-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 35;
+            height: 100dvh;
+            max-height: 100dvh;
+        }
+
+        .wi-store-admin .admin-main-column {
+            margin-left: var(--admin-sidebar-w);
+            width: calc(100% - var(--admin-sidebar-w));
+        }
     }
 
     /* Móvil: sidebar oculto por defecto, overlay al abrir */

@@ -1,11 +1,10 @@
 <!-- SIDEBAR (overlay en móvil, fijo en escritorio) -->
 <aside
-    class="admin-sidebar flex flex-col md:w-64 w-0 max-md:overflow-visible max-md:border-0 bg-slate-900 text-slate-300 justify-between border-r border-slate-800 shrink-0 self-stretch"
+    class="admin-sidebar flex flex-col h-full min-h-0 overflow-hidden md:w-64 w-0 max-md:overflow-visible max-md:border-0 bg-slate-900 text-slate-300 border-r border-slate-800 shrink-0"
     :class="{ 'admin-sidebar--open': sidebarOpen }"
 >
-    <div>
         <!-- Brand Logo Header -->
-        <div class="h-16 px-6 border-b border-slate-800/80 flex items-center justify-between">
+        <div class="h-16 px-6 border-b border-slate-800/80 flex items-center justify-between shrink-0">
             <span class="text-xl font-black text-white">WI<span class="text-primary">Store</span></span>
             <div class="flex items-center gap-2">
                 <span class="bg-primary/10 text-primary text-[9px] uppercase font-bold px-2 py-0.5 rounded-full border border-primary/20">Admin</span>
@@ -21,7 +20,7 @@
         </div>
 
         <!-- Navlinks -->
-        <nav class="p-3.5 space-y-1.5 custom-scrollbar overflow-y-auto max-h-[calc(100vh-140px)]" @click="onSidebarNavClick($event)">
+        <nav class="admin-sidebar-nav flex-1 min-h-0 p-3.5 pb-2 space-y-1.5 custom-scrollbar overflow-y-auto" @click="onSidebarNavClick($event)">
             <!-- Inicio -->
             <a href="/{{ config('current_shop')->slug }}/admin/dashboard" 
                class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition text-sm font-semibold {{ request()->is('*/admin/dashboard') ? 'bg-slate-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
@@ -255,10 +254,9 @@
                 </div>
             </div>
         </nav>
-    </div>
 
-    <!-- Footer Sidebar -->
-    <div class="p-4 border-t border-slate-800/60 space-y-2">
+        <!-- Footer Sidebar (fijo al pie del panel) -->
+        <div class="admin-sidebar-footer px-3.5 pt-3 pb-4 border-t border-slate-800/60 space-y-2 shrink-0 bg-slate-900">
         <a href="mailto:{{ $wiStoreSupportEmail }}" class="w-full text-slate-500 hover:text-cyan-300 font-semibold py-1.5 text-[10px] flex items-center justify-center gap-1.5 transition-colors break-all">
             <i class="fas fa-envelope opacity-70"></i>
             <span>{{ $wiStoreSupportEmail }}</span>
@@ -270,5 +268,5 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             Volver a WI-Store
         </a>
-    </div>
+        </div>
 </aside>
