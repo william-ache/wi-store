@@ -553,7 +553,7 @@
 
     @include('partials.landing.faq')
 
-    @include('partials.landing.roadmap-2026')
+    {{-- Roadmap oculto temporalmente — descomentar para publicar: @include('partials.landing.roadmap-2026') --}}
 
     <!-- VS COMPETENCIA (WI-Store vs El Resto) -->
     <section id="vs-competencia" class="hidden py-20 md:py-28 border-t border-white/5 relative overflow-hidden z-10">
