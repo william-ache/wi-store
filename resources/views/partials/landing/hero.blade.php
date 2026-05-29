@@ -22,26 +22,26 @@
 
         <ul class="landing-hero-benefits" aria-label="Beneficios de WI-Store">
           <li class="landing-hero-benefits__item">
-            <span class="landing-hero-benefits__icon" aria-hidden="true">
-              <i class="far fa-image"></i>
+            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--catalog" aria-hidden="true">
+              <i class="fas fa-images"></i>
             </span>
             <span class="landing-hero-benefits__text">Catálogo profesional con fotos y precios.</span>
           </li>
           <li class="landing-hero-benefits__item">
-            <span class="landing-hero-benefits__icon" aria-hidden="true">
-              <i class="fas fa-cart-shopping"></i>
+            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--cart" aria-hidden="true">
+              <i class="fas fa-bag-shopping"></i>
             </span>
             <span class="landing-hero-benefits__text">Facilita la compra a tus clientes.</span>
           </li>
           <li class="landing-hero-benefits__item">
-            <span class="landing-hero-benefits__icon" aria-hidden="true">
-              <i class="far fa-window-maximize"></i>
+            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--panel" aria-hidden="true">
+              <i class="fas fa-table-columns"></i>
             </span>
             <span class="landing-hero-benefits__text">Gestiona pedidos desde un panel centralizado.</span>
           </li>
           <li class="landing-hero-benefits__item">
-            <span class="landing-hero-benefits__icon" aria-hidden="true">
-              <i class="far fa-clock"></i>
+            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--fast" aria-hidden="true">
+              <i class="fas fa-bolt"></i>
             </span>
             <span class="landing-hero-benefits__text">
               <strong class="landing-hero-benefits__emph">Listo en minutos</strong>, sin complicaciones.
@@ -98,15 +98,26 @@
             </div>
             <p class="text-sm text-slate-600 leading-snug min-w-0">
               <span class="font-bold text-slate-800">+50</span>
-              negocios y emprendedores usan
+              negocios y emprendedores ya venden mas con
               <span class="landing-hero-social__brand" aria-label="WI-Store">WI-Store</span>
             </p>
           </div>
         </div>
 
-        <p class="mt-9 md:mt-10 lg:mt-12 text-[11px] md:text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
-          {{ $wiStoreTrialLabel }} · Activo en minutos · Cancelas cuando quieras
-        </p>
+        <ul class="landing-hero-trust-badges" aria-label="Garantías del plan">
+          <li class="landing-hero-trust-badges__item">
+            <i class="far fa-calendar landing-hero-trust-badges__icon" aria-hidden="true"></i>
+            <span>{{ $wiStoreTrialLabel }}</span>
+          </li>
+          <li class="landing-hero-trust-badges__item">
+            <i class="fas fa-rocket landing-hero-trust-badges__icon" aria-hidden="true"></i>
+            <span>Activo en minutos</span>
+          </li>
+          <li class="landing-hero-trust-badges__item">
+            <i class="fas fa-power-off landing-hero-trust-badges__icon" aria-hidden="true"></i>
+            <span>Cancelas cuando quieras</span>
+          </li>
+        </ul>
       </div>
 
       {{-- Columna derecha: cards flotantes (estilo dashboard) --}}

@@ -74,8 +74,8 @@
             line-height: 1.12;
         }
         #inicio .landing-hero-benefits {
-            margin-top: 0.85rem;
-            gap: 0.65rem;
+            margin-top: 0.75rem;
+            gap: 0.4rem;
         }
         #inicio .landing-float-card:first-child {
             max-width: 300px;
@@ -140,35 +140,66 @@
     /* Lista de beneficios bajo el título (hero) */
     #inicio .landing-hero-benefits {
         list-style: none;
-        margin: 1.25rem 0 0;
+        margin: 1rem 0 0;
         padding: 0;
         max-width: 28rem;
         display: flex;
         flex-direction: column;
-        gap: 0.85rem;
+        gap: 0.45rem;
     }
     #inicio .landing-hero-benefits__item {
         display: flex;
-        align-items: flex-start;
-        gap: 0.75rem;
+        align-items: center;
+        gap: 0.6rem;
     }
     #inicio .landing-hero-benefits__icon {
         flex-shrink: 0;
-        width: 1.35rem;
-        margin-top: 0.1rem;
-        text-align: center;
-        color: #64748b;
-        font-size: 1.05rem;
+        width: 1.75rem;
+        height: 1.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.5rem;
+        font-size: 0.72rem;
         line-height: 1;
+        border: 1px solid rgba(255, 255, 255, 0.85);
+        box-shadow:
+            0 1px 6px rgba(15, 23, 42, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.75);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    #inicio .landing-hero-benefits__icon .fa-image,
-    #inicio .landing-hero-benefits__icon .fa-clock,
-    #inicio .landing-hero-benefits__icon .fa-window-maximize {
-        font-weight: 400;
+    #inicio .landing-hero-benefits__item:hover .landing-hero-benefits__icon {
+        transform: translateY(-1px);
+        box-shadow:
+            0 4px 14px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    }
+    #inicio .landing-hero-benefits__icon--catalog {
+        color: #7c3aed;
+        background: linear-gradient(145deg, #f5f3ff 0%, #ede9fe 55%, #faf5ff 100%);
+        border-color: rgba(167, 139, 250, 0.35);
+    }
+    #inicio .landing-hero-benefits__icon--cart {
+        color: #0891b2;
+        background: linear-gradient(145deg, #ecfeff 0%, #cffafe 55%, #f0fdfa 100%);
+        border-color: rgba(34, 211, 238, 0.35);
+    }
+    #inicio .landing-hero-benefits__icon--panel {
+        color: #4f46e5;
+        background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 55%, #f5f3ff 100%);
+        border-color: rgba(129, 140, 248, 0.35);
+    }
+    #inicio .landing-hero-benefits__icon--fast {
+        color: #9333ea;
+        background: linear-gradient(145deg, #faf5ff 0%, #f3e8ff 40%, #ecfeff 100%);
+        border-color: rgba(147, 51, 234, 0.28);
+        box-shadow:
+            0 1px 8px rgba(147, 51, 234, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
     }
     #inicio .landing-hero-benefits__text {
-        font-size: 0.9375rem;
-        line-height: 1.45;
+        font-size: 0.8125rem;
+        line-height: 1.35;
         color: #475569;
         font-weight: 500;
     }
@@ -178,26 +209,86 @@
     }
     @media (min-width: 768px) {
         #inicio .landing-hero-benefits {
-            margin-top: 1.35rem;
-            gap: 0.95rem;
+            margin-top: 1.1rem;
+            gap: 0.5rem;
         }
         #inicio .landing-hero-benefits__text {
-            font-size: 1rem;
+            font-size: 0.875rem;
         }
         #inicio .landing-hero-benefits__icon {
-            font-size: 1.1rem;
-            width: 1.4rem;
+            width: 1.85rem;
+            height: 1.85rem;
+            font-size: 0.75rem;
+            border-radius: 0.55rem;
         }
     }
     @media (min-width: 1024px) and (max-height: 820px) {
         #inicio .landing-hero-benefits {
-            margin-top: 1rem;
-            gap: 0.7rem;
+            margin-top: 0.75rem;
+            gap: 0.35rem;
         }
         #inicio .landing-hero-benefits__text {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
     }
+
+    /* Barra inferior hero: icono + texto en fila (trial · activo · cancelar) */
+    #inicio .landing-hero-trust-badges {
+        list-style: none;
+        margin: 2rem 0 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        column-gap: 1.35rem;
+        row-gap: 0.65rem;
+        max-width: 36rem;
+    }
+    #inicio .landing-hero-trust-badges__item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.625rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #1e293b;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+    #inicio .landing-hero-trust-badges__icon {
+        flex-shrink: 0;
+        width: 0.95rem;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #334155;
+        line-height: 1;
+    }
+    #inicio .landing-hero-trust-badges__icon.fa-rocket {
+        font-size: 0.75rem;
+        transform: translateY(-0.5px) rotate(-18deg);
+    }
+    @media (min-width: 640px) {
+        #inicio .landing-hero-trust-badges {
+            margin-top: 2.25rem;
+            column-gap: 1.75rem;
+        }
+        #inicio .landing-hero-trust-badges__item {
+            font-size: 0.6875rem;
+            letter-spacing: 0.13em;
+        }
+        #inicio .landing-hero-trust-badges__icon {
+            width: 1rem;
+            font-size: 0.85rem;
+        }
+    }
+    @media (min-width: 1024px) and (max-height: 820px) {
+        #inicio .landing-hero-trust-badges {
+            margin-top: 1.5rem;
+            column-gap: 1.25rem;
+        }
+    }
+
     .landing-hero-social__avatar {
         position: relative;
         display: inline-flex;
