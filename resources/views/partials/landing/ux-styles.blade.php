@@ -799,7 +799,13 @@
         background: #ffffff;
         border: 1px solid #e2e8f0;
         box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
-        transition: border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
+    }
+    .landing-plan-card--no-hover-lift:hover {
+        transition: none !important;
+        will-change: auto;
+    }
+    .landing-plan-card--no-hover-lift:not(.landing-plan-vip-elevated):hover {
+        transform: none !important;
     }
     .landing-plan-card--emprendedor {
         border-color: rgba(6, 182, 212, 0.35);
@@ -808,12 +814,12 @@
             0 8px 32px rgba(6, 182, 212, 0.1),
             0 4px 16px rgba(15, 23, 42, 0.04);
     }
-    .landing-plan-card--emprendedor:hover {
-        border-color: rgba(6, 182, 212, 0.55);
+    .landing-plan-card--emprendedor.landing-plan-card--no-hover-lift:hover {
+        border-color: rgba(6, 182, 212, 0.35);
         box-shadow:
-            0 0 0 1px rgba(6, 182, 212, 0.12),
-            0 12px 40px rgba(6, 182, 212, 0.14),
-            0 6px 20px rgba(15, 23, 42, 0.06);
+            0 0 0 1px rgba(6, 182, 212, 0.08),
+            0 8px 32px rgba(6, 182, 212, 0.1),
+            0 4px 16px rgba(15, 23, 42, 0.04);
     }
     .landing-plan-card--featured {
         padding: 2px;
@@ -825,11 +831,11 @@
             0 12px 40px rgba(147, 51, 234, 0.18),
             0 4px 16px rgba(15, 23, 42, 0.06);
     }
-    .landing-plan-card--featured:hover {
+    .landing-plan-card--featured.landing-plan-card--no-hover-lift:hover {
         box-shadow:
-            0 0 0 1px rgba(147, 51, 234, 0.15),
-            0 16px 48px rgba(147, 51, 234, 0.22),
-            0 6px 20px rgba(15, 23, 42, 0.08);
+            0 0 0 1px rgba(147, 51, 234, 0.1),
+            0 12px 40px rgba(147, 51, 234, 0.18),
+            0 4px 16px rgba(15, 23, 42, 0.06);
     }
     .landing-plan-card--vip-ring {
         padding: 1px;
@@ -859,12 +865,12 @@
         .landing-plan-card--emprendedor {
             margin-top: 0.75rem;
         }
-        .landing-plan-vip-elevated {
+        .landing-plan-vip-elevated.landing-plan-card--no-hover-lift {
             transform: translateY(-1.25rem) scale(1.03);
             z-index: 5;
         }
-        .landing-plan-vip-elevated:hover {
-            transform: translateY(-1.35rem) scale(1.04);
+        .landing-plan-vip-elevated.landing-plan-card--no-hover-lift:hover {
+            transform: translateY(-1.25rem) scale(1.03);
         }
     }
     .landing-plan-inner {
@@ -1003,10 +1009,10 @@
     .landing-plan-btn {
         background: linear-gradient(90deg, #9333ea 0%, #7c3aed 40%, #06b6d4 100%);
         box-shadow: 0 6px 20px rgba(147, 51, 234, 0.25), 0 4px 12px rgba(6, 182, 212, 0.15);
+        transition: filter 0.2s ease, opacity 0.2s ease;
     }
     .landing-plan-btn:hover {
         filter: brightness(1.05);
-        box-shadow: 0 8px 24px rgba(147, 51, 234, 0.32), 0 6px 16px rgba(6, 182, 212, 0.2);
     }
     .landing-plan-btn--emprendedor {
         background: linear-gradient(90deg, #9333ea 0%, #6366f1 35%, #06b6d4 100%);
@@ -1016,7 +1022,7 @@
         box-shadow: 0 6px 24px rgba(6, 182, 212, 0.2), 0 8px 28px rgba(147, 51, 234, 0.25);
     }
     .landing-plan-btn--negocio:hover {
-        box-shadow: 0 8px 28px rgba(6, 182, 212, 0.28), 0 10px 36px rgba(147, 51, 234, 0.32);
+        filter: brightness(1.05);
     }
     .landing-plan-ghost {
         border: 1px solid #e2e8f0;

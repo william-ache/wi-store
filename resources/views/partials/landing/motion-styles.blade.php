@@ -30,10 +30,14 @@
     }
 
     /* Interacciones base más suaves */
-    .wi-store-landing :where(a, button, [role="button"]):not(.landing-no-motion) {
+    .wi-store-landing :where(a, button, [role="button"]):not(.landing-no-motion):not(.landing-plan-btn) {
         transition-property: color, background-color, border-color, opacity, transform, box-shadow, filter;
         transition-duration: var(--landing-duration);
         transition-timing-function: var(--landing-ease-out);
+    }
+
+    .landing-plan-card--no-hover-lift .landing-plan-btn {
+        transition: filter 0.2s ease, opacity 0.2s ease;
     }
 
     .landing-nav-link::after {

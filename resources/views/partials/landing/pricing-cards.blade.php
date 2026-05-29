@@ -11,7 +11,7 @@
 
 <!-- Plan Emprendedor -->
 <div id="plan-standard"
-    class="landing-plan-card landing-plan-card--emprendedor rounded-3xl p-4 md:p-5 flex flex-col justify-between relative transition duration-300 hover:-translate-y-1">
+    class="landing-plan-card landing-plan-card--emprendedor landing-plan-card--no-hover-lift rounded-3xl p-4 md:p-5 flex flex-col justify-between relative">
     <div>
         <div class="flex justify-between items-start gap-2">
             <h3 class="text-base font-black text-slate-900 uppercase tracking-wider">
@@ -75,7 +75,7 @@
 
 <!-- Plan Negocio -->
 <div id="plan-premium"
-    class="landing-plan-card landing-plan-card--featured landing-plan-vip-elevated rounded-3xl flex flex-col transition duration-300">
+    class="landing-plan-card landing-plan-card--featured landing-plan-vip-elevated landing-plan-card--no-hover-lift rounded-3xl flex flex-col">
     <div class="landing-plan-inner landing-plan-inner--negocio flex flex-col">
         <div class="landing-plan-recommended-bar">Recomendado</div>
 
