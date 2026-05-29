@@ -166,7 +166,12 @@
 
             scrollTo(id) {
                 const el = document.getElementById(id);
-                if (!el) return;
+                if (!el) {
+                    const base = @json(url('/'));
+                    window.location.href = id === 'inicio' ? base : base + '#' + id;
+                    this.isMobileMenuOpen = false;
+                    return;
+                }
 
                 const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - this.scrollOffset());
 

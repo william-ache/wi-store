@@ -1,3 +1,9 @@
+@php
+    $landingNavExternal = $landingNavExternal ?? false;
+    $hideLoginNavLink = $hideLoginNavLink ?? false;
+    $landingHomeUrl = url('/');
+@endphp
+
 <!-- Barra de progreso al hacer scroll (crece desde la izquierda) -->
 <div class="landing-scroll-progress-track fixed top-0 left-0 right-0 z-[60] h-1 pointer-events-none overflow-hidden" aria-hidden="true">
     <div id="landing-scroll-progress"
@@ -43,14 +49,25 @@
                 class="text-left text-base font-bold text-slate-600 py-3 px-4 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 text-sm">
             <i class="fas fa-eye text-purple-500 mr-2"></i> Vista previa en landing
         </button> --}}
-        <button type="button" @click="scrollTo('como-funciona')"
-                class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50">
-            <i class="fas fa-list-ol text-cyan-600 mr-2"></i> Cómo funciona
-        </button>
-        <button type="button" @click="scrollTo('precios')"
-                class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50">
-            <i class="fas fa-tags text-pink-500 mr-2"></i> Planes y precios
-        </button>
+        @if ($landingNavExternal)
+            <a href="{{ $landingHomeUrl }}#como-funciona" @click="isMobileMenuOpen = false"
+               class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50 block">
+                <i class="fas fa-list-ol text-cyan-600 mr-2"></i> Cómo funciona
+            </a>
+            <a href="{{ $landingHomeUrl }}#precios" @click="isMobileMenuOpen = false"
+               class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50 block">
+                <i class="fas fa-tags text-pink-500 mr-2"></i> Planes y precios
+            </a>
+        @else
+            <button type="button" @click="scrollTo('como-funciona')"
+                    class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50">
+                <i class="fas fa-list-ol text-cyan-600 mr-2"></i> Cómo funciona
+            </button>
+            <button type="button" @click="scrollTo('precios')"
+                    class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50">
+                <i class="fas fa-tags text-pink-500 mr-2"></i> Planes y precios
+            </button>
+        @endif
         <a href="{{ route('tiendas.index') }}"
                 class="text-left text-base font-bold text-slate-800 py-3 px-4 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200">
             <i class="fas fa-store text-purple-600 mr-2"></i> Marketplace
@@ -78,10 +95,12 @@
                 </form>
             </div>
         @else
-            <a href="/login"
-               class="text-left text-base font-bold text-slate-600 py-3 px-4 rounded-xl hover:bg-slate-50">
-                <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión
-            </a>
+            @unless ($hideLoginNavLink)
+                <a href="{{ route('login') }}"
+                   class="text-left text-base font-bold text-slate-600 py-3 px-4 rounded-xl hover:bg-slate-50 block">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión
+                </a>
+            @endunless
             <a href="/register"
                class="mt-4 text-center bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold py-4 rounded-full shadow-lg hover:scale-[1.02] active:scale-[0.98]">
                 Crear menú

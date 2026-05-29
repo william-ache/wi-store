@@ -1,9 +1,5 @@
 <section id="inicio" class="landing-hero-surface relative z-10">
-  <div class="landing-hero-backdrop pointer-events-none" aria-hidden="true">
-    <div class="landing-hero-grid"></div>
-    <div class="landing-hero-glow"></div>
-    <div class="landing-hero-fade"></div>
-  </div>
+  @include('partials.landing.hero-backdrop', ['withFade' => true])
   <div class="landing-section-glow top-[8%] -left-24 w-[26rem] h-[26rem] bg-purple-400/7 z-0" aria-hidden="true"></div>
   <div class="landing-section-glow top-[4%] -right-24 w-[28rem] h-[28rem] bg-cyan-400/7 z-0" aria-hidden="true"></div>
   <div class="landing-section-glow bottom-[-6%] -left-16 w-[24rem] h-[24rem] bg-purple-400/6 z-0" aria-hidden="true"></div>

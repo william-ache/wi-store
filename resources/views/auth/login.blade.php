@@ -1,280 +1,168 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth wi-store-ui wi-store-landing">
+<html lang="es" class="wi-store-ui wi-store-landing">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Iniciar Sesión | WI-Store Admin</title>
 
-    <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Google Fonts (Outfit) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @include('partials.landing.head-assets')
 
     @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     @include('partials.landing.motion-styles')
-    <style>
-        [x-cloak] { display: none !important; }
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #070913;
-        }
-        /* GPU hardware acceleration for ultra smooth scrolling on heavy blurs */
-        .gpu-accelerated {
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
-            will-change: transform;
-        }
-        .blur-accelerated {
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
-            will-change: filter;
-        }
-        
-        /* Animaciones fluidas de ondas/olas (morphing) para las curvas SVG del fondo */
-        @keyframes wave-1 {
-            0%, 100% {
-                d: path("M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800");
-            }
-            33% {
-                d: path("M-100,130 C170,260 430,-60 820,170 C1180,530 1330,860 1500,830");
-            }
-            66% {
-                d: path("M-100,70 C230,340 370,-140 780,230 C1220,470 1270,940 1500,770");
-            }
-        }
-        @keyframes wave-2 {
-            0%, 100% {
-                d: path("M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950");
-            }
-            33% {
-                d: path("M-50,170 C280,360 470,90 920,360 C1270,780 1230,1010 1600,920");
-            }
-            66% {
-                d: path("M-50,230 C220,440 530,10 880,440 C1330,720 1170,1090 1600,980");
-            }
-        }
-        @keyframes wave-3 {
-            0%, 100% {
-                d: path("M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000");
-            }
-            50% {
-                d: path("M1500,-20 C1070,180 970,470 630,570 C170,730 30,1070 -200,1030");
-            }
-        }
-        @keyframes wave-4 {
-            0%, 100% {
-                d: path("M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100");
-            }
-            33% {
-                d: path("M1550,80 C1120,280 870,370 530,670 C70,1030 -70,870 -250,1130");
-            }
-            66% {
-                d: path("M1550,20 C1180,220 930,430 470,730 C130,970 -130,930 -250,1070");
-            }
-        }
-        @keyframes wave-5 {
-            0%, 100% {
-                d: path("M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300");
-            }
-            50% {
-                d: path("M-100,770 C330,570 470,930 870,830 C1330,670 1370,230 1600,270");
-            }
-        }
+    @include('partials.landing.ux-styles')
 
-        .animate-wave-1 {
-            animation: wave-1 8s ease-in-out infinite;
+    <style>
+        .auth-login-page {
+            min-height: 100vh;
+            min-height: 100dvh;
+            color: #1e293b;
+            background: #ffffff;
         }
-        .animate-wave-2 {
-            animation: wave-2 10s ease-in-out infinite;
+        .auth-login-hero-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            isolation: isolate;
         }
-        .animate-wave-3 {
-            animation: wave-3 12s ease-in-out infinite;
+        .auth-login-hero-bg .landing-hero-backdrop {
+            position: absolute;
+            inset: 0;
         }
-        .animate-wave-4 {
-            animation: wave-4 14s ease-in-out infinite;
+        .auth-login-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow:
+                0 4px 24px rgba(15, 23, 42, 0.06),
+                0 0 0 1px rgba(255, 255, 255, 0.8);
         }
-        .animate-wave-5 {
-            animation: wave-5 16s ease-in-out infinite;
+        .auth-login-input {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #0f172a;
+        }
+        .auth-login-input::placeholder {
+            color: #94a3b8;
+        }
+        .auth-login-input:focus {
+            outline: none;
+            border-color: rgba(147, 51, 234, 0.45);
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.12);
+            background: #ffffff;
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-100 flex flex-col justify-between relative overflow-hidden selection:bg-purple-500 selection:text-white">
+@php
+    $landingNavExternal = true;
+    $hideLoginNavLink = true;
+    $shopsWithCategories = $shopsWithCategories ?? collect();
+@endphp
+<body class="auth-login-page flex flex-col min-h-screen relative overflow-x-hidden selection:bg-purple-200 selection:text-slate-900"
+      x-data="landingPage()" x-init="init()">
 
-    <!-- ============================================== -->
-    <!-- CAPA DE FONDO GLOBAL (Base Canvas & Neón - Match Landing) -->
-    <!-- ============================================== -->
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#070913] gpu-accelerated">
-        
-        <!-- 1. Destellos de Luz (Auras/Glows) -->
-        <!-- Glow Top Right -->
-        <div class="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-600/20 to-indigo-600/20 blur-[120px] blur-accelerated"></div>
-        
-        <!-- Glow Middle Left -->
-        <div class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-600/10 blur-[160px] blur-accelerated"></div>
-
-        <!-- Glow Bottom Center -->
-        <div class="absolute -bottom-[10%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-r from-pink-600/10 via-purple-600/10 to-transparent blur-[160px] blur-accelerated"></div>
-
-        <!-- 2. Ondas Fluidas de Neón (SVG Abstract Mesh) -->
-        <svg class="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none" viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <!-- Gradiente Cian a Morado -->
-                <linearGradient id="neonGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.8" />
-                    <stop offset="50%" stop-color="#a855f7" stop-opacity="0.4" />
-                    <stop offset="100%" stop-color="#a855f7" stop-opacity="0" />
-                </linearGradient>
-                <!-- Gradiente Morado a Rosa -->
-                <linearGradient id="neonGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#a855f7" stop-opacity="0.6" />
-                    <stop offset="50%" stop-color="#ec4899" stop-opacity="0.3" />
-                    <stop offset="100%" stop-color="#ec4899" stop-opacity="0" />
-                </linearGradient>
-            </defs>
-
-            <!-- Curvas Bezier Entrelazadas imitando estelas de luz animadas como olas/ondas -->
-            <path class="animate-wave-1" d="M-100,100 C200,300 400,-100 800,200 C1200,500 1300,900 1500,800" stroke="url(#neonGradient1)" stroke-width="1.5" stroke-linecap="round" fill="none" />
-            <path class="animate-wave-2" d="M-50,200 C250,400 500,50 900,400 C1300,750 1200,1050 1600,950" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
-            <path class="animate-wave-3" d="M1500,-50 C1100,150 1000,500 600,600 C200,700 0,1100 -200,1000" stroke="url(#neonGradient2)" stroke-width="1.5" stroke-linecap="round" fill="none" />
-            <path class="animate-wave-4" d="M1550,50 C1150,250 900,400 500,700 C100,1000 -100,900 -250,1100" stroke="url(#neonGradient2)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
-            <path class="animate-wave-5" d="M-100,800 C300,600 500,900 900,800 C1300,700 1400,200 1600,300" stroke="url(#neonGradient1)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.4" />
-        </svg>
+    <div class="auth-login-hero-bg landing-hero-surface" aria-hidden="true">
+        @include('partials.landing.hero-backdrop')
+        <div class="landing-section-glow top-[8%] -left-24 w-[26rem] h-[26rem] bg-purple-400/7"></div>
+        <div class="landing-section-glow top-[4%] -right-24 w-[28rem] h-[28rem] bg-cyan-400/7"></div>
+        <div class="landing-section-glow bottom-[12%] -left-16 w-[24rem] h-[24rem] bg-purple-400/6"></div>
+        <div class="landing-section-glow bottom-[8%] -right-12 w-[22rem] h-[22rem] bg-cyan-400/6"></div>
     </div>
 
-    <!-- Header / Logo -->
-    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
-        <a href="/" class="flex items-center gap-2 group transition-transform duration-300 active:scale-95">
-            <span class="text-xl font-black text-white tracking-wider uppercase">
-                WI<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span>
-            </span>
-        </a>
-        <a href="/" class="text-xs font-bold text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors group">
-            <i class="fas fa-arrow-left text-[10px] group-hover:-translate-x-0.5 transition-transform"></i>
-            Volver al Inicio
-        </a>
-    </header>
+    @include('partials.landing.landing-header')
 
-    <!-- Main Container -->
-    <main class="flex-grow flex items-center justify-center px-4 py-8 relative z-10" x-data="{ showPassword: false }">
-        <div class="w-full max-w-md bg-[#0d1127]/60 backdrop-blur-md border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-2xl relative group overflow-hidden">
-            
-            <!-- Destello de esquina -->
-            <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/15 rounded-full blur-2xl pointer-events-none transition-all duration-700 group-hover:bg-cyan-500/15"></div>
+    @include('partials.landing.ux-chrome')
 
-            <div class="text-center mb-8 relative z-10">
-                <span class="inline-block bg-purple-600/20 text-purple-400 text-[10px] uppercase font-black tracking-widest px-4 py-1.5 rounded-full border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.15)] mb-4">
+    <main class="flex-grow flex items-center justify-center px-4 py-6 md:py-10 relative z-10" x-data="{ showPassword: false }">
+        <div class="w-full max-w-md auth-login-card rounded-[2rem] p-8 md:p-10 relative">
+
+            <div class="text-center mb-8">
+                <span class="inline-block text-[10px] uppercase font-black tracking-widest px-3 py-1.5 rounded-full border border-purple-200 bg-purple-50 text-purple-700 mb-4">
                     Centro de Control
                 </span>
-                <h1 class="text-2xl md:text-3xl font-black text-white tracking-tight">Acceso Administrativo</h1>
-                <p class="text-xs text-slate-400 mt-2 max-w-xs mx-auto leading-relaxed">
+                <h1 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Acceso Administrativo</h1>
+                <p class="text-xs text-slate-500 mt-2 max-w-xs mx-auto leading-relaxed">
                     Ingresa tus credenciales para gestionar tu tienda, actualizar tu catálogo e interactuar con tus clientes.
                 </p>
             </div>
 
-            <!-- Formulario de Login -->
-            <form action="{{ route('login') }}" method="POST" class="space-y-5 relative z-10">
+            <form action="{{ route('login') }}" method="POST" class="space-y-5">
                 @csrf
 
-                <!-- Campo: Email -->
                 <div class="space-y-1.5">
-                    <label for="email" class="text-[11px] font-black uppercase tracking-wider text-slate-400 block pl-1">Correo Electrónico</label>
+                    <label for="email" class="text-[11px] font-black uppercase tracking-wider text-slate-500 block pl-1">Correo Electrónico</label>
                     <div class="relative">
-                        <span class="absolute left-4 top-3.5 text-slate-500">
+                        <span class="absolute left-4 top-3.5 text-slate-400" aria-hidden="true">
                             <i class="fas fa-envelope text-xs"></i>
                         </span>
                         <input type="email" id="email" name="email" required autofocus
                                placeholder="tu-correo@gmail.com"
                                value="{{ old('email') }}"
-                               class="w-full bg-slate-900/80 border border-slate-800/80 rounded-2xl px-4 py-3 pl-11 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner">
+                               class="auth-login-input w-full rounded-2xl px-4 py-3 pl-11 text-xs transition-all">
                     </div>
                     @error('email')
-                        <p class="text-[10px] text-rose-500 font-bold mt-1 pl-1">{{ $message }}</p>
+                        <p class="text-[10px] text-rose-600 font-bold mt-1 pl-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Campo: Contraseña -->
                 <div class="space-y-1.5">
                     <div class="flex justify-between items-center px-1">
-                        <label for="password" class="text-[11px] font-black uppercase tracking-wider text-slate-400">Contraseña</label>
+                        <label for="password" class="text-[11px] font-black uppercase tracking-wider text-slate-500">Contraseña</label>
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-[10px] font-bold text-cyan-400 hover:text-cyan-300 transition-colors">¿La olvidaste?</a>
+                            <a href="{{ route('password.request') }}" class="text-[10px] font-bold text-cyan-700 hover:text-purple-700 transition-colors">¿La olvidaste?</a>
                         @endif
                     </div>
                     <div class="relative">
-                        <span class="absolute left-4 top-3.5 text-slate-500">
+                        <span class="absolute left-4 top-3.5 text-slate-400" aria-hidden="true">
                             <i class="fas fa-lock text-xs"></i>
                         </span>
                         <input :type="showPassword ? 'text' : 'password'" id="password" name="password" required
                                placeholder="••••••••••••"
-                               class="w-full bg-slate-900/80 border border-slate-800/80 rounded-2xl px-4 py-3 pl-11 pr-10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner">
+                               class="auth-login-input w-full rounded-2xl px-4 py-3 pl-11 pr-10 text-xs transition-all">
                         <button type="button" @click="showPassword = !showPassword"
-                                class="absolute right-4 top-3 text-slate-500 hover:text-white transition-colors focus:outline-none">
+                                class="absolute right-4 top-3 text-slate-400 hover:text-slate-700 transition-colors focus:outline-none"
+                                aria-label="Mostrar u ocultar contraseña">
                             <i :class="showPassword ? 'fas fa-eye-slash text-xs' : 'fas fa-eye text-xs'"></i>
                         </button>
                     </div>
                     @error('password')
-                        <p class="text-[10px] text-rose-500 font-bold mt-1 pl-1">{{ $message }}</p>
+                        <p class="text-[10px] text-rose-600 font-bold mt-1 pl-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Recordar Sesión -->
                 <div class="flex items-center justify-between pl-1 pt-1">
                     <label class="flex items-center gap-2 cursor-pointer group select-none">
                         <input type="checkbox" name="remember" id="remember"
-                               class="rounded bg-slate-900 border-slate-800 text-purple-600 focus:ring-purple-500/30 focus:ring-offset-slate-950 transition-all">
-                        <span class="text-[11px] font-bold text-slate-400 group-hover:text-slate-300 transition-colors">Recordar mi sesión</span>
+                               class="rounded border-slate-300 text-purple-600 focus:ring-purple-500/30 focus:ring-offset-white">
+                        <span class="text-[11px] font-bold text-slate-500 group-hover:text-slate-700 transition-colors">Recordar mi sesión</span>
                     </label>
                 </div>
 
-                <!-- Botón de Envío -->
                 <div class="pt-2">
                     <button type="submit"
-                            class="block w-full text-center bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-extrabold py-3.5 rounded-2xl transition-all duration-300 text-xs shadow-[0_0_15px_rgba(168,85,247,0.3)] transform active:scale-[0.98]">
+                            class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3.5 rounded-2xl text-xs transition-all active:scale-[0.98]">
                         Iniciar Sesión
                     </button>
                 </div>
             </form>
-
-
-
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="w-full py-6 text-xs text-slate-500 relative z-10 border-t border-white/5 bg-transparent">
+    <footer class="w-full py-6 text-xs text-slate-500 relative z-10 border-t border-slate-200/80 bg-white/60 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p>© 2026 WI-Store. Todos los derechos reservados.</p>
             <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-cyan-300 transition-colors">{{ $wiStoreSupportEmail }}</a>
-                <span class="hidden sm:inline">•</span>
-                <a href="{{ route('legal.privacidad') }}" class="hover:text-white transition-colors">Políticas y Privacidad</a>
-                <span>•</span>
-                <a href="{{ route('contacto') }}" class="hover:text-white transition-colors">Contacto</a>
+                <a href="mailto:{{ $wiStoreSupportEmail }}" class="hover:text-purple-700 transition-colors">{{ $wiStoreSupportEmail }}</a>
+                <span class="hidden sm:inline text-slate-300">•</span>
+                <a href="{{ route('legal.privacidad') }}" class="hover:text-slate-800 transition-colors">Políticas y Privacidad</a>
+                <span class="text-slate-300">•</span>
+                <a href="{{ route('contacto') }}" class="hover:text-slate-800 transition-colors">Contacto</a>
             </div>
         </div>
     </footer>
 
     @include('partials.public.chat')
+
+    @include('partials.landing.ux-script')
 </body>
 </html>
