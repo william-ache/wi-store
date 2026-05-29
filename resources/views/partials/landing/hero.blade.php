@@ -4,10 +4,10 @@
     <div class="landing-hero-glow"></div>
     <div class="landing-hero-fade"></div>
   </div>
-  <div class="landing-section-glow top-[8%] -left-24 w-[26rem] h-[26rem] bg-purple-400/10 z-0" aria-hidden="true"></div>
-  <div class="landing-section-glow top-[4%] -right-24 w-[28rem] h-[28rem] bg-cyan-400/10 z-0" aria-hidden="true"></div>
-  <div class="landing-section-glow bottom-[-6%] -left-16 w-[24rem] h-[24rem] bg-purple-400/9 z-0" aria-hidden="true"></div>
-  <div class="landing-section-glow bottom-[-8%] -right-12 w-[22rem] h-[22rem] bg-cyan-400/9 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow top-[8%] -left-24 w-[26rem] h-[26rem] bg-purple-400/7 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow top-[4%] -right-24 w-[28rem] h-[28rem] bg-cyan-400/7 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow bottom-[-6%] -left-16 w-[24rem] h-[24rem] bg-purple-400/6 z-0" aria-hidden="true"></div>
+  <div class="landing-section-glow bottom-[-8%] -right-12 w-[22rem] h-[22rem] bg-cyan-400/6 z-0" aria-hidden="true"></div>
 
   <div class="landing-hero-inner landing-container relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
@@ -153,8 +153,8 @@
         </div>
 
         {{-- Acento decorativo --}}
-        <div class="absolute -top-8 -left-12 w-48 h-48 md:w-56 md:h-56 rounded-full bg-purple-400/10 blur-3xl pointer-events-none" aria-hidden="true"></div>
-        <div class="absolute bottom-8 left-0 w-36 h-36 rounded-full bg-cyan-400/10 blur-2xl pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute -top-8 -left-12 w-48 h-48 md:w-56 md:h-56 rounded-full bg-purple-400/7 blur-3xl pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute bottom-8 left-0 w-36 h-36 rounded-full bg-cyan-400/7 blur-2xl pointer-events-none" aria-hidden="true"></div>
       </div>
     </div>
   </div>
