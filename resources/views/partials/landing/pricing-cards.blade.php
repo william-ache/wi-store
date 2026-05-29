@@ -3,15 +3,15 @@
     use App\Support\PlanPricing;
     $emprendedor = PlanPricing::PLANS['standard'];
     $negocio = PlanPricing::PLANS['premium'];
-    $standardHighlights = array_slice(PlanDetails::standard()['card_highlights'], 0, 4);
-    $premiumHighlights = array_slice(PlanDetails::premium()['card_highlights'], 0, 4);
+    $standardHighlights = PlanDetails::standard()['card_highlights'];
+    $premiumHighlights = PlanDetails::premium()['card_highlights'];
     $standardPurpose = 'Ideal para empezar con un catálogo profesional, pedidos y operación simple.';
     $premiumPurpose = 'Para negocios que escalan: más capacidad, personalización y control.';
 @endphp
 
 <!-- Plan Emprendedor -->
 <div id="plan-standard"
-    class="landing-plan-card landing-plan-card--emprendedor rounded-3xl p-4 md:p-5 flex flex-col justify-between relative transition duration-300 hover:-translate-y-1 lg:scale-[0.985] lg:origin-top">
+    class="landing-plan-card landing-plan-card--emprendedor rounded-3xl p-4 md:p-5 flex flex-col justify-between relative transition duration-300 hover:-translate-y-1">
     <div>
         <div class="flex justify-between items-start gap-2">
             <h3 class="text-base font-black text-slate-900 uppercase tracking-wider">
@@ -62,7 +62,7 @@
             </div>
         </div>
 
-        <ul class="space-y-1 text-[10px] text-slate-600 border-t border-slate-200 pt-2.5">
+        <ul class="space-y-1.5 text-[10px] text-slate-600 border-t border-slate-200 pt-3">
             @foreach ($standardHighlights as $highlight)
                 <li class="flex gap-2"><span class="landing-plan-check--cyan font-bold">✓</span> {{ $highlight }}</li>
             @endforeach
@@ -76,13 +76,12 @@
 <!-- Plan Negocio -->
 <div id="plan-premium"
     class="landing-plan-card landing-plan-card--featured landing-plan-vip-elevated rounded-3xl flex flex-col transition duration-300">
-    <div class="landing-plan-inner landing-plan-inner--negocio p-5 md:p-6 flex flex-col justify-between h-full flex-grow relative overflow-hidden">
-        <div class="landing-plan-recommended-bar">RECOMENDADO</div>
-        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-400/60 to-transparent"></div>
+    <div class="landing-plan-inner landing-plan-inner--negocio flex flex-col">
+        <div class="landing-plan-recommended-bar">Recomendado</div>
 
-        <div class="relative z-10 flex flex-col flex-grow pt-8 md:pt-9">
-            <div class="flex justify-between items-center gap-2">
-                <div class="flex items-center gap-2 min-w-0 flex-1">
+        <div class="landing-plan-negocio-body p-5 md:p-6 flex flex-col relative">
+            <div class="flex justify-between items-center gap-3">
+                <div class="flex items-center gap-2 min-w-0">
                     <div class="landing-plan-icon--negocio w-9 h-9 shrink-0 rounded-xl flex items-center justify-center">
                         <i class="fas fa-crown text-sm text-purple-600"></i>
                     </div>
@@ -90,10 +89,10 @@
                         Plan <span class="landing-plan-title--purple">Negocio</span>
                     </h3>
                 </div>
+                <span class="landing-plan-trial-floating shrink-0">
+                    <i class="fas fa-gift" aria-hidden="true"></i>{{ $wiStoreTrialLabel }}
+                </span>
             </div>
-            <span class="landing-plan-trial-floating">
-                <i class="fas fa-gift"></i>{{ $wiStoreTrialLabel }}
-            </span>
             <p class="text-[11px] text-slate-400 mt-2 leading-snug">{{ $premiumPurpose }}</p>
 
             <div class="landing-plan-price--negocio my-4 rounded-2xl px-4 py-4">
@@ -140,12 +139,12 @@
                 </div>
             </div>
 
-            <ul class="space-y-1.5 text-[11px] text-slate-600 border-t border-purple-200 pt-3 flex-grow">
+            <ul class="space-y-1.5 text-[10px] text-slate-600 border-t border-purple-200 pt-3">
                 @foreach ($premiumHighlights as $highlight)
-                    <li class="flex gap-2"><span class="landing-plan-check--purple font-bold">✓</span> {{ $highlight }}</li>
+                    <li class="flex gap-2 leading-snug"><span class="landing-plan-check--purple font-bold shrink-0">✓</span><span>{{ $highlight }}</span></li>
                 @endforeach
             </ul>
-            <div class="mt-5 flex flex-col gap-2">
+            <div class="mt-4 flex flex-col gap-2">
                 <a href="/register"
                     class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
                     Probar {{ $wiStoreTrialLabel }}

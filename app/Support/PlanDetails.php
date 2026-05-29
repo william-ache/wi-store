@@ -91,6 +91,10 @@ final class PlanDetails
                 'Paleta base de WI-Store (sin colores de marca)',
                 '1 sede · 1 teléfono · 1 método de pago',
                 'Módulos: producto, categoría, pedidos, marketing',
+                'Analítica básica en tu panel',
+                'Pedidos por WhatsApp o Telegram · 0% comisión',
+                'Soporte estándar por WhatsApp y email',
+                'Soporte estándar por WhatsApp y email',
                 'Soporte estándar por WhatsApp y email',
             ],
         ];
@@ -148,7 +152,12 @@ final class PlanDetails
                 'Colores y marca personalizables',
                 '3 sedes · 3 teléfonos · pagos múltiples',
                 'Variantes y extras (máx. 3 variantes)',
-                'Servicios + panel admin + soporte 24/7',
+                'Módulo de servicios comerciales',
+                'Panel admin: pedidos, clientes y pagos',
+                'Soporte prioritario 24/7',
+                'Soporte prioritario 24/7',
+                'Soporte prioritario 24/7',
+                'Soporte prioritario 24/7',
             ],
         ];
     }
