@@ -118,7 +118,7 @@
                 const selectors = [
                     // Solo contenido (títulos, cards, bloques); no <section> ni fondos/glows
                     '#por-que .landing-container > header',
-                    '#por-que .landing-why-card',
+                    '#por-que .landing-why-card__body',
                     '#como-funciona .landing-container > div:first-child',
                     '#como-funciona .landing-how-step',
                     '#como-funciona .landing-container > div:last-child',

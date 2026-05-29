@@ -1018,6 +1018,299 @@
         box-shadow: 0 0 0 1px rgba(147, 51, 234, 0.12);
     }
 
+    /* Por qué WI-Store — demos en ciclo continuo (8s, sin depender del scroll) */
+    .landing-why-hub {
+        transform: translate(-50%, -50%);
+    }
+    .landing-why-flow-check {
+        border: 2px solid #e2e8f0;
+        background: #fff;
+    }
+    .landing-why-flow-check i {
+        opacity: 0;
+    }
+    .landing-why-flow-step--1 .landing-why-flow-check {
+        border-color: transparent;
+        background: linear-gradient(135deg, #9333ea, #06b6d4);
+        box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.12);
+    }
+    .landing-why-flow-step--1 .landing-why-flow-check i {
+        opacity: 1;
+    }
+    .landing-why-chart-bar {
+        transform-origin: bottom center;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        #por-que .landing-why-card {
+            --why-cycle: 8s;
+        }
+
+        /* 1 y 6 — hub + pills + líneas */
+        #por-que .landing-why-hub {
+            animation: landing-why-hub-pulse var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-pill--wa,
+        #por-que .landing-why-pill--mobile {
+            animation: landing-why-pill-a var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-pill--menu,
+        #por-que .landing-why-pill--web {
+            animation: landing-why-pill-b var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-pill--tg,
+        #por-que .landing-why-pill--tablet {
+            animation: landing-why-pill-c var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-line--1 {
+            animation: landing-why-line-a var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-line--2 {
+            animation: landing-why-line-b var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-line--3 {
+            animation: landing-why-line-c var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+
+        /* 2 — checklist progresivo en bucle */
+        #por-que .landing-why-flow-step--2 .landing-why-flow-check {
+            animation: landing-why-check-2 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-flow-step--3 .landing-why-flow-check {
+            animation: landing-why-check-3 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-flow-step--4 .landing-why-flow-check {
+            animation: landing-why-check-4 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-flow-step--2 .landing-why-flow-check i {
+            animation: landing-why-check-icon-2 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-flow-step--3 .landing-why-flow-check i {
+            animation: landing-why-check-icon-3 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-flow-step--4 .landing-why-flow-check i {
+            animation: landing-why-check-icon-4 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-flow-footer {
+            animation: landing-why-flow-footer var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+
+        /* 3 — barras + total */
+        #por-que .landing-why-chart-bar {
+            animation: landing-why-bar-pulse var(--why-cycle) ease-in-out infinite;
+        }
+        #por-que .landing-why-chart-bar--1 { animation-delay: calc(var(--why-phase, 0s) + 0.05s); }
+        #por-que .landing-why-chart-bar--2 { animation-delay: calc(var(--why-phase, 0s) + 0.15s); }
+        #por-que .landing-why-chart-bar--3 { animation-delay: calc(var(--why-phase, 0s) + 0.25s); }
+        #por-que .landing-why-chart-bar--4 { animation-delay: calc(var(--why-phase, 0s) + 0.35s); }
+        #por-que .landing-why-chart-bar--5 { animation-delay: calc(var(--why-phase, 0s) + 0.45s); }
+        #por-que .landing-why-chart-bar--6 { animation-delay: calc(var(--why-phase, 0s) + 0.55s); }
+        #por-que .landing-why-chart-bar--7 { animation-delay: calc(var(--why-phase, 0s) + 0.65s); }
+        #por-que .landing-why-chart-bar--accent {
+            animation: landing-why-bar-accent var(--why-cycle) ease-in-out infinite;
+        }
+        #por-que .landing-why-chart-bar--6.landing-why-chart-bar--accent {
+            animation-delay: calc(var(--why-phase, 0s) + 0.55s);
+        }
+        #por-que .landing-why-chart-bar--7.landing-why-chart-bar--accent {
+            animation-delay: calc(var(--why-phase, 0s) + 0.65s);
+        }
+        #por-que .landing-why-chart-delta {
+            animation: landing-why-delta-pulse var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-chart-total {
+            animation: landing-why-chart-total var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+
+        /* 4 — panel */
+        #por-que .landing-why-stat--1 {
+            animation: landing-why-stat-1 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-stat--2 {
+            animation: landing-why-stat-2 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-stat--3 {
+            animation: landing-why-stat-3 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+        #por-que .landing-why-stat--4 {
+            animation: landing-why-stat-4 var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+
+        /* 5 — iconos + badge */
+        #por-que .landing-why-icon--seq {
+            animation: landing-why-icon-spot var(--why-cycle) ease-in-out infinite;
+        }
+        #por-que .landing-why-icon--1 { animation-delay: calc(var(--why-phase, 0s) + 0s); }
+        #por-que .landing-why-icon--2 { animation-delay: calc(var(--why-phase, 0s) + 0.12s); }
+        #por-que .landing-why-icon--3 { animation-delay: calc(var(--why-phase, 0s) + 0.24s); }
+        #por-que .landing-why-icon--4 { animation-delay: calc(var(--why-phase, 0s) + 0.36s); }
+        #por-que .landing-why-icon--5 { animation-delay: calc(var(--why-phase, 0s) + 0.48s); }
+        #por-que .landing-why-icon--6 { animation-delay: calc(var(--why-phase, 0s) + 0.6s); }
+        #por-que .landing-why-demo-badge {
+            animation: landing-why-badge-pulse var(--why-cycle) ease-in-out infinite;
+            animation-delay: var(--why-phase, 0s);
+        }
+    }
+
+    @keyframes landing-why-hub-pulse {
+        0%, 100% {
+            transform: translate(-50%, -50%) scale(1);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+        }
+        50% {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 12px 32px rgba(147, 51, 234, 0.28);
+        }
+    }
+
+    @keyframes landing-why-pill-a {
+        0%, 70%, 100% { border-color: #e2e8f0; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06); }
+        8%, 22% { border-color: rgba(124, 58, 237, 0.55); box-shadow: 0 4px 16px rgba(147, 51, 234, 0.18); }
+    }
+    @keyframes landing-why-pill-b {
+        0%, 22%, 45%, 100% { border-color: #e2e8f0; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06); }
+        30%, 42% { border-color: rgba(124, 58, 237, 0.55); box-shadow: 0 4px 16px rgba(147, 51, 234, 0.18); }
+    }
+    @keyframes landing-why-pill-c {
+        0%, 42%, 70%, 100% { border-color: #e2e8f0; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06); }
+        52%, 64% { border-color: rgba(124, 58, 237, 0.55); box-shadow: 0 4px 16px rgba(147, 51, 234, 0.18); }
+    }
+
+    @keyframes landing-why-line-a {
+        0%, 70%, 100% { stroke: #cbd5e1; opacity: 0.5; }
+        8%, 22% { stroke: #a78bfa; opacity: 1; }
+    }
+    @keyframes landing-why-line-b {
+        0%, 22%, 45%, 100% { stroke: #cbd5e1; opacity: 0.5; }
+        30%, 42% { stroke: #a78bfa; opacity: 1; }
+    }
+    @keyframes landing-why-line-c {
+        0%, 42%, 70%, 100% { stroke: #cbd5e1; opacity: 0.5; }
+        52%, 64% { stroke: #a78bfa; opacity: 1; }
+    }
+
+    @keyframes landing-why-check-2 {
+        0%, 12%, 88%, 100% { border-color: #e2e8f0; background: #fff; box-shadow: none; }
+        18%, 82% {
+            border-color: transparent;
+            background: linear-gradient(135deg, #9333ea, #06b6d4);
+            box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.12);
+        }
+    }
+    @keyframes landing-why-check-3 {
+        0%, 28%, 88%, 100% { border-color: #e2e8f0; background: #fff; box-shadow: none; }
+        34%, 82% {
+            border-color: transparent;
+            background: linear-gradient(135deg, #9333ea, #06b6d4);
+            box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.12);
+        }
+    }
+    @keyframes landing-why-check-4 {
+        0%, 44%, 88%, 100% { border-color: #e2e8f0; background: #fff; box-shadow: none; }
+        50%, 82% {
+            border-color: transparent;
+            background: linear-gradient(135deg, #9333ea, #06b6d4);
+            box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.12);
+        }
+    }
+    @keyframes landing-why-check-icon-2 {
+        0%, 14%, 88%, 100% { opacity: 0; }
+        20%, 82% { opacity: 1; }
+    }
+    @keyframes landing-why-check-icon-3 {
+        0%, 30%, 88%, 100% { opacity: 0; }
+        36%, 82% { opacity: 1; }
+    }
+    @keyframes landing-why-check-icon-4 {
+        0%, 46%, 88%, 100% { opacity: 0; }
+        52%, 82% { opacity: 1; }
+    }
+    @keyframes landing-why-flow-footer {
+        0%, 75%, 100% { color: #9333ea; border-color: #f1f5f9; }
+        80%, 90% { color: #6b21a8; border-color: rgba(147, 51, 234, 0.35); }
+    }
+
+    @keyframes landing-why-bar-pulse {
+        0%, 100% { transform: scaleY(1); opacity: 1; }
+        50% { transform: scaleY(0.88); opacity: 0.85; }
+    }
+    @keyframes landing-why-bar-accent {
+        0%, 100% { transform: scaleY(1); filter: brightness(1); }
+        50% { transform: scaleY(1.08); filter: brightness(1.1); }
+    }
+    @keyframes landing-why-chart-total {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.85; }
+    }
+    @keyframes landing-why-delta-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.06); }
+    }
+
+    @keyframes landing-why-stat-1 {
+        0%, 70%, 100% { box-shadow: none; transform: scale(1); }
+        8%, 18% { box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.25); transform: scale(1.03); }
+    }
+    @keyframes landing-why-stat-2 {
+        0%, 18%, 70%, 100% { box-shadow: none; transform: scale(1); }
+        24%, 34% { box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.25); transform: scale(1.03); }
+    }
+    @keyframes landing-why-stat-3 {
+        0%, 34%, 70%, 100% { box-shadow: none; transform: scale(1); }
+        40%, 50% { box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.25); transform: scale(1.03); }
+    }
+    @keyframes landing-why-stat-4 {
+        0%, 50%, 70%, 100% {
+            border-color: rgba(147, 51, 234, 0.4);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.08), rgba(34, 211, 238, 0.06));
+            box-shadow: 0 0 0 1px rgba(147, 51, 234, 0.12);
+            transform: scale(1);
+        }
+        56%, 66% {
+            border-color: rgba(124, 58, 237, 0.6);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.14), rgba(34, 211, 238, 0.1));
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+            transform: scale(1.04);
+        }
+    }
+
+    @keyframes landing-why-icon-spot {
+        0%, 100% { transform: scale(1); box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08); }
+        50% { transform: scale(1.08); box-shadow: 0 6px 20px rgba(147, 51, 234, 0.2); }
+    }
+
+    @keyframes landing-why-badge-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        #por-que .landing-why-demo *,
+        #por-que .landing-why-icon--seq {
+            animation: none !important;
+        }
+    }
+
     /* Tarjetas de tienda (landing) */
     .landing-shop-card {
         background: #ffffff;
