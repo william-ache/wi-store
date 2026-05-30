@@ -87,15 +87,13 @@ final class PlanDetails
             ],
             'card_highlights' => [
                 'Hasta 15 productos · 3 categorías',
-                'Ficha simple sin variantes ni extras',
-                'Paleta base de WI-Store (sin colores de marca)',
-                '1 sede · 1 teléfono · 1 método de pago',
-                'Módulos: producto, categoría, pedidos, marketing',
+                'Catálogo simple sin variantes ni extras',
+                'Paleta base de WI-Store (sin colores personalizables)',
+                '1 sede · 1 teléfono · 1 método de pago ',
+                'Funcionalidades disponibles: producto, categoría, pedidos, marketing',
                 'Analítica básica en tu panel',
                 'Pedidos por WhatsApp o Telegram · 0% comisión',
-                'Soporte estándar por WhatsApp y email',
-                'Soporte estándar por WhatsApp y email',
-                'Soporte estándar por WhatsApp y email',
+                'Soporte estándar de 8am a 3pm de lunes a viernes',
             ],
         ];
     }

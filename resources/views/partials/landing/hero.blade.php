@@ -6,10 +6,10 @@
   <div class="landing-section-glow bottom-[-8%] -right-12 w-[22rem] h-[22rem] bg-cyan-400/6 z-0" aria-hidden="true"></div>
 
   <div class="landing-hero-inner landing-container relative z-10">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+    <div class="landing-hero-grid">
 
       {{-- Columna izquierda --}}
-      <div class="text-left max-w-2xl">
+      <div class="landing-hero-copy">
         <p class="inline-flex items-center gap-2.5 text-xs md:text-[13px] font-bold uppercase tracking-[0.18em] text-slate-500 mb-6 md:mb-7">
           <span class="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 shrink-0" aria-hidden="true"></span>
           Menú digital comercial
@@ -49,8 +49,8 @@
           </li>
         </ul>
 
-        <div class="mt-7 md:mt-8 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3.5 sm:gap-4.5">
-          <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+        <div class="landing-hero-actions">
+          <div class="landing-hero-actions__ctas">
             <a href="/register"
                class="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all shrink-0">
               Probar gratis {{ $wiStoreTrialDays }} días
@@ -76,7 +76,7 @@
             </a>
           </div>
 
-          <div class="landing-hero-social flex items-center gap-3 min-w-0">
+          <div class="landing-hero-social">
             <div class="landing-hero-social__stack flex items-center shrink-0" aria-hidden="true">
               @foreach ([
                 ['sabores-yb.png', 'Sabores Y&B'],

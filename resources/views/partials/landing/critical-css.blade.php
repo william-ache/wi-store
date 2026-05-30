@@ -104,6 +104,68 @@
         width: 100%;
     }
 
+    #inicio .landing-hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2.5rem;
+        align-items: center;
+        width: 100%;
+    }
+    #inicio .landing-hero-copy {
+        text-align: left;
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+    }
+    @media (min-width: 1024px) {
+        #inicio .landing-hero-grid {
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            gap: 2rem 2.75rem;
+        }
+    }
+    @media (min-width: 1280px) {
+        #inicio .landing-hero-grid {
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+            gap: 2.5rem 3rem;
+        }
+    }
+
+    #inicio .landing-hero-actions {
+        margin-top: 1.75rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    #inicio .landing-hero-actions__ctas {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.65rem 0.75rem;
+        width: 100%;
+    }
+    @media (min-width: 640px) {
+        #inicio .landing-hero-actions {
+            gap: 1.1rem;
+        }
+        #inicio .landing-hero-actions__ctas {
+            gap: 0.75rem 1rem;
+        }
+    }
+    @media (min-width: 1024px) {
+        #inicio .landing-hero-actions {
+            margin-top: 1.85rem;
+        }
+    }
+    #inicio .landing-hero-social {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        min-width: 0;
+    }
+
     /* Título hero — tamaños en CSS crítico (no dependen del build de Tailwind) */
     #inicio .landing-hero-title {
         margin: 0;
@@ -142,7 +204,8 @@
         list-style: none;
         margin: 1rem 0 0;
         padding: 0;
-        max-width: 28rem;
+        max-width: none;
+        width: 100%;
         display: flex;
         flex-direction: column;
         gap: 0.45rem;
@@ -240,9 +303,11 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        column-gap: 1.35rem;
-        row-gap: 0.65rem;
-        max-width: 36rem;
+        justify-content: flex-start;
+        width: 100%;
+        max-width: none;
+        column-gap: clamp(0.85rem, 3vw, 1.75rem);
+        row-gap: 0.5rem;
     }
     #inicio .landing-hero-trust-badges__item {
         display: inline-flex;
@@ -271,7 +336,8 @@
     @media (min-width: 640px) {
         #inicio .landing-hero-trust-badges {
             margin-top: 2.25rem;
-            column-gap: 1.75rem;
+            flex-wrap: nowrap;
+            column-gap: clamp(1rem, 4.5vw, 2.25rem);
         }
         #inicio .landing-hero-trust-badges__item {
             font-size: 0.6875rem;
@@ -282,10 +348,17 @@
             font-size: 0.85rem;
         }
     }
+    @media (min-width: 1024px) {
+        #inicio .landing-hero-trust-badges {
+            justify-content: space-between;
+            column-gap: 1rem;
+        }
+    }
     @media (min-width: 1024px) and (max-height: 820px) {
         #inicio .landing-hero-trust-badges {
             margin-top: 1.5rem;
-            column-gap: 1.25rem;
+            justify-content: flex-start;
+            column-gap: 1.35rem;
         }
     }
 

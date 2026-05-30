@@ -6,7 +6,7 @@
     $negocio = PlanPricing::PLANS['premium'];
     $standardHighlights = PlanDetails::standard()['card_highlights'];
     $premiumHighlights = PlanDetails::premium()['card_highlights'];
-    $standardPurpose = 'Ideal para empezar con un catálogo profesional, pedidos y operación simple.';
+    $standardPurpose = 'Ideal para pequeños comercios, negocios independientes o emprendimientos que inician su transformación digital.';
     $premiumPurpose = 'Para negocios que escalan: más capacidad, personalización y control.';
     $isAdminPricing = ($pricingContext ?? 'landing') === 'admin';
     $shopPlan = $shopForPricing ?? null;
