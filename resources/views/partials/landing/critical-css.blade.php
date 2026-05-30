@@ -195,14 +195,24 @@
     }
 
     .landing-hero-lead {
+        margin: 0.85rem 0 0;
+        max-width: 32rem;
+        font-size: 0.875rem;
+        line-height: 1.55;
         color: #4b5563;
+        font-weight: 500;
         text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
+    }
+    @media (min-width: 768px) {
+        .landing-hero-lead {
+            font-size: 0.9375rem;
+        }
     }
 
     /* Lista de beneficios bajo el título (hero) */
     #inicio .landing-hero-benefits {
         list-style: none;
-        margin: 1rem 0 0;
+        margin: 0.75rem 0 0;
         padding: 0;
         max-width: none;
         width: 100%;
@@ -237,22 +247,22 @@
             0 4px 14px rgba(15, 23, 42, 0.08),
             inset 0 1px 0 rgba(255, 255, 255, 0.85);
     }
-    #inicio .landing-hero-benefits__icon--catalog {
+    #inicio .landing-hero-benefits__icon--panel {
         color: #7c3aed;
         background: linear-gradient(145deg, #f5f3ff 0%, #ede9fe 55%, #faf5ff 100%);
         border-color: rgba(167, 139, 250, 0.35);
     }
-    #inicio .landing-hero-benefits__icon--cart {
+    #inicio .landing-hero-benefits__icon--orders {
         color: #0891b2;
         background: linear-gradient(145deg, #ecfeff 0%, #cffafe 55%, #f0fdfa 100%);
         border-color: rgba(34, 211, 238, 0.35);
     }
-    #inicio .landing-hero-benefits__icon--panel {
+    #inicio .landing-hero-benefits__icon--insights {
         color: #4f46e5;
         background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 55%, #f5f3ff 100%);
         border-color: rgba(129, 140, 248, 0.35);
     }
-    #inicio .landing-hero-benefits__icon--fast {
+    #inicio .landing-hero-benefits__icon--catalog {
         color: #9333ea;
         background: linear-gradient(145deg, #faf5ff 0%, #f3e8ff 40%, #ecfeff 100%);
         border-color: rgba(147, 51, 234, 0.28);

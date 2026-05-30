@@ -295,9 +295,9 @@
                     class="landing-plan-badge text-[9px] uppercase font-black tracking-widest px-3 py-1 rounded-full">
                     Planes
                 </span>
-                <h2 class="text-2xl md:text-3xl font-black text-white mt-2 tracking-tight">Elige tu plan</h2>
+                <h2 class="text-2xl md:text-3xl font-black text-white mt-2 tracking-tight">Planes para escalar tu gestión</h2>
                 <p class="text-xs text-slate-400 mt-1 max-w-md mx-auto leading-snug">
-                    <strong class="text-slate-200">Emprendedor</strong> para arrancar · <strong class="text-slate-200">Negocio</strong> con todas las funciones avanzadas.
+                    <strong class="text-slate-200">Emprendedor</strong> para ordenar tu operación · <strong class="text-slate-200">Negocio</strong> con panel completo y módulos avanzados.
                 </p>
             </div>
 
@@ -439,9 +439,8 @@
                         </div>
 
                         <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-                            Una excelente manera de experimentar las capacidades base de la plataforma. Crea tu
-                            catálogo, añade productos clave y prueba el flujo de pedidos hacia tu WhatsApp de forma
-                            totalmente gratuita por {{ $wiStoreTrialDays }} días.
+                            Activa tu gestión digital sin costo: centraliza pedidos, organiza tu inventario y prueba el
+                            panel administrativo con venta integrada por WhatsApp durante {{ $wiStoreTrialDays }} días.
                         </p>
 
                         <div class="border-t border-slate-200 pt-6 space-y-4">
@@ -454,7 +453,7 @@
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-indigo-600 mt-0.5"></i>
-                                    <span>Hasta 15 productos activos en catálogo</span>
+                                    <span>Hasta 15 productos en tu inventario</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-indigo-600 mt-0.5"></i>
@@ -609,9 +608,9 @@
                             class="rounded-3xl bg-white/5 border border-cyan-500/20 p-5 shadow-[0_0_20px_rgba(14,165,233,0.12)]">
                             <h4 class="text-sm font-black text-white uppercase tracking-[0.24em] mb-3">Estética que
                                 Eleva la Marca</h4>
-                            <p class="text-slate-300 text-sm leading-relaxed">El diseño no es un menú más; es una
-                                interfaz de nivel internacional que le da prestigio a cualquier negocio, ya sea un
-                                pequeño emprendimiento o una gran empresa.</p>
+                            <p class="text-slate-300 text-sm leading-relaxed">No es solo una vitrina de venta: es una
+                                plataforma de nivel internacional que eleva la imagen de tu operación, ya seas PYME o
+                                empresa consolidada.</p>
                         </div>
 
                         <div
@@ -783,9 +782,9 @@
                                 class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Store</span></span>
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
-                        La plataforma B2B premium líder en digitalización de comercios en Venezuela. Crea tu catálogo
-                        inteligente interactivo con pedidos directos a WhatsApp o Telegram, libre de comisiones por
-                        venta.
+                        Plataforma SaaS de gestión comercial para PYMES en Venezuela. Centraliza pedidos, clientes e
+                        inventario en un panel administrativo con venta integrada por WhatsApp o Telegram, sin comisiones
+                        por venta.
                     </p>
                     <div class="flex items-center gap-3 pt-2">
                         <a href="javascript:void(0)"

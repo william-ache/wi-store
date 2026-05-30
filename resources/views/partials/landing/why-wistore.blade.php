@@ -8,10 +8,10 @@
                 Por qué WI-Store
             </p>
             <h2 id="por-que-heading" class="text-3xl sm:text-4xl lg:text-[2.75rem] font-black text-slate-900 tracking-tight leading-[1.1]">
-                Todo lo que necesitas para hacer crecer tu negocio
+                Control operativo para hacer crecer tu negocio
             </h2>
             <p class="mt-3 text-base md:text-lg text-slate-500 leading-relaxed">
-                Herramientas simples para vender más y administrar menos.
+                Recibe pedidos, organiza clientes y toma decisiones con datos desde un sistema SaaS pensado para PYMES.
             </p>
         </header>
 
@@ -24,7 +24,7 @@
                             <i class="fas fa-arrow-up-right text-white text-lg"></i>
                         </div>
                         <span class="landing-why-pill landing-why-pill--wa absolute top-2 left-0"><i class="fab fa-whatsapp text-emerald-600"></i> WhatsApp</span>
-                        <span class="landing-why-pill landing-why-pill--menu absolute top-8 right-0"><i class="fas fa-store text-purple-600"></i> Tu menú</span>
+                        <span class="landing-why-pill landing-why-pill--menu absolute top-8 right-0"><i class="fas fa-store text-purple-600"></i> Ventas online</span>
                         <span class="landing-why-pill landing-why-pill--tg absolute bottom-2 left-4"><i class="fab fa-telegram text-sky-500"></i> Telegram</span>
                         <svg class="landing-why-lines absolute inset-0 w-full h-full text-slate-300" viewBox="0 0 260 160" fill="none" aria-hidden="true">
                             <path class="landing-why-line landing-why-line--1" d="M130 80 L55 45" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
@@ -34,9 +34,9 @@
                     </div>
                 </div>
                 <div class="landing-why-card__body">
-                    <h3 class="text-lg font-black text-slate-900">Vende en cualquier canal</h3>
+                    <h3 class="text-lg font-black text-slate-900">Operación multicanal</h3>
                     <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Comparte tu menú por WhatsApp, Telegram o enlace. Tus clientes piden donde ya te escriben.
+                        Centraliza pedidos de WhatsApp, Telegram y enlace web en un solo flujo administrativo, sin perder mensajes.
                     </p>
                 </div>
             </article>
@@ -78,9 +78,9 @@
                     </div>
                 </div>
                 <div class="landing-why-card__body">
-                    <h3 class="text-lg font-black text-slate-900">Ahorra tiempo</h3>
+                    <h3 class="text-lg font-black text-slate-900">Control de pedidos</h3>
                     <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Los pedidos llegan claros: productos, cantidades y datos del cliente. Sin copiar y pegar chats.
+                        Recibe, revisa y actualiza cada pedido con estados claros. Menos caos en el chat y más orden en la operación.
                     </p>
                 </div>
             </article>
@@ -103,9 +103,9 @@
                     </div>
                 </div>
                 <div class="landing-why-card__body">
-                    <h3 class="text-lg font-black text-slate-900">Aumenta ingresos</h3>
+                    <h3 class="text-lg font-black text-slate-900">Visión de ventas</h3>
                     <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Un catálogo con fotos y precios transmite confianza. Más gente completa el pedido sin dudar.
+                        Consulta totales, tendencias y desempeño por periodo. Decide con reportes, no con suposiciones.
                     </p>
                 </div>
             </article>
@@ -136,9 +136,9 @@
                     </div>
                 </div>
                 <div class="landing-why-card__body">
-                    <h3 class="text-lg font-black text-slate-900">Mantente organizado</h3>
+                    <h3 class="text-lg font-black text-slate-900">Panel centralizado</h3>
                     <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Pedidos, catálogo y estado de tu tienda en un solo panel para decidir con datos, no a ciegas.
+                        Inventario, clientes, pedidos y configuración en un solo lugar. Tu equipo trabaja sobre la misma fuente de verdad.
                     </p>
                 </div>
             </article>
@@ -163,9 +163,9 @@
                     <span class="landing-why-card__badge landing-why-demo-badge">+50</span>
                 </div>
                 <div class="landing-why-card__body">
-                    <h3 class="text-lg font-black text-slate-900">Para todo tipo de negocio</h3>
+                    <h3 class="text-lg font-black text-slate-900">Para PYMES de cualquier rubro</h3>
                     <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Ropa, restaurantes, ferreterías, farmacias, minimarkets y más. Tu catálogo se adapta a cómo vendes.
+                        Restaurantes, retail, servicios y comercios locales. Escala la gestión sin multiplicar herramientas sueltas.
                     </p>
                 </div>
             </article>
@@ -188,9 +188,9 @@
                     </div>
                 </div>
                 <div class="landing-why-card__body">
-                    <h3 class="text-lg font-black text-slate-900">Multiplataforma</h3>
+                    <h3 class="text-lg font-black text-slate-900">Venta online integrada</h3>
                     <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Tu tienda funciona en celular, tablet y computadora. Tus clientes compran desde cualquier dispositivo.
+                        Incluye catálogo digital profesional para automatizar ventas. Tus clientes compran; tú controlas todo desde el panel.
                     </p>
                 </div>
             </article>

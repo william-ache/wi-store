@@ -120,8 +120,8 @@ final class SeoMeta
     public static function forLanding(): self
     {
         return new self(
-            title: 'WI-Store — Catálogos digitales para WhatsApp y Telegram',
-            description: 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis ' . PlanTrial::days() . ' días. Sin comisiones por cada venta.',
+            title: 'WI-Store — Plataforma SaaS de gestión comercial',
+            description: 'Centraliza pedidos, clientes e inventario en un panel administrativo. Incluye catálogo digital para vender por WhatsApp o Telegram. Prueba gratis ' . PlanTrial::days() . ' días.',
             canonical: url('/'),
             ogImage: null,
             ogType: 'website',
@@ -140,15 +140,15 @@ final class SeoMeta
                         '@id' => url('/') . '#website',
                         'name' => 'WI-Store',
                         'url' => url('/'),
-                        'description' => 'Catálogos digitales y pedidos por WhatsApp o Telegram para comercios en Venezuela.',
+                        'description' => 'Plataforma SaaS de gestión comercial y ventas digitales para comercios en Venezuela.',
                         'publisher' => ['@id' => url('/') . '#organization'],
                     ],
                     [
                         '@type' => 'WebPage',
                         '@id' => url('/') . '#webpage',
                         'url' => url('/'),
-                        'name' => 'WI-Store — Catálogos digitales para WhatsApp y Telegram',
-                        'description' => 'Crea tu menú digital, recibe pedidos por WhatsApp o Telegram. Prueba gratis ' . PlanTrial::days() . ' días.',
+                        'name' => 'WI-Store — Plataforma SaaS de gestión comercial',
+                        'description' => 'Centraliza la operación de tu negocio con panel administrativo, pedidos multicanal y catálogo digital integrado.',
                         'isPartOf' => ['@id' => url('/') . '#website'],
                     ],
                 ],

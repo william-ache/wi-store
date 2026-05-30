@@ -4,9 +4,9 @@
     <div class="landing-container relative z-10">
         <div class="mb-10 md:mb-12 text-center">
             <span class="text-[10px] font-black uppercase tracking-widest text-purple-700 bg-purple-50 border border-purple-200 px-3 py-1 rounded-full">3 pasos</span>
-            <h2 class="text-2xl md:text-4xl font-black text-slate-900 tracking-tight mt-3">Así de fácil funciona</h2>
+            <h2 class="text-2xl md:text-4xl font-black text-slate-900 tracking-tight mt-3">Así activas tu gestión digital</h2>
             <p class="text-sm md:text-base text-slate-500 mt-2 max-w-xl mx-auto leading-relaxed">
-                En tres pasos tienes tu menú listo. Sin saber de páginas web.
+                En tres pasos centralizas la operación de tu negocio. Sin conocimientos técnicos.
             </p>
         </div>
 
@@ -48,9 +48,9 @@
                     </div>
                 </div>
                 <div class="landing-how-step__body">
-                    <h3 class="text-lg font-black text-slate-900">1. Regístrate</h3>
+                    <h3 class="text-lg font-black text-slate-900">1. Crea tu cuenta</h3>
                     <p class="mt-2 text-sm leading-relaxed">
-                        Crea tu cuenta gratis en segundos y activa tu prueba de {{ $wiStoreTrialDays }} días. Cancela cuando quieras.
+                        Registra tu negocio y activa la prueba de {{ $wiStoreTrialDays }} días. Accede al panel administrativo desde el primer minuto.
                     </p>
                 </div>
             </article>
@@ -60,7 +60,7 @@
                 <div class="landing-how-step__visual" aria-hidden="true">
                     <div class="landing-how-mock landing-how-mock--catalog">
                         <div class="flex items-center justify-between mb-3">
-                            <span class="text-[9px] font-black uppercase tracking-wide text-slate-400">Catálogo</span>
+                            <span class="text-[9px] font-black uppercase tracking-wide text-slate-400">Inventario</span>
                             <span class="text-[9px] font-bold text-slate-500">5 productos</span>
                         </div>
                         <div class="grid grid-cols-3 gap-1.5 flex-1">
@@ -87,9 +87,9 @@
                     </div>
                 </div>
                 <div class="landing-how-step__body">
-                    <h3 class="text-lg font-black text-slate-900">2. Agregar productos</h3>
+                    <h3 class="text-lg font-black text-slate-900">2. Centraliza tu operación</h3>
                     <p class="mt-2 text-sm leading-relaxed">
-                        Sube tu menú con fotos, precios y categorías. Actualiza en segundos desde tu panel.
+                        Carga productos, servicios, precios y categorías. Organiza tu inventario y la base de clientes en el mismo sistema.
                     </p>
                 </div>
             </article>
@@ -99,7 +99,7 @@
                 <div class="landing-how-step__visual" aria-hidden="true">
                     <div class="landing-how-mock">
                         <div class="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 mb-3">
-                            <span class="text-[9px] font-semibold text-slate-600 truncate flex-1">wi-store.com/tu-menu</span>
+                            <span class="text-[9px] font-semibold text-slate-600 truncate flex-1">wi-store.com/tu-negocio</span>
                             <span class="shrink-0 w-6 h-6 rounded-md landing-how-brand-gradient flex items-center justify-center shadow-sm shadow-purple-500/15">
                                 <i class="fas fa-link text-white text-[8px]"></i>
                             </span>
@@ -124,9 +124,9 @@
                     </div>
                 </div>
                 <div class="landing-how-step__body">
-                    <h3 class="text-lg font-black text-slate-900">3. Comenzar a vender</h3>
+                    <h3 class="text-lg font-black text-slate-900">3. Controla ventas y pedidos</h3>
                     <p class="mt-2 text-sm leading-relaxed">
-                        Comparte tu enlace y recibe pedidos ordenados al instante en WhatsApp o Telegram.
+                        Recibe pedidos en tiempo real, actualiza estados y usa tu catálogo digital integrado para vender sin fricción.
                     </p>
                 </div>
             </article>
@@ -135,7 +135,7 @@
         <div class="mt-10 md:mt-12 text-center">
             <a href="/register"
                class="inline-flex items-center gap-2 landing-how-brand-gradient-h text-white font-black px-6 py-3 rounded-xl shadow-lg shadow-purple-500/20 hover:brightness-105 active:scale-[0.98] transition-all text-sm">
-                Empezar mi prueba gratis
+                Empezar prueba de gestión gratis
                 <i class="fas fa-arrow-right text-xs"></i>
             </a>
         </div>

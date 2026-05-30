@@ -103,7 +103,7 @@
             @endunless
             <a href="/register"
                class="mt-4 text-center bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold py-4 rounded-full shadow-lg hover:scale-[1.02] active:scale-[0.98]">
-                Crear menú
+                Probar gratis
             </a>
         @endauth
     </nav>

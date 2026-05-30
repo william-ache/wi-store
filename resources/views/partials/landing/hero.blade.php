@@ -12,39 +12,43 @@
       <div class="landing-hero-copy">
         <p class="inline-flex items-center gap-2.5 text-xs md:text-[13px] font-bold uppercase tracking-[0.18em] text-slate-500 mb-6 md:mb-7">
           <span class="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 shrink-0" aria-hidden="true"></span>
-          Menú digital comercial
+          Plataforma SaaS de gestión comercial
         </p>
 
         <h1 class="landing-hero-title">
-          Dile adiós a los PDFs y fotos sueltas. Un solo catálogo digital para centralizar tus
-          <span class="landing-hero-title-accent">ventas</span>
+          Gestiona tu negocio, pedidos y clientes desde
+          <span class="landing-hero-title-accent">un solo lugar</span>
         </h1>
+
+        <p class="landing-hero-lead">
+          Pasa de la administración manual al control digital. Centraliza inventario, clientes y ventas en un panel administrativo todo-en-uno.
+        </p>
 
         <ul class="landing-hero-benefits" aria-label="Beneficios de WI-Store">
           <li class="landing-hero-benefits__item">
-            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--catalog" aria-hidden="true">
-              <i class="fas fa-images"></i>
-            </span>
-            <span class="landing-hero-benefits__text">Catálogo profesional con fotos y precios.</span>
-          </li>
-          <li class="landing-hero-benefits__item">
-            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--cart" aria-hidden="true">
-              <i class="fas fa-bag-shopping"></i>
-            </span>
-            <span class="landing-hero-benefits__text">Facilita la compra a tus clientes.</span>
-          </li>
-          <li class="landing-hero-benefits__item">
             <span class="landing-hero-benefits__icon landing-hero-benefits__icon--panel" aria-hidden="true">
-              <i class="fas fa-table-columns"></i>
+              <i class="fas fa-gauge-high"></i>
             </span>
-            <span class="landing-hero-benefits__text">Gestiona pedidos desde un panel centralizado.</span>
+            <span class="landing-hero-benefits__text">Panel administrativo todo-en-uno: centraliza tu operación.</span>
           </li>
           <li class="landing-hero-benefits__item">
-            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--fast" aria-hidden="true">
-              <i class="fas fa-bolt"></i>
+            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--orders" aria-hidden="true">
+              <i class="fas fa-clipboard-list"></i>
+            </span>
+            <span class="landing-hero-benefits__text">Control operativo y pedidos por WhatsApp o Telegram.</span>
+          </li>
+          <li class="landing-hero-benefits__item">
+            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--insights" aria-hidden="true">
+              <i class="fas fa-chart-line"></i>
+            </span>
+            <span class="landing-hero-benefits__text">Base de clientes y reportes de ventas para decidir mejor.</span>
+          </li>
+          <li class="landing-hero-benefits__item">
+            <span class="landing-hero-benefits__icon landing-hero-benefits__icon--catalog" aria-hidden="true">
+              <i class="fas fa-store"></i>
             </span>
             <span class="landing-hero-benefits__text">
-              <strong class="landing-hero-benefits__emph">Listo en minutos</strong>, sin complicaciones.
+              Catálogo digital profesional integrado: <strong class="landing-hero-benefits__emph">automatiza tus ventas online</strong>.
             </span>
           </li>
         </ul>
@@ -53,7 +57,7 @@
           <div class="landing-hero-actions__ctas">
             <a href="/register"
                class="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:brightness-105 text-white font-bold text-sm shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all shrink-0">
-              Probar gratis {{ $wiStoreTrialDays }} días
+              Empezar prueba de gestión gratis
             </a>
 
             <a href="https://www.trustpilot.com/review/wi-store.com?utm_medium=trustbox&utm_source=TrustBoxReviewCollector"
@@ -98,7 +102,7 @@
             </div>
             <p class="text-sm text-slate-600 leading-snug min-w-0">
               <span class="font-bold text-slate-800">+50</span>
-              negocios y emprendedores ya venden mas con
+              negocios ya administran su operación con
               <span class="landing-hero-social__brand" aria-label="WI-Store">WI-Store</span>
             </p>
           </div>

@@ -10,7 +10,7 @@
                 Comercios reales
             </span>
             <h2 class="text-2xl md:text-4xl font-black text-slate-900 tracking-tight mt-3">Lo que dicen quienes usan WI-Store</h2>
-            <p class="text-sm text-slate-600 mt-2 max-w-xl mx-auto">Tiendas que calificaron la plataforma después de vender con su menú digital.</p>
+            <p class="text-sm text-slate-600 mt-2 max-w-xl mx-auto">Negocios que calificaron la plataforma después de centralizar pedidos y operación con WI-Store.</p>
         </div>
 
         {{-- Filtro por estrellas --}}

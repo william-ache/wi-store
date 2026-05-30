@@ -2,23 +2,23 @@
     $landingFaqs = [
         [
             'q' => '¿Qué es WI-Store?',
-            'a' => 'WI-Store es una plataforma para crear tu menú o catálogo digital con fotos y precios. Tus clientes eligen desde el enlace y los pedidos te llegan ordenados a WhatsApp o Telegram, sin comisiones por venta.',
+            'a' => 'WI-Store es una plataforma SaaS de gestión comercial para pequeñas y medianas empresas. Centraliza pedidos, clientes, inventario y reportes en un panel administrativo, e incluye un catálogo digital para automatizar tus ventas por WhatsApp o Telegram.',
         ],
         [
             'q' => '¿Cómo empiezo a usar WI-Store?',
-            'a' => 'Regístrate gratis y activa tu prueba de ' . $wiStoreTrialDays . ' días. En minutos subes productos, personalizas tu tienda y compartes el enlace. No necesitas tarjeta para empezar.',
+            'a' => 'Regístrate gratis y activa tu prueba de ' . $wiStoreTrialDays . ' días. En minutos configuras tu negocio, cargas productos y empiezas a recibir pedidos ordenados en el panel. No necesitas tarjeta para empezar.',
         ],
         [
             'q' => '¿Cuáles son las funcionalidades principales?',
-            'a' => 'Catálogo con categorías, pedidos al WhatsApp o Telegram, panel para gestionar productos y pedidos, personalización de marca (logo y colores), y planes según el tamaño de tu negocio.',
+            'a' => 'Panel administrativo, gestión de pedidos multicanal, base de clientes, reportes de ventas, personalización de marca (según plan) y catálogo digital integrado. Los módulos avanzados dependen del plan que elijas.',
         ],
         [
             'q' => '¿Para qué tipos de negocio sirve?',
-            'a' => 'Restaurantes, cafeterías, repostería, tiendas de ropa, regalos, ferretería y cualquier negocio que venda por catálogo. Si tienes productos con precio, WI-Store te sirve.',
+            'a' => 'Comercios que necesitan ordenar su operación diaria: restaurantes, retail, repostería, ferreterías, farmacias, servicios y emprendimientos con ventas recurrentes. Si manejas productos, pedidos y clientes, WI-Store encaja.',
         ],
         [
             'q' => '¿Es fácil de usar? ¿Tienen soporte?',
-            'a' => 'Sí. Está pensado para quien no sabe de páginas web. Tienes panel claro, tutoriales y soporte por correo y WhatsApp si te atoras en la configuración.',
+            'a' => 'Sí. Está pensado para dueños y equipos sin perfil técnico. Tienes panel claro, tutoriales y soporte por correo y WhatsApp si necesitas ayuda con la configuración.',
         ],
         [
             'q' => '¿Cuánto cuesta?',
@@ -35,7 +35,7 @@
                 <span class="text-slate-900"> – Preguntas frecuentes</span>
             </h2>
             <p class="mt-3 text-sm md:text-base text-slate-600 leading-relaxed">
-                Conoce más sobre WI-Store y descubre cómo puede ayudarte a organizar y hacer crecer tu negocio.
+                Todo lo que debes saber sobre WI-Store como sistema de gestión para tu negocio.
             </p>
         </header>
 

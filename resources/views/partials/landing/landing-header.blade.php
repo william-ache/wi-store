@@ -116,7 +116,7 @@
                         </a>
                     @endunless
                     <a href="/register" class="landing-header-cta">
-                        Crear menú
+                        Probar gratis
                     </a>
                 @endauth
                 <button type="button" @click="isMobileMenuOpen = true"

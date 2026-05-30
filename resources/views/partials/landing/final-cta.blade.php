@@ -10,16 +10,16 @@
                         Empieza hoy
                     </p>
                     <h2 id="final-cta-heading" class="text-2xl sm:text-3xl lg:text-[2.15rem] font-black text-white leading-[1.15] tracking-tight max-w-md">
-                        ¿Listo para hacer crecer tu negocio?
+                        ¿Listo para tomar el control de tu negocio?
                     </h2>
                     <p class="mt-3 text-sm md:text-base text-slate-400 leading-relaxed max-w-md">
-                        Inicia hoy tu prueba gratuita de {{ $wiStoreTrialDays }} días. Cancela cuando quieras.
+                        Activa tu prueba de gestión de {{ $wiStoreTrialDays }} días y centraliza pedidos, clientes y ventas en un solo panel.
                     </p>
                 </div>
 
                 <div class="landing-final-cta__actions">
                     <a href="/register" class="landing-final-cta__btn">
-                        <span>Iniciar prueba gratuita</span>
+                        <span>Empezar prueba de gestión</span>
                         <span class="landing-final-cta__btn-icon" aria-hidden="true">
                             <i class="fas fa-arrow-right"></i>
                         </span>

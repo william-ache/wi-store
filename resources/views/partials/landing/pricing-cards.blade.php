@@ -6,8 +6,8 @@
     $negocio = PlanPricing::PLANS['premium'];
     $standardHighlights = PlanDetails::standard()['card_highlights'];
     $premiumHighlights = PlanDetails::premium()['card_highlights'];
-    $standardPurpose = 'Ideal para pequeños comercios, negocios independientes o emprendimientos que inician su transformación digital.';
-    $premiumPurpose = 'Para negocios que escalan: más capacidad, personalización y control.';
+    $standardPurpose = 'Para PYMES que inician su gestión digital: pedidos, inventario y operación en un solo panel.';
+    $premiumPurpose = 'Para negocios que escalan: panel administrativo completo, más capacidad y control operativo.';
     $isAdminPricing = ($pricingContext ?? 'landing') === 'admin';
     $shopPlan = $shopForPricing ?? null;
     $resolvedShopPlan = $shopPlan ? PlanFeatures::resolvePlan($shopPlan) : null;
@@ -101,7 +101,7 @@
                 @endif
                 <div class="landing-plan-card-footer__spacer" aria-hidden="true"></div>
             @else
-                <a href="/register" class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">Comenzar Emprendedor</a>
+                <a href="/register" class="landing-plan-btn landing-plan-btn--emprendedor block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">Probar gestión Emprendedor</a>
                 <div class="landing-plan-card-footer__spacer" aria-hidden="true"></div>
             @endif
         </div>
@@ -201,7 +201,7 @@
                 @else
                     <a href="/register"
                         class="landing-plan-btn landing-plan-btn--negocio block w-full text-center text-white font-extrabold py-3 rounded-xl text-xs">
-                        Probar {{ $wiStoreTrialLabel }}
+                        Probar gestión Negocio
                     </a>
                     <p class="text-[9px] text-center text-slate-500 leading-snug px-1 mt-2">{{ $wiStoreTrialDisclaimer }}</p>
                 @endif
