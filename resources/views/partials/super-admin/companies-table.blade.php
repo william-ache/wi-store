@@ -58,6 +58,7 @@
                             'color_primary' => $shop->color_primary,
                             'color_secondary' => $shop->color_secondary,
                             'color_background' => $shop->color_background,
+                            'text_on_primary' => $shop->text_on_primary ?? 'white',
                             'logo_path' => $shop->logo_path,
                             'cover_path' => $shop->cover_path,
                             'description' => $shop->description,

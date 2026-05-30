@@ -424,3 +424,225 @@
   .wi-store-admin .swal2-confirm {
       color: var(--color-on-primary) !important;
   }
+
+  /* Sidebar: enlaces con borde degradado en ítem activo */
+  .wi-store-admin .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      width: 100%;
+      padding: 0.625rem 0.75rem;
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #94a3b8;
+      background: transparent;
+      border: 1px solid transparent;
+      transition: color 0.15s ease, background 0.15s ease;
+      position: relative;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+  }
+
+  .wi-store-admin .admin-nav-link:hover {
+      color: #f8fafc;
+      background: rgba(30, 41, 59, 0.55);
+  }
+
+  .wi-store-admin .admin-nav-link--sub {
+      font-size: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+  }
+
+  .wi-store-admin .admin-nav-link--parent {
+      justify-content: space-between;
+  }
+
+  .wi-store-admin .admin-nav-link--active {
+      color: #fff;
+      font-weight: 700;
+      background: rgba(15, 23, 42, 0.92);
+      border-color: transparent;
+  }
+
+  .wi-store-admin .admin-nav-link--active::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 35%, #22d3ee 70%, #6366f1 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+  }
+
+  .wi-store-admin .admin-nav-link--active svg {
+      color: #e2e8f0;
+  }
+
+  /* Dashboard home */
+  .wi-store-admin .admin-dash-welcome {
+      background: #fff;
+      border: 1px solid var(--ui-border);
+      box-shadow: 0 4px 24px -8px rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .wi-store-admin .admin-dash-welcome {
+      background: var(--ui-surface);
+  }
+
+  .wi-store-admin .admin-btn-store-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.125rem;
+      border-radius: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-on-primary);
+      background-color: var(--color-primary);
+      border: 1px solid color-mix(in srgb, var(--color-primary) 85%, #000);
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 35%, transparent);
+      transition: filter 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  }
+
+  .wi-store-admin .admin-btn-store-live:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--color-primary) 42%, transparent);
+  }
+
+  .wi-store-admin .admin-dash-stat {
+      background: #fff;
+      border: 1px solid var(--ui-border);
+      box-shadow: 0 2px 16px -6px rgba(15, 23, 42, 0.1);
+  }
+
+  .dark .wi-store-admin .admin-dash-stat {
+      background: var(--ui-surface);
+  }
+
+  .wi-store-admin .admin-dash-panel {
+      background: #fff;
+      border: 1px solid var(--ui-border);
+      box-shadow: 0 4px 24px -10px rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .wi-store-admin .admin-dash-panel {
+      background: var(--ui-surface);
+  }
+
+  .wi-store-admin .admin-quick-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.875rem 1rem;
+      border-radius: 0.875rem;
+      border: 1px solid var(--ui-border);
+      background: #f8fafc;
+      transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .wi-store-admin .admin-quick-link:hover {
+      background: #f1f5f9;
+      border-color: color-mix(in srgb, var(--color-primary) 25%, var(--ui-border));
+  }
+
+  .dark .wi-store-admin .admin-quick-link {
+      background: var(--ui-inset, #161616);
+  }
+
+  .wi-store-admin .admin-quick-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.625rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+  }
+
+  /* Dashboard inicio: cabe en una pantalla (escritorio) */
+  @media (min-width: 1024px) {
+      .wi-store-admin .admin-main-column:has(.admin-dashboard-page) {
+          min-height: 100dvh;
+          max-height: 100dvh;
+          overflow: hidden;
+      }
+
+      .wi-store-admin .admin-main-content:has(.admin-dashboard-page) {
+          flex: 1 1 auto;
+          min-height: 0;
+          overflow: hidden;
+          padding-top: 0.875rem;
+          padding-bottom: 0.875rem;
+          display: flex;
+          flex-direction: column;
+      }
+
+      .wi-store-admin .admin-dashboard-page {
+          display: grid;
+          grid-template-rows: auto auto minmax(0, 1fr);
+          gap: 0.75rem;
+          flex: 1;
+          min-height: 0;
+          height: 100%;
+      }
+
+      .wi-store-admin .admin-dash-kpis {
+          margin-top: 0 !important;
+      }
+
+      .wi-store-admin .admin-dash-bottom {
+          margin-top: 0 !important;
+          min-height: 0;
+      }
+
+      .wi-store-admin .admin-dash-bottom > * {
+          min-height: 0;
+      }
+
+      .wi-store-admin .admin-dash-chart-wrap {
+          flex: 1;
+          min-height: 0;
+          position: relative;
+      }
+
+      .wi-store-admin .admin-dash-quick-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          min-height: 0;
+      }
+
+      .wi-store-admin .admin-dashboard-page .admin-dash-welcome {
+          padding: 1rem 1.25rem;
+      }
+
+      .wi-store-admin .admin-dashboard-page .admin-dash-stat {
+          padding: 0.875rem 1rem;
+      }
+
+      .wi-store-admin .admin-dashboard-page .admin-dash-panel {
+          padding: 1rem 1.25rem;
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
+      }
+
+      .wi-store-admin .admin-dashboard-page .admin-quick-link {
+          padding: 0.5rem 0.75rem;
+      }
+
+      .wi-store-admin .admin-dashboard-page .admin-quick-icon {
+          width: 1.875rem;
+          height: 1.875rem;
+          font-size: 0.875rem;
+      }
+  }

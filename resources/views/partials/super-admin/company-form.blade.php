@@ -190,6 +190,13 @@
                         @if ($isEdit) x-model="editingShop.color_background" @else value="{{ old('color_background', '#FFF0F8') }}" @endif>
                 </label>
             </div>
+            <label class="sa-form-label mt-3">Texto sobre color primario</label>
+            <select name="text_on_primary" class="sa-modal-field mt-1"
+                @if ($isEdit) x-model="editingShop.text_on_primary" @endif>
+                <option value="white" @if (!$isEdit && old('text_on_primary', 'white') === 'white') selected @endif>Blanco</option>
+                <option value="auto" @if (!$isEdit && old('text_on_primary') === 'auto') selected @endif>Automático</option>
+                <option value="black" @if (!$isEdit && old('text_on_primary') === 'black') selected @endif>Negro</option>
+            </select>
         </div>
 
         <div class="sa-form-group">

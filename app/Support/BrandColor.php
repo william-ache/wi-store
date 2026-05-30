@@ -60,16 +60,23 @@ class BrandColor
         return self::relativeLuminance($hex) <= self::LUMINANCE_THRESHOLD;
     }
 
-    public static function onPrimary(string $hex): string
+    public static function onPrimary(string $hex, ?string $mode = null): string
     {
+        $mode = $mode ?: 'auto';
+
+        if ($mode === 'white') {
+            return self::ON_DARK;
+        }
+
+        if ($mode === 'black') {
+            return self::ON_LIGHT;
+        }
+
         return self::isDark($hex) ? self::ON_DARK : self::ON_LIGHT;
     }
 
-    /**
-     * @return array{r: int, g: int, b: int}
-     */
-    public static function onPrimaryRgb(string $hex): array
+    public static function onPrimaryRgb(string $hex, ?string $mode = null): array
     {
-        return self::rgb(self::onPrimary($hex));
+        return self::rgb(self::onPrimary($hex, $mode));
     }
 }

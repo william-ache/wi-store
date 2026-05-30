@@ -247,7 +247,49 @@
         if (input && preview) {
             preview.style.backgroundColor = input.value;
         }
+        if (inputId === 'color_primary') {
+            updateTextOnPrimaryPreview();
+        }
     }
+
+    function relativeLuminance(hex) {
+        hex = (hex || '').replace('#', '');
+        if (hex.length === 3) {
+            hex = hex.split('').map(function(c) { return c + c; }).join('');
+        }
+        var r = parseInt(hex.substr(0, 2), 16) / 255;
+        var g = parseInt(hex.substr(2, 2), 16) / 255;
+        var b = parseInt(hex.substr(4, 2), 16) / 255;
+        [r, g, b] = [r, g, b].map(function(v) {
+            return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+        });
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
+
+    function resolveOnPrimaryColor(primaryHex, mode) {
+        if (mode === 'white') return '#FFFFFF';
+        if (mode === 'black') return '#1F2937';
+        return relativeLuminance(primaryHex) <= 0.179 ? '#FFFFFF' : '#1F2937';
+    }
+
+    function updateTextOnPrimaryPreview() {
+        var preview = document.getElementById('text-on-primary-preview');
+        if (!preview) return;
+
+        var primaryInput = document.getElementById('color_primary');
+        var primaryHex = primaryInput ? primaryInput.value : '{{ \App\Support\PlanFeatures::brandColor($shop ?? null, 'primary') }}';
+        var modeInput = document.querySelector('input[name="text_on_primary"]:checked');
+        var mode = modeInput ? modeInput.value : 'white';
+
+        preview.style.backgroundColor = primaryHex;
+        preview.style.color = resolveOnPrimaryColor(primaryHex, mode);
+    }
+
+    document.querySelectorAll('.text-on-primary-radio').forEach(function(radio) {
+        radio.addEventListener('change', updateTextOnPrimaryPreview);
+    });
+
+    updateTextOnPrimaryPreview();
 
     function updateColorFromText(textInputId, colorInputId, previewId) {
         var textInput = document.getElementById(textInputId);

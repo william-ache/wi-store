@@ -146,9 +146,10 @@
     <style>
         @php
             $storePrimary = \App\Support\BrandColor::normalizeHex($company['colors']['primary'] ?? '#E60067');
-            $storeOnPrimary = \App\Support\BrandColor::onPrimary($storePrimary);
+            $storeTextOnPrimaryMode = $company['colors']['text_on_primary'] ?? 'white';
+            $storeOnPrimary = \App\Support\BrandColor::onPrimary($storePrimary, $storeTextOnPrimaryMode);
             $storePrimaryRgb = \App\Support\BrandColor::rgb($storePrimary);
-            $storeOnPrimaryRgb = \App\Support\BrandColor::onPrimaryRgb($storePrimary);
+            $storeOnPrimaryRgb = \App\Support\BrandColor::rgb($storeOnPrimary);
         @endphp
         :root {
             --color-primary: {{ $storePrimary }};

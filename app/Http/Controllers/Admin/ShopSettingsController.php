@@ -57,6 +57,7 @@ class ShopSettingsController extends Controller
             'base_currency' => 'nullable|string|max:10',
             'exchange_rate' => 'nullable|string|max:50',
             'payment_methods' => 'nullable|string',
+            'text_on_primary' => 'nullable|string|in:auto,white,black',
             'delivery_rate_per_km' => 'nullable|numeric|min:0',
             'latitude' => 'nullable|string|max:50',
             'longitude' => 'nullable|string|max:50',
@@ -121,6 +122,7 @@ class ShopSettingsController extends Controller
             'pagomovil_bank', 'pagomovil_phone', 'pagomovil_id',
             'cashea_link_url',
             'krece_link_url',
+            'text_on_primary',
         ]);
 
         if ($canCustomizeColors) {
@@ -128,6 +130,8 @@ class ShopSettingsController extends Controller
             $data['color_secondary'] = $request->input('color_secondary');
             $data['color_background'] = $request->input('color_background');
         }
+
+        $data['text_on_primary'] = $request->input('text_on_primary', 'white');
 
         $data['stripe_enabled'] = $request->has('stripe_enabled');
         $data['binance_enabled'] = $request->has('binance_enabled');

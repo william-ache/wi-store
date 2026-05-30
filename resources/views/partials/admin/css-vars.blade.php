@@ -5,9 +5,10 @@
     $shopForVars = $shop ?? config('current_shop');
     $primaryHex = BrandColor::normalizeHex(PlanFeatures::brandColor($shopForVars, 'primary'));
     $secondaryHex = BrandColor::normalizeHex(PlanFeatures::brandColor($shopForVars, 'secondary'));
-    $onPrimary = BrandColor::onPrimary($primaryHex);
+    $textOnPrimaryMode = PlanFeatures::textOnPrimaryMode($shopForVars);
+    $onPrimary = PlanFeatures::onPrimaryColor($shopForVars);
     $primaryRgb = BrandColor::rgb($primaryHex);
-    $onPrimaryRgb = BrandColor::onPrimaryRgb($primaryHex);
+    $onPrimaryRgb = PlanFeatures::onPrimaryColorRgb($shopForVars);
 @endphp
     :root {
         /* Tema claro — fondos neutros */

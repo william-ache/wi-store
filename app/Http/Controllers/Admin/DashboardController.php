@@ -21,12 +21,82 @@ class DashboardController extends Controller
         $ordersCount = Order::count();
         $clientsCount = \App\Models\Client::count();
 
+        $initials = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+        $chartLabels = [];
+        $chartData = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $chartLabels[] = $initials[$date->dayOfWeek];
+            $chartData[] = (float) Order::whereDate('created_at', $date->toDateString())->sum('total');
+        }
+
+        $weeklyTotal = array_sum($chartData);
+
+        $startOfThisWeek = now()->startOfWeek();
+        $endOfThisWeek = now()->endOfWeek();
+        $startOfLastWeek = now()->subWeek()->startOfWeek();
+        $endOfLastWeek = now()->subWeek()->endOfWeek();
+
+        $salesThisWeek = (float) Order::whereBetween('created_at', [$startOfThisWeek, $endOfThisWeek])->sum('total');
+        $salesLastWeek = (float) Order::whereBetween('created_at', [$startOfLastWeek, $endOfLastWeek])->sum('total');
+
+        if ($salesLastWeek > 0) {
+            $weeklyTrendPct = (($salesThisWeek - $salesLastWeek) / $salesLastWeek) * 100;
+            $weeklyTrendLabel = ($weeklyTrendPct >= 0 ? '+' : '') . number_format($weeklyTrendPct, 0) . '%';
+            $weeklyTrendUp = $weeklyTrendPct >= 0;
+        } else {
+            $weeklyTrendLabel = $salesThisWeek > 0 ? '+100%' : '—';
+            $weeklyTrendUp = true;
+        }
+
+        $newClientsThisMonth = (int) Order::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->distinct()
+            ->count('customer_phone');
+
+        $sparklinePoints = $this->sparklinePath($chartData, 72, 28);
+
         return view('admin.dashboard', compact(
             'productsCount',
             'categoriesCount',
             'ordersCount',
-            'clientsCount'
+            'clientsCount',
+            'chartLabels',
+            'chartData',
+            'weeklyTotal',
+            'weeklyTrendLabel',
+            'weeklyTrendUp',
+            'newClientsThisMonth',
+            'sparklinePoints'
         ));
+    }
+
+    /**
+     * Build a simple SVG polyline path from numeric series.
+     *
+     * @param  array<int, float|int>  $values
+     */
+    private function sparklinePath(array $values, int $width = 72, int $height = 28): string
+    {
+        $count = count($values);
+        if ($count < 2) {
+            return '';
+        }
+
+        $max = max($values) ?: 1;
+        $min = min($values);
+        $range = max($max - $min, 0.01);
+        $step = $width / ($count - 1);
+        $points = [];
+
+        foreach ($values as $i => $value) {
+            $x = round($i * $step, 1);
+            $y = round($height - (($value - $min) / $range) * ($height - 4) - 2, 1);
+            $points[] = "{$x},{$y}";
+        }
+
+        return implode(' ', $points);
     }
 
     /**

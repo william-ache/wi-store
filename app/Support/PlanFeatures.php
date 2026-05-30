@@ -88,6 +88,29 @@ final class PlanFeatures
         };
     }
 
+    public static function textOnPrimaryMode(?Shop $shop): string
+    {
+        $mode = $shop?->text_on_primary ?? 'white';
+
+        return in_array($mode, ['auto', 'white', 'black'], true) ? $mode : 'white';
+    }
+
+    public static function onPrimaryColor(?Shop $shop): string
+    {
+        return BrandColor::onPrimary(
+            BrandColor::normalizeHex(self::brandColor($shop, 'primary')),
+            self::textOnPrimaryMode($shop),
+        );
+    }
+
+    /**
+     * @return array{r: int, g: int, b: int}
+     */
+    public static function onPrimaryColorRgb(?Shop $shop): array
+    {
+        return BrandColor::rgb(self::onPrimaryColor($shop));
+    }
+
     /** Marca la tienda lista para el panel (módulos según plan / super admin). */
     public static function bootstrapShopModules(Shop $shop): void
     {

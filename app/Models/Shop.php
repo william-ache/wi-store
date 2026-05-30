@@ -30,6 +30,7 @@ class Shop extends Model
         'color_primary',
         'color_secondary',
         'color_background',
+        'text_on_primary',
         'exchange_rate',
         'exchange_updated_at',
         'google_maps_link',
@@ -94,6 +95,7 @@ class Shop extends Model
     protected $attributes = [
         'enabled_modules' => '["categories", "products", "orders", "clients", "invoices", "delivery", "analytics", "announcements", "referrals"]',
         'has_setup_modules' => true,
+        'text_on_primary' => 'white',
     ];
 
     protected $casts = [

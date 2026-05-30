@@ -116,6 +116,43 @@
                         </a>
                     </div>
                     @endif
+
+                    @php
+                        $textOnPrimaryMode = \App\Support\PlanFeatures::textOnPrimaryMode($shop);
+                        $previewPrimary = $brandPrimary;
+                        $previewOnPrimary = \App\Support\BrandColor::onPrimary(
+                            \App\Support\BrandColor::normalizeHex($previewPrimary),
+                            $textOnPrimaryMode,
+                        );
+                    @endphp
+                    <div class="mt-4 pt-4 border-t border-slate-200/80 dark:border-slate-700/80">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Texto en botones y panel superior</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3 leading-snug">
+                            Elige si el texto sobre el color primario se muestra en blanco o negro. Afecta el navbar del admin, botones de acción y la tienda pública.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            @foreach (['white' => 'Blanco', 'auto' => 'Automático', 'black' => 'Negro'] as $value => $label)
+                            <label class="cursor-pointer">
+                                <input type="radio" name="text_on_primary" value="{{ $value }}" class="sr-only peer text-on-primary-radio"
+                                       {{ $textOnPrimaryMode === $value ? 'checked' : '' }}>
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-lg border text-[11px] font-bold transition-colors
+                                    border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300
+                                    peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary">
+                                    {{ $label }}
+                                </span>
+                            </label>
+                            @endforeach
+                        </div>
+                        <div id="text-on-primary-preview"
+                             class="rounded-xl px-4 py-3 flex items-center justify-between gap-3 border border-slate-200/80 dark:border-slate-700/80 shadow-sm"
+                             style="background-color: {{ $previewPrimary }}; color: {{ $previewOnPrimary }};">
+                            <div>
+                                <span class="text-[9px] uppercase font-extrabold tracking-widest opacity-70 block">Vista previa</span>
+                                <span class="text-sm font-black">Panel y botones</span>
+                            </div>
+                            <span class="text-[11px] font-bold px-3 py-1.5 rounded-lg border border-current/20 bg-black/5">Botón ejemplo</span>
+                        </div>
+                    </div>
             </x-settings-section>
 
             <x-settings-section id="modulos" title="Módulos del menú admin" subtitle="Elige qué secciones verás en el panel lateral." icon="🧩">

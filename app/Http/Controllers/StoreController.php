@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Review;
+use App\Support\PlanFeatures;
 use App\Support\SeoMeta;
 use Illuminate\Http\Request;
 
@@ -66,9 +67,10 @@ class StoreController extends Controller
             'exchange_updated_at' => $shop->exchange_updated_at ?: date('d/m/Y h:i A'),
             'amenities' => $shop->amenities,
             'colors' => [
-                'primary' => $shop->color_primary ?? '#E60067',
+                'primary' => PlanFeatures::brandColor($shop, 'primary'),
                 'secondary' => $shop->color_secondary ?? '#0B132B',
                 'bg_light' => $shop->color_background ?? '#FFFFFF',
+                'text_on_primary' => PlanFeatures::textOnPrimaryMode($shop),
             ],
             'logo' => $shop->logoUrl(),
             'cover' => $shop->coverUrl(),
