@@ -20,7 +20,7 @@
         'pendingCount' => isset($pendingShops) ? $pendingShops->count() : 0,
     ])
 
-    <div class="sa-shell flex flex-1 w-full max-w-[100rem] mx-auto">
+    <div class="sa-shell flex flex-1 w-full">
         @include('partials.super-admin.sidebar', [
             'activeModule' => $activeModule ?? '',
         ])

@@ -128,12 +128,12 @@
                             @if ($shop->plan_expires_at)
                                 @php
                                     $isExpired = $shop->plan_expires_at->isPast();
-                                    $isExpiringSoon = !$isExpired && $shop->plan_expires_at->diffInDays(now()) <= 3;
+                                    $isExpiringSoon = !$isExpired && $shop->plan_expires_at->lte(now()->addMonth());
                                 @endphp
                                 @if ($isExpired)
                                     <span class="sa-pill sa-pill--danger">Vencido · {{ $shop->plan_expires_at->format('d/m/Y') }}</span>
                                 @elseif ($isExpiringSoon)
-                                    <span class="sa-pill sa-pill--warning">Por vencer · {{ $shop->plan_expires_at->format('d/m/Y') }}</span>
+                                    <span class="sa-pill sa-pill--warning">Pronto por vencer · {{ $shop->plan_expires_at->format('d/m/Y') }}</span>
                                 @else
                                     <span class="sa-pill sa-pill--neutral">{{ $shop->plan_expires_at->format('d/m/Y') }}</span>
                                 @endif
