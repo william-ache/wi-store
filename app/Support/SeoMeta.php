@@ -67,8 +67,8 @@ final class SeoMeta
         $canonical = route('tiendas.index');
 
         return new self(
-            title: 'Marketplace de tiendas — WI-Store',
-            description: 'Explora menús digitales por categoría y zona. Filtra comercios en WI-Store y entra al catálogo en un clic.',
+            title: 'Marketplace — Próximamente | WI-Store',
+            description: 'Próximamente: explora tiendas afiliadas, busca por categoría y zona, y encuentra en un solo lugar lo que necesitas en WI-Store.',
             canonical: $canonical,
             ogType: 'website',
             noindex: false,
@@ -79,8 +79,8 @@ final class SeoMeta
                         '@type' => 'WebPage',
                         '@id' => $canonical . '#webpage',
                         'url' => $canonical,
-                        'name' => 'Marketplace de tiendas — WI-Store',
-                        'description' => 'Directorio de tiendas con menús digitales y pedidos por WhatsApp.',
+                        'name' => 'Marketplace de tiendas — Próximamente | WI-Store',
+                        'description' => 'Directorio de tiendas afiliadas en desarrollo. Búsqueda y filtros por categoría y zona.',
                         'isPartOf' => [
                             '@type' => 'WebSite',
                             'name' => 'WI-Store',
