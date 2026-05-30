@@ -88,6 +88,18 @@ final class PlanFeatures
         };
     }
 
+    /** Marca la tienda lista para el panel (módulos según plan / super admin). */
+    public static function bootstrapShopModules(Shop $shop): void
+    {
+        $shop->update([
+            'has_setup_modules' => true,
+            'enabled_modules' => self::filterEnabledModules(
+                $shop->enabled_modules ?: self::allowedModulesForShop($shop),
+                $shop,
+            ),
+        ]);
+    }
+
     /** Recorta módulos y paleta al cambiar de plan. */
     public static function syncShopModulesForPlan(Shop $shop): void
     {

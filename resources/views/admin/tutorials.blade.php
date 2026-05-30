@@ -123,7 +123,7 @@
                     ],
                     [
                         'q' => '¿Cómo activo o desactivo los módulos del menú lateral de administración?',
-                        'a' => 'Si deseas cambiar qué elementos son visibles en la navegación lateral, dirígete a <strong>Configuración</strong>, haz clic en la pestaña <strong>Apariencia & Activos</strong>, y marca o desmarca los módulos requeridos (ej. Categorías, Productos, Pedidos, Clientes, Marketing). También puedes volver a activar el configurador guiado inicial cuando gustes, ingresando directamente a la URL de tu tienda con la ruta <strong>/admin/setup-modules</strong>.'
+                        'a' => 'Si deseas cambiar qué elementos son visibles en la navegación lateral, dirígete a <strong>Configuración</strong>, haz clic en la pestaña <strong>Apariencia & Activos</strong>, y marca o desmarca los módulos requeridos (ej. Categorías, Productos, Pedidos, Clientes, Marketing).'
                     ],
                     [
                         'q' => '¿Cómo funciona la descarga e impresión del Código QR del catálogo?',

@@ -249,35 +249,21 @@ class ShopSettingsController extends Controller
         }
     }
 
-    /**
-     * Show the brand & modules wizard for first-time login.
-     */
+    /** @deprecated Vista inicial eliminada; redirige al panel. */
     public function setupModulesForm()
     {
         $shop = $this->currentShop();
-        return view('admin.setup_modules', compact('shop'));
+        PlanFeatures::bootstrapShopModules($shop);
+
+        return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug]);
     }
 
-    /**
-     * Save the initial configuration of brand & modules.
-     */
+    /** @deprecated Redirige al panel; los módulos se gestionan en Configuración o super admin. */
     public function saveSetupModules(Request $request)
     {
         $shop = $this->currentShop();
+        PlanFeatures::bootstrapShopModules($shop);
 
-        $request->validate([
-            'enabled_modules' => 'nullable|array',
-            'enabled_modules.*' => 'string|in:categories,products,orders,clients,invoices,delivery,analytics,announcements,referrals',
-        ]);
-
-        $modules = PlanFeatures::filterEnabledModules($request->input('enabled_modules', []), $shop);
-
-        $shop->update([
-            'enabled_modules' => $modules,
-            'has_setup_modules' => true,
-        ]);
-
-        return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug])
-            ->with('success', '¡Excelente! Tu menú ha sido configurado con éxito.');
+        return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug]);
     }
 }

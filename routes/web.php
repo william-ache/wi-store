@@ -110,6 +110,8 @@ Route::post('/register', function (Illuminate\Http\Request $request) {
         'shop_category_icon' => '📦',
     ]);
 
+    \App\Support\PlanFeatures::bootstrapShopModules($shop);
+
     // Crear el usuario administrador
     $user = \App\Models\User::create([
         'shop_id' => $shop->id,

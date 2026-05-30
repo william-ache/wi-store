@@ -111,12 +111,9 @@ class IdentifyTenant
                     ]);
                 }
 
-                // --- CONTROL DE NUEVO CONFIGURADOR DE MÓDULOS ---
                 if (!$shop->has_setup_modules) {
-                    $isSetupRoute = $request->is('*/admin/setup-modules*') || $request->routeIs('admin.setup-modules*') || $request->is('*/logout');
-                    if (!$isSetupRoute) {
-                        return redirect()->route('admin.setup-modules', ['shop_slug' => $shop->slug]);
-                    }
+                    \App\Support\PlanFeatures::bootstrapShopModules($shop);
+                    $shop->refresh();
                 }
 
                 // --- CONTROL DE VENCIMIENTO DE PLAN / PRUEBA GRATIS ---

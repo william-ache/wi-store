@@ -137,11 +137,14 @@ class SuperAdminController extends Controller
             'is_active' => true,
         ]);
 
-        $shop->update([
-            'enabled_modules' => PlanFeatures::filterEnabledModules($request->input('enabled_modules'), $shop),
-        ]);
+        PlanFeatures::bootstrapShopModules($shop);
+        PlanFeatures::syncShopModulesForPlan($shop->fresh());
 
-        PlanFeatures::syncShopModulesForPlan($shop);
+        if ($request->filled('enabled_modules')) {
+            $shop->update([
+                'enabled_modules' => PlanFeatures::filterEnabledModules($request->input('enabled_modules'), $shop->fresh()),
+            ]);
+        }
 
         // Crear el Usuario administrador de esa tienda
         User::create([
