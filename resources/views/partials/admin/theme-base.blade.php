@@ -485,6 +485,76 @@
       color: #e2e8f0;
   }
 
+  .wi-store-admin .admin-sidebar-submenu {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.22s ease;
+  }
+
+  .wi-store-admin .admin-sidebar-submenu--open {
+      grid-template-rows: 1fr;
+  }
+
+  .wi-store-admin .admin-sidebar-submenu__inner {
+      overflow: hidden;
+      min-height: 0;
+  }
+
+  .wi-store-admin .admin-sidebar-submenu:not(.admin-sidebar-submenu--open) .admin-sidebar-submenu__inner {
+      pointer-events: none;
+  }
+
+  /* Modal modo oscuro (SweetAlert — renderizado en body) */
+  .admin-dark-mode-swal {
+      border: 1px solid rgba(148, 163, 184, 0.22) !important;
+      border-radius: 1.25rem !important;
+      box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.55) !important;
+      padding: 1.75rem 1.5rem 1.35rem !important;
+      color: #ffffff !important;
+  }
+
+  .admin-dark-mode-swal .swal2-title,
+  .admin-dark-mode-swal .swal2-html-container,
+  .admin-dark-mode-swal .swal2-content {
+      color: #ffffff !important;
+  }
+
+  .admin-dark-mode-swal__title,
+  .admin-dark-mode-swal .swal2-title {
+      color: #ffffff !important;
+      font-size: 1.375rem !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.02em !important;
+      line-height: 1.3 !important;
+      margin-bottom: 0.35rem !important;
+  }
+
+  .admin-dark-mode-swal__text,
+  .admin-dark-mode-swal .swal2-html-container {
+      color: #ffffff !important;
+      font-size: 0.9375rem !important;
+      font-weight: 500 !important;
+      line-height: 1.6 !important;
+  }
+
+  .admin-dark-mode-swal__icon,
+  .admin-dark-mode-swal .swal2-icon.swal2-info {
+      margin-top: 0.25rem !important;
+      margin-bottom: 0.85rem !important;
+      border-color: rgba(125, 211, 252, 0.45) !important;
+      color: #7dd3fc !important;
+  }
+
+  .admin-dark-mode-swal__btn,
+  .admin-dark-mode-swal .swal2-confirm {
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      font-size: 0.875rem !important;
+      border-radius: 0.75rem !important;
+      padding: 0.625rem 1.5rem !important;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35) !important;
+  }
+
   /* Dashboard home */
   .wi-store-admin .admin-dash-welcome {
       background: #fff;

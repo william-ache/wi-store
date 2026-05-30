@@ -15,12 +15,6 @@
         Alpine.data('adminSidebarNav', (activeSection = null) => ({
             activeSection: activeSection,
             openSection: activeSection,
-            init() {
-                if (this.activeSection) {
-                    this.openSection = this.activeSection;
-                    this.$nextTick(() => this.syncOpenPanels());
-                }
-            },
             isSectionOpen(id) {
                 return this.openSection === id;
             },
@@ -32,16 +26,8 @@
                     this.openSection = null;
                     return;
                 }
+
                 this.openSection = id;
-                this.$nextTick(() => this.syncOpenPanels());
-            },
-            syncOpenPanels() {
-                this.$root.querySelectorAll('[data-sidebar-panel]').forEach((panel) => {
-                    const id = panel.getAttribute('data-sidebar-panel');
-                    if (this.isSectionOpen(id)) {
-                        panel.style.height = 'auto';
-                    }
-                });
             },
         }));
 
@@ -77,10 +63,18 @@
                     title: 'Modo oscuro 🌙',
                     text: 'Esta función está en desarrollo. Muy pronto podrás alternar el tema del panel.',
                     icon: 'info',
+                    iconColor: '#7dd3fc',
                     confirmButtonText: 'Entendido',
-                    confirmButtonColor: '{{ config('current_shop')->color_primary ?? '#E60067' }}',
-                    background: '#0f172a',
-                    color: '#f8fafc',
+                    confirmButtonColor: '{{ config('current_shop')->color_primary ?? '#6366f1' }}',
+                    background: '#1e293b',
+                    color: '#ffffff',
+                    customClass: {
+                        popup: 'admin-dark-mode-swal',
+                        title: 'admin-dark-mode-swal__title',
+                        htmlContainer: 'admin-dark-mode-swal__text',
+                        icon: 'admin-dark-mode-swal__icon',
+                        confirmButton: 'admin-dark-mode-swal__btn',
+                    },
                 });
             },
             onSidebarNavClick(event) {
