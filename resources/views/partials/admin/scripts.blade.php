@@ -53,15 +53,15 @@
             closeSidebar() {
                 this.sidebarOpen = false;
             },
-            showDarkModeComingSoon() {
+            showFeatureComingSoon(title, text) {
                 if (typeof Swal === 'undefined') {
-                    window.alert('El modo oscuro está en desarrollo y estará disponible muy pronto.');
+                    window.alert(text);
                     return;
                 }
 
                 Swal.fire({
-                    title: 'Modo oscuro 🌙',
-                    text: 'Esta función está en desarrollo. Muy pronto podrás alternar el tema del panel.',
+                    title,
+                    text,
                     icon: 'info',
                     iconColor: '#7dd3fc',
                     confirmButtonText: 'Entendido',
@@ -76,6 +76,18 @@
                         confirmButton: 'admin-dark-mode-swal__btn',
                     },
                 });
+            },
+            showDarkModeComingSoon() {
+                this.showFeatureComingSoon(
+                    'Modo oscuro 🌙',
+                    'Esta función está en desarrollo. Muy pronto podrás alternar el tema del panel.',
+                );
+            },
+            showTutorialsComingSoon() {
+                this.showFeatureComingSoon(
+                    'Tutoriales del sistema 🎓',
+                    'Esta sección está en desarrollo. Muy pronto tendrás video guías y preguntas frecuentes aquí.',
+                );
             },
             onSidebarNavClick(event) {
                 if (window.innerWidth >= 768) return;

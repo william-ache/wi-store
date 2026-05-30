@@ -94,6 +94,7 @@ final class DashboardQuickLinks
             'path' => '/admin/tutorials',
             'icon' => '🎓',
             'icon_bg' => 'bg-cyan-500/15',
+            'coming_soon' => true,
         ],
     ];
 
@@ -196,6 +197,10 @@ final class DashboardQuickLinks
         $item = self::CATALOG[$key] ?? null;
 
         if (! $item) {
+            return false;
+        }
+
+        if (($item['coming_soon'] ?? false)) {
             return false;
         }
 

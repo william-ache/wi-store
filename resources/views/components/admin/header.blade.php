@@ -214,13 +214,13 @@
                 </svg>
             </button>
 
-            <a href="/{{ config('current_shop')->slug }}/admin/tutorials"
-               class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer hidden md:block"
-               title="Tutoriales del sistema">
+            <button type="button" @click="showTutorialsComingSoon()"
+                    class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer hidden md:block"
+                    title="Tutoriales del sistema">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
                 </svg>
-            </a>
+            </button>
 
             <div class="relative z-50 hidden md:block">
                 <button type="button" @click="notifOpen = !notifOpen; if(notifOpen) { $nextTick(() => { $dispatch('notif-dropdown-opened'); }); }" @click.away="notifOpen = false" class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer">
@@ -299,9 +299,9 @@
                             <button type="button" @click="closeProfileMenu(); $dispatch('open-qr-modal')" class="accent-icon-btn p-2.5 rounded-full" title="Compartir catálogo">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/></svg>
                             </button>
-                            <a href="/{{ config('current_shop')->slug }}/admin/tutorials" @click="closeProfileMenu()" class="accent-icon-btn p-2.5 rounded-full" title="Tutoriales">
+                            <button type="button" @click="closeProfileMenu(); showTutorialsComingSoon()" class="accent-icon-btn p-2.5 rounded-full" title="Tutoriales">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
-                            </a>
+                            </button>
                             <button type="button" @click="notifOpen = !notifOpen" class="accent-icon-btn p-2.5 rounded-full relative" title="Notificaciones">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                                 <span x-cloak x-show="unreadCount > 0" class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-rose-500 rounded-full border-2 border-primary text-[7px] font-black text-white flex items-center justify-center" x-text="unreadCount > 9 ? '9+' : unreadCount"></span>

@@ -295,7 +295,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Display the system tutorials page.
+     * Tutoriales del sistema — próximamente (vista conservada en admin.tutorials).
      */
     public function tutorials()
     {
@@ -304,6 +304,6 @@ class DashboardController extends Controller
             abort(404, 'Tienda no encontrada.');
         }
 
-        return view('admin.tutorials', compact('shop'));
+        return redirect()->route('admin.dashboard', ['shop_slug' => $shop->slug]);
     }
 }

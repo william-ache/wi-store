@@ -3,6 +3,12 @@
 @section('title', 'Tutoriales del Sistema')
 
 @section('content')
+{{--
+    Vista conservada para cuando Tutoriales esté disponible.
+    Para activarla: en DashboardController::tutorials() devolver view('admin.tutorials')
+    y quitar el @if(false) de abajo.
+--}}
+@if(false)
 <div class="space-y-8 max-w-5xl mx-auto">
     <!-- CABECERA DE LA PÁGINA -->
     <div>
@@ -168,4 +174,5 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
