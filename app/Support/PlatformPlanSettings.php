@@ -11,14 +11,49 @@ final class PlatformPlanSettings
 
     private const SETTING_KEY = 'plans';
 
+    public static function normalizePlanKey(string $plan): string
+    {
+        $plan = strtolower(trim($plan));
+
+        return match ($plan) {
+            'premium', 'negocio', 'business' => 'premium',
+            'free_trial', 'trial' => 'free_trial',
+            'standard', 'emprendedor', 'basic' => 'standard',
+            default => 'standard',
+        };
+    }
+
+    /** @return list<string> */
+    public static function allowedModules(string $planKey): array
+    {
+        $key = self::normalizePlanKey($planKey);
+
+        if ($key === 'free_trial') {
+            $trial = self::all()['free_trial']['allowed_modules'] ?? null;
+
+            return AdminModules::sanitize(is_array($trial) ? $trial : null);
+        }
+
+        $plan = self::plan($key);
+        $modules = $plan['allowed_modules'] ?? null;
+
+        return AdminModules::sanitize(is_array($modules) ? $modules : AdminModules::defaultAllowedForPlan($key));
+    }
+
     /** @return array<string, mixed> */
     public static function defaults(): array
     {
+        $allModules = AdminModules::keys();
+
         return [
             'trial_days' => (int) config('wi-store.trial_days', 14),
+            'free_trial' => [
+                'allowed_modules' => $allModules,
+            ],
             'plans' => [
                 'standard' => [
                     'key' => 'standard',
+                    'allowed_modules' => AdminModules::defaultAllowedForPlan('standard'),
                     'marketing_name' => 'Emprendedor',
                     'purpose' => 'Para PYMES que inician su gestión digital: pedidos, inventario y operación en un solo panel.',
                     'monthly' => 8.99,
@@ -38,6 +73,7 @@ final class PlatformPlanSettings
                 ],
                 'premium' => [
                     'key' => 'premium',
+                    'allowed_modules' => $allModules,
                     'marketing_name' => 'Negocio',
                     'purpose' => 'Para negocios que escalan: panel administrativo completo, más capacidad y control operativo.',
                     'monthly' => 14.99,
@@ -187,6 +223,11 @@ final class PlatformPlanSettings
                 $highlights = $base['highlights'];
             }
 
+            $allowedRaw = $source['allowed_modules'] ?? $base['allowed_modules'] ?? [];
+            $allowed = is_array($allowedRaw)
+                ? AdminModules::sanitize(array_values($allowedRaw))
+                : AdminModules::defaultAllowedForPlan($key);
+
             $plans[$key] = [
                 'key' => $key,
                 'marketing_name' => trim((string) ($source['marketing_name'] ?? $base['marketing_name'])),
@@ -200,11 +241,17 @@ final class PlatformPlanSettings
                     ? null
                     : max(0, (int) ($source['max_categories'] ?? $base['max_categories'])),
                 'highlights' => $highlights,
+                'allowed_modules' => $allowed,
             ];
         }
 
+        $trialModules = $input['free_trial']['allowed_modules'] ?? $defaults['free_trial']['allowed_modules'] ?? AdminModules::keys();
+
         return [
             'trial_days' => $trialDays,
+            'free_trial' => [
+                'allowed_modules' => AdminModules::sanitize(is_array($trialModules) ? array_values($trialModules) : null),
+            ],
             'plans' => $plans,
         ];
     }
@@ -215,12 +262,22 @@ final class PlatformPlanSettings
         $merged = $defaults;
         $merged['trial_days'] = (int) ($stored['trial_days'] ?? $defaults['trial_days']);
 
+        if (isset($stored['free_trial']) && is_array($stored['free_trial'])) {
+            $merged['free_trial'] = array_replace_recursive($defaults['free_trial'], $stored['free_trial']);
+            $merged['free_trial']['allowed_modules'] = AdminModules::sanitize(
+                $merged['free_trial']['allowed_modules'] ?? $defaults['free_trial']['allowed_modules'],
+            );
+        }
+
         foreach (['standard', 'premium'] as $key) {
             if (!isset($stored['plans'][$key]) || !is_array($stored['plans'][$key])) {
                 continue;
             }
 
             $merged['plans'][$key] = array_replace_recursive($defaults['plans'][$key], $stored['plans'][$key]);
+            $merged['plans'][$key]['allowed_modules'] = AdminModules::sanitize(
+                $merged['plans'][$key]['allowed_modules'] ?? $defaults['plans'][$key]['allowed_modules'],
+            );
         }
 
         return $merged;

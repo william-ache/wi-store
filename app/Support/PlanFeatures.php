@@ -14,13 +14,8 @@ final class PlanFeatures
 
     public const BRAND_BACKGROUND = '#0b0f19';
 
-    /** Módulos del panel solo disponibles en Plan Negocio (y prueba premium). */
-    public const BUSINESS_ONLY_MODULES = [
-        'orders',
-        'clients',
-        'invoices',
-        'delivery',
-    ];
+    /** @deprecated Use AdminModules::BUSINESS_KEYS */
+    public const BUSINESS_ONLY_MODULES = AdminModules::BUSINESS_KEYS;
 
     public static function resolvePlan(?Shop $shop): string
     {
@@ -28,31 +23,47 @@ final class PlanFeatures
             return self::EMPRENDEDOR_PLAN;
         }
 
-        $plan = strtolower(trim((string) ($shop->plan ?? '')));
-
-        return match ($plan) {
-            'premium', 'negocio', 'business' => 'premium',
-            'free_trial', 'trial' => 'free_trial',
-            'standard', 'emprendedor', 'basic' => self::EMPRENDEDOR_PLAN,
-            default => self::EMPRENDEDOR_PLAN,
-        };
+        return PlatformPlanSettings::normalizePlanKey((string) ($shop->plan ?? ''));
     }
 
-    /**
-     * Ventas, contactos, finanzas y sus submenús (plan Negocio / prueba).
-     */
-    public static function hasBusinessPanel(?Shop $shop = null): bool
+    /** Módulos que el plan de la tienda permite (configurable en super admin). */
+    public static function allowedModulesForShop(?Shop $shop = null): array
     {
         $shop = $shop ?? config('current_shop');
 
         if (!$shop) {
-            return true;
+            return AdminModules::keys();
         }
 
-        return self::resolvePlan($shop) !== self::EMPRENDEDOR_PLAN;
+        return PlatformPlanSettings::allowedModules(self::resolvePlan($shop));
     }
 
-    /** Colores de marca personalizables (Plan Negocio y prueba). */
+    /** Módulos activos en el panel = selección de la tienda ∩ permitidos por el plan. */
+    public static function effectiveModulesForShop(?Shop $shop = null): array
+    {
+        $shop = $shop ?? config('current_shop');
+        $allowed = self::allowedModulesForShop($shop);
+        $selected = AdminModules::sanitize($shop?->enabled_modules);
+
+        return array_values(array_intersect($selected, $allowed));
+    }
+
+    public static function shopHasModule(?Shop $shop, string $module): bool
+    {
+        return in_array($module, self::effectiveModulesForShop($shop), true);
+    }
+
+    /**
+     * Ventas, contactos y finanzas: si el plan permite algún módulo de negocio.
+     */
+    public static function hasBusinessPanel(?Shop $shop = null): bool
+    {
+        $allowed = self::allowedModulesForShop($shop);
+
+        return count(array_intersect($allowed, AdminModules::BUSINESS_KEYS)) > 0;
+    }
+
+    /** Colores de marca personalizables (plan Negocio y prueba por defecto). */
     public static function canCustomizeBrandColors(?Shop $shop = null): bool
     {
         return self::hasBusinessPanel($shop);
@@ -77,16 +88,17 @@ final class PlanFeatures
         };
     }
 
-    /** Ajusta módulos y paleta cuando la tienda pasa a plan Emprendedor. */
+    /** Recorta módulos y paleta al cambiar de plan. */
     public static function syncShopModulesForPlan(Shop $shop): void
     {
         $shop->refresh();
 
-        if (self::hasBusinessPanel($shop)) {
-            return;
+        $filtered = self::filterEnabledModules($shop->enabled_modules, $shop);
+
+        if ($filtered === []) {
+            $filtered = self::allowedModulesForShop($shop);
         }
 
-        $filtered = self::filterEnabledModules($shop->enabled_modules, $shop);
         $updates = [];
 
         if ($filtered !== ($shop->enabled_modules ?? [])) {
@@ -111,57 +123,67 @@ final class PlanFeatures
     public static function filterEnabledModules(?array $modules, ?Shop $shop = null): array
     {
         $shop = $shop ?? config('current_shop');
-        $defaults = [
-            'categories',
-            'products',
-            'orders',
-            'clients',
-            'invoices',
-            'delivery',
-            'analytics',
-            'announcements',
-            'referrals',
-        ];
+        $allowed = self::allowedModulesForShop($shop);
+        $modules = AdminModules::sanitize($modules ?? $shop?->enabled_modules);
 
-        $modules = array_values($modules ?? $shop?->enabled_modules ?? $defaults);
+        return array_values(array_intersect($modules, $allowed));
+    }
 
-        if (self::hasBusinessPanel($shop)) {
-            return $modules;
+    public static function routeRequiredModule(?string $routeName): ?string
+    {
+        if (!$routeName) {
+            return null;
         }
 
-        return array_values(array_diff($modules, self::BUSINESS_ONLY_MODULES));
+        $map = [
+            'admin.orders.' => 'orders',
+            'admin.clients.' => 'clients',
+            'admin.bookings.' => 'clients',
+            'admin.abandoned-carts.' => 'orders',
+        ];
+
+        foreach ($map as $prefix => $module) {
+            if (str_starts_with($routeName, $prefix)) {
+                return $module;
+            }
+        }
+
+        if (str_starts_with($routeName, 'admin.excel.')) {
+            $entity = request()->route('entity');
+
+            return match ($entity) {
+                'orders', 'abandoned-carts' => 'orders',
+                'clients', 'bookings' => 'clients',
+                default => null,
+            };
+        }
+
+        if (str_starts_with($routeName, 'admin.analytics')) {
+            return 'analytics';
+        }
+
+        if (str_starts_with($routeName, 'admin.announcements') || str_starts_with($routeName, 'admin.coupons')) {
+            return 'announcements';
+        }
+
+        return null;
     }
 
     public static function routeRequiresBusinessPanel(?string $routeName): bool
     {
-        if (!$routeName) {
+        $module = self::routeRequiredModule($routeName);
+
+        return $module !== null && in_array($module, AdminModules::BUSINESS_KEYS, true);
+    }
+
+    public static function routeBlockedForShop(?Shop $shop, ?string $routeName): bool
+    {
+        $module = self::routeRequiredModule($routeName);
+
+        if ($module === null) {
             return false;
         }
 
-        $prefixes = [
-            'admin.orders.',
-            'admin.clients.',
-            'admin.bookings.',
-            'admin.abandoned-carts.',
-            'admin.excel.export',
-            'admin.excel.template',
-            'admin.excel.import',
-        ];
-
-        foreach ($prefixes as $prefix) {
-            if (!str_starts_with($routeName, $prefix)) {
-                continue;
-            }
-
-            if (str_starts_with($routeName, 'admin.excel.')) {
-                $entity = request()->route('entity');
-
-                return in_array($entity, ['orders', 'clients', 'bookings', 'abandoned-carts'], true);
-            }
-
-            return true;
-        }
-
-        return false;
+        return ! self::shopHasModule($shop, $module);
     }
 }

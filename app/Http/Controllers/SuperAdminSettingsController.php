@@ -36,9 +36,15 @@ class SuperAdminSettingsController extends Controller
             'plans.premium.max_categories' => 'nullable|integer|min:0',
             'plans.premium.purpose' => 'nullable|string|max:500',
             'plans.premium.highlights_text' => 'nullable|string',
+            'free_trial.allowed_modules' => 'nullable|array',
+            'free_trial.allowed_modules.*' => \App\Support\AdminModules::validationRule(),
+            'plans.standard.allowed_modules' => 'nullable|array',
+            'plans.standard.allowed_modules.*' => \App\Support\AdminModules::validationRule(),
+            'plans.premium.allowed_modules' => 'nullable|array',
+            'plans.premium.allowed_modules.*' => \App\Support\AdminModules::validationRule(),
         ]);
 
-        PlatformPlanSettings::save($request->only(['trial_days', 'plans']));
+        PlatformPlanSettings::save($request->only(['trial_days', 'free_trial', 'plans']));
 
         return redirect()
             ->route('super-admin.settings.plans')

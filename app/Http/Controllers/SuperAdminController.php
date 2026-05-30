@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use App\Models\User;
+use App\Support\AdminModules;
 use App\Support\PlanFeatures;
 use App\Support\PlanPricing;
+use App\Support\PlatformPlanSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +29,11 @@ class SuperAdminController extends Controller
             'shops' => $shops,
             'pendingShops' => $pendingShops,
             'activeModule' => 'empresas',
+            'planModulesMap' => [
+                'free_trial' => PlatformPlanSettings::allowedModules('free_trial'),
+                'standard' => PlatformPlanSettings::allowedModules('standard'),
+                'premium' => PlatformPlanSettings::allowedModules('premium'),
+            ],
         ]);
     }
 
@@ -53,6 +60,8 @@ class SuperAdminController extends Controller
             'plan_expires_at' => 'nullable|date',
             'last_payment_date' => 'nullable|date',
             'last_payment_amount' => 'nullable|numeric|min:0',
+            'enabled_modules' => 'nullable|array',
+            'enabled_modules.*' => AdminModules::validationRule(),
         ]);
 
         // Generar slug unico
@@ -128,6 +137,12 @@ class SuperAdminController extends Controller
             'is_active' => true,
         ]);
 
+        $shop->update([
+            'enabled_modules' => PlanFeatures::filterEnabledModules($request->input('enabled_modules'), $shop),
+        ]);
+
+        PlanFeatures::syncShopModulesForPlan($shop);
+
         // Crear el Usuario administrador de esa tienda
         User::create([
             'shop_id' => $shop->id,
@@ -166,6 +181,8 @@ class SuperAdminController extends Controller
             'plan_expires_at' => 'nullable|date',
             'last_payment_date' => 'nullable|date',
             'last_payment_amount' => 'nullable|numeric|min:0',
+            'enabled_modules' => 'nullable|array',
+            'enabled_modules.*' => AdminModules::validationRule(),
         ]);
 
         // Generar slug unico si el nombre cambió
@@ -211,6 +228,9 @@ class SuperAdminController extends Controller
             $coverPath = $request->cover_url;
         }
 
+        $shop->plan = $request->plan;
+        $shop->billing_cycle = $request->plan === 'free_trial' ? 'mensual' : $request->billing_cycle;
+
         // Actualizar Shop
         $shop->update([
             'name' => $request->name,
@@ -226,10 +246,11 @@ class SuperAdminController extends Controller
             'logo_path' => $logoPath,
             'cover_path' => $coverPath,
             'plan' => $request->plan,
-            'billing_cycle' => $request->plan === 'free_trial' ? 'mensual' : $request->billing_cycle,
+            'billing_cycle' => $shop->billing_cycle,
             'plan_expires_at' => $request->plan_expires_at,
             'last_payment_date' => $request->last_payment_date,
             'last_payment_amount' => $request->last_payment_amount,
+            'enabled_modules' => PlanFeatures::filterEnabledModules($request->input('enabled_modules'), $shop),
         ]);
 
         // Actualizar User
@@ -245,6 +266,7 @@ class SuperAdminController extends Controller
 
         $user->update($userData);
 
+        $shop->refresh();
         PlanFeatures::syncShopModulesForPlan($shop);
 
         return redirect()->back()->with('success', '¡Tienda "' . $shop->name . '" y su administrador actualizados con éxito!');

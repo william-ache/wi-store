@@ -45,7 +45,7 @@
             <div class="sa-field-wrap">
                 <i class="fas fa-crown sa-field-wrap__icon" aria-hidden="true"></i>
                 <select name="plan" required
-                    @if ($isEdit) x-model="editingShop.plan" @else x-model="createPlan" @endif
+                    @if ($isEdit) x-model="editingShop.plan" @change="syncShopModulesToPlan(editingShop)" @else x-model="createPlan" @change="trimCreateModulesToPlan()" @endif
                     class="sa-modal-field sa-modal-field--icon sa-modal-field--select">
                     <option value="free_trial">Prueba gratis ({{ $wiStoreTrialDays }} días)</option>
                     <option value="standard">Plan Emprendedor</option>
@@ -114,6 +114,8 @@
                 @if ($isEdit) x-model="editingShop.address" @endif
                 class="sa-modal-field sa-modal-field--textarea">{{ $isEdit ? '' : old('address') }}</textarea>
         </div>
+
+        @include('partials.super-admin.company-modules-field', ['mode' => $mode])
     </div>
 
     {{-- Columna: administración y estilos --}}

@@ -73,12 +73,11 @@
         ['key' => 'announcements', 'icon' => 'fa-bullhorn', 'emoji' => '📢', 'title' => 'Marketing', 'desc' => 'Banners y promociones en tu menú digital.', 'wide' => true],
     ];
 
-    if ($shopPlan === 'standard') {
-        $modules = array_values(array_filter(
-            $modules,
-            fn (array $module): bool => !in_array($module['key'], \App\Support\PlanFeatures::BUSINESS_ONLY_MODULES, true)
-        ));
-    }
+    $allowedKeys = \App\Support\PlatformPlanSettings::allowedModules($shop->plan ?? $shopPlan);
+    $modules = array_values(array_filter(
+        $modules,
+        fn (array $module): bool => in_array($module['key'], $allowedKeys, true)
+    ));
 
     $defaultSelectedModules = array_column($modules, 'key');
 @endphp

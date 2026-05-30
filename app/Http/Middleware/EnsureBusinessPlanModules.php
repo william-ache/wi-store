@@ -13,18 +13,20 @@ class EnsureBusinessPlanModules
     {
         $shop = config('current_shop');
 
-        if (!$shop || PlanFeatures::hasBusinessPanel($shop)) {
+        if (!$shop) {
             return $next($request);
         }
 
         $routeName = $request->route()?->getName();
 
-        if (!PlanFeatures::routeRequiresBusinessPanel($routeName)) {
+        if (! PlanFeatures::routeBlockedForShop($shop, $routeName)) {
             return $next($request);
         }
 
+        $module = PlanFeatures::routeRequiredModule($routeName);
+
         return redirect()
             ->route('admin.dashboard', ['shop_slug' => $shop->slug])
-            ->with('plan_module_blocked', 'Este módulo está incluido en el Plan Negocio. Actualiza tu suscripción para acceder.');
+            ->with('plan_module_blocked', 'El módulo «' . ($module ?? 'solicitado') . '» no está disponible en tu plan o fue desactivado por el administrador.');
     }
 }

@@ -8,61 +8,7 @@
 @endsection
 
 @section('content')
-<div class="w-full" x-data="{
-    showCreateModal: false,
-    showEditModal: false,
-    showPassword: false,
-    createPlan: 'standard',
-    createBillingCycle: 'mensual',
-    editingShop: {
-        id: null,
-        name: '',
-        slug: '',
-        shop_category: 'otros',
-        whatsapp_number: '',
-        email: '',
-        password: '',
-        temp_password: '',
-        plan: 'standard',
-        billing_cycle: 'mensual',
-        plan_expires_at: '',
-        last_payment_date: '',
-        last_payment_amount: '',
-        color_primary: '#E60067',
-        color_secondary: '#0B132B',
-        color_background: '#FFF0F8',
-        logo_path: '',
-        cover_path: '',
-        description: '',
-        address: ''
-    },
-    openEdit(shop) {
-        this.editingShop = {
-            id: shop.id,
-            name: shop.name || '',
-            slug: shop.slug || '',
-            whatsapp_number: shop.whatsapp_number || '',
-            email: shop.users && shop.users.length ? shop.users[0].email : '',
-            password: '',
-            temp_password: shop.users && shop.users.length ? (shop.users[0].temp_password || '') : '',
-            plan: shop.plan || 'standard',
-            billing_cycle: shop.billing_cycle || 'mensual',
-            plan_expires_at: shop.plan_expires_at || '',
-            last_payment_date: shop.last_payment_date || '',
-            last_payment_amount: shop.last_payment_amount != null && shop.last_payment_amount !== '' ? String(shop.last_payment_amount) : '',
-            color_primary: shop.color_primary || '#E60067',
-            color_secondary: shop.color_secondary || '#0B132B',
-            color_background: shop.color_background || '#FFF0F8',
-            shop_category: shop.shop_category || 'otros',
-            logo_path: shop.logo_path || '',
-            cover_path: shop.cover_path || '',
-            description: shop.description || '',
-            address: shop.address || ''
-        };
-        this.showEditModal = true;
-        this.showPassword = false;
-    }
-}">
+<div class="w-full" x-data="saCompaniesPanel()">
 <!-- MAIN LAYOUT GRID (ANCHO COMPLETO) -->
         <div class="w-full">
 
@@ -348,7 +294,100 @@
 @endsection
 
 @push('scripts')
-<!-- Scripts -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('saCompaniesPanel', () => ({
+                showCreateModal: false,
+                showEditModal: false,
+                showPassword: false,
+                planModulesMap: @json($planModulesMap),
+                createPlan: 'standard',
+                createBillingCycle: 'mensual',
+                editingShop: {
+                    id: null,
+                    name: '',
+                    slug: '',
+                    shop_category: 'otros',
+                    whatsapp_number: '',
+                    email: '',
+                    password: '',
+                    temp_password: '',
+                    plan: 'standard',
+                    billing_cycle: 'mensual',
+                    plan_expires_at: '',
+                    last_payment_date: '',
+                    last_payment_amount: '',
+                    color_primary: '#E60067',
+                    color_secondary: '#0B132B',
+                    color_background: '#FFF0F8',
+                    logo_path: '',
+                    cover_path: '',
+                    description: '',
+                    address: '',
+                    enabled_modules: [],
+                },
+                planAllowsModule(moduleKey, plan) {
+                    const allowed = this.planModulesMap[plan] || [];
+                    return allowed.includes(moduleKey);
+                },
+                shopModuleChecked(moduleKey) {
+                    return (this.editingShop.enabled_modules || []).includes(moduleKey);
+                },
+                toggleShopModule(moduleKey, checked) {
+                    let mods = [...(this.editingShop.enabled_modules || [])];
+                    if (checked && !mods.includes(moduleKey)) {
+                        mods.push(moduleKey);
+                    }
+                    if (!checked) {
+                        mods = mods.filter((m) => m !== moduleKey);
+                    }
+                    this.editingShop.enabled_modules = mods;
+                },
+                syncShopModulesToPlan(shop) {
+                    const allowed = this.planModulesMap[shop.plan] || [];
+                    shop.enabled_modules = (shop.enabled_modules || []).filter((m) => allowed.includes(m));
+                    if (shop.enabled_modules.length === 0) {
+                        shop.enabled_modules = [...allowed];
+                    }
+                },
+                trimCreateModulesToPlan() {
+                    document.querySelectorAll('.sa-company-modules input[type="checkbox"][name="enabled_modules[]"]').forEach((el) => {
+                        if (!this.planAllowsModule(el.value, this.createPlan)) {
+                            el.checked = false;
+                        }
+                    });
+                },
+                openEdit(shop) {
+                    this.editingShop = {
+                        id: shop.id,
+                        name: shop.name || '',
+                        slug: shop.slug || '',
+                        whatsapp_number: shop.whatsapp_number || '',
+                        email: shop.users && shop.users.length ? shop.users[0].email : '',
+                        password: '',
+                        temp_password: shop.users && shop.users.length ? (shop.users[0].temp_password || '') : '',
+                        plan: shop.plan || 'standard',
+                        billing_cycle: shop.billing_cycle || 'mensual',
+                        plan_expires_at: shop.plan_expires_at || '',
+                        last_payment_date: shop.last_payment_date || '',
+                        last_payment_amount: shop.last_payment_amount != null && shop.last_payment_amount !== '' ? String(shop.last_payment_amount) : '',
+                        color_primary: shop.color_primary || '#E60067',
+                        color_secondary: shop.color_secondary || '#0B132B',
+                        color_background: shop.color_background || '#FFF0F8',
+                        shop_category: shop.shop_category || 'otros',
+                        logo_path: shop.logo_path || '',
+                        cover_path: shop.cover_path || '',
+                        description: shop.description || '',
+                        address: shop.address || '',
+                        enabled_modules: Array.isArray(shop.enabled_modules) ? [...shop.enabled_modules] : [],
+                    };
+                    this.syncShopModulesToPlan(this.editingShop);
+                    this.showEditModal = true;
+                    this.showPassword = false;
+                },
+            }));
+        });
+    </script>
     <script>
         $(document).ready(function() {
             const table = $('#shops-table');

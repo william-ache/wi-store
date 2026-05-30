@@ -974,4 +974,57 @@
         border-color: #cbd5e1;
         color: #0f172a;
     }
+
+    .sa-module-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+        gap: 0.5rem;
+    }
+
+    .sa-module-chip {
+        cursor: pointer;
+    }
+
+    .sa-module-chip__input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .sa-module-chip__box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        padding: 0.65rem 0.4rem;
+        border-radius: 0.75rem;
+        border: 1px solid #e2e8f0;
+        background: #fff;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        color: #64748b;
+        text-align: center;
+        line-height: 1.2;
+        transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+
+    .sa-module-chip__box i {
+        font-size: 0.9rem;
+        color: #94a3b8;
+    }
+
+    .sa-module-chip__input:checked + .sa-module-chip__box {
+        border-color: #a855f7;
+        background: #faf5ff;
+        color: #6b21a8;
+    }
+
+    .sa-module-chip__input:checked + .sa-module-chip__box i {
+        color: #7c3aed;
+    }
+
+    .sa-module-chip:hover .sa-module-chip__box {
+        border-color: #c4b5fd;
+    }
 </style>

@@ -136,6 +136,7 @@ class IdentifyTenant
             // Compartir de forma global para las vistas Blade
             View::share('currentShop', $shop);
             View::share('planHasBusinessModules', \App\Support\PlanFeatures::hasBusinessPanel($shop));
+            View::share('shopEffectiveModules', \App\Support\PlanFeatures::effectiveModulesForShop($shop));
 
             $facebook = $shop->facebook;
             $instagram = $shop->instagram;

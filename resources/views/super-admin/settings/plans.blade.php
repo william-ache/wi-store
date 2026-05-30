@@ -23,11 +23,20 @@
 
         <section class="sa-panel p-5 md:p-6">
             <h2 class="text-sm font-black uppercase tracking-wider text-slate-500 mb-4">Prueba gratuita</h2>
-            <div class="max-w-xs">
+            <div class="max-w-xs mb-6">
                 <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Días de prueba</label>
                 <input type="number" name="trial_days" min="1" max="90" required
                        value="{{ old('trial_days', $settings['trial_days'] ?? 14) }}"
                        class="sa-field w-full px-3 py-2.5 text-sm mt-1">
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-slate-800 mb-1">Módulos disponibles en prueba</h3>
+                <p class="text-xs text-slate-500 mb-3">Define qué secciones del panel puede usar una tienda en periodo de prueba.</p>
+                @include('partials.super-admin.module-checkboxes', [
+                    'name' => 'allowed_modules',
+                    'inputPrefix' => 'free_trial.',
+                    'selected' => old('free_trial.allowed_modules', $settings['free_trial']['allowed_modules'] ?? []),
+                ])
             </div>
         </section>
 
@@ -85,6 +94,16 @@
                     <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Beneficios (uno por línea)</label>
                     <textarea name="plans[{{ $key }}][highlights_text]" rows="6"
                               class="sa-field w-full px-3 py-2.5 text-sm mt-1 font-mono text-xs leading-relaxed">{{ old("plans.{$key}.highlights_text", $highlightsText($plan)) }}</textarea>
+                </div>
+
+                <div class="mt-6 pt-5 border-t border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-800 mb-1">Módulos del panel (plan {{ $label }})</h3>
+                    <p class="text-xs text-slate-500 mb-3">Máximo que podrán activar las tiendas con este plan. El super admin puede restringir más por empresa.</p>
+                    @include('partials.super-admin.module-checkboxes', [
+                        'name' => 'allowed_modules',
+                        'inputPrefix' => "plans[{$key}].",
+                        'selected' => old("plans.{$key}.allowed_modules", $plan['allowed_modules'] ?? []),
+                    ])
                 </div>
             </section>
         @endforeach

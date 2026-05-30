@@ -62,6 +62,7 @@
                             'cover_path' => $shop->cover_path,
                             'description' => $shop->description,
                             'address' => $shop->address,
+                            'enabled_modules' => $shop->enabled_modules ?? [],
                             'users' => $shop->users->map(fn ($u) => ['email' => $u->email, 'temp_password' => $u->temp_password]),
                         ]);
                     @endphp
