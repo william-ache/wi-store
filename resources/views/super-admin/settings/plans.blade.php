@@ -23,11 +23,27 @@
 
         <section class="sa-panel p-5 md:p-6">
             <h2 class="text-sm font-black uppercase tracking-wider text-slate-500 mb-4">Prueba gratuita</h2>
-            <div class="max-w-xs mb-6">
-                <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Días de prueba</label>
-                <input type="number" name="trial_days" min="1" max="90" required
-                       value="{{ old('trial_days', $settings['trial_days'] ?? 14) }}"
-                       class="sa-field w-full px-3 py-2.5 text-sm mt-1">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Días de prueba</label>
+                    <input type="number" name="trial_days" min="1" max="90" required
+                           value="{{ old('trial_days', $settings['trial_days'] ?? 14) }}"
+                           class="sa-field w-full px-3 py-2.5 text-sm mt-1">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Máx. productos en prueba</label>
+                    <input type="number" min="0" name="free_trial[max_products]"
+                           value="{{ old('free_trial.max_products', $settings['free_trial']['max_products'] ?? '') }}"
+                           class="sa-field w-full px-3 py-2.5 text-sm mt-1"
+                           placeholder="Vacío = igual que Negocio">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Máx. categorías en prueba</label>
+                    <input type="number" min="0" name="free_trial[max_categories]"
+                           value="{{ old('free_trial.max_categories', $settings['free_trial']['max_categories'] ?? '') }}"
+                           class="sa-field w-full px-3 py-2.5 text-sm mt-1"
+                           placeholder="Vacío = igual que Negocio">
+                </div>
             </div>
             <div>
                 <h3 class="text-sm font-bold text-slate-800 mb-1">Módulos disponibles en prueba</h3>

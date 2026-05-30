@@ -661,8 +661,8 @@
                                     <p class="text-[10px] text-slate-600 leading-snug">
                                         <span class="font-black text-amber-800 uppercase text-[9px] block mb-0.5">Aviso</span>
                                         Tras {{ $wiStoreTrialDays }} días la cuenta se
-                                        <span class="text-amber-700 font-bold">suspende</span> sin Plan Negocio
-                                        ({{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes).
+                                        <span class="text-amber-700 font-bold">suspende</span> sin {{ $wiStorePostTrialPlanName }}
+                                        ({{ $wiStorePostTrialMonthly }}/mes).
                                     </p>
                                 </div>
                             </div>
@@ -670,7 +670,7 @@
                             <div>
                                 <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Incluye:</p>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                                    @foreach ([['fa-box', '50 productos'], ['fa-tags', '10 categorías'], ['fa-whatsapp', 'Pedidos WA', 'fab'], ['fa-palette', 'Tu branding'], ['fa-chart-line', 'Panel pedidos'], ['fa-percent', '0% comisión']] as $feat)
+                                    @foreach (\App\Support\PlanCatalog::trialRegisterFeatures() as $feat)
                                         <div class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5">
                                             <i class="{{ ($feat[2] ?? 'fas') }} {{ $feat[0] }} text-purple-600 text-[9px] shrink-0" aria-hidden="true"></i>
                                             <span class="text-[9px] font-bold text-slate-800 leading-tight">{{ $feat[1] }}</span>

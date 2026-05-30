@@ -102,7 +102,7 @@
               cycle: '{{ $shop->pending_billing_cycle ?: 'mensual' }}',
               exchangeRate: {{ $rate }},
               receiptPreview: null,
-              pricing: @json(\App\Support\PlanPricing::PLANS),
+              pricing: @json(\App\Support\PlanCatalog::pricing()),
               
               get planPrice() {
                   const p = this.pricing[this.plan];
@@ -115,7 +115,8 @@
               },
               
               get planName() {
-                  return this.plan === 'premium' ? 'Negocio 👑' : 'Emprendedor ⚡';
+                  const p = this.pricing[this.plan];
+                  return p ? (p.name + (this.plan === 'premium' ? ' 👑' : ' ⚡')) : this.plan;
               },
 
               get billingCycleName() {
@@ -192,12 +193,12 @@
                                                 ? 'bg-sky-500/5 border-sky-500/50 shadow-[0_0_20px_rgba(14,165,233,0.15)]' 
                                                 : 'bg-slate-900/30 border-white/5 hover:border-white/10'">
                                         <div class="flex items-center justify-between mb-2">
-                                            <span class="text-xs font-black text-white">Plan Emprendedor</span>
+                                            <span class="text-xs font-black text-white">{{ $wiStorePlanLimitsStandard['name'] ?? 'Emprendedor' }}</span>
                                             <i class="fas fa-check-circle text-sky-400" x-show="plan === 'standard'"></i>
                                         </div>
                                         <p class="text-[10px] text-slate-400 leading-tight">Ideal para comenzar tu negocio.</p>
                                         <div class="mt-4 text-sm font-black text-white">
-                                            ${{ number_format(\App\Support\PlanPricing::PLANS['standard']['monthly'], 2) }} <span class="text-[9px] font-normal text-slate-450">/ mes</span>
+                                            {{ \App\Support\PlanPricing::formatUsd((float) ($wiStorePlanPricing['standard']['monthly'] ?? 0)) }} <span class="text-[9px] font-normal text-slate-450">/ mes</span>
                                         </div>
                                     </button>
 
@@ -211,12 +212,12 @@
                                             Ideal 👑
                                         </div>
                                         <div class="flex items-center justify-between mb-2">
-                                            <span class="text-xs font-black text-white">Plan Negocio</span>
+                                            <span class="text-xs font-black text-white">{{ $wiStorePlanLimitsPremium['name'] ?? 'Negocio' }}</span>
                                             <i class="fas fa-check-circle text-purple-400" x-show="plan === 'premium'"></i>
                                         </div>
                                         <p class="text-[10px] text-slate-400 leading-tight">Máximo alcance y beneficios premium.</p>
                                         <div class="mt-4 text-sm font-black text-white">
-                                            ${{ number_format(\App\Support\PlanPricing::PLANS['premium']['monthly'], 2) }} <span class="text-[9px] font-normal text-slate-450">/ mes</span>
+                                            {{ \App\Support\PlanPricing::formatUsd((float) ($wiStorePlanPricing['premium']['monthly'] ?? 0)) }} <span class="text-[9px] font-normal text-slate-450">/ mes</span>
                                         </div>
                                     </button>
                                 </div>

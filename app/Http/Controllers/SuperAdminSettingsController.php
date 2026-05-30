@@ -38,6 +38,8 @@ class SuperAdminSettingsController extends Controller
             'plans.premium.highlights_text' => 'nullable|string',
             'free_trial.allowed_modules' => 'nullable|array',
             'free_trial.allowed_modules.*' => \App\Support\AdminModules::validationRule(),
+            'free_trial.max_products' => 'nullable|integer|min:0',
+            'free_trial.max_categories' => 'nullable|integer|min:0',
             'plans.standard.allowed_modules' => 'nullable|array',
             'plans.standard.allowed_modules.*' => \App\Support\AdminModules::validationRule(),
             'plans.premium.allowed_modules' => 'nullable|array',

@@ -1,9 +1,12 @@
 @php
+    use App\Support\PlanCatalog;
     use App\Support\PlanPricing;
-    $emprendedorMonthly = PlanPricing::PLANS['standard']['monthly'];
-    $emprendedorAnnualEquiv = PlanPricing::PLANS['standard']['annual_monthly_equivalent'];
-    $negocioMonthly = PlanPricing::PLANS['premium']['monthly'];
-    $negocioAnnualEquiv = PlanPricing::PLANS['premium']['annual_monthly_equivalent'];
+    $emprendedor = PlanCatalog::pricingFor('standard') ?? [];
+    $negocio = PlanCatalog::pricingFor('premium') ?? [];
+    $emprendedorMonthly = $emprendedor['monthly'] ?? 0;
+    $emprendedorAnnualEquiv = $emprendedor['annual_monthly_equivalent'] ?? $emprendedorMonthly;
+    $negocioMonthly = $negocio['monthly'] ?? 0;
+    $negocioAnnualEquiv = $negocio['annual_monthly_equivalent'] ?? $negocioMonthly;
 @endphp
 
 <div

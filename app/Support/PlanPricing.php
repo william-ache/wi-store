@@ -40,9 +40,14 @@ final class PlanPricing
             return null;
         }
 
+        $key = PlatformPlanSettings::normalizePlanKey($plan);
+        if ($key === 'free_trial') {
+            return null;
+        }
+
         $plans = self::plans();
 
-        return $plans[$plan] ?? null;
+        return $plans[$key] ?? self::PLANS[$key] ?? null;
     }
 
     public static function displayName(?string $plan): string

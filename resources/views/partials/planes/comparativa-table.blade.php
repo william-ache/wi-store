@@ -5,8 +5,8 @@
     $showDetailButton = $showDetailButton ?? false;
     $light = $light ?? false;
     $rows = $preview ? PlanDetails::comparisonRowsPreview() : PlanDetails::comparisonRows();
-    $standard = PlanPricing::PLANS['standard'];
-    $premium = PlanPricing::PLANS['premium'];
+    $standard = \App\Support\PlanCatalog::pricingFor('standard') ?? PlanPricing::PLANS['standard'];
+    $premium = \App\Support\PlanCatalog::pricingFor('premium') ?? PlanPricing::PLANS['premium'];
     $pricingRows = [
         [
             'feature' => 'Descuento anual',
@@ -35,7 +35,7 @@
 
 <div class="mb-8">
     <h2 class="text-lg md:text-xl font-black {{ $light ? 'text-slate-900' : 'text-white' }} text-center mb-2">Tabla comparativa de características técnicas</h2>
-    <p class="text-[11px] {{ $light ? 'text-slate-600' : 'text-slate-400' }} text-center max-w-lg mx-auto">Plan {{ $standard['name'] }} vs Plan {{ $premium['name'] }}. Precios en USD.</p>
+    <p class="text-[11px] {{ $light ? 'text-slate-600' : 'text-slate-400' }} text-center max-w-lg mx-auto">Plan {{ $wiStorePlanLimitsStandard['name'] ?? $standard['name'] }} vs Plan {{ $wiStorePlanLimitsPremium['name'] ?? $premium['name'] }}. Precios en USD.</p>
 </div>
 
 <div class="max-w-full min-w-0 overflow-x-auto pb-2 scrollbar-none rounded-2xl border {{ $light ? 'border-slate-200 bg-white shadow-lg shadow-slate-200/50' : 'border-white/10 bg-[#0d1127]/80 backdrop-blur-md shadow-xl' }}">

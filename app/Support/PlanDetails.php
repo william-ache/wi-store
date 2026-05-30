@@ -11,20 +11,7 @@ final class PlanDetails
      */
     public static function comparisonRows(): array
     {
-        return [
-            ['feature' => 'Límite de Productos', 'standard' => 'Hasta 15 productos', 'premium' => 'Hasta 35 productos'],
-            ['feature' => 'Límite de Categorías', 'standard' => 'Hasta 3 categorías', 'premium' => 'Hasta 7 categorías'],
-            ['feature' => 'Visualización de Fotos', 'standard' => 'Solo ventana Modal (Show)', 'premium' => 'Menú, Carrito y Modal'],
-            ['feature' => 'Personalización de Diseño', 'standard' => 'No (Paleta Base)', 'premium' => 'Sí (Colores de Marca)'],
-            ['feature' => 'Sedes / Sucursales', 'standard' => '1 Sede', 'premium' => 'Hasta 3 Sedes'],
-            ['feature' => 'Números de Contacto', 'standard' => '1 Número', 'premium' => 'Hasta 3 Números'],
-            ['feature' => 'Métodos de Pago', 'standard' => '1 Método único', 'premium' => 'Múltiples (Inteligentes)'],
-            ['feature' => 'Opciones y Extras', 'standard' => 'No disponible', 'premium' => 'Sí (Variantes y Atributos)'],
-            ['feature' => 'Módulo de Servicios', 'standard' => 'No disponible', 'premium' => 'Disponible'],
-            ['feature' => 'Carrusel de Tiendas', 'standard' => 'No aparece', 'premium' => 'Destacado Regular'],
-            ['feature' => 'Panel Administrativo', 'standard' => 'No disponible', 'premium' => 'Sí (Clientes, Órdenes, Pagos)'],
-            ['feature' => 'Nivel de Soporte', 'standard' => 'Estándar vía WhatsApp', 'premium' => 'Corporativo dedicado 24/7'],
-        ];
+        return PlanCatalog::comparisonRows();
     }
 
     /**
@@ -34,35 +21,27 @@ final class PlanDetails
      */
     public static function comparisonRowsPreview(): array
     {
-        $rows = [];
-
-        foreach (self::comparisonRows() as $row) {
-            if ($row['feature'] === 'Visualización de Fotos') {
-                continue;
-            }
-
-            $rows[] = $row;
-
-            if ($row['feature'] === 'Métodos de Pago') {
-                break;
-            }
-        }
-
-        return $rows;
+        return PlanCatalog::comparisonRowsPreview();
     }
 
     /** @return array<string, mixed> */
     public static function standard(): array
     {
+        $limits = PlatformPlanSettings::limits('standard');
+
         return [
             'slug' => 'standard',
-            'marketing_name' => 'Emprendedor',
+            'marketing_name' => PlatformPlanSettings::plan('standard')['marketing_name'] ?? 'Emprendedor',
             'technical_name' => 'Emprendedor',
-            'purpose' => 'Configuración ideal para pequeños comercios, negocios independientes o emprendimientos que inician su transformación digital con necesidades de catálogo esenciales.',
+            'purpose' => PlatformPlanSettings::purpose('standard') ?: 'Configuración ideal para pequeños comercios, negocios independientes o emprendimientos que inician su transformación digital con necesidades de catálogo esenciales.',
             'sections' => [
                 [
                     'title' => 'Capacidad del Catálogo',
-                    'body' => 'Restricción estricta a un máximo de 15 productos activos y hasta 3 categorías organizativas.',
+                    'body' => sprintf(
+                        'Capacidad de %s y %s según tu plan activo.',
+                        PlanCatalog::formatLimit($limits['max_products'], 'producto', 'productos'),
+                        PlanCatalog::formatLimit($limits['max_categories'], 'categoría', 'categorías'),
+                    ),
                 ],
                 [
                     'title' => 'Ficha de Producto Simplificada',
@@ -92,15 +71,21 @@ final class PlanDetails
     /** @return array<string, mixed> */
     public static function premium(): array
     {
+        $limits = PlatformPlanSettings::limits('premium');
+
         return [
             'slug' => 'premium',
-            'marketing_name' => 'Negocio',
+            'marketing_name' => PlatformPlanSettings::plan('premium')['marketing_name'] ?? 'Negocio',
             'technical_name' => 'Negocio',
-            'purpose' => 'Pensado para negocios en fase de expansión, marcas consolidadas y locales con un flujo continuo de transacciones que requieren autonomía operativa y análisis de métricas.',
+            'purpose' => PlatformPlanSettings::purpose('premium') ?: 'Pensado para negocios en fase de expansión, marcas consolidadas y locales con un flujo continuo de transacciones que requieren autonomía operativa y análisis de métricas.',
             'sections' => [
                 [
                     'title' => 'Capacidad del Catálogo Ampliada',
-                    'body' => 'Expansión del inventario para gestionar hasta un máximo de 40 productos activos distribuidos en hasta 8 categorías independientes.',
+                    'body' => sprintf(
+                        'Inventario ampliado: %s y %s.',
+                        PlanCatalog::formatLimit($limits['max_products'], 'producto', 'productos'),
+                        PlanCatalog::formatLimit($limits['max_categories'], 'categoría', 'categorías'),
+                    ),
                 ],
                 [
                     'title' => 'Experiencia Visual Completa',

@@ -3,7 +3,7 @@
     use App\Support\PlanPricing;
 
     $plan = $planKey === 'premium' ? PlanDetails::premium() : PlanDetails::standard();
-    $pricing = PlanPricing::PLANS[$planKey];
+    $pricing = \App\Support\PlanCatalog::pricingFor($planKey) ?? PlanPricing::PLANS[$planKey];
     $isPremium = $planKey === 'premium';
 @endphp
 

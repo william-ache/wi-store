@@ -49,6 +49,8 @@ final class PlatformPlanSettings
             'trial_days' => (int) config('wi-store.trial_days', 14),
             'free_trial' => [
                 'allowed_modules' => $allModules,
+                'max_products' => 40,
+                'max_categories' => 8,
             ],
             'plans' => [
                 'standard' => [
@@ -245,12 +247,20 @@ final class PlatformPlanSettings
             ];
         }
 
-        $trialModules = $input['free_trial']['allowed_modules'] ?? $defaults['free_trial']['allowed_modules'] ?? AdminModules::keys();
+        $trialSource = is_array($input['free_trial'] ?? null) ? $input['free_trial'] : [];
+        $trialBase = $defaults['free_trial'];
+        $trialModules = $trialSource['allowed_modules'] ?? $trialBase['allowed_modules'] ?? AdminModules::keys();
 
         return [
             'trial_days' => $trialDays,
             'free_trial' => [
                 'allowed_modules' => AdminModules::sanitize(is_array($trialModules) ? array_values($trialModules) : null),
+                'max_products' => ($trialSource['max_products'] ?? $trialBase['max_products']) === '' || ($trialSource['max_products'] ?? null) === null
+                    ? null
+                    : max(0, (int) ($trialSource['max_products'] ?? $trialBase['max_products'])),
+                'max_categories' => ($trialSource['max_categories'] ?? $trialBase['max_categories']) === '' || ($trialSource['max_categories'] ?? null) === null
+                    ? null
+                    : max(0, (int) ($trialSource['max_categories'] ?? $trialBase['max_categories'])),
             ],
             'plans' => $plans,
         ];
@@ -267,6 +277,12 @@ final class PlatformPlanSettings
             $merged['free_trial']['allowed_modules'] = AdminModules::sanitize(
                 $merged['free_trial']['allowed_modules'] ?? $defaults['free_trial']['allowed_modules'],
             );
+            foreach (['max_products', 'max_categories'] as $field) {
+                if (array_key_exists($field, $merged['free_trial'])) {
+                    $value = $merged['free_trial'][$field];
+                    $merged['free_trial'][$field] = $value === '' || $value === null ? null : (int) $value;
+                }
+            }
         }
 
         foreach (['standard', 'premium'] as $key) {

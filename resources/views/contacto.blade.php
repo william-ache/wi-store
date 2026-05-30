@@ -109,8 +109,8 @@ body {
                     <div>
                         <label for="plan" class="block text-xs text-slate-300 uppercase font-bold tracking-wider mb-2">Plan de interés</label>
                         <select id="plan" name="plan" class="w-full bg-[#070913]/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors">
-                            <option value="standard" class="bg-[#0b0d19]">Plan Emprendedor ($8.99/mes)</option>
-                            <option value="premium" class="bg-[#0b0d19]" selected>Plan Negocio ({{ $wiStoreTrialLabel }} • $14.99/mes)</option>
+                            <option value="standard" class="bg-[#0b0d19]">Plan {{ $wiStorePlanLimitsStandard['name'] ?? 'Emprendedor' }} ({{ \App\Support\PlanPricing::formatUsd((float) ($wiStorePlanPricing['standard']['monthly'] ?? 0)) }}/mes)</option>
+                            <option value="premium" class="bg-[#0b0d19]" selected>Plan {{ $wiStorePlanLimitsPremium['name'] ?? 'Negocio' }} ({{ $wiStoreTrialLabel }} • {{ \App\Support\PlanPricing::formatUsd((float) ($wiStorePlanPricing['premium']['monthly'] ?? 0)) }}/mes)</option>
                             <option value="custom" class="bg-[#0b0d19]">Plan Personalizado (A medida)</option>
                             <option value="general" class="bg-[#0b0d19]">Consulta General / Soporte</option>
                         </select>

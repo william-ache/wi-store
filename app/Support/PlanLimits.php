@@ -13,19 +13,26 @@ class PlanLimits
         return match ($plan ?? 'free_trial') {
             'standard' => self::buildPaidPlanConfig('standard'),
             'premium' => self::buildPaidPlanConfig('premium'),
-            default => [
-                'key' => 'free_trial',
-                'name' => 'Básico',
-                'max_products' => 25,
-                'max_categories' => 5,
-                'price' => 'Bs 0/mes',
-            ],
+            default => self::buildTrialConfig(),
         };
     }
 
     public static function forShop(?Shop $shop): array
     {
         return self::config($shop?->plan);
+    }
+
+    private static function buildTrialConfig(): array
+    {
+        $trial = PlanCatalog::trialLimits();
+
+        return [
+            'key' => 'free_trial',
+            'name' => $trial['name'],
+            'max_products' => $trial['max_products'],
+            'max_categories' => $trial['max_categories'],
+            'price' => 'Bs 0/mes',
+        ];
     }
 
     private static function buildPaidPlanConfig(string $key): array

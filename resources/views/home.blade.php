@@ -453,7 +453,7 @@
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-indigo-600 mt-0.5"></i>
-                                    <span>Hasta 15 productos en tu inventario</span>
+                                    <span>{{ \App\Support\PlanCatalog::formatLimit($wiStoreTrialLimits['max_products'] ?? null, 'producto', 'productos') }} en tu inventario</span>
                                 </li>
                                 <li class="flex items-start gap-2.5">
                                     <i class="fas fa-check text-indigo-600 mt-0.5"></i>
@@ -694,7 +694,7 @@
                                             class="inline-flex items-center gap-1.5 text-slate-200 justify-center font-bold">
                                             <span
                                                 class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black">✓</span>
-                                            {{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }} / mes
+                                            {{ $wiStorePostTrialMonthly }} / mes
                                         </span>
                                     </td>
                                     <td class="p-4 text-center">

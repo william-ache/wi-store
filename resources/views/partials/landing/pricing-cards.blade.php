@@ -3,9 +3,11 @@
     use App\Support\PlanFeatures;
     use App\Support\PlanPricing;
     use App\Support\PlatformPlanSettings;
-    $planPricing = PlanPricing::plans();
+    $planPricing = $wiStorePlanPricing ?? PlanPricing::plans();
     $emprendedor = $planPricing['standard'] ?? PlanPricing::PLANS['standard'];
     $negocio = $planPricing['premium'] ?? PlanPricing::PLANS['premium'];
+    $emprendedorName = $wiStorePlanLimitsStandard['name'] ?? $emprendedor['name'] ?? 'Emprendedor';
+    $negocioName = $wiStorePlanLimitsPremium['name'] ?? $negocio['name'] ?? 'Negocio';
     $standardHighlights = PlanDetails::standard()['card_highlights'];
     $premiumHighlights = PlanDetails::premium()['card_highlights'];
     $standardPurpose = PlatformPlanSettings::purpose('standard') ?: 'Para PYMES que inician su gestión digital: pedidos, inventario y operación en un solo panel.';
@@ -33,7 +35,7 @@
         <div class="landing-plan-card__main flex flex-col flex-1 min-h-0 p-5 md:p-6">
             <div class="flex justify-between items-start gap-2">
                 <h3 class="text-sm md:text-base font-black text-slate-900 uppercase tracking-wider">
-                    Plan <span class="landing-plan-title--cyan">Emprendedor</span>
+                    Plan <span class="landing-plan-title--cyan">{{ $emprendedorName }}</span>
                 </h3>
                 @if ($isCurrentStandard)
                     <span class="landing-plan-badge landing-plan-badge--current text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0">Plan actual</span>
@@ -124,7 +126,7 @@
                             <i class="fas fa-crown text-sm text-purple-600"></i>
                         </div>
                         <h3 class="text-sm font-black text-slate-900 uppercase tracking-wide whitespace-nowrap leading-none">
-                            Plan <span class="landing-plan-title--purple">Negocio</span>
+                            Plan <span class="landing-plan-title--purple">{{ $negocioName }}</span>
                         </h3>
                     </div>
                     <span class="landing-plan-trial-floating shrink-0">

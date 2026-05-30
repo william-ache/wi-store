@@ -64,7 +64,7 @@ class BillingController extends Controller
         $cleanRate = preg_replace('/[^0-9.]/', '', (string) ($shop->exchange_rate ?? ''));
         $exchangeRate = (float) $cleanRate > 0 ? (float) $cleanRate : 40.0;
         $billingPlanKey = in_array($resolvedPlan, ['premium', 'free_trial'], true) ? 'premium' : 'standard';
-        $monthlyUsd = PlanPricing::PLANS[$billingPlanKey]['monthly'];
+        $monthlyUsd = (float) (PlanPricing::for($billingPlanKey)['monthly'] ?? 0);
         $nextChargeLabel = $resolvedPlan === 'free_trial'
             ? 'Bs 0.00'
             : 'Bs ' . number_format($monthlyUsd * $exchangeRate, 2, '.', '') . ' · ' . PlanPricing::formatUsd($monthlyUsd);
