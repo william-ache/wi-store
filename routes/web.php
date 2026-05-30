@@ -159,13 +159,12 @@ Route::get('/tiendas', [App\Http\Controllers\MarketplaceController::class, 'inde
 Route::get('/l/{code}', [ShortLinkController::class, 'redirect'])->name('short.link');
 
 // Rutas de Super Administrador (Oculto)
-Route::prefix('/wydex-super-admin')->name('super-admin.')->group(function () {
-    // Rutas públicas de Login
-    Route::get('/login', [App\Http\Controllers\SuperAdminController::class, 'showLoginForm'])->name('login-form');
-    Route::post('/login', [App\Http\Controllers\SuperAdminController::class, 'login'])->name('login');
+Route::name('super-admin.')->group(function () {
+    Route::get('/admin/login', [App\Http\Controllers\SuperAdminController::class, 'showLoginForm'])->name('login-form');
+    Route::post('/admin/login', [App\Http\Controllers\SuperAdminController::class, 'login'])->name('login');
+});
 
-    // Rutas protegidas bajo autenticación
-    Route::middleware(['super_admin_auth'])->group(function () {
+Route::prefix('/wydex-super-admin')->name('super-admin.')->middleware(['super_admin_auth'])->group(function () {
         Route::get('/', [App\Http\Controllers\SuperAdminController::class, 'index'])->name('index');
         Route::post('/shops', [App\Http\Controllers\SuperAdminController::class, 'store'])->name('shops.store');
         Route::post('/shops/{id}/toggle', [App\Http\Controllers\SuperAdminController::class, 'toggleStatus'])->name('shops.toggle');
@@ -176,7 +175,6 @@ Route::prefix('/wydex-super-admin')->name('super-admin.')->group(function () {
         // Rutas de administración de pagos
         Route::post('/payments/{id}/approve', [App\Http\Controllers\SuperAdminController::class, 'approvePayment'])->name('payments.approve');
         Route::post('/payments/{id}/reject', [App\Http\Controllers\SuperAdminController::class, 'rejectPayment'])->name('payments.reject');
-    });
 });
 
 // 2. RUTAS DINÁMICAS MULTI-TENANT (Tiendas Individuales)

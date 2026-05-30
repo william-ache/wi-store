@@ -2,134 +2,128 @@
 <html lang="es" class="wi-store-ui wi-store-landing">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Acceso Super Admin - WYDEX</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+    @include('partials.landing.head-assets')
+
     @include('partials.global.wi-store-scrollbar')
     @include('partials.landing.landing-scrollbar')
     @include('partials.landing.motion-styles')
     <style>
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: radial-gradient(circle at center, #1b0f3e 0%, #060312 100%);
+        .super-admin-login-page {
             min-height: 100vh;
+            min-height: 100dvh;
+            color: #1e293b;
+            background: #ffffff;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .super-admin-login-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow:
+                0 4px 24px rgba(15, 23, 42, 0.06),
+                0 0 0 1px rgba(255, 255, 255, 0.9);
         }
-        .neon-border {
-            box-shadow: 0 0 25px rgba(139, 92, 246, 0.15);
-            border-color: rgba(139, 92, 246, 0.3);
+        .super-admin-login-input {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #0f172a;
         }
-        .neon-btn {
-            background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-            transition: all 0.3s ease;
+        .super-admin-login-input::placeholder {
+            color: #94a3b8;
         }
-        .neon-btn:hover {
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
-            transform: translateY(-2px);
+        .super-admin-login-input:focus {
+            outline: none;
+            border-color: rgba(147, 51, 234, 0.45);
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.12);
+            background: #ffffff;
         }
-        .neon-btn:active {
-            transform: translateY(0);
+        .super-admin-login-btn {
+            background: linear-gradient(135deg, #9333ea 0%, #0891b2 100%);
+            box-shadow: 0 4px 14px rgba(147, 51, 234, 0.25);
+            transition: filter 0.2s ease, transform 0.15s ease;
+        }
+        .super-admin-login-btn:hover {
+            filter: brightness(1.05);
+        }
+        .super-admin-login-btn:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
-<body class="text-slate-100 flex items-center justify-center p-4 overflow-hidden relative">
+<body class="super-admin-login-page flex items-center justify-center p-4 sm:p-6 relative overflow-x-hidden selection:bg-purple-200 selection:text-slate-900">
 
-    <!-- Decorative Glows -->
-    <div class="absolute w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-3xl -top-40 -left-40 pointer-events-none"></div>
-    <div class="absolute w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-3xl -bottom-40 -right-40 pointer-events-none"></div>
+    @include('partials.landing.page-hero-background')
+
+    <div class="absolute w-[28rem] h-[28rem] bg-purple-400/8 rounded-full blur-3xl -top-32 -left-32 pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute w-[28rem] h-[28rem] bg-cyan-400/8 rounded-full blur-3xl -bottom-32 -right-32 pointer-events-none" aria-hidden="true"></div>
 
     <main class="w-full max-w-md relative z-10" x-data="{ showPassword: false }">
-        
-        <!-- Logo Header -->
-        <div class="flex flex-col items-center mb-8">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center shadow-2xl shadow-violet-500/35 mb-4">
-                <i class="fas fa-cubes text-white text-3xl"></i>
+
+        <div class="flex flex-col items-center mb-8 text-center">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-purple-500/25 mb-4">
+                <i class="fas fa-cubes text-white text-3xl" aria-hidden="true"></i>
             </div>
-            <h1 class="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-slate-100 to-violet-400 bg-clip-text text-transparent">WYDEX SaaS</h1>
-            <span class="text-[11px] text-violet-400 font-extrabold uppercase tracking-widest mt-1">Super Admin Gate</span>
+            <h1 class="text-2xl font-black tracking-tight text-slate-900">WYDEX SaaS</h1>
+            <span class="text-[11px] text-slate-600 font-extrabold uppercase tracking-widest mt-1">Super Admin Gate</span>
         </div>
 
-        <!-- Login Card -->
-        <div class="glass-panel rounded-3xl p-6 md:p-8 neon-border shadow-2xl">
-            
-            <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-                <i class="fas fa-shield-halved text-violet-400"></i>
+        <div class="super-admin-login-card rounded-[2rem] p-8 md:p-10">
+
+            <h2 class="text-base font-bold text-slate-900 mb-2 flex items-center gap-2">
+                <i class="fas fa-shield-halved text-purple-600 text-sm" aria-hidden="true"></i>
                 <span>Verificación de Seguridad</span>
             </h2>
-            <p class="text-xs text-slate-400 mb-6">Esta zona es restringida para personal autorizado de la plataforma.</p>
+            <p class="text-xs text-slate-500 mb-6 leading-relaxed">Esta zona es restringida para personal autorizado de la plataforma.</p>
 
-            <!-- Alerts / Errors -->
             @if(session('success'))
-                <div class="mb-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center gap-2.5 text-xs font-semibold">
-                    <i class="fas fa-circle-check"></i>
+                <div class="mb-4 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-2.5 text-xs font-semibold">
+                    <i class="fas fa-circle-check" aria-hidden="true"></i>
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
 
             @if($errors->any())
-                <div class="mb-4 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-450 flex items-center gap-2.5 text-xs font-semibold">
-                    <i class="fas fa-circle-exclamation"></i>
+                <div class="mb-4 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 flex items-center gap-2.5 text-xs font-semibold">
+                    <i class="fas fa-circle-exclamation" aria-hidden="true"></i>
                     <span>{{ $errors->first() }}</span>
                 </div>
             @endif
 
-            <!-- Form -->
             <form action="{{ route('super-admin.login') }}" method="POST" class="space-y-5">
                 @csrf
-                
+
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2">Contraseña del Sistema</label>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 pl-0.5">Contraseña del Sistema</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none" aria-hidden="true">
                             <i class="fas fa-lock text-xs"></i>
                         </span>
-                        
-                        <input :type="showPassword ? 'text' : 'password'" name="password" required autofocus placeholder="Introduce la contraseña secreta"
-                               class="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-10 text-sm text-white placeholder-slate-650 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition duration-200">
-                        
+
+                        <input :type="showPassword ? 'text' : 'password'" name="password" required autofocus
+                               placeholder="Introduce la contraseña secreta"
+                               class="super-admin-login-input w-full rounded-xl py-3 pl-10 pr-10 text-sm transition duration-200">
+
                         <button type="button" @click="showPassword = !showPassword"
-                                class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-450 hover:text-white transition duration-200">
+                                class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-700 transition duration-200"
+                                :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
                             <i class="fas" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
                         </button>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full neon-btn py-3 px-4 rounded-xl text-xs font-extrabold text-white flex items-center justify-center gap-2 transition duration-200">
-                    <i class="fas fa-key"></i>
+                <button type="submit"
+                        class="super-admin-login-btn w-full py-3 px-4 rounded-xl text-xs font-extrabold text-white flex items-center justify-center gap-2">
+                    <i class="fas fa-key" aria-hidden="true"></i>
                     <span>Acceder al Panel</span>
                 </button>
             </form>
         </div>
 
-        <!-- Footer Info -->
-        <p class="text-center text-[10px] text-slate-500 mt-8 uppercase tracking-wider font-semibold">
+        <p class="text-center text-[10px] text-slate-400 mt-8 uppercase tracking-wider font-semibold">
             &copy; {{ date('Y') }} Wydex SaaS. Todos los derechos reservados.
         </p>
 
     </main>
-
 </body>
 </html>

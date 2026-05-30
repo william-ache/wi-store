@@ -26,6 +26,7 @@ class SeoController extends Controller
             $lines = [
                 'User-agent: *',
                 'Allow: /',
+                'Disallow: /admin/login',
                 'Disallow: /wydex-super-admin/',
                 '',
                 'Sitemap: ' . url('/sitemap.xml'),
