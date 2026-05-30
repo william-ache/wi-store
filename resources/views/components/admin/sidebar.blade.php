@@ -46,7 +46,7 @@
             }
         @endphp
         <nav class="admin-sidebar-nav flex-1 min-h-0 p-3.5 pb-2 space-y-1.5 custom-scrollbar overflow-y-auto"
-             x-data="adminSidebarNav(@json($sidebarActiveSection))"
+             x-data='adminSidebarNav(@json($sidebarActiveSection))'
              @click="onSidebarNavClick($event)">
             <!-- Inicio -->
             <a href="/{{ config('current_shop')->slug }}/admin/dashboard" 
@@ -287,19 +287,4 @@
                 </div>
             </div>
         </nav>
-
-        <!-- Footer Sidebar (fijo al pie del panel) -->
-        <div class="admin-sidebar-footer px-3.5 pt-3 pb-4 border-t border-slate-800/60 space-y-2 shrink-0 bg-slate-900">
-        <a href="mailto:{{ $wiStoreSupportEmail }}" class="w-full text-slate-500 hover:text-cyan-300 font-semibold py-1.5 text-[10px] flex items-center justify-center gap-1.5 transition-colors break-all">
-            <i class="fas fa-envelope opacity-70"></i>
-            <span>{{ $wiStoreSupportEmail }}</span>
-        </a>
-        <a href="/{{ config('current_shop')->slug }}" target="_blank" class="w-full bg-slate-800 hover:bg-primary hover:text-white text-slate-300 font-bold py-2.5 rounded-xl border border-slate-700/80 hover:border-primary transition text-xs flex items-center justify-center gap-2">
-            Ver Menú Digital →
-        </a>
-        <a href="/" class="w-full bg-rose-600/10 hover:bg-rose-600 hover:text-white text-rose-400 font-bold py-2 rounded-xl border border-rose-500/20 hover:border-rose-600 transition text-[11px] flex items-center justify-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Volver a WI-Store
-        </a>
-        </div>
 </aside>
