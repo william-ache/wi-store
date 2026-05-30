@@ -7,6 +7,38 @@
         --sa-sidebar-w: 15.5rem;
     }
 
+    body.sa-company-modal-open {
+        overflow: hidden;
+    }
+
+    body.sa-company-modal-open .sa-navbar,
+    body.sa-company-modal-open .sa-sidebar,
+    body.sa-company-modal-open .sa-main {
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .sa-modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        background: rgba(15, 23, 42, 0.45);
+        backdrop-filter: blur(6px);
+    }
+
+    .sa-modal-panel {
+        width: 100%;
+        max-width: 56rem;
+        max-height: calc(100dvh - 2rem);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
     @media (min-width: 768px) {
         .sa-page {
             --sa-nav-h: 4rem;

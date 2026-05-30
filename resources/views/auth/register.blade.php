@@ -97,6 +97,16 @@
         .field-checking {
             border-color: rgba(14, 165, 233, 0.5) !important;
         }
+
+        body.register-trial-modal-open {
+            overflow: hidden;
+        }
+
+        body.register-trial-modal-open .auth-register-shell,
+        body.register-trial-modal-open .wi-public-chat {
+            visibility: hidden;
+            pointer-events: none;
+        }
     </style>
 </head>
 @php
@@ -108,11 +118,12 @@
 
     @include('partials.landing.page-hero-background')
 
-    @include('partials.landing.landing-header')
+    <div class="auth-register-shell flex flex-col flex-1 w-full">
+        @include('partials.landing.landing-header')
 
-    @include('partials.landing.ux-chrome')
+        @include('partials.landing.ux-chrome')
 
-    <main class="flex-grow flex items-center justify-center px-4 py-6 md:py-10 relative z-10">
+        <main class="flex-grow flex items-center justify-center px-4 py-6 md:py-10 relative z-10">
         <div class="w-full max-w-lg" x-data="{
         /* ── Campos ──────────────────────────────── */
         shopName: '',
@@ -125,6 +136,12 @@
         showConfirm: false,
         showTrialModal: false,
         isSubmitting: false,
+
+        init() {
+            this.$watch('showTrialModal', (open) => {
+                document.body.classList.toggle('register-trial-modal-open', open);
+            });
+        },
     
         /* ── Colores ─────────────────────────────── */
         primaryColor: '#6366f1',
@@ -591,100 +608,100 @@
                 </form>
             </div>
 
-            <!-- MODAL AVISO PRUEBA -->
-            <div x-show="showTrialModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" x-cloak>
-                <div x-show="showTrialModal" x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0" @click="showTrialModal = false"
-                    class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm">
-                </div>
+            <template x-teleport="body">
+                <div x-show="showTrialModal" x-cloak
+                     class="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-4"
+                     role="dialog" aria-modal="true" aria-labelledby="trial-modal-title"
+                     @keydown.escape.window="showTrialModal = false">
+                    <div x-show="showTrialModal"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="absolute inset-0 bg-slate-900/55 backdrop-blur-md"
+                         @click="showTrialModal = false"></div>
 
-                <div x-show="showTrialModal" x-transition:enter="transition ease-out duration-350"
-                    x-transition:enter-start="opacity-0 translate-y-8 scale-95"
-                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                    x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                    x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-                    class="relative z-10 w-full max-w-md auth-register-card rounded-[2rem] overflow-hidden">
+                    <div x-show="showTrialModal"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="relative z-10 w-full max-w-lg auth-register-card rounded-2xl shadow-2xl overflow-hidden max-h-[calc(100dvh-1.5rem)] flex flex-col">
 
-                    <div class="h-1.5 w-full bg-gradient-to-r from-purple-600 via-indigo-500 to-cyan-400"></div>
+                        <div class="h-1 shrink-0 w-full bg-gradient-to-r from-purple-600 via-indigo-500 to-cyan-400"></div>
 
-                    <div class="px-8 pt-7 pb-0 text-center">
-                        <div class="w-14 h-14 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-rocket text-2xl text-purple-600"></i>
-                        </div>
-                        <h2 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight">¡Tu Prueba Comienza Ahora!</h2>
-                        <p class="text-xs text-slate-500 mt-1.5 leading-relaxed max-w-xs mx-auto">
-                            <span class="text-purple-700 font-black">{{ $wiStoreTrialDays }} días</span> sin pagos, sin comisiones.
-                            <span class="text-slate-900 font-bold">Totalmente gratis</span> para que pruebes.
-                        </p>
-                    </div>
-
-                    <div class="mx-8 mt-6 bg-purple-50 border border-purple-200 rounded-2xl p-4 flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-3">
-                            <div class="flex flex-col items-center justify-center w-14 h-14 rounded-xl bg-white border border-purple-200 shrink-0">
-                                <span class="text-2xl font-black text-purple-700">{{ $wiStoreTrialDays }}</span>
-                                <span class="text-[8px] text-purple-600 font-bold uppercase tracking-wider">días</span>
+                        <div class="shrink-0 px-5 pt-4 pb-2 text-center">
+                            <div class="w-11 h-11 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center mx-auto mb-2">
+                                <i class="fas fa-rocket text-lg text-purple-600" aria-hidden="true"></i>
                             </div>
-                            <div>
-                                <p class="text-xs font-black text-slate-900">Prueba Gratuita</p>
-                                <p class="text-[10px] text-slate-500 mt-0.5">{{ $wiStoreTrialDisclaimer }}</p>
-                            </div>
-                        </div>
-                        <i class="fas fa-gift text-2xl text-purple-400 shrink-0"></i>
-                    </div>
-
-                    <div class="mx-8 mt-4 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
-                        <div class="shrink-0 mt-0.5 w-6 h-6 rounded-lg bg-amber-100 flex items-center justify-center">
-                            <i class="fas fa-exclamation-triangle text-amber-600 text-[10px]"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] font-black text-amber-800 uppercase tracking-wide mb-1">Aviso de Suscripción</p>
-                            <p class="text-[11px] text-slate-600 leading-relaxed">
-                                Al finalizar los {{ $wiStoreTrialDays }} días tu cuenta será
-                                <span class="text-amber-700 font-bold">suspendida automáticamente</span>
-                                si no activas la suscripción al
-                                <span class="text-slate-900 font-bold">Plan Negocio ({{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes)</span>.
-                                Tus datos se conservan por 30 días adicionales.
+                            <h2 id="trial-modal-title" class="text-lg sm:text-xl font-black text-slate-900 tracking-tight">¡Tu Prueba Comienza Ahora!</h2>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-snug max-w-sm mx-auto">
+                                <span class="text-purple-700 font-black">{{ $wiStoreTrialDays }} días</span> gratis, sin pagos ni comisiones.
                             </p>
                         </div>
-                    </div>
 
-                    <div class="mx-6 mt-4">
-                        <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 pl-1">Incluye durante los {{ $wiStoreTrialDays }} días:</p>
-                        <div class="grid grid-cols-2 gap-1.5">
-                            @foreach ([['fa-box', '50 Productos', 'máximo en prueba'], ['fa-tags', '10 Categorías', 'personalizadas'], ['fa-whatsapp', 'Pedidos WhatsApp', 'notificación instantánea', 'fab'], ['fa-palette', 'Branding Completo', 'colores y logo propios'], ['fa-chart-line', 'Panel de Órdenes', 'gestiona tus pedidos'], ['fa-percent', '0% Comisiones', 'todo es tuyo']] as $feat)
-                                <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2">
-                                    <i class="{{ ($feat[3] ?? 'fas') }} {{ $feat[0] }} text-purple-600 text-[10px] w-3 shrink-0"></i>
-                                    <div>
-                                        <p class="text-[10px] font-black text-slate-900 leading-tight">{{ $feat[1] }}</p>
-                                        <p class="text-[8px] text-slate-500">{{ $feat[2] }}</p>
+                        <div class="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-2 space-y-2.5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <div class="bg-purple-50 border border-purple-200 rounded-xl p-3 flex items-center gap-2.5">
+                                    <div class="flex flex-col items-center justify-center w-11 h-11 rounded-lg bg-white border border-purple-200 shrink-0">
+                                        <span class="text-xl font-black text-purple-700 leading-none">{{ $wiStoreTrialDays }}</span>
+                                        <span class="text-[7px] text-purple-600 font-bold uppercase">días</span>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-[11px] font-black text-slate-900">Prueba gratuita</p>
+                                        <p class="text-[9px] text-slate-500 leading-snug">{{ $wiStoreTrialDisclaimer }}</p>
                                     </div>
                                 </div>
-                            @endforeach
+                                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 flex gap-2">
+                                    <i class="fas fa-exclamation-triangle text-amber-600 text-xs mt-0.5 shrink-0" aria-hidden="true"></i>
+                                    <p class="text-[10px] text-slate-600 leading-snug">
+                                        <span class="font-black text-amber-800 uppercase text-[9px] block mb-0.5">Aviso</span>
+                                        Tras {{ $wiStoreTrialDays }} días la cuenta se
+                                        <span class="text-amber-700 font-bold">suspende</span> sin Plan Negocio
+                                        ({{ \App\Support\PlanPricing::formatUsd(\App\Support\PlanPricing::PLANS['premium']['monthly']) }}/mes).
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Incluye:</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                                    @foreach ([['fa-box', '50 productos'], ['fa-tags', '10 categorías'], ['fa-whatsapp', 'Pedidos WA', 'fab'], ['fa-palette', 'Tu branding'], ['fa-chart-line', 'Panel pedidos'], ['fa-percent', '0% comisión']] as $feat)
+                                        <div class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5">
+                                            <i class="{{ ($feat[2] ?? 'fas') }} {{ $feat[0] }} text-purple-600 text-[9px] shrink-0" aria-hidden="true"></i>
+                                            <span class="text-[9px] font-bold text-slate-800 leading-tight">{{ $feat[1] }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="shrink-0 px-4 py-3 border-t border-slate-100 bg-white">
+                            <button type="button"
+                                @click="isSubmitting = true; document.getElementById('registerForm').submit()"
+                                :disabled="isSubmitting"
+                                class="landing-plan-btn landing-plan-btn--negocio w-full text-center text-white font-extrabold py-3 rounded-xl text-xs tracking-widest uppercase active:scale-[0.98] flex items-center justify-center disabled:opacity-75 disabled:cursor-not-allowed">
+                                <template x-if="!isSubmitting">
+                                    <span><i class="fas fa-rocket mr-2" aria-hidden="true"></i> ¡Comenzar ahora!</span>
+                                </template>
+                                <template x-if="isSubmitting">
+                                    <span><i class="fas fa-circle-notch animate-spin mr-2" aria-hidden="true"></i> Registrando...</span>
+                                </template>
+                            </button>
                         </div>
                     </div>
-
-                    <div class="px-6 py-5">
-                        <button @click="isSubmitting = true; document.getElementById('registerForm').submit()"
-                            :disabled="isSubmitting"
-                            class="landing-plan-btn landing-plan-btn--negocio w-full text-center text-white font-extrabold py-3.5 rounded-2xl text-xs tracking-widest uppercase active:scale-[0.98] flex items-center justify-center disabled:opacity-75 disabled:cursor-not-allowed">
-                            <template x-if="!isSubmitting">
-                                <span><i class="fas fa-rocket mr-2"></i> ¡Comenzar Ahora!</span>
-                            </template>
-                            <template x-if="isSubmitting">
-                                <span><i class="fas fa-circle-notch animate-spin mr-2"></i> Registrando...</span>
-                            </template>
-                        </button>
-                    </div>
                 </div>
-            </div>
+            </template>
 
         </div>
     </main>
 
-    @include('partials.landing.light-footer')
+        @include('partials.landing.light-footer')
+    </div>
 
     @include('partials.public.chat')
 

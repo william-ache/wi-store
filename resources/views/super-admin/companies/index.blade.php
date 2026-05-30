@@ -167,16 +167,20 @@
 
         </div>
 
-    <!-- CREATE STORE MODAL (Alpine interactive overlay) -->
-    <div x-show="showCreateModal"
-        class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/30 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
-        style="display: none;" x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-        x-transition:leave="transition ease-in duration-205" x-transition:leave-start="opacity-100 scale-100"
-        x-transition:leave-end="opacity-0 scale-95" @keydown.escape.window="showCreateModal = false">
+    <!-- CREATE STORE MODAL -->
+    <template x-teleport="body">
+    <div x-show="showCreateModal" x-cloak
+        class="sa-modal-overlay"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @keydown.escape.window="showCreateModal = false">
 
-        <div class="relative w-full max-w-4xl sa-panel rounded-3xl p-6 md:p-8 border border-slate-200 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
-            @click.away="showCreateModal = false">
+        <div class="sa-modal-panel sa-panel rounded-3xl p-5 md:p-6 border border-slate-200 shadow-2xl relative"
+            @click.stop>
 
             <!-- Background Glows -->
             <div
@@ -205,10 +209,9 @@
                 </button>
             </div>
 
-            <!-- Modal Body (Scrollable Form) -->
-            <div class="sa-modal-scroll py-6 pr-2 shrink grow">
+            <div class="sa-modal-scroll py-4 pr-1 shrink grow min-h-0">
                 <form action="{{ route('super-admin.shops.store') }}" method="POST" enctype="multipart/form-data"
-                    class="space-y-6">
+                    class="space-y-5 flex flex-col min-h-0">
                     @csrf
 
                     @include('partials.super-admin.company-form', ['mode' => 'create'])
@@ -227,17 +230,22 @@
             </div>
         </div>
     </div>
+    </template>
 
-    <!-- EDIT STORE MODAL (Alpine interactive overlay) -->
-    <div x-show="showEditModal"
-        class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/30 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
-        style="display: none;" x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-        x-transition:leave="transition ease-in duration-205" x-transition:leave-start="opacity-100 scale-100"
-        x-transition:leave-end="opacity-0 scale-95" @keydown.escape.window="showEditModal = false">
+    <!-- EDIT STORE MODAL -->
+    <template x-teleport="body">
+    <div x-show="showEditModal" x-cloak
+        class="sa-modal-overlay"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @keydown.escape.window="showEditModal = false">
 
-        <div class="relative w-full max-w-4xl sa-panel rounded-3xl p-6 md:p-8 border border-slate-200 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
-            @click.away="showEditModal = false">
+        <div class="sa-modal-panel sa-panel rounded-3xl p-5 md:p-6 border border-slate-200 shadow-2xl relative"
+            @click.stop>
 
             <!-- Background Glows -->
             <div
@@ -266,10 +274,9 @@
                 </button>
             </div>
 
-            <!-- Modal Body (Scrollable Form) -->
-            <div class="sa-modal-scroll py-6 pr-2 shrink grow">
+            <div class="sa-modal-scroll py-4 pr-1 shrink grow min-h-0">
                 <form :action="'/wydex-super-admin/shops/' + editingShop.id" method="POST"
-                    enctype="multipart/form-data" class="space-y-6">
+                    enctype="multipart/form-data" class="space-y-5 flex flex-col min-h-0">
                     @csrf
                     @method('PUT')
 
@@ -289,6 +296,7 @@
             </div>
         </div>
     </div>
+    </template>
 
     </div>
 @endsection
@@ -301,6 +309,14 @@
                 showEditModal: false,
                 showPassword: false,
                 planModulesMap: @json($planModulesMap),
+                init() {
+                    this.$watch('showCreateModal', () => this.syncCompanyModalLock());
+                    this.$watch('showEditModal', () => this.syncCompanyModalLock());
+                },
+                syncCompanyModalLock() {
+                    const open = this.showCreateModal || this.showEditModal;
+                    document.body.classList.toggle('sa-company-modal-open', open);
+                },
                 createPlan: 'standard',
                 createBillingCycle: 'mensual',
                 editingShop: {

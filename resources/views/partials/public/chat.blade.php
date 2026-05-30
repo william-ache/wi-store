@@ -1,7 +1,7 @@
 <!-- Client Support Floating Chat Widget -->
 <div x-data="publicChatWidget()"
      x-init="initWidget()"
-     class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[9999] select-none font-sans"
+     class="wi-public-chat fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[9999] select-none font-sans"
      x-cloak>
 
     <div class="relative">
