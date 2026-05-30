@@ -6,7 +6,11 @@ final class PlanTrial
 {
     public static function days(): int
     {
-        return (int) config('wi-store.trial_days', 14);
+        try {
+            return PlatformPlanSettings::trialDays();
+        } catch (\Throwable) {
+            return (int) config('wi-store.trial_days', 14);
+        }
     }
 
     public static function disclaimer(): string

@@ -165,16 +165,25 @@ Route::name('super-admin.')->group(function () {
 });
 
 Route::prefix('/wydex-super-admin')->name('super-admin.')->middleware(['super_admin_auth'])->group(function () {
-        Route::get('/', [App\Http\Controllers\SuperAdminController::class, 'index'])->name('index');
-        Route::post('/shops', [App\Http\Controllers\SuperAdminController::class, 'store'])->name('shops.store');
-        Route::post('/shops/{id}/toggle', [App\Http\Controllers\SuperAdminController::class, 'toggleStatus'])->name('shops.toggle');
-        Route::put('/shops/{id}', [App\Http\Controllers\SuperAdminController::class, 'update'])->name('shops.update');
-        Route::patch('/shops/{id}/plan', [App\Http\Controllers\SuperAdminController::class, 'updatePlan'])->name('shops.update-plan');
-        Route::post('/logout', [App\Http\Controllers\SuperAdminController::class, 'logout'])->name('logout');
-        
-        // Rutas de administración de pagos
-        Route::post('/payments/{id}/approve', [App\Http\Controllers\SuperAdminController::class, 'approvePayment'])->name('payments.approve');
-        Route::post('/payments/{id}/reject', [App\Http\Controllers\SuperAdminController::class, 'rejectPayment'])->name('payments.reject');
+    Route::get('/', [App\Http\Controllers\SuperAdminController::class, 'index'])->name('index');
+    Route::get('/empresas', [App\Http\Controllers\SuperAdminController::class, 'companies'])->name('companies.index');
+
+    Route::get('/noticias', [App\Http\Controllers\SuperAdminNewsController::class, 'index'])->name('news.index');
+    Route::post('/noticias', [App\Http\Controllers\SuperAdminNewsController::class, 'store'])->name('news.store');
+    Route::put('/noticias/{news}', [App\Http\Controllers\SuperAdminNewsController::class, 'update'])->name('news.update');
+    Route::delete('/noticias/{news}', [App\Http\Controllers\SuperAdminNewsController::class, 'destroy'])->name('news.destroy');
+
+    Route::get('/ajustes/planes', [App\Http\Controllers\SuperAdminSettingsController::class, 'plans'])->name('settings.plans');
+    Route::post('/ajustes/planes', [App\Http\Controllers\SuperAdminSettingsController::class, 'updatePlans'])->name('settings.plans.update');
+
+    Route::post('/shops', [App\Http\Controllers\SuperAdminController::class, 'store'])->name('shops.store');
+    Route::post('/shops/{id}/toggle', [App\Http\Controllers\SuperAdminController::class, 'toggleStatus'])->name('shops.toggle');
+    Route::put('/shops/{id}', [App\Http\Controllers\SuperAdminController::class, 'update'])->name('shops.update');
+    Route::patch('/shops/{id}/plan', [App\Http\Controllers\SuperAdminController::class, 'updatePlan'])->name('shops.update-plan');
+    Route::post('/logout', [App\Http\Controllers\SuperAdminController::class, 'logout'])->name('logout');
+
+    Route::post('/payments/{id}/approve', [App\Http\Controllers\SuperAdminController::class, 'approvePayment'])->name('payments.approve');
+    Route::post('/payments/{id}/reject', [App\Http\Controllers\SuperAdminController::class, 'rejectPayment'])->name('payments.reject');
 });
 
 // 2. RUTAS DINÁMICAS MULTI-TENANT (Tiendas Individuales)

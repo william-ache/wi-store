@@ -85,16 +85,7 @@ final class PlanDetails
                     'body' => 'Soporte reactivo estándar gestionado a través de canales asíncronos en WhatsApp y correo electrónico.',
                 ],
             ],
-            'card_highlights' => [
-                'Pedidos centralizados · WhatsApp o Telegram · 0% comisión',
-                'Analítica básica en tu panel administrativo',
-                'Gestión de productos, categorías, pedidos y marketing',
-                'Hasta 15 productos · 3 categorías',
-                '1 sede · 1 teléfono · 1 método de pago',
-                'Catálogo digital integrado sin variantes ni extras',
-                'Identidad visual con paleta base de WI-Store',
-                'Soporte estándar de 8am a 3pm de lunes a viernes',
-            ],
+            'card_highlights' => self::cardHighlights('standard'),
         ];
     }
 
@@ -144,16 +135,27 @@ final class PlanDetails
                     'body' => 'Soporte de respuesta prioritaria y dedicada operativa las 24 horas, los 7 días de la semana.',
                 ],
             ],
-            'card_highlights' => [
-                'Panel admin: pedidos, clientes, pagos y reportes',
-                'Hasta 40 productos · 8 categorías',
-                '3 sedes · 3 teléfonos · pagos múltiples',
-                'Variantes y extras (máx. 3 variantes)',
-                'Módulo de servicios comerciales',
-                'Venta online con fotos en catálogo, carrito y modal',
-                'Colores y marca personalizables',
-                'Soporte prioritario 24/7',
-            ],
+            'card_highlights' => self::cardHighlights('premium'),
         ];
+    }
+
+    /** @return list<string> */
+    private static function cardHighlights(string $key): array
+    {
+        try {
+            $fromSettings = PlatformPlanSettings::highlights($key);
+
+            if ($fromSettings !== []) {
+                return $fromSettings;
+            }
+        } catch (\Throwable) {
+            // Tabla aún no migrada: usar valores embebidos en defaults().
+        }
+
+        return match ($key) {
+            'standard' => PlatformPlanSettings::defaults()['plans']['standard']['highlights'],
+            'premium' => PlatformPlanSettings::defaults()['plans']['premium']['highlights'],
+            default => [],
+        };
     }
 }

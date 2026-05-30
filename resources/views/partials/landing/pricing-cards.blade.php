@@ -2,12 +2,14 @@
     use App\Support\PlanDetails;
     use App\Support\PlanFeatures;
     use App\Support\PlanPricing;
-    $emprendedor = PlanPricing::PLANS['standard'];
-    $negocio = PlanPricing::PLANS['premium'];
+    use App\Support\PlatformPlanSettings;
+    $planPricing = PlanPricing::plans();
+    $emprendedor = $planPricing['standard'] ?? PlanPricing::PLANS['standard'];
+    $negocio = $planPricing['premium'] ?? PlanPricing::PLANS['premium'];
     $standardHighlights = PlanDetails::standard()['card_highlights'];
     $premiumHighlights = PlanDetails::premium()['card_highlights'];
-    $standardPurpose = 'Para PYMES que inician su gestión digital: pedidos, inventario y operación en un solo panel.';
-    $premiumPurpose = 'Para negocios que escalan: panel administrativo completo, más capacidad y control operativo.';
+    $standardPurpose = PlatformPlanSettings::purpose('standard') ?: 'Para PYMES que inician su gestión digital: pedidos, inventario y operación en un solo panel.';
+    $premiumPurpose = PlatformPlanSettings::purpose('premium') ?: 'Para negocios que escalan: panel administrativo completo, más capacidad y control operativo.';
     $isAdminPricing = ($pricingContext ?? 'landing') === 'admin';
     $shopPlan = $shopForPricing ?? null;
     $resolvedShopPlan = $shopPlan ? PlanFeatures::resolvePlan($shopPlan) : null;

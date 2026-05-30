@@ -11,20 +11,8 @@ class PlanLimits
     public static function config(?string $plan): array
     {
         return match ($plan ?? 'free_trial') {
-            'standard' => [
-                'key' => 'standard',
-                'name' => 'Emprendedor',
-                'max_products' => 15,
-                'max_categories' => 3,
-                'price' => PlanPricing::formatUsd(PlanPricing::PLANS['standard']['monthly']) . '/mes',
-            ],
-            'premium' => [
-                'key' => 'premium',
-                'name' => 'Negocio',
-                'max_products' => null,
-                'max_categories' => null,
-                'price' => PlanPricing::formatUsd(PlanPricing::PLANS['premium']['monthly']) . '/mes',
-            ],
+            'standard' => self::buildPaidPlanConfig('standard'),
+            'premium' => self::buildPaidPlanConfig('premium'),
             default => [
                 'key' => 'free_trial',
                 'name' => 'Básico',
@@ -38,6 +26,21 @@ class PlanLimits
     public static function forShop(?Shop $shop): array
     {
         return self::config($shop?->plan);
+    }
+
+    private static function buildPaidPlanConfig(string $key): array
+    {
+        $limits = PlatformPlanSettings::limits($key);
+        $pricing = PlanPricing::for($key);
+        $monthly = (float) ($pricing['monthly'] ?? 0);
+
+        return [
+            'key' => $key,
+            'name' => $limits['name'],
+            'max_products' => $limits['max_products'],
+            'max_categories' => $limits['max_categories'],
+            'price' => PlanPricing::formatUsd($monthly) . '/mes',
+        ];
     }
 
     public static function productsUsage(?Shop $shop = null): array

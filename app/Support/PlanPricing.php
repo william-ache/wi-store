@@ -26,13 +26,23 @@ final class PlanPricing
         ],
     ];
 
+    /** @return array<string, array<string, mixed>> */
+    public static function plans(): array
+    {
+        $dynamic = PlatformPlanSettings::pricingPlans();
+
+        return $dynamic !== [] ? $dynamic : self::PLANS;
+    }
+
     public static function for(?string $plan): ?array
     {
-        if (!$plan || !isset(self::PLANS[$plan])) {
+        if (!$plan) {
             return null;
         }
 
-        return self::PLANS[$plan];
+        $plans = self::plans();
+
+        return $plans[$plan] ?? null;
     }
 
     public static function displayName(?string $plan): string

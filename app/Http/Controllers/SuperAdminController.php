@@ -15,9 +15,19 @@ class SuperAdminController extends Controller
 {
     public function index()
     {
+        return redirect()->route('super-admin.companies.index');
+    }
+
+    public function companies()
+    {
         $shops = Shop::with('users')->latest()->get();
         $pendingShops = Shop::with('users')->where('payment_status', 'pending')->latest()->get();
-        return view('super-admin', compact('shops', 'pendingShops'));
+
+        return view('super-admin.companies.index', [
+            'shops' => $shops,
+            'pendingShops' => $pendingShops,
+            'activeModule' => 'empresas',
+        ]);
     }
 
     public function store(Request $request)
@@ -283,7 +293,7 @@ class SuperAdminController extends Controller
     public function showLoginForm()
     {
         if (session('super_admin_authenticated')) {
-            return redirect()->route('super-admin.index');
+            return redirect()->route('super-admin.companies.index');
         }
         return view('super-admin-login');
     }
@@ -296,7 +306,7 @@ class SuperAdminController extends Controller
 
         if ($request->password === '88888888') {
             session(['super_admin_authenticated' => true]);
-            return redirect()->route('super-admin.index');
+            return redirect()->route('super-admin.companies.index');
         }
 
         return redirect()->back()->withErrors(['password' => 'Contraseña incorrecta.']);
