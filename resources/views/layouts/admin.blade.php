@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full wi-store-ui wi-store-admin" x-data="adminLayout" :class="{ 'dark': darkMode, 'admin-sidebar-open': sidebarOpen }">
+<html lang="es" class="h-full wi-store-ui wi-store-admin" x-data="adminLayout" :class="{ 'dark': darkMode, 'admin-sidebar-open': sidebarOpen, 'admin-sidebar-mini': sidebarMini }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">

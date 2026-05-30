@@ -60,7 +60,7 @@
               Empezar prueba de gestión gratis
             </a>
 
-            <a href="https://www.trustpilot.com/review/wi-store.com?utm_medium=trustbox&utm_source=TrustBoxReviewCollector"
+            <a href="{{ config('wi-store.trustpilot_review_url') ?: 'https://www.trustpilot.com/review/wi-store.com?utm_medium=trustbox&utm_source=TrustBoxReviewCollector' }}"
                target="_blank"
                rel="noopener noreferrer"
                class="landing-hero-trustpilot shrink-0"

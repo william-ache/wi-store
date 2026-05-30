@@ -33,8 +33,13 @@
 
     .wi-store-admin {
         --admin-sidebar-w: 16rem;
+        --admin-sidebar-w-mini: 4.25rem;
         --admin-topbar-h: 4.25rem;
         --admin-bottombar-h: 0px;
+    }
+
+    .wi-store-admin.admin-sidebar-mini {
+        --admin-sidebar-w: var(--admin-sidebar-w-mini);
     }
 
     @media (min-width: 768px) {
@@ -94,11 +99,14 @@
             z-index: 35;
             height: 100dvh;
             max-height: 100dvh;
+            width: var(--admin-sidebar-w);
+            transition: width 0.25s ease;
         }
 
         .wi-store-admin .admin-main-column {
             margin-left: var(--admin-sidebar-w);
             width: calc(100% - var(--admin-sidebar-w));
+            transition: margin-left 0.25s ease, width 0.25s ease;
         }
     }
 
@@ -160,6 +168,7 @@
             width: calc(100% - var(--admin-sidebar-w));
             padding-top: 1rem;
             padding-bottom: 1rem;
+            transition: left 0.25s ease, width 0.25s ease;
         }
     }
 
@@ -168,15 +177,47 @@
         max-width: 80rem;
         margin-left: auto;
         margin-right: auto;
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
         align-items: center;
-        justify-content: space-between;
         gap: 0.5rem;
         min-width: 0;
         overflow: visible;
     }
 
+    .wi-store-admin .admin-topbar-brand {
+        grid-column: 1;
+    }
+
+    .wi-store-admin .admin-topbar-actions {
+        grid-column: 2;
+    }
+
     @media (min-width: 768px) {
+        .wi-store-admin .admin-topbar-inner {
+            grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+        }
+
+        .wi-store-admin .admin-topbar-brand {
+            grid-column: 1;
+        }
+
+        .wi-store-admin .admin-topbar-search {
+            grid-column: 2;
+        }
+
+        .wi-store-admin .admin-topbar-actions {
+            grid-column: 3;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .wi-store-admin .admin-topbar-inner {
+            gap: 0.875rem;
+        }
+    }
+
+    @media (min-width: 1280px) {
         .wi-store-admin .admin-topbar-inner {
             gap: 1.25rem;
         }
@@ -185,27 +226,39 @@
     .wi-store-admin .admin-topbar-brand {
         display: flex;
         align-items: center;
-        gap: 0.625rem;
+        gap: 0.5rem;
         min-width: 0;
-        flex: 0 1 auto;
-        max-width: 14rem;
+        max-width: 100%;
+        overflow: hidden;
     }
 
     @media (min-width: 768px) {
         .wi-store-admin .admin-topbar-brand {
-            max-width: 11rem;
+            gap: 0.625rem;
         }
     }
 
     .wi-store-admin .admin-topbar-search {
         display: none;
-        flex: 1 1 auto;
         min-width: 0;
+        width: 100%;
+        max-width: 100%;
     }
 
     @media (min-width: 768px) {
         .wi-store-admin .admin-topbar-search {
             display: block;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 1279px) {
+        .wi-store-admin .admin-topbar-search-input {
+            min-height: 2.5rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 2.25rem;
+            padding-right: 2rem;
+            font-size: 0.75rem;
         }
     }
 
@@ -245,17 +298,102 @@
         color: #94a3b8;
     }
 
+    .wi-store-admin .admin-search-result__icon {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.625rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid transparent;
+    }
+
+    .wi-store-admin .admin-search-result__icon--image {
+        object-fit: cover;
+        border-color: #e2e8f0;
+    }
+
+    .wi-store-admin .admin-search-result__icon--rose {
+        background: #fff1f2;
+        color: #e11d48;
+        border-color: #fecdd3;
+    }
+
+    .wi-store-admin .admin-search-result__icon--emerald {
+        background: #ecfdf5;
+        color: #059669;
+        border-color: #a7f3d0;
+    }
+
+    .wi-store-admin .admin-search-result__icon--blue {
+        background: #eff6ff;
+        color: #2563eb;
+        border-color: #bfdbfe;
+    }
+
+    .wi-store-admin .admin-search-result__icon--violet {
+        background: #f5f3ff;
+        color: #7c3aed;
+        border-color: #ddd6fe;
+    }
+
+    .wi-store-admin .admin-search-badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.5625rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        line-height: 1.2;
+        padding: 0.3rem 0.55rem;
+        border-radius: 9999px;
+        border: 1px solid transparent;
+        max-width: 9rem;
+        text-align: center;
+    }
+
+    .wi-store-admin .admin-search-badge--rose {
+        background: #fff1f2;
+        color: #e11d48;
+        border-color: #fecdd3;
+    }
+
+    .wi-store-admin .admin-search-badge--emerald {
+        background: #ecfdf5;
+        color: #059669;
+        border-color: #a7f3d0;
+    }
+
+    .wi-store-admin .admin-search-badge--blue {
+        background: #eff6ff;
+        color: #2563eb;
+        border-color: #bfdbfe;
+    }
+
+    .wi-store-admin .admin-search-badge--violet {
+        background: #f5f3ff;
+        color: #7c3aed;
+        border-color: #ddd6fe;
+    }
+
     .wi-store-admin .admin-topbar-actions {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.25rem;
         flex-shrink: 0;
         overflow: visible;
+        justify-self: end;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
         .wi-store-admin .admin-topbar-actions {
-            gap: 1.25rem;
+            gap: 0.5rem;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .wi-store-admin .admin-topbar-actions {
+            gap: 1rem;
         }
     }
 
@@ -560,6 +698,63 @@
 
   .wi-store-admin .admin-sidebar-submenu:not(.admin-sidebar-submenu--open) .admin-sidebar-submenu__inner {
       pointer-events: none;
+  }
+
+  /* Sidebar mini: solo iconos; clic expande el menú (escritorio) */
+  @media (min-width: 768px) {
+      .wi-store-admin .admin-sidebar-brand-mini {
+          display: none;
+      }
+
+      .wi-store-admin.admin-sidebar-mini .admin-sidebar-header {
+          flex-direction: column;
+          justify-content: center;
+          gap: 0.35rem;
+          height: auto;
+          min-height: 4rem;
+          padding: 0.65rem 0.5rem;
+      }
+
+      .wi-store-admin.admin-sidebar-mini .admin-sidebar {
+          overflow: hidden;
+      }
+
+      .wi-store-admin.admin-sidebar-mini .admin-sidebar-nav {
+          overflow-x: hidden;
+          overflow-y: auto;
+      }
+
+      .wi-store-admin.admin-sidebar-mini .admin-sidebar-brand-text {
+          display: none;
+      }
+
+      .wi-store-admin.admin-sidebar-mini .admin-sidebar-brand-mini {
+          display: block;
+      }
+
+      .wi-store-admin.admin-sidebar-mini .admin-sidebar-nav {
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+      }
+
+      .wi-store-admin.admin-sidebar-mini .admin-nav-link {
+          justify-content: center;
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+          overflow: hidden;
+      }
+
+      .wi-store-admin.admin-sidebar-mini .admin-nav-link > span,
+      .wi-store-admin.admin-sidebar-mini .admin-nav-link--parent .flex > span,
+      .wi-store-admin.admin-sidebar-mini .admin-nav-link--parent > svg:last-child,
+      .wi-store-admin.admin-sidebar-mini .admin-sidebar-submenu {
+          display: none !important;
+      }
+
+      .wi-store-admin.admin-sidebar-mini .admin-nav-link--parent .flex {
+          justify-content: center;
+          gap: 0;
+      }
   }
 
   /* Modal modo oscuro (SweetAlert — renderizado en body) */

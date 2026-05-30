@@ -242,8 +242,8 @@ class DashboardController extends Controller
      */
     public function search(Request $request)
     {
-        $query = $request->input('query');
-        if (empty($query) || strlen($query) < 2) {
+        $query = trim((string) $request->input('query', ''));
+        if ($query === '') {
             return response()->json([
                 'success' => true,
                 'data' => [

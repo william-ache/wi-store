@@ -25,6 +25,9 @@
             // Polling de notificaciones (evita parpadeo constante)
             if (u.includes('/admin/notifications') && m === 'GET') return true;
 
+            // Búsqueda en vivo del topbar (no bloquear el panel)
+            if (u.includes('/admin/search') && m === 'GET') return true;
+
             return false;
         },
 

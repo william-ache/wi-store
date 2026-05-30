@@ -1,12 +1,23 @@
 <!-- SIDEBAR (overlay en móvil, fijo en escritorio) -->
 <aside
-    class="admin-sidebar flex flex-col h-full min-h-0 overflow-hidden md:w-64 w-0 max-md:overflow-visible max-md:border-0 bg-slate-900 text-slate-300 border-r border-slate-800 shrink-0"
+    class="admin-sidebar flex flex-col h-full min-h-0 overflow-hidden w-0 max-md:overflow-visible max-md:border-0 bg-slate-900 text-slate-300 border-r border-slate-800 shrink-0"
     :class="{ 'admin-sidebar--open': sidebarOpen }"
 >
         <!-- Brand Logo Header -->
-        <div class="h-16 px-6 border-b border-slate-800/80 flex items-center justify-between shrink-0">
-            <span class="text-xl font-black text-white tracking-tight">WIStore</span>
-            <div class="flex items-center gap-2">
+        <div class="admin-sidebar-header h-16 px-4 md:px-5 border-b border-slate-800/80 flex items-center justify-between shrink-0 gap-2">
+            <span class="admin-sidebar-brand-text text-xl font-black text-white tracking-tight truncate">WIStore</span>
+            <span class="admin-sidebar-brand-mini text-lg font-black text-white tracking-tight">W</span>
+            <div class="flex items-center gap-1 shrink-0">
+                <button
+                    type="button"
+                    class="hidden md:flex p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                    @click="toggleSidebarMini()"
+                    :aria-expanded="!sidebarMini"
+                    :title="sidebarMini ? 'Expandir menú' : 'Contraer menú'"
+                >
+                    <svg x-show="!sidebarMini" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <svg x-show="sidebarMini" x-cloak width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
                 <button
                     type="button"
                     class="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
@@ -45,27 +56,31 @@
                 }
             }
         @endphp
-        <nav class="admin-sidebar-nav flex-1 min-h-0 p-3.5 pb-2 space-y-1.5 custom-scrollbar overflow-y-auto"
+        <nav class="admin-sidebar-nav flex-1 min-h-0 p-3.5 pb-2 space-y-1.5 custom-scrollbar overflow-y-auto overflow-x-hidden"
              x-data='adminSidebarNav(@json($sidebarActiveSection))'
+             @click.capture="handleMiniNavClick($event)"
              @click="onSidebarNavClick($event)">
             <!-- Inicio -->
             <a href="/{{ config('current_shop')->slug }}/admin/dashboard" 
-               class="admin-nav-link {{ request()->is('*/admin/dashboard') ? 'admin-nav-link--active' : '' }}">
+               class="admin-nav-link {{ request()->is('*/admin/dashboard') ? 'admin-nav-link--active' : '' }}"
+               title="Inicio">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 <span>Inicio</span>
             </a>
 
             <!-- Analítica -->
             <a href="/{{ config('current_shop')->slug }}/admin/analytics" 
-               class="admin-nav-link {{ request()->is('*/admin/analytics*') ? 'admin-nav-link--active' : '' }}">
+               class="admin-nav-link {{ request()->is('*/admin/analytics*') ? 'admin-nav-link--active' : '' }}"
+               title="Analítica">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                 <span>Analítica</span>
             </a>
 
             <!-- Inventario -->
-            <div class="space-y-1">
+            <div class="space-y-1 admin-sidebar-section">
                 <button @click="toggleSection('inventario')" 
-                        class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'inventario' ? 'admin-nav-link--active' : '' }} group">
+                        class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'inventario' ? 'admin-nav-link--active' : '' }} group"
+                        title="Inventario">
                     <div class="flex items-center gap-2.5">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                         <span>Inventario</span>
@@ -99,7 +114,7 @@
 
             @if (\App\Support\PlanFeatures::hasBusinessPanel($currentShop ?? config('current_shop')))
             <!-- Ventas -->
-            <div class="space-y-1">
+            <div class="space-y-1 admin-sidebar-section">
                 <button @click="toggleSection('ventas')" 
                         class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'ventas' ? 'admin-nav-link--active' : '' }} group">
                     <div class="flex items-center gap-2.5">
@@ -139,7 +154,7 @@
 
             @if (\App\Support\PlanFeatures::hasBusinessPanel($currentShop ?? config('current_shop')))
             <!-- Contactos -->
-            <div class="space-y-1">
+            <div class="space-y-1 admin-sidebar-section">
                 <button @click="toggleSection('contactos')" 
                         class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'contactos' ? 'admin-nav-link--active' : '' }} group">
                     <div class="flex items-center gap-2.5">
@@ -174,7 +189,7 @@
 
             @if (\App\Support\PlanFeatures::hasBusinessPanel($currentShop ?? config('current_shop')))
             <!-- Finanzas -->
-            <div class="space-y-1">
+            <div class="space-y-1 admin-sidebar-section">
                 <button @click="toggleSection('finanzas')" 
                         class="admin-nav-link admin-nav-link--parent w-full group">
                     <div class="flex items-center gap-2.5">
@@ -201,7 +216,7 @@
             @endif
 
             <!-- Marketing -->
-            <div class="space-y-1">
+            <div class="space-y-1 admin-sidebar-section">
                 <button @click="toggleSection('marketing')" 
                         class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'marketing' ? 'admin-nav-link--active' : '' }} group">
                     <div class="flex items-center gap-2.5">
@@ -230,9 +245,8 @@
                         <span>Referidos</span>
                     </a>
                     <a href="#"
-                       @click.prevent="showRateModal = true"
-                       class="admin-nav-link admin-nav-link--sub"
-                       :class="{ 'admin-nav-link--active': showRateModal }">
+                       @click.prevent="openTrustpilotReview()"
+                       class="admin-nav-link admin-nav-link--sub">
                         <i class="fas fa-star text-[13px] w-[15px] text-center shrink-0 text-amber-400"></i>
                         <span>Calificar</span>
                     </a>
@@ -241,7 +255,7 @@
             </div>
 
             <!-- Sistema -->
-            <div class="space-y-1">
+            <div class="space-y-1 admin-sidebar-section">
                 <button @click="toggleSection('sistema')" 
                         class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'sistema' ? 'admin-nav-link--active' : '' }} group">
                     <div class="flex items-center gap-2.5">

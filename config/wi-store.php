@@ -18,4 +18,14 @@ return [
     */
     'trial_days' => (int) env('WI_STORE_TRIAL_DAYS', 14),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Reseñas en Trustpilot
+    |--------------------------------------------------------------------------
+    */
+    'trustpilot_review_url' => env(
+        'WI_STORE_TRUSTPILOT_URL',
+        'https://www.trustpilot.com/review/wi-store.com?utm_medium=trustbox&utm_source=TrustBoxReviewCollector'
+    ),
+
 ];

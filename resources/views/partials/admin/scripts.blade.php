@@ -15,10 +15,21 @@
         Alpine.data('adminSidebarNav', (activeSection = null) => ({
             activeSection: activeSection,
             openSection: activeSection,
+            getLayout() {
+                return Alpine.$data(document.documentElement);
+            },
             isSectionOpen(id) {
                 return this.openSection === id;
             },
             toggleSection(id) {
+                const layout = this.getLayout();
+
+                if (layout?.sidebarMini && window.innerWidth >= 768) {
+                    layout.expandSidebarFromMini();
+                    this.openSection = id;
+                    return;
+                }
+
                 if (this.openSection === id) {
                     if (this.activeSection === id) {
                         return;
@@ -28,6 +39,20 @@
                 }
 
                 this.openSection = id;
+            },
+            handleMiniNavClick(event) {
+                const layout = this.getLayout();
+
+                if (!layout?.sidebarMini || window.innerWidth < 768) return;
+
+                if (event.target.closest('.admin-nav-link--parent')) {
+                    return;
+                }
+
+                layout.expandSidebarFromMini();
+            },
+            openTrustpilotReview() {
+                this.getLayout()?.confirmTrustpilotRedirect();
             },
         }));
 
@@ -146,12 +171,14 @@
             showRateModal: {{ (session('open_rate_modal') || old('rating') || $errors->has('rating') || $errors->has('comment')) ? 'true' : 'false' }},
             showAllNotifs: false,
             sidebarOpen: false,
+            sidebarMini: localStorage.getItem('admin-sidebar-mini') === 'true',
             profileMenuOpen: false,
             searchModalOpen: false,
             notifOpen: false,
             searchQuery: '',
             searchResults: { categories: [], products: [], orders: [], clients: [] },
             searchPanelOpen: false,
+            searchMinLength: 1,
             searchLoading: false,
             darkMode: localStorage.getItem('admin-dark-mode') === 'true',
             unreadCount: 0,
@@ -159,6 +186,15 @@
             shopSlug: '{{ config('current_shop')->slug }}',
             toggleSidebar() {
                 this.sidebarOpen = !this.sidebarOpen;
+            },
+            toggleSidebarMini() {
+                this.sidebarMini = !this.sidebarMini;
+                localStorage.setItem('admin-sidebar-mini', this.sidebarMini ? 'true' : 'false');
+            },
+            expandSidebarFromMini() {
+                if (!this.sidebarMini) return;
+                this.sidebarMini = false;
+                localStorage.setItem('admin-sidebar-mini', 'false');
             },
             closeSidebar() {
                 this.sidebarOpen = false;
@@ -198,6 +234,43 @@
                     'Tutoriales del sistema 🎓',
                     'Esta sección está en desarrollo. Muy pronto tendrás video guías y preguntas frecuentes aquí.',
                 );
+            },
+            confirmTrustpilotRedirect() {
+                const trustpilotUrl = @json(config('wi-store.trustpilot_review_url'))
+                    || 'https://www.trustpilot.com/review/wi-store.com?utm_medium=trustbox&utm_source=TrustBoxReviewCollector';
+                const message = 'Te enviaremos a Trustpilot para dejar tu reseña. Saldrás del panel de administración.';
+
+                if (typeof Swal === 'undefined') {
+                    if (window.confirm(message + ' ¿Deseas continuar?')) {
+                        window.location.assign(trustpilotUrl);
+                    }
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Calificar en Trustpilot ⭐',
+                    text: message,
+                    icon: 'info',
+                    iconColor: '#fbbf24',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ir a Trustpilot',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '{{ config('current_shop')->color_primary ?? '#6366f1' }}',
+                    cancelButtonColor: '#475569',
+                    background: '#1e293b',
+                    color: '#ffffff',
+                    customClass: {
+                        popup: 'admin-dark-mode-swal',
+                        title: 'admin-dark-mode-swal__title',
+                        htmlContainer: 'admin-dark-mode-swal__text',
+                        icon: 'admin-dark-mode-swal__icon',
+                        confirmButton: 'admin-dark-mode-swal__btn',
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.assign(trustpilotUrl);
+                    }
+                });
             },
             onSidebarNavClick(event) {
                 if (window.innerWidth >= 768) return;
@@ -242,16 +315,79 @@
                     || (this.searchResults.orders?.length > 0)
                     || (this.searchResults.clients?.length > 0);
             },
+            canRunSearch() {
+                return this.searchQuery.trim().length >= this.searchMinLength;
+            },
+            flatSearchRows() {
+                const rows = [];
+
+                (this.searchResults.categories || []).forEach((item) => {
+                    rows.push({
+                        key: `category-${item.id}`,
+                        type: 'category',
+                        item,
+                        title: item.name,
+                        subtitle: item.slug || 'Sin slug',
+                        badge: 'Categoría / Inventario',
+                        badgeTone: 'rose',
+                    });
+                });
+
+                (this.searchResults.products || []).forEach((item) => {
+                    rows.push({
+                        key: `product-${item.id}`,
+                        type: 'product',
+                        item,
+                        title: item.name,
+                        subtitle: '$' + parseFloat(item.price || 0).toFixed(2),
+                        badge: 'Producto / Inventario',
+                        badgeTone: 'emerald',
+                    });
+                });
+
+                (this.searchResults.orders || []).forEach((item) => {
+                    rows.push({
+                        key: `order-${item.id}`,
+                        type: 'order',
+                        item,
+                        title: `Orden #${item.id}`,
+                        subtitle: `${item.customer_name || 'Sin nombre'} • $${parseFloat(item.total || 0).toFixed(2)}`,
+                        badge: 'Orden / Ventas',
+                        badgeTone: 'blue',
+                    });
+                });
+
+                (this.searchResults.clients || []).forEach((item) => {
+                    const contact = [item.phone, item.email].filter(Boolean).join(' • ');
+                    rows.push({
+                        key: `client-${item.id}`,
+                        type: 'client',
+                        item,
+                        title: item.name,
+                        subtitle: contact || 'Sin contacto',
+                        badge: 'Cliente / Contactos',
+                        badgeTone: 'violet',
+                    });
+                });
+
+                return rows;
+            },
             clearSearch() {
                 this.searchQuery = '';
                 this.searchResults = { categories: [], products: [], orders: [], clients: [] };
                 this.searchPanelOpen = false;
             },
+            resetSearchResults() {
+                this.searchResults = { categories: [], products: [], orders: [], clients: [] };
+                this.searchPanelOpen = false;
+            },
             async runSearch() {
-                if (this.searchQuery.trim().length < 2) {
-                    this.clearSearch();
+                if (!this.canRunSearch()) {
+                    this.resetSearchResults();
                     return;
                 }
+
+                this.searchPanelOpen = true;
                 this.searchLoading = true;
                 try {
                     const res = await fetch(`/${this.shopSlug}/admin/search?query=` + encodeURIComponent(this.searchQuery));

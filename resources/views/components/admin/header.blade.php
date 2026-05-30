@@ -20,9 +20,9 @@
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
-            <div class="min-w-0">
-                <span class="hidden md:block text-[10px] uppercase font-extrabold tracking-widest accent-muted leading-none">Panel Administrativo</span>
-                <h1 class="text-base sm:text-lg md:text-lg font-black tracking-tight leading-tight mt-0 md:mt-0.5 truncate">
+            <div class="min-w-0 overflow-hidden">
+                <span class="admin-topbar-brand-tagline hidden xl:block text-[10px] uppercase font-extrabold tracking-widest accent-muted leading-none">Panel Administrativo</span>
+                <h1 class="admin-topbar-brand-title text-base sm:text-lg font-black tracking-tight leading-tight mt-0 xl:mt-0.5 truncate max-w-[7rem] sm:max-w-[9rem] lg:max-w-[11rem] xl:max-w-none">
                     {{ config('current_shop')->name ?? 'Mi Tienda' }}
                 </h1>
             </div>
@@ -36,145 +36,22 @@
             <input type="text"
                    x-model="searchQuery"
                    @input.debounce.300ms="runSearch()"
-                   @focus="if (hasSearchResults()) searchPanelOpen = true"
+                   @focus="if (canRunSearch() && hasSearchResults()) searchPanelOpen = true"
                    class="admin-topbar-search-input"
-                   placeholder="Buscar categorías, productos, órdenes...">
-            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-                <template x-if="searchLoading">
-                    <svg class="animate-spin h-4 w-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                </template>
-                <template x-if="searchQuery && !searchLoading">
+                   placeholder="Buscar...">
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+                <template x-if="searchQuery">
                     <button type="button" @click="clearSearch()" class="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                 </template>
             </div>
-            <div x-show="searchPanelOpen && searchQuery.trim().length >= 2"
+            <div x-show="searchPanelOpen && canRunSearch()"
                  x-cloak
                  x-transition.opacity.duration.200ms
                  class="absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-100 dark:border-slate-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden z-[100] max-h-96 overflow-y-auto text-slate-800 dark:text-slate-200">
-                    <!-- Categorías -->
-                    <template x-if="searchResults.categories && searchResults.categories.length > 0">
-                        <div>
-                            <div class="px-4 py-2 ui-inset border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
-                                <span class="text-[9px] uppercase font-black tracking-widest text-primary">Categorías</span>
-                                <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="searchResults.categories.length"></span>
-                            </div>
-                            <div class="p-1.5 space-y-0.5">
-                                <template x-for="item in searchResults.categories" :key="'cat-'+item.id">
-                                    <button @click="handleSearchSelect('category', item)"
-                                            class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="item.name"></p>
-                                                <p class="text-[9px] font-mono text-slate-400" x-text="item.slug"></p>
-                                            </div>
-                                        </div>
-                                        <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
-                                    </button>
-                                </template>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Productos -->
-                    <template x-if="searchResults.products && searchResults.products.length > 0">
-                        <div>
-                            <div class="px-4 py-2 ui-inset border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
-                                <span class="text-[9px] uppercase font-black tracking-widest text-primary">Productos</span>
-                                <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="searchResults.products.length"></span>
-                            </div>
-                            <div class="p-1.5 space-y-0.5">
-                                <template x-for="item in searchResults.products" :key="'prod-'+item.id">
-                                    <button @click="handleSearchSelect('product', item)"
-                                            class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
-                                        <div class="flex items-center gap-2">
-                                            <template x-if="item.image_path">
-                                                <img :src="item.image_path.startsWith('http') ? item.image_path : '/storage/' + item.image_path" class="w-7 h-7 rounded-lg object-cover border border-slate-100 dark:border-slate-800" alt="">
-                                            </template>
-                                            <template x-if="!item.image_path">
-                                                <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                                                </div>
-                                            </template>
-                                            <div>
-                                                <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="item.name"></p>
-                                                <p class="text-[9px] font-bold text-slate-400" x-text="'$' + parseFloat(item.price).toFixed(2)"></p>
-                                            </div>
-                                        </div>
-                                        <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
-                                    </button>
-                                </template>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Órdenes -->
-                    <template x-if="searchResults.orders && searchResults.orders.length > 0">
-                        <div>
-                            <div class="px-4 py-2 ui-inset border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
-                                <span class="text-[9px] uppercase font-black tracking-widest text-primary">Órdenes</span>
-                                <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="searchResults.orders.length"></span>
-                            </div>
-                            <div class="p-1.5 space-y-0.5">
-                                <template x-for="item in searchResults.orders" :key="'ord-'+item.id">
-                                    <button @click="handleSearchSelect('order', item)"
-                                            class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="'Orden #' + item.id"></p>
-                                                <p class="text-[9px] font-bold text-slate-400" x-text="item.customer_name + ' | $' + parseFloat(item.total).toFixed(2)"></p>
-                                            </div>
-                                        </div>
-                                        <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
-                                    </button>
-                                </template>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Clientes -->
-                    <template x-if="searchResults.clients && searchResults.clients.length > 0">
-                        <div>
-                            <div class="px-4 py-2 ui-inset border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
-                                <span class="text-[9px] uppercase font-black tracking-widest text-primary">Clientes</span>
-                                <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="searchResults.clients.length"></span>
-                            </div>
-                            <div class="p-1.5 space-y-0.5">
-                                <template x-for="item in searchResults.clients" :key="'cli-'+item.id">
-                                    <button @click="handleSearchSelect('client', item)"
-                                            class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="item.name"></p>
-                                                <p class="text-[9px] font-bold text-slate-400" x-text="item.phone + (item.email ? ' | ' + item.email : '')"></p>
-                                            </div>
-                                        </div>
-                                        <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
-                                    </button>
-                                </template>
-                            </div>
-                        </div>
-                    </template>
-
-                    <template x-if="searchQuery.trim().length >= 2 && !hasSearchResults() && !searchLoading">
-                        <div class="p-6 text-center text-xs text-slate-400 font-bold ui-surface transition-colors duration-300">
-                            No se encontraron resultados
-                        </div>
-                    </template>
-                </div>
+                @include('partials.admin.search-results-list')
+            </div>
         </div>
 
         <div class="admin-topbar-actions">
@@ -192,7 +69,7 @@
             <a href="/{{ config('current_shop')->slug }}"
                target="_blank"
                rel="noopener noreferrer"
-               class="accent-icon-btn relative p-2 rounded-full transition-colors hidden md:flex"
+               class="accent-icon-btn relative p-2 rounded-full transition-colors hidden lg:flex"
                title="Ver catálogo digital">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
@@ -202,7 +79,7 @@
                 </svg>
             </a>
 
-            <button type="button" @click="showDarkModeComingSoon()" class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer hidden md:block" title="Modo oscuro">
+            <button type="button" @click="showDarkModeComingSoon()" class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer hidden lg:block" title="Modo oscuro">
                 <svg x-show="!darkMode" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
@@ -220,7 +97,7 @@
             </button>
 
             <button type="button" @click="$dispatch('open-qr-modal')"
-                    class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer hidden md:block"
+                    class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer hidden xl:block"
                     title="Compartir catálogo">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/>
@@ -229,14 +106,14 @@
             </button>
 
             <button type="button" @click="showTutorialsComingSoon()"
-                    class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer hidden md:block"
+                    class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer hidden xl:block"
                     title="Tutoriales del sistema">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
                 </svg>
             </button>
 
-            <div class="relative z-[100] hidden md:block" @click.away="notifOpen = false">
+            <div class="relative z-[100] hidden lg:block" @click.away="notifOpen = false">
                 <button type="button" @click.stop="toggleNotifications()" class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     <span x-cloak x-show="unreadCount > 0" class="absolute top-0 right-0 w-[18px] h-[18px] bg-rose-500 rounded-full border-2 border-primary flex items-center justify-center text-[8px] font-black text-white shadow-sm" x-text="unreadCount > 99 ? '+99' : unreadCount"></span>
@@ -277,7 +154,7 @@
                 </div>
             </div>
 
-            <div class="hidden md:block w-px h-6 opacity-20 bg-[var(--color-on-primary)]"></div>
+            <div class="hidden lg:block w-px h-6 opacity-20 bg-[var(--color-on-primary)]"></div>
 
             <!-- Perfil -->
             <div class="relative z-50 shrink-0" @click.away="closeProfileMenu()">
@@ -293,8 +170,8 @@
                             <span class="w-9 h-9 md:w-9 md:h-9 rounded-full bg-[rgba(var(--color-on-primary-rgb),0.2)] flex items-center justify-center font-black text-sm shadow-sm">A</span>
                         @endif
                     </span>
-                    <span class="text-sm font-bold hidden md:inline">{{ config('current_shop')->name ?? 'Admin' }}</span>
-                    <svg class="w-4 h-4 accent-muted hidden md:inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <span class="text-sm font-bold hidden xl:inline truncate max-w-[8rem]">{{ config('current_shop')->name ?? 'Admin' }}</span>
+                    <svg class="w-4 h-4 accent-muted hidden xl:inline shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
 
                 <!-- Móvil: iconos rápidos + cuenta -->
@@ -403,92 +280,21 @@
                     type="search"
                     x-model="searchQuery"
                     @input.debounce.300ms="runSearch()"
-                    class="ui-field w-full text-sm font-semibold rounded-xl pl-9 pr-9 py-2.5"
-                    placeholder="Buscar categorías, productos..."
+                    class="ui-field w-full text-sm font-semibold rounded-xl pl-9 pr-3 py-2.5"
+                    placeholder="Buscar..."
                     autocomplete="off"
                 >
-                <template x-if="searchLoading">
-                    <div class="absolute right-3 top-1/2 -translate-y-1/2">
-                        <svg class="animate-spin h-4 w-4 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </div>
-                </template>
             </div>
             <button type="button" @click="closeSearchModal()" class="shrink-0 p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Cerrar búsqueda">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
         </div>
         <div class="overflow-y-auto flex-1 min-h-0 text-slate-800 dark:text-slate-200">
-            <template x-if="searchQuery.trim().length < 2">
-                <p class="p-6 text-center text-xs text-slate-400 font-semibold">Escribe al menos 2 caracteres para buscar</p>
+            <template x-if="!canRunSearch()">
+                <p class="p-6 text-center text-xs text-slate-400 font-semibold">Escribe al menos 1 letra para buscar</p>
             </template>
-            <div x-show="searchQuery.trim().length >= 2" class="pb-2">
-                <!-- Categorías -->
-                <template x-if="searchResults.categories && searchResults.categories.length > 0">
-                    <div>
-                        <div class="px-4 py-2 ui-inset border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
-                            <span class="text-[9px] uppercase font-black tracking-widest text-primary">Categorías</span>
-                            <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="searchResults.categories.length"></span>
-                        </div>
-                        <div class="p-1.5 space-y-0.5">
-                            <template x-for="item in searchResults.categories" :key="'cat-m-'+item.id">
-                                <button @click="handleSearchSelect('category', item)"
-                                        class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="item.name"></p>
-                                            <p class="text-[9px] font-mono text-slate-400" x-text="item.slug"></p>
-                                        </div>
-                                    </div>
-                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
-                                </button>
-                            </template>
-                        </div>
-                    </div>
-                </template>
-
-                <!-- Productos -->
-                <template x-if="searchResults.products && searchResults.products.length > 0">
-                    <div>
-                        <div class="px-4 py-2 ui-inset border-b border-slate-100/50 dark:border-slate-800/50 flex items-center justify-between">
-                            <span class="text-[9px] uppercase font-black tracking-widest text-primary">Productos</span>
-                            <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold" x-text="searchResults.products.length"></span>
-                        </div>
-                        <div class="p-1.5 space-y-0.5">
-                            <template x-for="item in searchResults.products" :key="'prod-m-'+item.id">
-                                <button @click="handleSearchSelect('product', item)"
-                                        class="w-full flex items-center justify-between text-left px-3 py-2 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors group cursor-pointer">
-                                    <div class="flex items-center gap-2">
-                                        <template x-if="item.image_path">
-                                            <img :src="item.image_path.startsWith('http') ? item.image_path : '/storage/' + item.image_path" class="w-7 h-7 rounded-lg object-cover border border-slate-100 dark:border-slate-800" alt="">
-                                        </template>
-                                        <template x-if="!item.image_path">
-                                            <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                                            </div>
-                                        </template>
-                                        <div>
-                                            <p class="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-primary transition-colors" x-text="item.name"></p>
-                                            <p class="text-[9px] font-bold text-slate-400" x-text="'$' + parseFloat(item.price).toFixed(2)"></p>
-                                        </div>
-                                    </div>
-                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">Editar →</span>
-                                </button>
-                            </template>
-                        </div>
-                    </div>
-                </template>
-
-                <template x-if="searchQuery.trim().length >= 2 && !hasSearchResults() && !searchLoading">
-                    <div class="p-6 text-center text-xs text-slate-400 font-bold ui-surface transition-colors duration-300">
-                        No se encontraron resultados
-                    </div>
-                </template>
+            <div x-show="canRunSearch()" class="pb-2">
+                @include('partials.admin.search-results-list')
             </div>
         </div>
     </div>
