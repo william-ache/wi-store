@@ -212,6 +212,7 @@ Route::middleware(['tenant'])->prefix($tenantPrefix)->group(function () {
     // Panel Administrativo de la Tienda (Privado)
     Route::middleware(['auth', 'plan.business'])->prefix('/admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        Route::post('/dashboard/quick-links', [App\Http\Controllers\Admin\DashboardController::class, 'updateQuickLinks'])->name('dashboard.quick-links');
         Route::get('/analytics', [App\Http\Controllers\Admin\DashboardController::class, 'analytics'])->name('analytics');
         Route::get('/search', [App\Http\Controllers\Admin\DashboardController::class, 'search'])->name('search');
         Route::get('/tutorials', [App\Http\Controllers\Admin\DashboardController::class, 'tutorials'])->name('tutorials');

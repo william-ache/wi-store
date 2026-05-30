@@ -638,6 +638,83 @@
       flex-shrink: 0;
   }
 
+  .wi-store-admin .admin-quick-edit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.625rem 0.75rem;
+      border-radius: 0.875rem;
+      border: 1px solid var(--ui-border);
+      background: #f8fafc;
+  }
+
+  .dark .wi-store-admin .admin-quick-edit-row {
+      background: var(--ui-inset, #161616);
+  }
+
+  .wi-store-admin .admin-quick-edit-btn {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--ui-border);
+      background: #fff;
+      color: var(--ui-text-muted);
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .wi-store-admin .admin-quick-edit-btn:hover:not(:disabled) {
+      color: var(--color-primary);
+      border-color: color-mix(in srgb, var(--color-primary) 30%, var(--ui-border));
+  }
+
+  .wi-store-admin .admin-quick-edit-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+  }
+
+  .wi-store-admin .admin-quick-edit-btn--danger:hover:not(:disabled) {
+      color: #e11d48;
+      border-color: rgba(225, 29, 72, 0.25);
+  }
+
+  .wi-store-admin .admin-quick-edit-option {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.625rem 0.75rem;
+      border-radius: 0.875rem;
+      border: 1px solid var(--ui-border);
+      background: #fff;
+      text-align: left;
+      transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .wi-store-admin .admin-quick-edit-option:hover:not(:disabled) {
+      border-color: color-mix(in srgb, var(--color-primary) 25%, var(--ui-border));
+  }
+
+  .wi-store-admin .admin-quick-edit-option--active {
+      border-color: color-mix(in srgb, var(--color-primary) 45%, var(--ui-border));
+      background: color-mix(in srgb, var(--color-primary) 8%, #fff);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 15%, transparent);
+  }
+
+  .wi-store-admin .admin-quick-edit-option:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+  }
+
+  .dark .wi-store-admin .admin-quick-edit-btn,
+  .dark .wi-store-admin .admin-quick-edit-option {
+      background: var(--ui-surface);
+  }
+
   /* Dashboard inicio: cabe en una pantalla (escritorio) */
   @media (min-width: 1024px) {
       .wi-store-admin .admin-main-column:has(.admin-dashboard-page) {

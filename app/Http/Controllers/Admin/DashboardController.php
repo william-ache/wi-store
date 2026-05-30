@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ShortLink;
+use App\Support\DashboardQuickLinks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -57,6 +58,11 @@ class DashboardController extends Controller
 
         $sparklinePoints = $this->sparklinePath($chartData, 72, 28);
 
+        $shop = config('current_shop');
+        $quickLinks = DashboardQuickLinks::resolveForShop($shop);
+        $quickLinksCatalog = DashboardQuickLinks::catalogForShop($shop);
+        $quickLinksSelected = DashboardQuickLinks::selectedKeysForShop($shop);
+
         return view('admin.dashboard', compact(
             'productsCount',
             'categoriesCount',
@@ -68,8 +74,34 @@ class DashboardController extends Controller
             'weeklyTrendLabel',
             'weeklyTrendUp',
             'newClientsThisMonth',
-            'sparklinePoints'
+            'sparklinePoints',
+            'quickLinks',
+            'quickLinksCatalog',
+            'quickLinksSelected',
         ));
+    }
+
+    public function updateQuickLinks(Request $request)
+    {
+        $shop = config('current_shop');
+
+        if (! $shop) {
+            abort(404, 'Tienda no encontrada.');
+        }
+
+        $request->validate([
+            'quick_links' => 'required|array|min:' . DashboardQuickLinks::MIN . '|max:' . DashboardQuickLinks::MAX,
+            'quick_links.*' => DashboardQuickLinks::validationRule(),
+        ]);
+
+        $sanitized = DashboardQuickLinks::sanitize($request->input('quick_links'), $shop);
+
+        $shop->update(['dashboard_quick_links' => $sanitized]);
+
+        return response()->json([
+            'success' => true,
+            'links' => DashboardQuickLinks::resolveForShop($shop->fresh()),
+        ]);
     }
 
     /**

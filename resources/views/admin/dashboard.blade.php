@@ -114,28 +114,101 @@
             </div>
         </div>
 
-        <div class="lg:col-span-2 admin-dash-panel rounded-2xl p-4 md:p-5 flex flex-col min-h-0">
-            <h2 class="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[var(--ui-text-muted)] mb-3 shrink-0">Accesos Rápidos</h2>
+        <div class="lg:col-span-2 admin-dash-panel rounded-2xl p-4 md:p-5 flex flex-col min-h-0"
+             x-data="dashboardQuickLinks({
+                selected: @json($quickLinksSelected),
+                catalog: @json($quickLinksCatalog),
+                links: @json($quickLinks),
+                saveUrl: @json(route('admin.dashboard.quick-links', ['shop_slug' => config('current_shop')->slug])),
+                max: {{ \App\Support\DashboardQuickLinks::MAX }},
+             })">
+            <div class="flex items-center justify-between gap-2 mb-3 shrink-0">
+                <h2 class="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[var(--ui-text-muted)]">Accesos Rápidos</h2>
+                <button type="button"
+                        @click="openEditor()"
+                        class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-primary hover:underline shrink-0">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    Personalizar
+                </button>
+            </div>
             <div class="admin-dash-quick-list">
-                @php
-                    $quickLinks = [
-                        ['/' . config('current_shop')->slug . '/admin/products', '📦', 'Cargar Productos', 'bg-amber-500/15'],
-                        ['/' . config('current_shop')->slug . '/admin/settings', '🎨', 'Personalizar Tienda', 'bg-violet-500/15'],
-                        ['/' . config('current_shop')->slug . '/admin/analytics', '📊', 'Ver Rendimiento', 'bg-sky-500/15'],
-                    ];
-                    if ($planHasBusinessModules ?? true) {
-                        $quickLinks[] = ['/' . config('current_shop')->slug . '/admin/orders', '📋', 'Gestionar Pedidos', 'bg-emerald-500/15'];
-                    }
-                @endphp
-                @foreach($quickLinks as [$href, $icon, $title, $iconBg])
-                <a href="{{ $href }}" class="admin-quick-link group">
-                    <div class="flex items-center gap-2.5 min-w-0">
-                        <span class="admin-quick-icon {{ $iconBg }}">{{ $icon }}</span>
-                        <span class="text-xs md:text-sm font-bold text-[var(--ui-text)] truncate">{{ $title }}</span>
+                <template x-for="link in links" :key="link.key">
+                    <a :href="link.href" class="admin-quick-link group">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <span class="admin-quick-icon" :class="link.iconBg" x-text="link.icon"></span>
+                            <span class="text-xs md:text-sm font-bold text-[var(--ui-text)] truncate" x-text="link.title"></span>
+                        </div>
+                        <span class="text-[var(--ui-text-muted)] group-hover:text-primary transition-colors text-sm font-black shrink-0">→</span>
+                    </a>
+                </template>
+            </div>
+
+            {{-- Modal personalizar accesos --}}
+            <div x-show="editorOpen" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                <div x-show="editorOpen"
+                     x-transition.opacity.duration.300ms
+                     class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+                     @click="closeEditor()"></div>
+
+                <div x-show="editorOpen"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                     class="relative ui-card rounded-2xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col z-10 border border-slate-100 dark:border-slate-800 max-h-[min(90dvh,640px)]"
+                     @keydown.escape.window="closeEditor()">
+
+                    <div class="px-5 py-4 border-b border-[var(--ui-border)] shrink-0">
+                        <h3 class="text-base font-extrabold text-[var(--ui-text)]">Personalizar accesos</h3>
+                        <p class="text-xs text-[var(--ui-text-muted)] mt-1 font-medium">Elige hasta <span x-text="max"></span> atajos y ordénalos como prefieras.</p>
                     </div>
-                    <span class="text-[var(--ui-text-muted)] group-hover:text-primary transition-colors text-sm font-black shrink-0">→</span>
-                </a>
-                @endforeach
+
+                    <div class="px-5 py-4 space-y-4 overflow-y-auto custom-scrollbar flex-1 min-h-0">
+                        <div>
+                            <p class="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[var(--ui-text-muted)] mb-2">Seleccionados</p>
+                            <div class="space-y-2">
+                                <template x-for="(key, index) in draft" :key="'sel-' + key">
+                                    <div class="admin-quick-edit-row">
+                                        <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                                            <span class="admin-quick-icon shrink-0" :class="optionFor(key)?.icon_bg" x-text="optionFor(key)?.icon"></span>
+                                            <span class="text-sm font-bold text-[var(--ui-text)] truncate" x-text="optionFor(key)?.label"></span>
+                                        </div>
+                                        <div class="flex items-center gap-1 shrink-0">
+                                            <button type="button" @click="moveUp(index)" :disabled="index === 0" class="admin-quick-edit-btn" aria-label="Subir">↑</button>
+                                            <button type="button" @click="moveDown(index)" :disabled="index === draft.length - 1" class="admin-quick-edit-btn" aria-label="Bajar">↓</button>
+                                            <button type="button" @click="removeKey(key)" :disabled="draft.length <= 1" class="admin-quick-edit-btn admin-quick-edit-btn--danger" aria-label="Quitar">×</button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[var(--ui-text-muted)] mb-2">Disponibles</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <template x-for="option in catalog" :key="'opt-' + option.key">
+                                    <button type="button"
+                                            @click="toggleKey(option.key)"
+                                            :disabled="!isSelected(option.key) && draft.length >= max"
+                                            class="admin-quick-edit-option"
+                                            :class="{ 'admin-quick-edit-option--active': isSelected(option.key) }">
+                                        <span class="admin-quick-icon shrink-0" :class="option.icon_bg" x-text="option.icon"></span>
+                                        <span class="text-xs font-bold text-[var(--ui-text)] truncate" x-text="option.label"></span>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-5 py-4 border-t border-[var(--ui-border)] flex items-center justify-end gap-2 shrink-0">
+                        <button type="button" @click="closeEditor()" class="px-4 py-2 rounded-xl text-xs font-bold text-[var(--ui-text-muted)] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Cancelar</button>
+                        <button type="button" @click="save()" :disabled="saving || draft.length < 1" class="admin-btn-store-live !px-4 !py-2 !text-xs">
+                            <span x-text="saving ? 'Guardando…' : 'Guardar'"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -145,6 +218,118 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    function dashboardQuickLinks(config) {
+        return {
+            selected: config.selected || [],
+            catalog: config.catalog || [],
+            links: config.links || [],
+            draft: [],
+            editorOpen: false,
+            saving: false,
+            saveUrl: config.saveUrl,
+            max: config.max || 6,
+
+            openEditor() {
+                this.draft = [...this.selected];
+                this.editorOpen = true;
+            },
+
+            closeEditor() {
+                if (this.saving) return;
+                this.editorOpen = false;
+            },
+
+            optionFor(key) {
+                return this.catalog.find(o => o.key === key);
+            },
+
+            isSelected(key) {
+                return this.draft.includes(key);
+            },
+
+            toggleKey(key) {
+                if (this.isSelected(key)) {
+                    if (this.draft.length <= 1) return;
+                    this.draft = this.draft.filter(k => k !== key);
+                    return;
+                }
+                if (this.draft.length >= this.max) return;
+                this.draft.push(key);
+            },
+
+            removeKey(key) {
+                if (this.draft.length <= 1) return;
+                this.draft = this.draft.filter(k => k !== key);
+            },
+
+            moveUp(index) {
+                if (index <= 0) return;
+                const next = [...this.draft];
+                [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                this.draft = next;
+            },
+
+            moveDown(index) {
+                if (index >= this.draft.length - 1) return;
+                const next = [...this.draft];
+                [next[index + 1], next[index]] = [next[index], next[index + 1]];
+                this.draft = next;
+            },
+
+            async save() {
+                if (this.saving || this.draft.length < 1) return;
+                this.saving = true;
+
+                try {
+                    const response = await fetch(this.saveUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                        },
+                        body: JSON.stringify({ quick_links: this.draft }),
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || 'No se pudo guardar.');
+                    }
+
+                    this.links = data.links;
+                    this.selected = [...this.draft];
+                    this.editorOpen = false;
+
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Accesos actualizados',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                        });
+                    }
+                } catch (error) {
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: error.message || 'No se pudo guardar la configuración.',
+                            confirmButtonColor: '{{ config('current_shop')->color_primary ?? '#6366f1' }}',
+                        });
+                    } else {
+                        window.alert(error.message || 'No se pudo guardar.');
+                    }
+                } finally {
+                    this.saving = false;
+                }
+            },
+        };
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         const canvas = document.getElementById('dashboardWeekChart');
         if (!canvas) return;
