@@ -19,7 +19,35 @@
         </div>
 
         <!-- Navlinks -->
-        <nav class="admin-sidebar-nav flex-1 min-h-0 p-3.5 pb-2 space-y-1.5 custom-scrollbar overflow-y-auto" @click="onSidebarNavClick($event)">
+        @php
+            $sidebarSectionRoutes = [
+                'inventario' => ['*/admin/products*', '*/admin/categories*'],
+                'ventas' => ['*/admin/orders*', '*/admin/bookings*', '*/admin/abandoned-carts*'],
+                'contactos' => ['*/admin/clients*'],
+                'marketing' => ['*/admin/announcements*', '*/admin/coupons*'],
+                'sistema' => [
+                    '*/admin/subscription*',
+                    '*/admin/settings*',
+                    '*/admin/feedback*',
+                    '*/admin/billing*',
+                    '*/admin/rate-wi-store*',
+                    '*/admin/setup-modules*',
+                ],
+            ];
+
+            $sidebarActiveSection = null;
+            foreach ($sidebarSectionRoutes as $section => $patterns) {
+                foreach ($patterns as $pattern) {
+                    if (request()->is($pattern)) {
+                        $sidebarActiveSection = $section;
+                        break 2;
+                    }
+                }
+            }
+        @endphp
+        <nav class="admin-sidebar-nav flex-1 min-h-0 p-3.5 pb-2 space-y-1.5 custom-scrollbar overflow-y-auto"
+             x-data="adminSidebarNav(@json($sidebarActiveSection))"
+             @click="onSidebarNavClick($event)">
             <!-- Inicio -->
             <a href="/{{ config('current_shop')->slug }}/admin/dashboard" 
                class="admin-nav-link {{ request()->is('*/admin/dashboard') ? 'admin-nav-link--active' : '' }}">
@@ -35,17 +63,18 @@
             </a>
 
             <!-- Inventario -->
-            <div x-data="{ open: {{ request()->is('*/admin/products*') || request()->is('*/admin/categories*') ? 'true' : 'false' }} }" class="space-y-1">
-                <button @click="open = !open" 
-                        class="admin-nav-link admin-nav-link--parent w-full {{ request()->is('*/admin/products*') || request()->is('*/admin/categories*') ? 'admin-nav-link--active' : '' }} group">
+            <div class="space-y-1">
+                <button @click="toggleSection('inventario')" 
+                        class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'inventario' ? 'admin-nav-link--active' : '' }} group">
                     <div class="flex items-center gap-2.5">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                         <span>Inventario</span>
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="open ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="isSectionOpen('inventario') ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
-                <div x-show="open" 
-                     x-collapse 
+                <div x-show="isSectionOpen('inventario')"
+                     x-collapse
+                     data-sidebar-panel="inventario"
                      class="pl-4 mt-1 space-y-1 border-l border-slate-800 ml-5">
                     @if(in_array('products', $currentShop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'invoices', 'delivery', 'analytics', 'announcements', 'referrals']))
                     <a href="/{{ config('current_shop')->slug }}/admin/products" 
@@ -71,17 +100,18 @@
 
             @if (\App\Support\PlanFeatures::hasBusinessPanel($currentShop ?? config('current_shop')))
             <!-- Ventas -->
-            <div x-data="{ open: {{ request()->is('*/admin/orders*') || request()->is('*/admin/bookings*') || request()->is('*/admin/abandoned-carts*') ? 'true' : 'false' }} }" class="space-y-1">
-                <button @click="open = !open" 
-                        class="admin-nav-link admin-nav-link--parent w-full {{ request()->is('*/admin/orders*') || request()->is('*/admin/bookings*') || request()->is('*/admin/abandoned-carts*') ? 'admin-nav-link--active' : '' }} group">
+            <div class="space-y-1">
+                <button @click="toggleSection('ventas')" 
+                        class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'ventas' ? 'admin-nav-link--active' : '' }} group">
                     <div class="flex items-center gap-2.5">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         <span>Ventas</span>
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="open ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="isSectionOpen('ventas') ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
-                <div x-show="open" 
-                     x-collapse 
+                <div x-show="isSectionOpen('ventas')"
+                     x-collapse
+                     data-sidebar-panel="ventas"
                      class="pl-4 mt-1 space-y-1 border-l border-slate-800 ml-5">
                     @if(in_array('orders', $currentShop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'invoices', 'delivery', 'analytics', 'announcements', 'referrals']))
                     <a href="/{{ config('current_shop')->slug }}/admin/orders" 
@@ -111,17 +141,18 @@
 
             @if (\App\Support\PlanFeatures::hasBusinessPanel($currentShop ?? config('current_shop')))
             <!-- Contactos -->
-            <div x-data="{ open: {{ request()->is('*/admin/clients*') ? 'true' : 'false' }} }" class="space-y-1">
-                <button @click="open = !open" 
-                        class="admin-nav-link admin-nav-link--parent w-full {{ request()->is('*/admin/clients*') ? 'admin-nav-link--active' : '' }} group">
+            <div class="space-y-1">
+                <button @click="toggleSection('contactos')" 
+                        class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'contactos' ? 'admin-nav-link--active' : '' }} group">
                     <div class="flex items-center gap-2.5">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                         <span>Contactos</span>
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="open ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="isSectionOpen('contactos') ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
-                <div x-show="open" 
-                     x-collapse 
+                <div x-show="isSectionOpen('contactos')"
+                     x-collapse
+                     data-sidebar-panel="contactos"
                      class="pl-4 mt-1 space-y-1 border-l border-slate-800 ml-5">
                     @if(in_array('clients', $currentShop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'invoices', 'delivery', 'analytics', 'announcements', 'referrals']))
                     <a href="/{{ config('current_shop')->slug }}/admin/clients" 
@@ -146,17 +177,18 @@
 
             @if (\App\Support\PlanFeatures::hasBusinessPanel($currentShop ?? config('current_shop')))
             <!-- Finanzas -->
-            <div x-data="{ open: false }" class="space-y-1">
-                <button @click="open = !open" 
+            <div class="space-y-1">
+                <button @click="toggleSection('finanzas')" 
                         class="admin-nav-link admin-nav-link--parent w-full group">
                     <div class="flex items-center gap-2.5">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                         <span>Finanzas</span>
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="open ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="isSectionOpen('finanzas') ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
-                <div x-show="open" 
-                     x-collapse 
+                <div x-show="isSectionOpen('finanzas')"
+                     x-collapse
+                     data-sidebar-panel="finanzas"
                      class="pl-4 mt-1 space-y-1 border-l border-slate-800 ml-5">
                     <a href="#" onclick="Swal.fire({ title: 'Facturas 🧾', text: 'El módulo de gestión y control de facturas estará disponible muy pronto.', icon: 'info', confirmButtonText: '¡Entendido!', confirmButtonColor: '{{ config('current_shop')->color_primary ?? '#E60067' }}', background: '#0d1127', color: '#fff' })"
                        class="admin-nav-link admin-nav-link--sub">
@@ -173,17 +205,18 @@
             @endif
 
             <!-- Marketing -->
-            <div x-data="{ open: {{ request()->is('*/admin/announcements*') || request()->is('*/admin/coupons*') ? 'true' : 'false' }} }" class="space-y-1">
-                <button @click="open = !open" 
-                        class="admin-nav-link admin-nav-link--parent w-full {{ request()->is('*/admin/announcements*') || request()->is('*/admin/coupons*') ? 'admin-nav-link--active' : '' }} group">
+            <div class="space-y-1">
+                <button @click="toggleSection('marketing')" 
+                        class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'marketing' ? 'admin-nav-link--active' : '' }} group">
                     <div class="flex items-center gap-2.5">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                         <span>Marketing</span>
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="open ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="isSectionOpen('marketing') ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
-                <div x-show="open" 
-                     x-collapse 
+                <div x-show="isSectionOpen('marketing')"
+                     x-collapse
+                     data-sidebar-panel="marketing"
                      class="pl-4 mt-1 space-y-1 border-l border-slate-800 ml-5">
                     @if(in_array('announcements', $currentShop->enabled_modules ?? ['categories', 'products', 'orders', 'clients', 'invoices', 'delivery', 'analytics', 'announcements', 'referrals']))
                     <a href="/{{ config('current_shop')->slug }}/admin/announcements" 
@@ -213,19 +246,20 @@
             </div>
 
             <!-- Sistema -->
-            <div x-data="{ open: {{ request()->is('*/admin/subscription*') || request()->is('*/admin/feedback*') || request()->is('*/admin/settings*') ? 'true' : 'false' }} }" class="space-y-1">
-                <button @click="open = !open" 
-                        class="admin-nav-link admin-nav-link--parent w-full {{ request()->is('*/admin/subscription*') || request()->is('*/admin/feedback*') || request()->is('*/admin/settings*') ? 'admin-nav-link--active' : '' }} group">
+            <div class="space-y-1">
+                <button @click="toggleSection('sistema')" 
+                        class="admin-nav-link admin-nav-link--parent w-full {{ $sidebarActiveSection === 'sistema' ? 'admin-nav-link--active' : '' }} group">
                     <div class="flex items-center gap-2.5">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400 group-hover:text-white"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         <span class="flex items-center gap-1.5">
                             <span>Sistema</span>
                         </span>
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="open ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class="isSectionOpen('sistema') ? 'rotate-180 text-white' : 'text-slate-500 group-hover:text-slate-300'"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
-                <div x-show="open" 
-                     x-collapse 
+                <div x-show="isSectionOpen('sistema')"
+                     x-collapse
+                     data-sidebar-panel="sistema"
                      class="pl-4 mt-1 space-y-1 border-l border-slate-800 ml-5">
                     <a href="/{{ config('current_shop')->slug }}/admin/subscription" 
                        class="admin-nav-link admin-nav-link--sub justify-between {{ request()->is('*/admin/subscription') ? 'admin-nav-link--active' : '' }}">
@@ -246,7 +280,7 @@
                         <span class="w-1.5 h-1.5 rounded-full shrink-0 bg-purple-500" :class="{ 'bg-white animate-pulse': showFeedbackModal }"></span>
                     </a>
                     <a href="/{{ config('current_shop')->slug }}/admin/settings" 
-                       class="admin-nav-link admin-nav-link--sub {{ request()->is('*/admin/settings') ? 'admin-nav-link--active' : '' }}">
+                       class="admin-nav-link admin-nav-link--sub {{ request()->is('*/admin/settings*') ? 'admin-nav-link--active' : '' }}">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 shrink-0"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         <span>Configuración</span>
                     </a>

@@ -12,6 +12,39 @@
             Alpine.store('connection').online = false;
         });
 
+        Alpine.data('adminSidebarNav', (activeSection = null) => ({
+            activeSection: activeSection,
+            openSection: activeSection,
+            init() {
+                if (this.activeSection) {
+                    this.openSection = this.activeSection;
+                    this.$nextTick(() => this.syncOpenPanels());
+                }
+            },
+            isSectionOpen(id) {
+                return this.openSection === id;
+            },
+            toggleSection(id) {
+                if (this.openSection === id) {
+                    if (this.activeSection === id) {
+                        return;
+                    }
+                    this.openSection = null;
+                    return;
+                }
+                this.openSection = id;
+                this.$nextTick(() => this.syncOpenPanels());
+            },
+            syncOpenPanels() {
+                this.$root.querySelectorAll('[data-sidebar-panel]').forEach((panel) => {
+                    const id = panel.getAttribute('data-sidebar-panel');
+                    if (this.isSectionOpen(id)) {
+                        panel.style.height = 'auto';
+                    }
+                });
+            },
+        }));
+
         Alpine.data('adminLayout', () => ({
             showFeedbackModal: {{ (session('open_feedback_modal') || ($errors->has('title') && $errors->has('type')) || $errors->has('description')) ? 'true' : 'false' }},
             showRateModal: {{ (session('open_rate_modal') || old('rating') || $errors->has('rating') || $errors->has('comment')) ? 'true' : 'false' }},
@@ -33,6 +66,22 @@
             },
             closeSidebar() {
                 this.sidebarOpen = false;
+            },
+            showDarkModeComingSoon() {
+                if (typeof Swal === 'undefined') {
+                    window.alert('El modo oscuro está en desarrollo y estará disponible muy pronto.');
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Modo oscuro 🌙',
+                    text: 'Esta función está en desarrollo. Muy pronto podrás alternar el tema del panel.',
+                    icon: 'info',
+                    confirmButtonText: 'Entendido',
+                    confirmButtonColor: '{{ config('current_shop')->color_primary ?? '#E60067' }}',
+                    background: '#0f172a',
+                    color: '#f8fafc',
+                });
             },
             onSidebarNavClick(event) {
                 if (window.innerWidth >= 768) return;
