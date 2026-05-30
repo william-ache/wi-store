@@ -11,8 +11,6 @@
     @include('partials.landing.landing-scrollbar')
     @include('partials.landing.motion-styles')
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-
     @include('partials.super-admin.styles')
     @stack('styles')
 </head>
