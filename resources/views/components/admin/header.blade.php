@@ -8,6 +8,7 @@
                 @click="toggleSidebar()"
                 :aria-expanded="sidebarOpen"
                 aria-label="Abrir menú de navegación"
+                title="Menú"
             >
                 <svg x-show="!sidebarOpen" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                     <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -19,53 +20,42 @@
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
-            <div class="min-w-0 flex-1">
+            <div class="min-w-0">
                 <span class="hidden md:block text-[10px] uppercase font-extrabold tracking-widest accent-muted leading-none">Panel Administrativo</span>
-                <h1 class="text-base sm:text-lg md:text-xl font-black tracking-tight leading-tight mt-0 md:mt-0.5 truncate">
+                <h1 class="text-base sm:text-lg md:text-lg font-black tracking-tight leading-tight mt-0 md:mt-0.5 truncate">
                     {{ config('current_shop')->name ?? 'Mi Tienda' }}
                 </h1>
             </div>
         </div>
 
-        <div class="admin-topbar-actions">
-            <!-- Buscador móvil: solo lupa -->
-            <button
-                type="button"
-                class="md:hidden accent-icon-btn p-2 rounded-full shrink-0"
-                @click="openSearchModal()"
-                aria-label="Buscar"
-            >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </button>
-
-            <!-- Buscador escritorio -->
-            <div class="hidden md:flex relative group" @click.away="searchPanelOpen = false">
-                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-slate-400 group-focus-within:text-slate-500 transition-colors"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </div>
-                <input type="text"
-                       x-model="searchQuery"
-                       @input.debounce.300ms="runSearch()"
-                       @focus="if (hasSearchResults()) searchPanelOpen = true"
-                       class="w-80 text-xs font-semibold rounded-full pl-9 pr-8 py-2 shadow-inner transition-all bg-white/95 text-slate-800 placeholder-slate-400 border border-white/60 focus:bg-white focus:border-white/80 focus:outline-none"
-                       placeholder="Buscar categorías, productos, órdenes...">
-                <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-                    <template x-if="searchLoading">
-                        <svg class="animate-spin h-3.5 w-3.5 accent-muted" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </template>
-                    <template x-if="searchQuery && !searchLoading">
-                        <button type="button" @click="clearSearch()" class="accent-muted hover:opacity-100 transition-opacity cursor-pointer">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                        </button>
-                    </template>
-                </div>
-                <div x-show="searchPanelOpen && searchQuery.trim().length >= 2"
-                     x-cloak
-                     x-transition.opacity.duration.200ms
-                     class="absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-100 dark:border-slate-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden z-[100] max-h-96 overflow-y-auto text-slate-800 dark:text-slate-200">
+        <!-- Buscador escritorio (flexible) -->
+        <div class="admin-topbar-search relative group" @click.away="searchPanelOpen = false">
+            <div class="admin-topbar-search-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <input type="text"
+                   x-model="searchQuery"
+                   @input.debounce.300ms="runSearch()"
+                   @focus="if (hasSearchResults()) searchPanelOpen = true"
+                   class="admin-topbar-search-input"
+                   placeholder="Buscar categorías, productos, órdenes...">
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                <template x-if="searchLoading">
+                    <svg class="animate-spin h-4 w-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </template>
+                <template x-if="searchQuery && !searchLoading">
+                    <button type="button" @click="clearSearch()" class="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </template>
+            </div>
+            <div x-show="searchPanelOpen && searchQuery.trim().length >= 2"
+                 x-cloak
+                 x-transition.opacity.duration.200ms
+                 class="absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-100 dark:border-slate-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden z-[100] max-h-96 overflow-y-auto text-slate-800 dark:text-slate-200">
                     <!-- Categorías -->
                     <template x-if="searchResults.categories && searchResults.categories.length > 0">
                         <div>
@@ -185,9 +175,33 @@
                         </div>
                     </template>
                 </div>
-            </div>
+        </div>
 
-            <!-- Acciones escritorio -->
+        <div class="admin-topbar-actions">
+            <!-- Buscador móvil: solo lupa -->
+            <button
+                type="button"
+                class="md:hidden accent-icon-btn p-2 rounded-full shrink-0"
+                @click="openSearchModal()"
+                aria-label="Buscar"
+            >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+
+            <!-- Catálogo digital (escritorio) -->
+            <a href="/{{ config('current_shop')->slug }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="accent-icon-btn relative p-2 rounded-full transition-colors hidden md:flex"
+               title="Ver catálogo digital">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    <line x1="8" y1="7" x2="16" y2="7"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+            </a>
+
             <button type="button" @click="showDarkModeComingSoon()" class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer hidden md:block" title="Modo oscuro">
                 <svg x-show="!darkMode" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -222,12 +236,12 @@
                 </svg>
             </button>
 
-            <div class="relative z-50 hidden md:block">
-                <button type="button" @click="notifOpen = !notifOpen; if(notifOpen) { $nextTick(() => { $dispatch('notif-dropdown-opened'); }); }" @click.away="notifOpen = false" class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer">
+            <div class="relative z-[100] hidden md:block" @click.away="notifOpen = false">
+                <button type="button" @click.stop="toggleNotifications()" class="accent-icon-btn relative p-2 rounded-full transition-colors cursor-pointer">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     <span x-cloak x-show="unreadCount > 0" class="absolute top-0 right-0 w-[18px] h-[18px] bg-rose-500 rounded-full border-2 border-primary flex items-center justify-center text-[8px] font-black text-white shadow-sm" x-text="unreadCount > 99 ? '+99' : unreadCount"></span>
                 </button>
-                <div x-show="notifOpen" x-cloak x-transition.opacity.duration.200ms class="absolute right-0 mt-3 w-80 ui-surface border border-slate-100 dark:border-slate-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] rounded-2xl overflow-hidden origin-top-right">
+                <div x-show="notifOpen" x-cloak x-transition.opacity.duration.200ms @click.stop class="absolute right-0 mt-3 w-80 z-[100] bg-white dark:bg-[var(--ui-surface)] border border-slate-200 dark:border-slate-700 shadow-[0_16px_48px_-12px_rgba(0,0,0,0.25)] rounded-2xl overflow-hidden origin-top-right">
                     <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <span class="text-sm font-black text-slate-800 dark:text-slate-200">Notificaciones</span>
                         <span class="text-[10px] bg-rose-100 text-rose-600 font-bold px-2 py-0.5 rounded-full" x-text="unreadCount > 99 ? '+99 Nuevas' : unreadCount + ' Nuevas'"></span>
@@ -302,7 +316,7 @@
                             <button type="button" @click="closeProfileMenu(); showTutorialsComingSoon()" class="accent-icon-btn p-2.5 rounded-full" title="Tutoriales">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
                             </button>
-                            <button type="button" @click="notifOpen = !notifOpen" class="accent-icon-btn p-2.5 rounded-full relative" title="Notificaciones">
+                            <button type="button" @click.stop="toggleNotifications()" class="accent-icon-btn p-2.5 rounded-full relative" title="Notificaciones">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                                 <span x-cloak x-show="unreadCount > 0" class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-rose-500 rounded-full border-2 border-primary text-[7px] font-black text-white flex items-center justify-center" x-text="unreadCount > 9 ? '9+' : unreadCount"></span>
                             </button>

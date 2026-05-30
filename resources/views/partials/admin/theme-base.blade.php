@@ -39,7 +39,7 @@
 
     @media (min-width: 768px) {
         .wi-store-admin {
-            --admin-topbar-h: 4.5rem;
+            --admin-topbar-h: 4.75rem;
         }
     }
 
@@ -151,6 +151,7 @@
         outline: none;
         box-sizing: border-box;
         z-index: 40;
+        overflow: visible;
     }
 
     @media (min-width: 768px) {
@@ -172,6 +173,7 @@
         justify-content: space-between;
         gap: 0.5rem;
         min-width: 0;
+        overflow: visible;
     }
 
     @media (min-width: 768px) {
@@ -185,7 +187,62 @@
         align-items: center;
         gap: 0.625rem;
         min-width: 0;
+        flex: 0 1 auto;
+        max-width: 14rem;
+    }
+
+    @media (min-width: 768px) {
+        .wi-store-admin .admin-topbar-brand {
+            max-width: 11rem;
+        }
+    }
+
+    .wi-store-admin .admin-topbar-search {
+        display: none;
         flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    @media (min-width: 768px) {
+        .wi-store-admin .admin-topbar-search {
+            display: block;
+        }
+    }
+
+    .wi-store-admin .admin-topbar-search-input {
+        width: 100%;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        border-radius: 9999px;
+        padding: 0.6875rem 2.25rem 0.6875rem 2.5rem;
+        min-height: 2.75rem;
+        box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
+        transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+        background: rgba(255, 255, 255, 0.97);
+        color: #1e293b;
+        border: 1px solid rgba(255, 255, 255, 0.65);
+    }
+
+    .wi-store-admin .admin-topbar-search-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .wi-store-admin .admin-topbar-search-input:focus {
+        background: #fff;
+        border-color: rgba(255, 255, 255, 0.9);
+        outline: none;
+        box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06), 0 0 0 3px rgba(255, 255, 255, 0.18);
+    }
+
+    .wi-store-admin .admin-topbar-search-icon {
+        position: absolute;
+        inset-block: 0;
+        left: 0;
+        padding-left: 1rem;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+        color: #94a3b8;
     }
 
     .wi-store-admin .admin-topbar-actions {
@@ -193,6 +250,7 @@
         align-items: center;
         gap: 0.5rem;
         flex-shrink: 0;
+        overflow: visible;
     }
 
     @media (min-width: 768px) {

@@ -31,6 +31,116 @@
             },
         }));
 
+        Alpine.data('dashboardQuickLinks', (config = {}) => ({
+            selected: config.selected || [],
+            catalog: config.catalog || [],
+            links: config.links || [],
+            draft: [],
+            editorOpen: false,
+            saving: false,
+            saveUrl: config.saveUrl || '',
+            max: config.max || 6,
+
+            openEditor() {
+                this.draft = [...this.selected];
+                this.editorOpen = true;
+            },
+
+            closeEditor() {
+                if (this.saving) return;
+                this.editorOpen = false;
+            },
+
+            optionFor(key) {
+                return this.catalog.find(o => o.key === key);
+            },
+
+            isSelected(key) {
+                return this.draft.includes(key);
+            },
+
+            toggleKey(key) {
+                if (this.isSelected(key)) {
+                    if (this.draft.length <= 1) return;
+                    this.draft = this.draft.filter(k => k !== key);
+                    return;
+                }
+                if (this.draft.length >= this.max) return;
+                this.draft.push(key);
+            },
+
+            removeKey(key) {
+                if (this.draft.length <= 1) return;
+                this.draft = this.draft.filter(k => k !== key);
+            },
+
+            moveUp(index) {
+                if (index <= 0) return;
+                const next = [...this.draft];
+                [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                this.draft = next;
+            },
+
+            moveDown(index) {
+                if (index >= this.draft.length - 1) return;
+                const next = [...this.draft];
+                [next[index + 1], next[index]] = [next[index], next[index + 1]];
+                this.draft = next;
+            },
+
+            async save() {
+                if (this.saving || this.draft.length < 1) return;
+                this.saving = true;
+
+                try {
+                    const response = await fetch(this.saveUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                        },
+                        body: JSON.stringify({ quick_links: this.draft }),
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || 'No se pudo guardar.');
+                    }
+
+                    this.links = data.links;
+                    this.selected = [...this.draft];
+                    this.editorOpen = false;
+
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Accesos actualizados',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                        });
+                    }
+                } catch (error) {
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: error.message || 'No se pudo guardar la configuración.',
+                            confirmButtonColor: '{{ config('current_shop')->color_primary ?? '#6366f1' }}',
+                        });
+                    } else {
+                        window.alert(error.message || 'No se pudo guardar.');
+                    }
+                } finally {
+                    this.saving = false;
+                }
+            },
+        }));
+
         Alpine.data('adminLayout', () => ({
             showFeedbackModal: {{ (session('open_feedback_modal') || ($errors->has('title') && $errors->has('type')) || $errors->has('description')) ? 'true' : 'false' }},
             showRateModal: {{ (session('open_rate_modal') || old('rating') || $errors->has('rating') || $errors->has('comment')) ? 'true' : 'false' }},
@@ -98,13 +208,22 @@
             },
             toggleProfileMenu() {
                 this.profileMenuOpen = !this.profileMenuOpen;
-                if (!this.profileMenuOpen) {
+                if (this.profileMenuOpen) {
                     this.notifOpen = false;
                 }
             },
+            toggleNotifications() {
+                this.notifOpen = !this.notifOpen;
+                if (this.notifOpen) {
+                    this.profileMenuOpen = false;
+                }
+            },
             closeProfileMenu() {
+                const wasOpen = this.profileMenuOpen;
                 this.profileMenuOpen = false;
-                this.notifOpen = false;
+                if (wasOpen) {
+                    this.notifOpen = false;
+                }
             },
             openSearchModal() {
                 this.searchModalOpen = true;
